@@ -84,6 +84,24 @@
       }
     ]
   },
+  "sourceRepositoryCommit": {
+    "repository": "androidx/androidx",
+    "branch": "androidx-compose-material3-release",
+    "commit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+    "totalKotlinSourceFiles": 249,
+    "verifiedByteForByte": 249,
+    "mismatchCount": 0
+  },
+  "officialApiDump": {
+    "repository": "androidx/androidx",
+    "branch": "androidx-compose-material3-release",
+    "commit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+    "path": "compose/material3/material3/api/current.txt",
+    "gitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029",
+    "sizeBytes": 609538,
+    "signatureFormat": "4.0",
+    "libraryVersionMarker": "COMPOSE_MATERIAL3 = \"1.4.0\""
+  },
   "gradleModuleMetadata": {
     "common": {
       "fileName": "material3-1.4.0.module",
@@ -127,23 +145,5 @@
       "The derived JVM surface is not an official AndroidX API dump and must not be used as a Kotlin API compatibility claim.",
       "Source-file mapping does not prove that every public binary declaration has an equivalent public Kotlin source declaration."
     ]
-  },
-  "officialApiDump": {
-    "repository": "androidx/androidx",
-    "branch": "androidx-compose-material3-release",
-    "commit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
-    "path": "compose/material3/material3/api/current.txt",
-    "gitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029",
-    "sizeBytes": 609538,
-    "signatureFormat": "4.0",
-    "libraryVersionMarker": "COMPOSE_MATERIAL3 = \"1.4.0\""
-  },
-  "sourceRepositoryCommit": {
-    "repository": "androidx/androidx",
-    "branch": "androidx-compose-material3-release",
-    "commit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
-    "totalKotlinSourceFiles": 249,
-    "verifiedByteForByte": 249,
-    "mismatchCount": 0
   }
 }
