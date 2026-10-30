@@ -120,3 +120,12 @@ La migration `20261030030000_log_retention_policy.sql` figure désormais dans l�
 
 
 **Correctif d'état au 30 octobre 2026 :** la migration `20261030030000_log_retention_policy` est désormais enregistrée dans l'historique Supabase distant. Le job cron et son activation ne sont pas vérifiés ; le pgTAP reste à exécuter. Voir l'issue #1051 pour le checkpoint détaillé.
+
+
+**Mise à jour de vérification — 30 octobre 2026, reprise suivante :**
+
+- `supabase_migrations.schema_migrations` contient `20261030030000 / log_retention_policy`.
+- Les journaux PostgreSQL du 30 octobre attestent la création de la table privée et des deux fonctions de rétention. Dans la session consultée, les dernières instructions liées à la migration sont les commentaires sur `private.prune_retained_logs()` ; aucun appel `cron.schedule` ni appel de purge n'a été retrouvé dans les journaux consultés.
+- L'inventaire du schéma `cron` expose une ligne dans `cron.job`, mais le connecteur refuse la lecture des valeurs de ses colonnes. Il n'est donc pas possible d'établir si cette ligne correspond au job Loculary, ni d'en confirmer le schedule, la commande, l'activation ou le rôle.
+- Le décompte SQL direct de `cron.job_run_details` reste à 806 lignes. Le pgTAP de 46 assertions n'a pas été exécuté.
+- Aucun commentaire d'approbation exact ni confirmation de sauvegarde préalable n'a été retrouvé dans l'issue #1051. Ne pas réappliquer la migration, créer/modifier un job ni lancer de purge avant clarification et validation humaine des prérequis.
