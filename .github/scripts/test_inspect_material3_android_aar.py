@@ -37,6 +37,52 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(summary["methods"], 3)
         self.assertEqual(summary["methods_public_protected"], 2)
 
+    def test_parses_official_api_classes_and_nested_binary_names(self):
+        api = """package androidx.compose.material3 {
+  public final class AlertDialogDefaults {
+    method @BytecodeOnly public long getContainerColor(androidx.compose.runtime.Composer?, int);
+    method public void reset();
+  }
+  public final class Outer.Inner {
+    method public boolean isVisible();
+  }
+}
+"""
+        parsed = MODULE.parse_api_dump(api)
+        self.assertEqual(
+            set(parsed),
+            {
+                "androidx/compose/material3/AlertDialogDefaults",
+                "androidx/compose/material3/Outer$Inner",
+            },
+        )
+        self.assertEqual(parsed["androidx/compose/material3/AlertDialogDefaults"][0]["name"], "getContainerColor")
+        self.assertTrue(parsed["androidx/compose/material3/AlertDialogDefaults"][0]["bytecodeOnly"])
+
+    def test_compares_api_class_and_method_names_with_binary_surface(self):
+        api = """package androidx.compose.material3 {
+  public final class AlertDialogDefaults {
+    method @BytecodeOnly public long getContainerColor(androidx.compose.runtime.Composer?, int);
+    method public void reset();
+  }
+}
+"""
+        binary = [
+            (
+                "androidx/compose/material3/AlertDialogDefaults.class",
+                {"methodSignatures": [{"name": "getContainerColor"}, {"name": "reset"}]},
+                True,
+            )
+        ]
+        comparison = MODULE.compare_api_dump_to_binary(api, binary)
+        self.assertEqual(comparison["apiClassCount"], 1)
+        self.assertEqual(comparison["binaryClassMatches"], 1)
+        self.assertEqual(comparison["apiMethodCount"], 2)
+        self.assertEqual(comparison["methodNameMatches"], 2)
+        self.assertEqual(comparison["bytecodeOnlyMethodCount"], 1)
+        self.assertEqual(comparison["bytecodeOnlyMethodNameMatches"], 1)
+        self.assertEqual(comparison["status"], "class-and-method-names-match")
+
     def test_rejects_invalid_or_truncated_class_files(self):
         with self.assertRaisesRegex(ValueError, "Invalid JVM class-file header"):
             MODULE.read_class_summary(b"not a class file")
