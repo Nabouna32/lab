@@ -58,7 +58,7 @@ test("tool clipboard access is capability-gated, including CopyButton", async ()
     index = end;
   }
 
-  const copyToolIds = [];
+  const clipboardToolIds = [];
   for (const match of registryEntries) {
     const toolId = match[1] ?? match[2];
     const modulePath = fileURLToPath(
@@ -78,7 +78,7 @@ test("tool clipboard access is capability-gated, including CopyButton", async ()
     }
     if (!usesCopyButton && !usesRuntimeClipboard) continue;
 
-    copyToolIds.push(toolId);
+    clipboardToolIds.push(toolId);
     const entry = definitions.get(toolId);
     assert.ok(entry, `Tool "${toolId}" must exist in the catalog.`);
     assert.match(
@@ -93,7 +93,7 @@ test("tool clipboard access is capability-gated, including CopyButton", async ()
     }
   }
 
-  assert.ok(copyToolIds.length > 0, "At least one registered tool must use CopyButton.");
+  assert.ok(clipboardToolIds.length > 0, "At least one registered tool must declare the clipboard capability.");
 });
 test("the runtime is scoped to a tool page instead of being global", async () => {
   const runtime = await readFile(runtimeFile, "utf8");
