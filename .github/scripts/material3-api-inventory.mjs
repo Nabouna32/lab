@@ -65,7 +65,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
       }
       continue;
     }
-    const hasPublicTypePrefix = /^(?:@[A-Za-z_$][\\w$]*(?:\\.[\\w$]*)*(?:\\([^()]*\\))?\\s+)*public\\s+/.test(raw);
+    const hasPublicTypePrefix = !raw.startsWith('//') && (raw.startsWith('public ') || raw.includes(' public '));
     if (hasPublicTypePrefix && !publicSignature && !isMemberFormat) {
       throw new Error('Unsupported public declaration syntax at line ' + (index + 1) + ': ' + raw);
     }
