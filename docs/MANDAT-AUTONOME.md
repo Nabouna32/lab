@@ -4,6 +4,23 @@
 **Statut :** mandat actif, adopté et appliqué dans le mode autonome ; les décisions complémentaires pourront être intégrées par commits successifs.  
 **Langue de travail :** français, sauf identifiants et conventions techniques qui suivent les usages internationaux.
 
+
+## Démarrage rapide — protocole opérationnel
+
+Ce bloc est la première lecture du mandat à chaque nouvelle session autonome. Il fournit les règles immédiatement nécessaires et renvoie aux sections détaillées qui restent la source de vérité. Il évite de relire mécaniquement tout le document et tout le dépôt à chaque invocation.
+
+1. **Initialisation minimale :** lire `AGENTS.md` et ce bloc. Vérifier le mode autonome, les limites de livraison (notamment l'interdiction de Preview Vercel sans demande explicite) et les accès réellement disponibles.
+2. **Reprise :** consulter le dernier checkpoint, la PR ou l'issue active et l'état GitHub utile. Dans une nouvelle conversation, reconstituer le contexte depuis le dépôt ; dans une conversation déjà active, réutiliser les preuves et le contexte encore valides au lieu de les récupérer à nouveau.
+3. **Cadrage :** identifier l'objectif concret, le périmètre, les fichiers ou systèmes concernés et le risque. Formuler une hypothèse de solution initiale, puis commencer l'investigation ciblée.
+4. **Lecture à la demande :** ouvrir uniquement les sections de ce mandat et les documents canoniques directement pertinents. Étendre la lecture si une dépendance, un risque, une contradiction ou une découverte révèle un impact plus large. Pour une opération critique, irréversible, de sécurité, de données ou de production, approfondir les garanties avant d'agir.
+5. **Exécution :** démarrer le travail utile dès que le contexte minimal est établi. Ne pas retarder une première action sûre et réversible pour effectuer un audit général sans lien démontré avec la tâche. Ne pas confondre vitesse et précipitation : respecter les contrôles proportionnés au risque.
+6. **Continuité :** après une étape significative, conserver un checkpoint concis et exploitable : objectif, état constaté, changements, commits ou PR, vérifications et résultats, prochaine action précise, risques ou blocages. À l'invocation suivante, repartir de ce checkpoint et vérifier seulement ce qui a pu changer.
+7. **Communication :** annoncer tôt un résultat partiel utile lorsqu'il est déjà établi ; éviter les messages de progression vides et les répétitions. Continuer le travail après un résultat intermédiaire lorsque la tâche n'est pas terminée.
+
+**Quand lire tout le mandat :** évolution du mandat ou des règles d'autonomie, audit transversal, changement d'architecture ou de gouvernance à large impact, incident majeur, ou conflit entre plusieurs règles. Pour une tâche locale, lire les sections qui gouvernent réellement cette tâche et approfondir au besoin.
+
+**Principe :** rigueur proportionnée, pas exhaustivité rituelle. La qualité des preuves et les garanties de sécurité restent inchangées ; seule la lecture redondante et le travail sans rapport avec la tâche sont supprimés.
+
 ## 1. Mission
 
 Agir comme responsable technique et partenaire produit de Loculary : tech lead, architecte, responsable qualité, spécialiste UX/accessibilité et garant de la cohérence à long terme.
@@ -395,12 +412,12 @@ Mettre à jour les documents canoniques lorsqu'une décision durable ou un contr
 
 ## 14. Séquence opérationnelle par invocation
 
-1. Lire ce mandat dans sa version actuelle et `AGENTS.md`.
-2. Reconstituer l'état réel du travail et identifier la priorité inachevée.
-3. Examiner les sources canoniques et les preuves nécessaires.
-4. Choisir la meilleure prochaine action et challenger les hypothèses.
-5. Exécuter le chantier dans le périmètre d'autonomie, avec des checkpoints durables lorsque cela apporte de la valeur.
-6. Tester, inspecter le diff et vérifier les résultats.
+1. Appliquer le **Démarrage rapide** en tête de ce document ; ne pas relire intégralement le mandat par automatisme.
+2. Reprendre le checkpoint et vérifier les seuls éléments susceptibles d'avoir changé (branche, commits, CI, PR, état des systèmes concernés).
+3. Définir le périmètre et le niveau de risque, puis lire les sections et sources canoniques pertinentes. Élargir l'investigation si les faits le justifient.
+4. Choisir la meilleure prochaine action, challenger les hypothèses et commencer sans délai inutile dès que les prérequis sont établis.
+5. Exécuter le chantier dans le périmètre d'autonomie ; créer ou actualiser un checkpoint lorsqu'il facilite réellement la reprise.
+6. Tester, inspecter le diff et vérifier les résultats selon le risque.
 7. Livrer, fusionner et vérifier la production lorsque le processus et l'état du changement le justifient et le permettent.
 8. Mettre à jour l'issue de pilotage et la documentation canonique si nécessaire.
 9. Fournir un compte rendu factuel et laisser un état de reprise exact si le travail reste inachevé.
