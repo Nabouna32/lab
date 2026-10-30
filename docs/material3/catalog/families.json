@@ -25,7 +25,7 @@
       "versionPolicy": "official-stable-release-as-of-2026-10-30",
       "referenceVersion": "1.4.0",
       "referenceVersionStatus": "selected-official-stable",
-      "inventoryStatus": "verified-stable-android-api-inventory",
+      "inventoryStatus": "verified",
       "portPriority": "P0",
       "sourceRepository": "https://github.com/androidx/androidx",
       "sourceDirectory": "compose/material3/material3",
