@@ -8,6 +8,14 @@ Le code existant de Loculary est une entrée de migration, pas une contrainte. P
 
 L’ambition produit est une expérience grand public soignée et fiable ; ce niveau de qualité visé ne signifie pas que la conformité actuelle est acquise. Les sémantiques Web, l’accessibilité, la confidentialité, les performances et les langues française et anglaise restent obligatoires.
 
+## Périmètre produit
+
+Le portage vise les téléphones et les tablettes, dans l'application React/Web Loculary. Les familles prioritaires sont Compose UI, Foundation, UI Text, Foundation Layout et Material 3 ; Compose Adaptive est étudié pour les besoins de mise en page adaptative.
+
+Wear OS, montres connectées, Android TV et autres appareils spécialisés sont hors périmètre de portage. Le registre peut conserver leurs coordonnées officielles comme repères (`migration-reference-only`), mais aucun inventaire détaillé ni portage n'est planifié pour ces familles.
+
+Chaque famille incluse conserve une seule baseline de release stable, reliée à un commit AndroidX immuable, un dump API et des sources publiées dont l'alignement est vérifié. Les snapshots exploratoires parallèles ne sont pas maintenus. Une nouvelle release est comparée à la baseline existante avant toute promotion.
+
 ## Architecture cible
 
 1. **Fondations partagées** : rôles de couleurs, typographie Material 3, formes, élévation et mouvement.
