@@ -267,7 +267,7 @@ def inspect(directory: Path) -> dict:
         "interpretation": {
             "binarySurface": "Raw JVM public/protected bytecode members; this includes Kotlin-internal and compiler-generated declarations and is not a Kotlin public API dump.",
             "sourceMapping": "Class-file SourceFile attributes mapped to source-archive package paths; file-level mapping does not prove declaration-level API equivalence.",
-            "apiDumpAlignment": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_PINNED_BINARY_API_COMPARISON_PENDING",
+            "apiDumpAlignment": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_BINARY_API_COMPARISON_PENDING",
             "limitations": [
                 "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch, and all published Kotlin sources match that release commit byte-for-byte; declaration-level comparison against the published AAR is still pending.",
                 "The derived JVM surface is not an official AndroidX API dump and must not be used as a Kotlin API compatibility claim.",
