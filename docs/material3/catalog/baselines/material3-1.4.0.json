@@ -64,7 +64,7 @@
     }
   },
   "apiDumpAlignment": {
-    "status": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_BINARY_API_COMPARISON_PENDING",
+    "status": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING",
     "exactStableDump": {
       "repository": "androidx/androidx",
       "branch": "androidx-compose-material3-release",
@@ -75,7 +75,7 @@
       "signatureFormat": "4.0"
     },
     "repositorySourceCommit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
-    "reason": "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch and all 249 published Kotlin source files match that exact commit byte-for-byte (CI run 40984365256). Declaration-level comparison of the official API signatures against the published Android AAR remains pending."
+    "reason": "The official stable dump and all 249 source files are pinned to the same AndroidX release commit. The AAR contains all 232 API classes; all 807 source-level method names are present and all 995 @BytecodeOnly JVM method descriptors match exactly. Exact descriptors for source-level methods, constructors, fields and properties are not yet independently compared."
   },
   "publishedAndroidVariant": {
     "artifact": "androidx.compose.material3:material3-android",
