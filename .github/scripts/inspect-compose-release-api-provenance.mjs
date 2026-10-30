@@ -225,14 +225,14 @@ export async function inspectComposeReleaseProvenance({ outputDirectory, fetchIm
         fetchImpl,
       );
       const dumpText = Buffer.from(dumpBytes.toString('utf8').replace(/\s+/g, ''), 'base64').toString('utf8');
-      const metadata = parseApiDumpMetadata(dumpText, module.family);
+      const metadata = parseApiDumpMetadata(dumpText, moduleInfo.family);
       const hashes = calculateGitilesBlobHashes(Buffer.from(dumpText));
-      const localPath = module.family + '-api-current.txt';
+      const localPath = moduleInfo.family + '-api-current.txt';
       await writeFile(join(output, localPath), dumpText, 'utf8');
 
       const versionedBytes = await fetchGitilesBytes(
         GITILES_BASE + '/+/' + commit + '/' + moduleInfo.versionedPath + '?format=TEXT',
-        module.family + ' versioned stable API dump',
+        moduleInfo.family + ' versioned stable API dump',
         fetchImpl,
         { optional: true },
       );
@@ -241,15 +241,15 @@ export async function inspectComposeReleaseProvenance({ outputDirectory, fetchIm
         const versionedText = Buffer.from(versionedBytes.toString('utf8').replace(/\s+/g, ''), 'base64').toString('utf8');
         const versionedHashes = calculateGitilesBlobHashes(Buffer.from(versionedText));
         versionedDump = {
-          path: module.versionedPath,
+          path: moduleInfo.versionedPath,
           ...versionedHashes,
           identicalToCurrent: versionedHashes.gitBlobSha1 === hashes.gitBlobSha1,
         };
       }
 
       groupReport.apiDumps.push({
-        family: module.family,
-        path: module.path,
+        family: moduleInfo.family,
+        path: moduleInfo.path,
         localPath,
         ...metadata,
         ...hashes,
@@ -267,7 +267,7 @@ async function main() {
   const outputDirectory = process.argv[2];
   const report = await inspectComposeReleaseProvenance({ outputDirectory });
   for (const group of report.groups) {
-    process.stdout.write(group.id + ' ' + group.version + ' @ ' + group.commit + '\n');
+    process.stdout.write(group.id + ' ' + group.version + ' via ' + group.ref + ' @ ' + group.commit + '\n');
     for (const dump of group.apiDumps) {
       process.stdout.write('  ' + dump.family + ': ' + dump.sizeBytes + ' bytes, ' + dump.packageCount + ' packages, Git blob ' + dump.gitBlobSha1 + '\n');
     }
