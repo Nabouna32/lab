@@ -100,7 +100,9 @@ Quatre fichiers `api/current.txt` au format 5.0 et surface publique ont été ar
 
 Ces snapshots sont **des références de veille, pas des baselines stables 1.12.1**. Le miroir GitHub `androidx/androidx` ne publie actuellement que la branche `androidx-main` parmi ses branches visibles ; les branches Compose UI/Foundation release ne sont donc pas résolues par ce miroir. Le commit source exact de la release et la comparaison des sources JAR avec ce commit restent à établir. Les quatre familles P0 portent le statut `watch-snapshot-only` : la veille est archivée, mais l'inventaire de release et l'alignement source/API ne sont pas encore vérifiés.
 
-Les métriques du manifeste comptent les lignes de signatures par catégorie ; elles ne remplacent pas la normalisation exhaustive, la classification stable/experimental/deprecated, ni la revue des sources sémantiques.
+Les quatre snapshots ont aussi été analysés par le parseur canonique d'inventaire : 9 661 déclarations au total, dont 5 855 candidates API source après exclusion des entrées `@BytecodeOnly` et `@InaccessibleFromKotlin`. Les comptes par package et les annotations de package sont conservés dans le manifeste. Ces métriques décrivent le snapshot `androidx-main` épinglé ; elles ne sont ni une baseline 1.12.1 ni une classification de stabilité.
+
+Les métriques de lignes décrivent le format des dumps ; elles ne remplacent pas la classification stable/experimental/deprecated ni la revue des sources sémantiques.
 
 ## Statut du catalogue Material 3
 
