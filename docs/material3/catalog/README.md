@@ -141,6 +141,10 @@ Une BOM Compose peut aligner des versions compatibles, mais n'ajoute pas toutes 
 
 La première revue ciblée des contrats UI Text est documentée dans [compose-ui-text-1.12.1.md](compose-ui-text-1.12.1.md). Elle examine `AnnotatedString`, `SpanStyle`, `ParagraphStyle`, `TextStyle` et `TextMeasurer`, puis confronte ces contrats aux wrappers React/Web de saisie et aux rôles typographiques existants. Décision : conserver le DOM/CSS et les contrôles HTML natifs pour les usages courants ; ne pas créer de moteur de texte React préventif. Cette revue n'est ni exhaustive ni une validation navigateur ; la famille UI Text reste `in-progress`.
 
+## Audit des consommateurs UI Text
+
+L'inventaire ciblé des usages React/Web de `TextField`, `TextArea` et `MaterialTextField` est consigné dans [compose-ui-text-call-sites.md](compose-ui-text-call-sites.md). Il distingue les formulaires de compte, les outils, la galerie et un `textarea` natif indépendant. Deux points de vigilance sont documentés sans correction spéculative : la préservation de `aria-describedby` dans `TextArea` et la localisation/activation de la révélation de mot de passe dans `MaterialTextField`. L'index GitHub ne remplace pas une analyse AST locale ni une validation navigateur.
+
 ## Statut du catalogue Material 3
 
 - **Dump API stable 1.4.0** : le fichier officiel `compose/material3/material3/api/current.txt` est épinglé au commit AndroidX de release `5113b82a4ed6416d6344efa50e41db8cb65928ff` (`COMPOSE_MATERIAL3 = "1.4.0"` dans `libraryversions.toml`). Son Git blob SHA-1 est `fd45e9feea96a631c0f8b7ac82f88ee9ce999029` ; il est identique au dernier fichier versionné `1.4.0-beta03.txt`. La copie exacte est conservée dans [le baseline API](baselines/material3-1.4.0-api.txt) et sa provenance dans [le manifeste](baselines/material3-1.4.0.json).
