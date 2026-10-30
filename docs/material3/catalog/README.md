@@ -93,11 +93,11 @@ Les quatre dumps publics sont normalisés en déclarations conservant leur signa
 
 | Famille | Déclarations | Candidates API source | Façades JVM générées | Kotlin-only | Dépréciées | Expérimentales | Inventaire |
 |---|---:|---:|---:|---:|---:|---:|---|
-| Compose UI | 4 196 | 2 415 | 120 | 181 | 253 | 41 | [Manifeste](inventories/compose-ui-1.12.1/manifest.json) |
-| Foundation | 2 310 | 1 356 | 109 | 222 | 159 | 198 | [Manifeste](inventories/compose-foundation-1.12.1/manifest.json) |
-| UI Text | 1 762 | 992 | 28 | 101 | 143 | 6 | [Manifeste](inventories/compose-ui-text-1.12.1/manifest.json) |
-| Foundation Layout | 749 | 431 | 23 | 99 | 76 | 154 | [Manifeste](inventories/compose-foundation-layout-1.12.1/manifest.json) |
-| **Total** | **9 017** | **5 194** | **280** | **603** | **631** | **399** | |
+| Compose UI | 4 232 | 2 451 | 120 | 181 | 255 | 42 | [Manifeste](inventories/compose-ui-1.12.1/manifest.json) |
+| Foundation | 2 343 | 1 389 | 109 | 222 | 160 | 203 | [Manifeste](inventories/compose-foundation-1.12.1/manifest.json) |
+| UI Text | 1 774 | 1 004 | 28 | 101 | 143 | 6 | [Manifeste](inventories/compose-ui-text-1.12.1/manifest.json) |
+| Foundation Layout | 758 | 440 | 23 | 99 | 77 | 158 | [Manifeste](inventories/compose-foundation-layout-1.12.1/manifest.json) |
+| **Total** | **9 107** | **5 284** | **280** | **603** | **635** | **409** | |
 
 Les comptes `Kotlin-only`, expérimentaux et dépréciés sont des sous-ensembles des candidates ou des déclarations ; ils ne s'additionnent pas aux colonnes principales. Les formes `@BytecodeOnly` (2 333) et `@InaccessibleFromKotlin` (1 210) restent intégralement présentes dans les shards, mais sont exclues des candidates. Une façade JVM est un conteneur ABI généré, pas un composant React à créer ; ses méthodes Kotlin-only peuvent, elles, correspondre à de vraies fonctions source.
 
