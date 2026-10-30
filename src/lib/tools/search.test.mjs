@@ -120,6 +120,7 @@ test("does not fuzzy-match very short terms", () => {
 test("matches short terms at word boundaries instead of inside unrelated words", () => {
   assert.deepEqual(ids("age"), ["age-calculator"]);
   assert.deepEqual(ids("âge"), ["age-calculator"]);
+  assert.equal(ids("per")[0], "percentage");
 });
 
 test("matches tags and categories", () => {
