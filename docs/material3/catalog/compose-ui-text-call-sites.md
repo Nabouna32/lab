@@ -63,9 +63,10 @@ Un seul consommateur direct de production est retrouvé : `src/components/accoun
 
 - Est un champ React contrôlé, à label flottant, avec supporting text, erreur, compteur, préfixe/suffixe et contenu auxiliaire.
 - N'a qu'un parcours de production identifié, le changement de mot de passe.
-- Le bouton de révélation est conditionné par `secure`, pas par `type="password"`. Le consommateur actuel utilise `type="password"` sans `secure` : il n'affiche donc pas cette action.
-- Les libellés accessibles et visibles du bouton de révélation sont codés en anglais (`Show password`/`Hide password`, `Show`/`Hide`). Aucun consommateur n'active actuellement `secure`; ce défaut latent doit être corrigé avant d'activer cette option dans le parcours français.
-- Le composant a une implémentation et une feuille CSS distinctes des wrappers natifs ; il ne doit pas être assimilé à un portage validé AndroidX sans spécification et vérification supplémentaires.
+- Les trois champs du parcours de changement de mot de passe activent maintenant `secure`. La révélation reste opt-in pour les autres consommateurs.
+- Le contrôle de visibilité utilise le composant AndroidX-porté `IconButton` et les Material Symbols `visibility`/`visibility_off`, avec des libellés accessibles localisés via `Messages.account.showPassword` et `hidePassword`. La cible d'interaction est de 48 × 48 px et le bouton hérite de l'état désactivé du champ.
+- L'adaptation Web bascule l'élément natif entre `type=password` et `type=text`, tout en conservant `autocomplete=current-password/new-password`, la désactivation de la correction orthographique et la casse automatique. Elle ne revendique pas la parité complète avec AndroidX `SecureTextField` : la révélation du dernier caractère saisi et les restrictions natives sur les actions de presse-papiers ne sont pas reproduites.
+- Le composant conserve une implémentation et une feuille CSS distinctes des wrappers natifs ; il ne doit pas être assimilé à un portage validé AndroidX sans spécification et vérification supplémentaires.
 
 ## Décisions
 
@@ -74,7 +75,7 @@ Un seul consommateur direct de production est retrouvé : `src/components/accoun
 3. Conserver `CalculatorField` comme composition légère tant que son unité et ses contraintes restent spécifiques au calcul.
 4. Garder `MaterialTextField` circonscrit au formulaire de changement de mot de passe ; ne pas le généraliser aux autres formulaires avant une comparaison de contrat et de rendu.
 5. Fusionner les IDs de `aria-describedby` fournis par le consommateur avec l'association interne `error`/`helperText`, en dédupliquant les IDs et en donnant priorité à une erreur réelle pour `aria-invalid`. Correction livrée par #1079 ; CI #4593 réussie sur le head exact, avec test de contrat source.
-6. Garder l'option de révélation `secure` de `MaterialTextField` inactive tant que son besoin produit n'est pas établi ; si elle est activée, localiser ses libellés visibles et accessibles. Le parcours actuel utilise `type="password"` sans `secure`, ce qui laisse la saisie masquée sans bouton de révélation.
+6. Activer `secure` sur les trois champs du changement de mot de passe : le contrôle de visibilité est une affordance familière et utile dans ce parcours. Ses libellés doivent rester localisés et son action doit utiliser le composant partagé `IconButton`. Ne pas généraliser ce comportement à tous les champs et ne pas prétendre à la parité complète avec AndroidX `SecureTextField`.
 
 ## Vérifications restantes
 
