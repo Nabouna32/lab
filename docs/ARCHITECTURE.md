@@ -1,235 +1,236 @@
-# Loculary — Architecture Direction
+# Loculary — Orientation architecturale
 
-## Status
+## Statut
 
-This document defines the architectural direction from the current product discovery phase. It intentionally separates firm product constraints from implementation details that remain open.
+Ce document définit l'orientation architecturale issue de la phase actuelle de découverte produit. Il distingue volontairement les contraintes produit fermes des détails d'implémentation qui restent ouverts.
 
-## Primary architecture principle
+## Principe architectural principal
 
-**Browser-first processing.**
+**Le navigateur d'abord.**
 
-Whenever a useful operation can reasonably run in the browser, the browser should perform it.
+Dès qu'une opération utile peut raisonnablement être exécutée dans le navigateur, celui-ci doit s'en charger.
 
-The server is not intended to become a general-purpose file-processing backend.
+Le serveur n'a pas vocation à devenir un backend généraliste de traitement de fichiers.
 
-## Responsibility split
+## Répartition des responsabilités
 
-### Browser
+### Navigateur
 
-Preferred location for:
+Emplacement privilégié pour :
 
-- calculations;
-- conversions;
-- text processing;
-- local file transformations;
-- image processing;
-- client-side visualization;
-- interactive simulations;
-- random generators;
-- anonymous preferences;
-- other operations that can safely run locally.
+- les calculs ;
+- les conversions ;
+- le traitement de texte ;
+- les transformations locales de fichiers ;
+- le traitement d'images ;
+- les visualisations côté client ;
+- les simulations interactives ;
+- les générateurs aléatoires ;
+- les préférences anonymes ;
+- les autres opérations pouvant être exécutées localement en toute sécurité.
 
-### Backend / hosted services
+### Backend / services hébergés
 
-Appropriate for:
+Adaptés pour :
 
-- authentication;
-- synchronized user metadata;
-- favorites and collections;
-- account preferences;
-- catalog metadata when beneficial;
-- selected external API orchestration;
-- operations that genuinely require a server.
+- l'authentification ;
+- les métadonnées utilisateur synchronisées ;
+- les favoris et les collections ;
+- les préférences du compte ;
+- les métadonnées du catalogue lorsque cela apporte un bénéfice ;
+- l'orchestration de certaines API externes ;
+- les opérations qui nécessitent réellement un serveur.
 
-### External APIs
+### API externes
 
-Allowed when they provide meaningful capabilities that cannot reasonably be provided locally.
+Autorisées lorsqu'elles apportent des capacités utiles qui ne peuvent pas raisonnablement être fournies localement.
 
-Examples may include:
+Exemples possibles :
 
-- live weather;
-- public data;
-- exchange rates;
-- selected enrichment.
+- météo en temps réel ;
+- données publiques ;
+- taux de change ;
+- enrichissements ciblés.
 
-External services must be explicit in the tool's processing-status metadata.
+Les services externes doivent être explicitement déclarés dans les métadonnées de statut de traitement de l'outil.
 
-## File handling
+## Gestion des fichiers
 
-Large file uploads/downloads through Loculary infrastructure are intentionally avoided as a default architecture.
+Les téléversements et téléchargements de fichiers volumineux via l'infrastructure Loculary sont volontairement évités par défaut.
 
-If a file operation can be performed locally, the preferred flow is:
+Lorsqu'une opération sur un fichier peut être réalisée localement, le parcours privilégié est :
 
-> User device → browser → local processing → result
+> Appareil de l'utilisateur → navigateur → traitement local → résultat
 
-No Loculary upload is required.
+Aucun téléversement vers Loculary n'est nécessaire.
 
-A server-side file workflow requires explicit product justification because it affects:
+Un traitement de fichier côté serveur exige une justification produit explicite, car il a des conséquences sur :
 
-- infrastructure cost;
-- bandwidth;
-- privacy;
-- abuse surface;
-- reliability;
-- operational complexity.
+- le coût de l'infrastructure ;
+- la bande passante ;
+- la confidentialité ;
+- la surface d'abus ;
+- la fiabilité ;
+- la complexité opérationnelle.
 
-## Tool platform
+## Plateforme d'outils
 
-The long-term platform should treat tools as first-class domain objects rather than unrelated pages.
+À long terme, la plateforme doit traiter les outils comme des objets métier de premier ordre, plutôt que comme des pages sans lien entre elles.
 
-A conceptual tool definition may contain:
+Une définition conceptuelle d'outil peut contenir :
 
-- stable identifier;
-- display name;
-- description;
-- category;
-- tags;
-- search aliases;
-- localization keys;
-- icon/visual metadata;
-- processing mode;
-- external dependencies;
-- capabilities;
-- SEO metadata;
-- related tools;
-- documentation;
-- validation/test metadata.
+- un identifiant stable ;
+- un nom affiché ;
+- une description ;
+- une catégorie ;
+- des tags ;
+- des alias de recherche ;
+- des clés de localisation ;
+- des métadonnées d'icône et de présentation ;
+- un mode de traitement ;
+- des dépendances externes ;
+- des capacités ;
+- des métadonnées SEO ;
+- des outils associés ;
+- de la documentation ;
+- des métadonnées de validation et de test.
 
-The current catalog and registry contracts are implemented and tested. The broader conceptual model above remains a direction: its future fields and relationships are not all fixed.
+Les contrats actuels du catalogue et du registre sont implémentés et testés. Le modèle conceptuel plus large ci-dessus reste une orientation : tous ses champs et toutes ses relations ne sont pas figés.
 
-## Tool implementations
+## Implémentations des outils
 
-The platform must allow diversity.
+La plateforme doit permettre une diversité de traitements métier.
 
-A shared tool contract should standardize infrastructure concerns without requiring every tool to share the same UI.
+Un contrat partagé pour les outils doit standardiser les aspects d'infrastructure sans exiger que tous les outils aient exactement la même interface.
 
-Possible implementation classes include:
+Les types d'implémentation possibles comprennent :
 
-- simple deterministic calculators;
-- structured form tools;
-- visual generators;
-- interactive editors;
-- local file processors;
-- simulations;
-- API-backed tools;
+- des calculatrices déterministes simples ;
+- des outils reposant sur des formulaires structurés ;
+- des générateurs visuels ;
+- des éditeurs interactifs ;
+- des traitements locaux de fichiers ;
+- des simulations ;
+- des outils reposant sur des API.
 
-## Tool definitions vs custom experiences
+## Définitions d'outils et expériences spécialisées
 
-A structured definition system is encouraged for tools whose behavior can be represented safely and clearly.
+Un système de définitions structurées est encouragé lorsque le comportement d'un outil peut être représenté de manière sûre et claire.
 
-However, it must not become a lowest-common-denominator renderer.
+Il ne doit toutefois pas devenir un moteur de rendu limité au plus petit dénominateur commun.
 
-A tool may opt into a custom implementation when it needs:
+Un outil peut nécessiter une implémentation métier spécifique pour prendre en charge :
 
-- unique visualization;
-- complex interaction;
-- custom animation;
-- specialized processing;
-- non-standard layout.
+- une visualisation particulière ;
+- une interaction complexe ;
+- une animation spécifique ;
+- un traitement spécialisé.
 
-The platform should make custom tools first-class rather than treating them as hacks.
+Cette spécificité concerne d'abord la logique métier et le rendu du résultat. L'interface doit continuer à s'appuyer sur les composants AndroidX et leurs adaptations Web, ainsi que sur les patterns éprouvés correspondants. Ne créer une composition d'interface propre à Loculary qu'en l'absence démontrée d'une solution adaptée ; une telle exception doit rester rare et justifiée.
 
-## Privacy model
+La plateforme doit traiter les outils spécialisés comme des cas de premier ordre, et non comme des contournements.
 
-The architecture should expose processing location as explicit metadata.
+## Modèle de confidentialité
 
-A tool should declare whether it is:
+L'architecture doit exposer l'emplacement du traitement sous forme de métadonnées explicites.
 
-- local-only;
-- external-service backed;
-- server-backed;
-- hybrid.
+Un outil doit déclarer s'il est :
 
-This metadata can drive:
+- exclusivement local ;
+- adossé à un service externe ;
+- traité côté serveur ;
+- hybride.
 
-- UI indicators;
-- privacy details;
-- search filters;
-- documentation;
-- auditing.
+Ces métadonnées peuvent alimenter :
 
-## State model
+- les indicateurs de l'interface ;
+- les détails de confidentialité ;
+- les filtres de recherche ;
+- la documentation ;
+- les audits.
 
-Use local browser state where account synchronization is unnecessary.
+## Modèle d'état
 
-Candidate local storage layers include:
+Utiliser l'état local du navigateur lorsque la synchronisation avec un compte n'est pas nécessaire.
 
-- localStorage for small preferences and private local collections containing only collection names and tool IDs;
-- IndexedDB for larger structured local state.
+Les mécanismes de stockage local envisageables comprennent :
 
-Local collections can be exported as a versioned JSON backup and restored additively in the browser. Import validates the format and limits, filters tool IDs absent from the current published catalog, and creates fresh local IDs; account-backed collections are never included in this local backup.
+- `localStorage` pour les petites préférences et les collections locales privées, qui ne contiennent que les noms des collections et les identifiants des outils ;
+- IndexedDB pour les états locaux structurés et plus volumineux.
 
-The final choice should be based on the actual data requirements.
+Les collections locales peuvent être exportées sous forme de sauvegarde JSON versionnée et restaurées de manière additive dans le navigateur. L'import vérifie le format et les limites, filtre les identifiants d'outils absents du catalogue publié actuel et crée de nouveaux identifiants locaux ; les collections associées à un compte ne sont jamais incluses dans cette sauvegarde locale.
 
-Account-backed state should store metadata rather than raw sensitive tool content by default.
+Le choix final doit dépendre des besoins réels en matière de données.
 
-## Search architecture
+Par défaut, l'état associé à un compte doit stocker des métadonnées plutôt que le contenu brut et sensible des outils.
 
-Search should be designed as a first-class system rather than a simple text filter.
+## Architecture de recherche
 
-The catalog should support:
+La recherche doit être conçue comme un système de premier ordre, et non comme un simple filtre textuel.
 
-- exact names;
-- aliases;
-- descriptions;
-- categories;
-- tags;
-- localization;
-- intent associations;
-- related tools.
+Le catalogue doit prendre en charge :
 
-The catalog models intents separately from categories, with many-to-many associations between intents and tools.
+- les noms exacts ;
+- les alias ;
+- les descriptions ;
+- les catégories ;
+- les tags ;
+- la localisation ;
+- les associations d'intentions ;
+- les outils associés.
 
-## Authentication
+Le catalogue modélise les intentions séparément des catégories, avec des associations plusieurs-à-plusieurs entre les intentions et les outils.
 
-The implemented account provider is Supabase email/password authentication. Core tools remain usable anonymously. Additional sign-in providers are optional future work, not a current requirement; add one only when a demonstrated user need justifies the extra account, configuration and support surface.
+## Authentification
 
-### Implemented account authentication architecture
+Le fournisseur d'authentification actuellement implémenté est Supabase Auth avec e-mail et mot de passe. Les outils principaux restent accessibles anonymement. D'autres fournisseurs de connexion sont des évolutions facultatives, et non un besoin actuel ; n'en ajouter que si un besoin utilisateur démontré justifie la surface supplémentaire de compte, de configuration et de support.
 
-Loculary uses Supabase Auth with the Next.js App Router and PKCE for email confirmation and recovery links. Server Components, Server Actions and Route Handlers use the SSR Supabase client; identity checks use `getClaims()` for route/session protection and `getUser()` where a fresh Auth user record is required. The Proxy refreshes Auth state on account, Auth and administrative routes.
+### Architecture d'authentification du compte implémentée
 
-Account data is intentionally small: Supabase Auth owns credentials, email verification, sessions and the canonical email address; `public.profiles` stores only display name and locale. Profile RLS requires both ownership and a live `auth.sessions` row, so a revoked session cannot continue to read or modify profile data while its JWT is still unexpired.
+Loculary utilise Supabase Auth avec Next.js App Router et PKCE pour les liens de confirmation d'e-mail et de récupération. Les Server Components, Server Actions et Route Handlers utilisent le client Supabase SSR ; les contrôles d'identité utilisent `getClaims()` pour la protection des routes et des sessions, et `getUser()` lorsqu'un enregistrement utilisateur Auth récent est nécessaire. Le Proxy actualise l'état Auth sur les routes de compte, d'authentification et d'administration.
 
-Password recovery uses Supabase's PKCE reset flow. Password changes from the signed-in account require the current password. Email changes use Supabase's native confirmation flow and do not bypass Secure Email Change protections.
+Les données du compte sont volontairement limitées : Supabase Auth gère les identifiants, la vérification de l'adresse e-mail, les sessions et l'adresse e-mail de référence ; `public.profiles` ne stocke que le nom affiché et la locale. La RLS du profil exige à la fois la propriété de l'enregistrement et une ligne active dans `auth.sessions`, afin qu'une session révoquée ne puisse plus lire ni modifier les données du profil même si son JWT n'a pas encore expiré.
 
-Account deletion is a server-side Supabase Edge Function authenticated with the user's JWT. It permanently deletes the Auth user with the server-only secret key, allowing Auth cascades to remove account-owned rows. The read-only `check_account_deletion` preflight provides the normal UX check; it is not authoritative because its transaction ends before the Auth Admin request. A `BEFORE DELETE` trigger on `auth.users` is authoritative: it shares the transaction-scoped advisory lock with guarded `super_admin` role removal, rejects deletion of the last `super_admin`, and clears polymorphic user-target references in `admin_audit_log` in the same transaction. The `actor_user_id` foreign key uses `ON DELETE SET NULL`. If deletion is rejected, audit cleanup rolls back with it. Local Supabase CI exercises concurrent role removal/deletion and both successful ordinary-user deletion and last-super-admin rejection through the Auth Admin API.
+La récupération du mot de passe utilise le flux de réinitialisation PKCE de Supabase. Le changement de mot de passe depuis un compte connecté exige le mot de passe actuel. Le changement d'adresse e-mail utilise le flux natif de confirmation Supabase et ne contourne pas les protections Secure Email Change.
 
-## Database
+La suppression du compte est effectuée côté serveur par une Edge Function Supabase authentifiée avec le JWT de l'utilisateur. Elle supprime définitivement l'utilisateur Auth avec la clé secrète réservée au serveur, ce qui permet aux suppressions en cascade Auth de retirer les lignes associées au compte. Le contrôle préalable en lecture seule `check_account_deletion` fournit la vérification UX habituelle ; il ne fait pas autorité, car sa transaction se termine avant la requête Auth Admin. Un trigger `BEFORE DELETE` sur `auth.users` fait autorité : il partage le verrou consultatif transactionnel avec la suppression protégée du rôle `super_admin`, refuse la suppression du dernier `super_admin` et efface dans la même transaction les références polymorphes aux utilisateurs dans `admin_audit_log`. La clé étrangère `actor_user_id` utilise `ON DELETE SET NULL`. Si la suppression est refusée, le nettoyage de l'audit est annulé avec elle. La CI Supabase locale teste la concurrence entre suppression de compte et retrait de rôle, ainsi que les cas de suppression réussie d'un utilisateur ordinaire et de refus de suppression du dernier super-administrateur via l'API Auth Admin.
 
-The deployed database currently supports:
+## Base de données
 
-- account identity/profile metadata;
-- favorites and personal collections;
-- administrative RBAC and audit data.
+La base de données déployée prend actuellement en charge :
 
-Additional synchronized preferences or tool metadata should be considered only when concrete requirements justify their database and operational costs.
+- les métadonnées d'identité et de profil du compte ;
+- les favoris et les collections personnelles ;
+- le RBAC administratif et les données d'audit.
 
-Supabase/PostgreSQL is the current database platform for the deployed account, administrative RBAC and audit foundation. The public tool catalog is currently Git-backed; the legacy database catalog schema is not deployed, and no catalog migration is currently scheduled. This is a description of the present architecture, not a permanent constraint: reconsider storage when concrete product or operational evidence justifies it, using the cost and security criteria in DEC-027 and `docs/DATABASE.md`.
+Les préférences synchronisées ou les métadonnées d'outils supplémentaires ne doivent être envisagées que lorsque des besoins concrets justifient leur coût en base de données et leur coût opérationnel.
 
-Catalog storage and delivery must remain separate from executable tool implementations. Git/code remains authoritative for registry modules, processing mode, capabilities and actual tool logic. Any future data-store change must preserve that boundary and justify its operational cost.
+Supabase/PostgreSQL est la plateforme de base de données actuelle pour les comptes déployés, le socle RBAC administratif et l'audit. Le catalogue public des outils est actuellement géré dans Git ; l'ancien schéma de catalogue en base de données n'est pas déployé et aucune migration du catalogue n'est planifiée à ce jour. Il s'agit d'une description de l'architecture actuelle, pas d'une contrainte permanente : réévaluer le stockage lorsque des éléments produit ou opérationnels concrets le justifient, selon les critères de coût et de sécurité de DEC-027 et de `docs/DATABASE.md`.
 
-## Architecture partagée du layout
+Le stockage et la distribution du catalogue doivent rester distincts des implémentations exécutables des outils. Git et le code restent les sources de vérité des modules du registre, des modes de traitement, des capacités et de la logique réelle des outils. Toute évolution future du stockage doit préserver cette séparation et justifier son coût opérationnel.
+
+## Architecture partagée de mise en page
 
 La mise en page et les espacements sont des responsabilités communes de la plateforme, pas des conventions propres à chaque page.
 
-La cible est un portage React/Web des API publiques pertinentes de layout d’AndroidX Compose UI/Foundation. Les primitives fondées sur les sources définissent le comportement de mise en page ; les tokens CSS sémantiques de Loculary portent les dimensions responsives propres au produit, notamment les gouttières de page et les largeurs de contenu. Le contrat du système de design et l’état du portage sont décrits dans [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) et dans la [spécification des primitives de layout](material3/layout-primitives.md).
+La cible est un portage React/Web des API publiques pertinentes de layout d'AndroidX Compose UI/Foundation. Les primitives fondées sur les sources définissent le comportement de mise en page ; les tokens CSS sémantiques de Loculary portent les dimensions responsives propres au produit, notamment les gouttières de page et les largeurs de contenu. Le contrat du système de design et l'état du portage sont décrits dans [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) et dans la [spécification des primitives de layout](material3/layout-primitives.md).
 
 Les pages doivent assembler les composants AndroidX et leurs adaptations Web pour former les parcours du produit, sans réimplémenter leurs contrats ni créer une couche parallèle de composants de présentation propres à Loculary. Remplacer les compositions et primitives d'interface existantes par les équivalents AndroidX/Web pertinents, puis supprimer les anciennes implémentations devenues inutiles après vérification des références et des usages. Une exception propre à Loculary n'est acceptable que si aucune solution AndroidX ou adaptation Web pertinente ne couvre le besoin, ou si elle compromet une exigence réelle du Web, de l'accessibilité ou du produit ; elle doit rester rare, minimale et justifiée. Les mises en page doivent s'appuyer sur les primitives partagées et éviter les espacements arbitraires propres à chaque page.
 
-Un portage n’est pas fidèle simplement parce qu’il porte un nom AndroidX. Il faut figer la version des API sources, tester les contrats publics, documenter les différences Web et vérifier le rendu réel dans le navigateur selon les points de rupture responsive, les thèmes clair/sombre, les contenus français/anglais, le sens de lecture et l’accessibilité avant d’affirmer une parité.
+Un portage n'est pas fidèle simplement parce qu'il porte un nom AndroidX. Il faut figer la version des API sources, tester les contrats publics, documenter les différences Web et vérifier le rendu réel dans le navigateur selon les points de rupture responsive, les thèmes clair/sombre, les contenus français/anglais, le sens de lecture et l'accessibilité avant d'affirmer une parité.
 
-## Technology baseline
+## Socle technologique
 
-The current repository uses:
+Le dépôt utilise actuellement :
 
-- Next.js App Router;
-- React;
-- TypeScript;
-- Tailwind CSS;
-- Vercel for production hosting;
-- GitHub Actions for CI;
-- Node.js tests, linting, type checking, and production builds as the automated validation baseline.
+- Next.js App Router ;
+- React ;
+- TypeScript ;
+- Tailwind CSS ;
+- Vercel pour l'hébergement de production ;
+- GitHub Actions pour la CI ;
+- les tests Node.js, le lint, la vérification des types et les builds de production comme socle de validation automatisée.
 
-This is the current baseline, not an immutable commitment.
+Il s'agit du socle actuel, et non d'un engagement immuable.
 
-Any major technology change must be justified against the product's browser-first, SEO, performance, maintainability, and cost requirements.
+Tout changement technologique majeur doit être justifié au regard des exigences du produit en matière de priorité au navigateur, de SEO, de performances, de maintenabilité et de coût.
