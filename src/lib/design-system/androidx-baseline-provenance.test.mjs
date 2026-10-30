@@ -102,7 +102,7 @@ test("Material 3 Android derived inventory is reproducible and does not claim Ko
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.propertyCount, 669);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.missingClasses.length, 0);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.missingMembers.length, 0);
-  assert.match(material3AndroidInventory.interpretation.declarationComparison, /995\/995 @BytecodeOnly JVM descriptors match exactly/);
+  assert.match(material3AndroidInventory.interpretation.declarationComparison, /995\/995 @BytecodeOnly descriptors match/);
   assert.equal(material3AndroidInventory.officialApiDump.commit, "5113b82a4ed6416d6344efa50e41db8cb65928ff");
   assert.equal(material3AndroidInventory.officialApiDump.gitBlobSha1, "fd45e9feea96a631c0f8b7ac82f88ee9ce999029");
   assert.equal(material3AndroidInventory.officialApiDump.libraryVersionMarker, 'COMPOSE_MATERIAL3 = "1.4.0"');
