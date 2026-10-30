@@ -302,12 +302,12 @@ L’inventaire des prestataires distingue les journaux applicatifs des journaux 
 - **Vercel Hobby** : les logs runtime et build ont des durées propres au forfait.
 - Ces journaux fournisseurs ne sont pas purgés par Loculary. Aucun Log Drain, export tiers ou archivage externe de ces journaux n’est prévu.
 
-**Politique applicative cible, versionnée dans la branche de travail et non encore active en production :** douze mois glissants pour le journal administratif Loculary et les exécutions terminées de `pg_cron`, avec purge automatique quotidienne. Les exécutions cron incomplètes restent préservées. Les exceptions administratives sont limitées à douze mois après l’événement et ne constituent pas une archive permanente. Aucune sauvegarde Google Drive ou archive externe de ces journaux n’est conservée.
+**Politique applicative cible, versionnée dans la branche de travail et non encore active en production :** douze mois glissants pour le journal administratif Loculary et les exécutions terminées de `pg_cron`, avec purge automatique quotidienne. Les exécutions cron incomplètes restent préservées. Aucun mécanisme d’exception de conservation ni archive des journaux applicatifs n’est conservé. Aucune sauvegarde Google Drive ou archive externe de ces journaux n’est créée.
 
-La migration `20261030160000_extend_log_retention_to_12_months.sql` remplace le job de six mois par un job de douze mois et met à jour le seuil de purge sans lancer de suppression lors de son application. La politique de six mois reste celle de la production jusqu’à application et vérification de cette migration.
+La migration `20261030160000_extend_log_retention_to_12_months.sql` retire la table d’exceptions, remplace le job de six mois par un job de douze mois et met à jour le seuil de purge sans lancer de suppression lors de son application. La politique de six mois reste celle de la production jusqu’à application et vérification de cette migration.
 
 La durée de douze mois est un choix de conservation à justifier par les finalités et à réévaluer périodiquement ; elle ne doit pas être présentée comme un maximum universel fixé par le RGPD. Les journaux gérés par les prestataires doivent être décrits séparément selon leurs conditions effectives.
- 
+
 ## Future legal/compliance work
 
 Before broad public launch, privacy/legal documentation should be reviewed against the actual implementation, data flows, consent mechanisms, retention policies, and jurisdictions served.
