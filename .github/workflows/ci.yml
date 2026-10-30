@@ -239,7 +239,11 @@ jobs:
           NPM_AUDIT_RESULT: ${{ needs.npm-audit.result }}
         run: |
           set -euo pipefail
-          for result in "$PREPARE_RESULT" "$QUALITY_RESULT" "$BUILD_RESULT" "$SUPABASE_RESULT" "$NPM_AUDIT_RESULT"; do
+          case "$NPM_AUDIT_RESULT" in
+            success) ;;
+            *) echo "The npm audit job must succeed: $NPM_AUDIT_RESULT" >&2; exit 1 ;;
+          esac
+          for result in "$PREPARE_RESULT" "$QUALITY_RESULT" "$BUILD_RESULT" "$SUPABASE_RESULT"; do
             case "$result" in
               success|skipped) ;;
               *) echo "A required CI job did not pass: $result" >&2; exit 1 ;;
