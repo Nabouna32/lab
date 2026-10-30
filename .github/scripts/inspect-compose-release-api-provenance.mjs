@@ -156,13 +156,20 @@ export async function resolveGitilesRef(fetchImpl, refs, candidates, label, vers
 }
 
 export function parseLibraryVersion(text, marker) {
-  const escaped = marker.replace(/[.*+?^$()|[\]\\]/g, '\\export function parseLibraryVersion(text, marker) {
   const escaped = marker.replace(/[.*+?^$()|[\]\\]/g, '\\$&');
-  const match = text.match(new RegExp('^\\s*' + escaped + '\\s*=\\s*"([^"]+)"\\s*$', 'm'));
-  if (!match) throw new Error('libraryversions.toml does not define ' + marker + '.');
-  return match[1];
-}');
-  const direct = text.match(new RegExp('^\\s*' + escaped + '\\s*=\\s*"([^"]+)"\\s*
+  const direct = text.match(new RegExp('^\\s*' + escaped + '\\s*=\\s*"([^"]+)"\\s*$', 'm'));
+  if (direct) return direct[1];
+
+  const group = text.match(new RegExp('^\\s*' + escaped + '\\s*=\\s*\\{([^}]*)\\}', 'm'));
+  const alias = group?.[1].match(/atomicGroupVersion\s*=\s*"versions\.([A-Z0-9_]+)"/)?.[1];
+  if (alias) {
+    const escapedAlias = alias.replace(/[.*+?^$()|[\]\\]/g, '\\$&');
+    const resolved = text.match(new RegExp('^\\s*' + escapedAlias + '\\s*=\\s*"([^"]+)"\\s*$', 'm'));
+    if (resolved) return resolved[1];
+    throw new Error('libraryversions.toml does not define version alias ' + alias + ' referenced by ' + marker + '.');
+  }
+  throw new Error('libraryversions.toml does not define a direct version or atomicGroupVersion alias for ' + marker + '.');
+}
 
 export function parseApiDumpMetadata(text, family) {
   const formatVersion = text.match(/^(?:\uFEFF)?\/\/ Signature format: (\d+\.\d+)(?:\r?\n|$)/)?.[1] ?? null;
