@@ -43,13 +43,39 @@
       "gitBlobSha": "863fc32db157bdc803d2834899b8bbd00bd7de2b",
       "url": "https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/api/1.5.0-beta01.txt",
       "maturity": "beta"
+    },
+    "releaseBranchSnapshot": {
+      "repository": "androidx/androidx",
+      "branch": "androidx-compose-material3-release",
+      "commit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+      "commitDate": "2025-09-17T02:09:58Z",
+      "commitMessage": "Merge into androidx-compose-material3-release; libraryversions.toml changes COMPOSE_MATERIAL3 from 1.4.0-rc01 to 1.4.0.",
+      "libraryVersionsPath": "libraryversions.toml",
+      "libraryVersionMarker": "COMPOSE_MATERIAL3 = \"1.4.0\"",
+      "apiDumpPath": "compose/material3/material3/api/current.txt",
+      "apiDumpGitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029",
+      "apiDumpSizeBytes": 609538,
+      "signatureFormat": "4.0",
+      "identicalToLastVersionedPrereleaseDump": {
+        "path": "compose/material3/material3/api/1.4.0-beta03.txt",
+        "gitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029"
+      },
+      "provenance": "Official AndroidX release branch snapshot at the commit that sets COMPOSE_MATERIAL3 to 1.4.0; the official release notes link the 1.4.0 commit range ending at this commit."
     }
   },
   "apiDumpAlignment": {
-    "status": "UNVERIFIED",
-    "exactStableDump": null,
+    "status": "OFFICIAL_STABLE_DUMP_PINNED_BINARY_COMPARISON_PENDING",
+    "exactStableDump": {
+      "repository": "androidx/androidx",
+      "branch": "androidx-compose-material3-release",
+      "commit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+      "path": "compose/material3/material3/api/current.txt",
+      "vendoredPath": "docs/material3/catalog/baselines/material3-1.4.0-api.txt",
+      "gitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029",
+      "signatureFormat": "4.0"
+    },
     "repositorySourceCommit": null,
-    "reason": "The published source archive is identified, but the exact source commit and an API dump proven to match the stable 1.4.0 artifact have not been established."
+    "reason": "The official release-branch API snapshot is pinned and version marker COMPOSE_MATERIAL3=1.4.0 is verified. Declaration-level comparison against the published Android AAR and proof that the published source archive is byte-for-byte from this source commit remain pending."
   },
   "publishedAndroidVariant": {
     "artifact": "androidx.compose.material3:material3-android",
