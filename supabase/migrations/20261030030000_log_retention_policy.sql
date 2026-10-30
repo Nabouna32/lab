@@ -123,6 +123,10 @@ declare
   v_expired_holds_deleted bigint := 0;
   v_cron_runs_deleted bigint := 0;
 begin
+  delete from private.admin_audit_log_retention_holds as hold
+    where hold.hold_until <= v_now;
+  get diagnostics v_expired_holds_deleted = row_count;
+
   delete from public.admin_audit_log as audit
     where audit.created_at < v_cutoff
       and not exists (
@@ -132,10 +136,6 @@ begin
           and hold.hold_until > v_now
       );
   get diagnostics v_admin_audit_deleted = row_count;
-
-  delete from private.admin_audit_log_retention_holds as hold
-    where hold.hold_until <= v_now;
-  get diagnostics v_expired_holds_deleted = row_count;
 
   -- Keep incomplete/running rows; only completed runs older than the cutoff expire.
   delete from cron.job_run_details as run
