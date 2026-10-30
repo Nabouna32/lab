@@ -11,25 +11,27 @@ Première revue sémantique réalisée pour l'artefact `androidx.compose.foundat
 
 ## Inventaire mécanique
 
-Le dump comporte 688 déclarations dans un package et 22 groupes JVM propriétaires (principalement des façades Kotlin, pas 22 composants UI).
+Le dump comporte 749 déclarations dans un package. Le comptage exhaustif inclut les 84 déclarations de types (23 façades JVM de fichiers `*Kt` et 61 types Kotlin, dont les types imbriqués) ainsi que les 665 membres. Les façades JVM sont conservées dans l'inventaire mais ne sont pas des API Kotlin à porter.
 
 | Mesure | Nombre |
 |---|---:|
-| Déclarations | 688 |
-| Types publics | 23 |
+| Déclarations | 749 |
+| Types déclarés (types imbriqués inclus) | 84 |
 | Méthodes | 501 |
 | Propriétés | 129 |
 | Champs | 26 |
 | Constructeurs | 7 |
 | Constantes d'énumération | 2 |
-| Candidates API source après exclusion bytecode-only et inaccessibles Kotlin | 393 |
+| Candidates API source après exclusion bytecode-only, inaccessibles Kotlin et façades JVM générées | 431 |
 | `@BytecodeOnly` | 255 |
 | `@InaccessibleFromKotlin` | 40 |
-| `@KotlinOnly` (inclus dans les 393 candidates) | 99 |
-| Occurrences `@Deprecated` | 64 |
+| Façades JVM générées `*Kt` (conservées, non candidates) | 23 |
+| `@KotlinOnly` (inclus dans les 431 candidates) | 99 |
+| Déclarations portant une annotation expérimentale | 154 |
+| Déclarations portant `@Deprecated` | 76 |
 | Occurrences `@ExperimentalLayoutApi` | 30 |
 
-Ces métriques décrivent la syntaxe du dump, pas le nombre de fonctionnalités ni le nombre d'API à porter. Une déclaration candidate doit encore être comprise dans son contexte source.
+Ces métriques décrivent les lignes de déclaration du dump, y compris les types imbriqués et les façades JVM ; elles ne mesurent ni le nombre de fonctionnalités ni le nombre d'API à porter. Les façades `*Kt` sont des conteneurs ABI générés : leurs signatures sont conservées pour la traçabilité, mais elles ne constituent pas des types Kotlin à recréer. Les entrées `@KotlinOnly` restent candidates car elles représentent des signatures source Kotlin. Une déclaration candidate doit encore être comprise dans son contexte source.
 
 ## Contrats sémantiques
 
