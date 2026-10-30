@@ -23,7 +23,7 @@ Loculary indexe des pages parce qu'elles aident une personne à accomplir une t�
 
 ## Décisions actuelles concernant les catégories
 
-Le catalogue actuel contient sept catégories. Toutes disposent actuellement de descriptions éditoriales localisées et peuvent être indexées, y compris Video. Le fait qu'elle ne contienne qu'un seul outil ne suffit pas à l'exclure. Le sitemap n'inclut que les catégories contenant des outils publiés.
+Le catalogue actuel contient sept catégories. Toutes disposent actuellement de descriptions éditoriales localisées et peuvent être indexées, y compris la catégorie `video` (affichée « Vidéo » en français et « Video » en anglais). Le fait qu'elle ne contienne qu'un seul outil ne suffit pas à l'exclure. Le sitemap n'inclut que les catégories contenant des outils publiés.
 
 ## Liste de vérification des pages nouvelles ou modifiées
 
