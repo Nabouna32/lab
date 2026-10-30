@@ -17,8 +17,8 @@
     "COMPOSE_UI": "versions.COMPOSE",
     "COMPOSE_FOUNDATION": "versions.COMPOSE"
   },
-  "status": "verified-release-ref-and-api-dump-provenance",
-  "sourceArchiveAlignment": "unverified",
+  "status": "verified-release-api-and-source-provenance",
+  "sourceArchiveAlignment": "verified-byte-for-byte",
   "families": [
     {
       "id": "compose-ui",
@@ -72,5 +72,48 @@
       "gitBlobSha1": "3588adaa45712b88bff1d115bad5e54f0e4de939",
       "versionedDump": null
     }
-  ]
+  ],
+  "sourceArchiveAlignmentEvidence": {
+    "releaseCommit": "5e0747401bf56b243e3b5141ae080dc9bc61d29c",
+    "verification": "Google Maven sources.jar entries compared byte-for-byte with the corresponding AndroidX Gitiles source trees; Apache license checked; only META-INF/MANIFEST.MF excluded.",
+    "ciRun": 4516,
+    "families": [
+      {
+        "id": "compose-ui",
+        "androidModule": "ui-android",
+        "sourceArchive": "ui-android-1.12.1-sources.jar",
+        "sha256": "8ddde80690da97cd840c6f8f59c608701f9e42c245f12f0eabc1434db57e0273",
+        "sizeBytes": 1026746,
+        "jarEntries": 385,
+        "matchedFiles": 384
+      },
+      {
+        "id": "compose-ui-text",
+        "androidModule": "ui-text-android",
+        "sourceArchive": "ui-text-android-1.12.1-sources.jar",
+        "sha256": "f40f267cc1bbf7315e37916d6baf818dd7791b42db6dc238303a8b48471aa292",
+        "sizeBytes": 348725,
+        "jarEntries": 164,
+        "matchedFiles": 163
+      },
+      {
+        "id": "compose-foundation",
+        "androidModule": "foundation-android",
+        "sourceArchive": "foundation-android-1.12.1-sources.jar",
+        "sha256": "5b58cea5db2583142e4b4b39dce10cbd75722bd06ab35161f06f987be90a53f1",
+        "sizeBytes": 1235526,
+        "jarEntries": 456,
+        "matchedFiles": 455
+      },
+      {
+        "id": "compose-foundation-layout",
+        "androidModule": "foundation-layout-android",
+        "sourceArchive": "foundation-layout-android-1.12.1-sources.jar",
+        "sha256": "479c11250bf673510788d95e40b971134cdba19599f9d5775d8f14780cfe1b44",
+        "sizeBytes": 157233,
+        "jarEntries": 38,
+        "matchedFiles": 37
+      }
+    ]
+  }
 }

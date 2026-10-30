@@ -28,31 +28,6 @@
       "method": "CI downloaded the official Google Maven sources JAR, compared its bytes with published SHA-256 and SHA-1 sidecars, and calculated SHA-256 plus Git blob SHA-1."
     }
   },
-  "apiInventory": {
-    "status": "provisional-not-exhaustive",
-    "method": "published AAR classes.jar inspected with javap -protected; Java source declarations and annotations indexed with the JDK compiler AST; methods matched by exact normalized parameter types after generic erasure, explicit and nested type resolution, type-variable bound resolution, and source hierarchy traversal",
-    "publicApiDumpInTag": false,
-    "reportPath": "docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json",
-    "notes": "Le rapport est un index candidat des signatures binaires publiques/protégées, pas un dump officiel. Les déclarations et annotations Java sont indexées par AST ; les méthodes sont rapprochées par types de paramètres normalisés après effacement des génériques, résolution des imports explicites, des types imbriqués et des bornes des variables de type, puis parcours de la hiérarchie source. Les noms de types simples non résolus restent sans rapprochement afin d’éviter les faux positifs entre packages. Le rapport recense 1 107 classes binaires, 523 types publics/protégés et 6 012 membres visibles. 5 846 membres ont une correspondance source unique, dont 388 hérités de leur déclaration source la plus proche ; 166 restent sans correspondance unique et aucune ambiguïté de surcharge n’est retenue. L’index reste non exhaustif.",
-    "generatedAt": "2026-10-29",
-    "summary": {
-      "binaryClassFiles": 1107,
-      "publicOrProtectedTypes": 523,
-      "internalOrNonPublicTypes": 584,
-      "sourceMatchedPublicTypes": 523,
-      "publicTypesWithoutSource": 0,
-      "sourceFilesWithoutBinaryTopLevelClass": 4,
-      "javapFailures": 0,
-      "publicOrProtectedMembers": 6012,
-      "restrictedTypes": 200,
-      "deprecatedTypes": 19,
-      "sourceUnmatchedMembers": 126,
-      "membersWithSourceDeclarationMatch": 5846,
-      "membersWithoutSourceDeclarationMatch": 166,
-      "ambiguousSourceMemberMatches": 0,
-      "inheritedSourceDeclarationMatches": 388
-    }
-  },
   "inspectedAt": "2026-10-29",
   "binaryArchive": {
     "url": "https://dl.google.com/dl/android/maven2/com/google/android/material/material/1.14.0/material-1.14.0.aar",

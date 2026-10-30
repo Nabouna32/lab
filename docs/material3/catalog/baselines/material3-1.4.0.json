@@ -21,48 +21,6 @@
       "result": "passed"
     }
   },
-  "repositoryApiInspection": {
-    "repository": "androidx/androidx",
-    "commit": "5901d750e269aa3d88f6fccd5186637df83a0173",
-    "apiDirectory": "compose/material3/material3/api",
-    "stableDumpPresentAtPinnedCommit": false,
-    "watchDump": {
-      "path": "compose/material3/material3/api/current.txt",
-      "url": "https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/api/current.txt",
-      "sha256": "37bdc94e8e84f5a999922143f531c8a83fd488d1cb1f7929ebb51cb469832bd5",
-      "role": "watch-only"
-    },
-    "scopeNote": "The absence of 1.4.0.txt is established only for this inspected commit and directory; it does not prove that no separate official release dump exists elsewhere.",
-    "lastPreReleaseDumpForReferenceVersion": {
-      "path": "1.4.0-beta03.txt",
-      "url": "https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/api/1.4.0-beta03.txt",
-      "maturity": "beta"
-    },
-    "latestVersionedDumpAtPinnedCommit": {
-      "path": "1.5.0-beta01.txt",
-      "gitBlobSha": "863fc32db157bdc803d2834899b8bbd00bd7de2b",
-      "url": "https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/api/1.5.0-beta01.txt",
-      "maturity": "beta"
-    },
-    "releaseBranchSnapshot": {
-      "repository": "androidx/androidx",
-      "branch": "androidx-compose-material3-release",
-      "commit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
-      "commitDate": "2025-09-17T02:09:58Z",
-      "commitMessage": "Merge into androidx-compose-material3-release; libraryversions.toml changes COMPOSE_MATERIAL3 from 1.4.0-rc01 to 1.4.0.",
-      "libraryVersionsPath": "libraryversions.toml",
-      "libraryVersionMarker": "COMPOSE_MATERIAL3 = \"1.4.0\"",
-      "apiDumpPath": "compose/material3/material3/api/current.txt",
-      "apiDumpGitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029",
-      "apiDumpSizeBytes": 609538,
-      "signatureFormat": "4.0",
-      "identicalToLastVersionedPrereleaseDump": {
-        "path": "compose/material3/material3/api/1.4.0-beta03.txt",
-        "gitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029"
-      },
-      "provenance": "Official AndroidX release branch snapshot at the commit that sets COMPOSE_MATERIAL3 to 1.4.0; the official release notes link the 1.4.0 commit range ending at this commit."
-    }
-  },
   "apiDumpAlignment": {
     "status": "VERIFIED",
     "exactStableDump": {

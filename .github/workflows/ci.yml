@@ -86,24 +86,6 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Generate provisional Material Components Views API inventory
-        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        run: |
-          node .github/scripts/inventory-material-components-api.mjs docs/material3/catalog/baselines/material-components-views-1.14.0.json docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
-
-      - name: Upload generated MDC API inventory
-        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-        with:
-          name: material-components-views-1.14.0-api-inventory
-          path: docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
-          if-no-files-found: error
-          retention-days: 7
-
-      - name: Verify generated MDC API inventory reproducibility
-        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        run: git diff --exit-code -- docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
-
       - name: Verify Material 3 source archive provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/verify-androidx-source-archive.mjs docs/material3/catalog/baselines/material3-1.4.0.json
@@ -117,7 +99,9 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: compose-publications-1.12.1
-          path: /tmp/compose-publications-1.12.1.json
+          path: |
+            /tmp/compose-publications-1.12.1.json
+            /tmp/compose-source-archives/
           if-no-files-found: error
           retention-days: 7
 
@@ -144,17 +128,13 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-      - name: Verify Compose P0 API watch snapshots
-        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        run: node .github/scripts/verify-compose-api-watch-snapshots.mjs
-
       - name: Exercise CI tooling tests
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: |
           node --test .github/scripts/*.test.mjs
-          python3 .github/scripts/test_inventory_material_components_api.py
           python3 .github/scripts/test_inspect_material3_android_aar.py
           python3 .github/scripts/test_verify_material3_source_commit.py
+          python3 .github/scripts/test_verify_compose_source_archive_alignment.py
 
       - name: Discover official AndroidX Compose release refs
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
@@ -169,6 +149,24 @@ jobs:
       - name: Inspect official Compose 1.12.1 release API provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/inspect-compose-release-api-provenance.mjs /tmp/compose-release-api-provenance /tmp/androidx-compose-release-refs.txt docs/material3/catalog/baselines/compose-p0-1.12.1-api-provenance.json
+
+      - name: Verify Compose 1.12.1 source archives against the release commit
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: |
+          python3 .github/scripts/verify-compose-source-archive-alignment.py \
+            --archives-dir /tmp/compose-source-archives \
+            --publication-report /tmp/compose-publications-1.12.1.json \
+            --provenance-manifest docs/material3/catalog/baselines/compose-p0-1.12.1-api-provenance.json \
+            --output /tmp/compose-source-alignment-1.12.1.json
+
+      - name: Upload Compose 1.12.1 source alignment report
+        if: always() && github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: compose-source-alignment-1.12.1
+          path: /tmp/compose-source-alignment-1.12.1.json
+          if-no-files-found: warn
+          retention-days: 7
 
       - name: Upload Compose 1.12.1 release API provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'

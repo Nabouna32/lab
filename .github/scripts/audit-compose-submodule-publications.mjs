@@ -199,6 +199,7 @@ async function fetchVerified(url, label, fetchImpl, kind) {
 
 export async function auditComposeSubmodulePublications({
   outputFile,
+  sourceArchiveDirectory = null,
   fetchImpl = fetch,
   targets = PUBLICATION_TARGETS,
 }) {
@@ -208,6 +209,8 @@ export async function auditComposeSubmodulePublications({
   if (!Array.isArray(targets) || targets.length !== PUBLICATION_TARGETS.length) {
     throw new Error('Exactly the four pinned Compose publication targets are required.');
   }
+
+  if (sourceArchiveDirectory !== null) await mkdir(sourceArchiveDirectory, { recursive: true });
 
   const families = [];
   for (const target of targets) {
@@ -232,6 +235,13 @@ export async function auditComposeSubmodulePublications({
       fetchImpl,
       'archive',
     );
+    if (sourceArchiveDirectory !== null) {
+      await writeFile(
+        path.join(sourceArchiveDirectory, target.androidModule + '-' + target.version + '-sources.jar'),
+        sources.bytes,
+      );
+    }
+
     const aar = await fetchVerified(
       androidBase + target.androidModule + '-' + target.version + '.aar',
       target.androidModule + ' Android AAR',
@@ -268,7 +278,12 @@ export async function auditComposeSubmodulePublications({
       },
       logicalMetadata: { url: logicalMetadata.url, sha256: logicalMetadata.sha256, sizeBytes: logicalMetadata.sizeBytes },
       androidMetadata: { url: androidMetadata.url, sha256: androidMetadata.sha256, sizeBytes: androidMetadata.sizeBytes },
-      sourcesArchive: { url: sources.url, sha256: sources.sha256, sizeBytes: sources.sizeBytes },
+      sourcesArchive: {
+        url: sources.url,
+        sha256: sources.sha256,
+        sizeBytes: sources.sizeBytes,
+        ...(sourceArchiveDirectory !== null ? { localPath: path.join(sourceArchiveDirectory, target.androidModule + '-' + target.version + '-sources.jar') } : {}),
+      },
       androidAar: { url: aar.url, sha256: aar.sha256, sizeBytes: aar.sizeBytes },
       logicalMetadataReferencesAndroidVariant: androidVariantLinkCount > 0,
       androidVariantLinkCount: androidVariantLinkCount,
@@ -291,7 +306,8 @@ async function main() {
   if (!outputFile) {
     throw new Error('Usage: node .github/scripts/audit-compose-submodule-publications.mjs <output-json>');
   }
-  const report = await auditComposeSubmodulePublications({ outputFile });
+  const sourceArchiveDirectory = path.join(path.dirname(outputFile), 'compose-source-archives');
+  const report = await auditComposeSubmodulePublications({ outputFile, sourceArchiveDirectory });
   process.stdout.write(JSON.stringify(report, null, 2) + '\n');
 }
 

@@ -203,11 +203,28 @@ export function calculateGitilesBlobHashes(bytes) {
 
 export function verifyReleaseProvenanceManifest(report, manifest) {
   if (!manifest || manifest.schemaVersion !== 1) throw new Error('Compose API provenance manifest must use schema version 1.');
-  if (manifest.status !== 'verified-release-ref-and-api-dump-provenance') {
+  if (manifest.status !== 'verified-release-api-and-source-provenance') {
     throw new Error('Compose API provenance manifest has an unexpected verification status.');
   }
-  if (manifest.sourceArchiveAlignment !== 'unverified') {
-    throw new Error('Compose source archive alignment must remain explicitly unverified.');
+  if (manifest.sourceArchiveAlignment !== 'verified-byte-for-byte') {
+    throw new Error('Compose source archives must remain verified byte for byte against the pinned release commit.');
+  }
+  const alignment = manifest.sourceArchiveAlignmentEvidence;
+  if (alignment?.releaseCommit !== manifest.releaseCommit || !Number.isInteger(alignment?.ciRun) || alignment.ciRun <= 0 || alignment?.families?.length !== 4) {
+    throw new Error('Compose source archive alignment evidence is incomplete or targets another release.');
+  }
+  const expectedAlignmentFamilies = new Set(['compose-ui', 'compose-ui-text', 'compose-foundation', 'compose-foundation-layout']);
+  const actualAlignmentFamilies = new Set(alignment.families.map((family) => family?.id));
+  if (actualAlignmentFamilies.size !== 4 || [...expectedAlignmentFamilies].some((id) => !actualAlignmentFamilies.has(id))) {
+    throw new Error('Compose source archive evidence must cover the four expected families exactly once.');
+  }
+  for (const family of alignment.families) {
+    if (!/^[a-f0-9]{64}$/.test(family.sha256 ?? '') ||
+        !Number.isInteger(family.sizeBytes) || family.sizeBytes <= 0 ||
+        !Number.isInteger(family.jarEntries) || !Number.isInteger(family.matchedFiles) ||
+        family.jarEntries !== family.matchedFiles + 1) {
+      throw new Error('Compose source archive evidence is invalid for ' + (family.id ?? 'unknown family') + '.');
+    }
   }
   if (manifest.referenceVersion !== report.referenceVersion) throw new Error('Compose API provenance reference version drifted.');
   if (manifest.releaseCommit !== report.groups[0]?.commit) throw new Error('Compose API provenance release commit drifted.');
