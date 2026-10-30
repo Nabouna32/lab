@@ -453,8 +453,8 @@ def _descriptor_types_compatible(source_type: str, binary_type: str) -> bool:
     binary_descriptor = api_type_to_jvm_descriptor(binary_type)
     if source_descriptor == binary_descriptor:
         return True
-    function_match = re.fullmatch(r"Lkotlin/jvm/functions/Function(\\d+);", source_descriptor or "")
-    binary_function_match = re.fullmatch(r"Lkotlin/jvm/functions/Function(\\d+);", binary_descriptor or "")
+    function_match = re.fullmatch(r"Lkotlin/jvm/functions/Function(\d+);", source_descriptor or "")
+    binary_function_match = re.fullmatch(r"Lkotlin/jvm/functions/Function(\d+);", binary_descriptor or "")
     return bool(
         function_match and binary_function_match
         and int(binary_function_match.group(1)) == int(function_match.group(1)) + 2
@@ -481,7 +481,10 @@ def _source_matches_bytecode_only(source: dict, bytecode: dict) -> bool:
         for source_type, binary_type in zip(source_parameters, binary_parameters)
     ):
         return False
-    if suffix and binary_parameters[len(source_parameters):] != suffix:
+    if suffix and not all(
+        _descriptor_types_compatible(expected_type, actual_type)
+        for expected_type, actual_type in zip(suffix, binary_parameters[len(source_parameters):])
+    ):
         return False
     return _descriptor_types_compatible(source["returnType"], bytecode["returnType"])
 
@@ -697,9 +700,17 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
                     ):
                         continue
                     suffix_parameters = candidate_parameters[receiver_count:]
-                    if suffix_parameters not in (
+                    valid_suffixes = (
                         ["androidx.compose.runtime.Composer", "int"],
                         ["androidx.compose.runtime.Composer", "int", "int"],
+                    )
+                    if not any(
+                        len(suffix_parameters) == len(suffix)
+                        and all(
+                            _descriptor_types_compatible(expected_type, actual_type)
+                            for expected_type, actual_type in zip(suffix, suffix_parameters)
+                        )
+                        for suffix in valid_suffixes
                     ):
                         continue
                     if candidate_jvm_descriptor.endswith(")" + descriptor):
