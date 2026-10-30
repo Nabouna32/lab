@@ -47,26 +47,43 @@ test("shared Button exports AndroidX component names with source-derived dimensi
     "transition-[background-color,border-color,color,box-shadow]", "motion-reduce:transition-none",
     "--button-disabled-container-color",
     "--button-disabled-content-color",
-    "disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]",
+    "disabled:border-[color-mix(in_srgb,var(--outline-variant)_10%,transparent)]",
     "hover:shadow-[var(--button-elevation-1)]", "hover:shadow-[var(--button-elevation-2)]",
-    "focus-visible:shadow-[var(--button-elevation-1)]", "focus-visible:bg-[color-mix(in_srgb,var(--button-container-color)_88%,var(--button-content-color,var(--primary)))]", "<ButtonRipple />",
+    "focus-visible:shadow-[var(--button-elevation-1)]", "focus-visible:bg-[color-mix(in_srgb,var(--button-container-color)_90%,var(--button-content-color,var(--primary)))]", "<ButtonRipple />",
     'type = "button"',
   ]) assert.ok(buttonContract.includes(required), "missing Button contract: " + required);
   assert.ok(!button.includes('variant?: ButtonVariant'), "public Button API must use AndroidX-named components, not a variant prop");
   assert.ok(!button.includes("primary: filled") && !button.includes("secondary: outlined"), "Loculary legacy aliases must not remain in the public API");
   assert.ok(globalCss.includes("--button-elevation-1:") && globalCss.includes("--button-elevation-2:"));
+  assert.ok(globalCss.includes(".button-ripple__fill {\n  position: absolute;\n  inset: 0;\n  display: block;\n  border-radius: inherit;\n  background: currentColor;\n  opacity: 0.1;"));
+  assert.ok(globalCss.includes('a[data-material-button-link="true"]:active .button-ripple-layer::after { opacity: 0.1; }'));
   assert.ok(!button.includes("active:rounded-[var(--shape-corner-small)]"), "pressed state must not morph the shape in the selected Fidelity direction");
 });
 
 test("Button disabled colors follow AndroidX variant token roles", () => {
+  const variantStyle = (name) => {
+    const start = buttonVariantStyles.indexOf(`const ${name} = [`);
+    if (start < 0) return "";
+    const end = buttonVariantStyles.indexOf("].join", start);
+    return end < 0 ? "" : buttonVariantStyles.slice(start, end);
+  };
+  assert.ok(variantStyle("filled").includes("var(--on-surface)_10%") && variantStyle("filled").includes("var(--on-surface)_38%"));
+  assert.ok(variantStyle("elevated").includes("var(--on-surface)_10%") && variantStyle("elevated").includes("var(--on-surface)_38%"));
+  assert.ok(variantStyle("filledTonal").includes("var(--on-surface)_12%") && variantStyle("filledTonal").includes("var(--on-surface)_38%"));
+  assert.ok(variantStyle("outlined").includes("var(--outline-variant)_10%") && variantStyle("outlined").includes("var(--on-surface-variant)_38%"));
+  assert.ok(variantStyle("text").includes("var(--on-surface-variant)_38%"));
+
   assert.ok(buttonVariantStyles.includes("color-mix(in_srgb,var(--on-surface)_38%,transparent)"), "disabled labels use the AndroidX on-surface role at 38% opacity");
-  assert.ok(buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_12%,transparent))]"), "filled variants use the AndroidX on-surface role at 12% opacity, not their enabled container color");
+  assert.ok(buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_10%,transparent))]"), "Filled and Elevated disabled containers use on-surface at 10% opacity");
+  assert.ok(buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_12%,transparent))]"), "FilledTonal disabled container uses on-surface at 12% opacity");
+  assert.ok(buttonVariantStyles.includes("disabled:border-[color-mix(in_srgb,var(--outline-variant)_10%,transparent)]"), "OutlinedButton disabled outline uses outline-variant at 10% opacity");
+  assert.ok(buttonVariantStyles.includes("disabled:text-[color:var(--button-disabled-content-color,color-mix(in_srgb,var(--on-surface-variant)_38%,transparent))]"), "Outlined and TextButton disabled content uses on-surface-variant at 38%");
   assert.ok(!buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,var(--surface-container-low))]"), "ElevatedButton must not retain its enabled container as the disabled default");
   assert.ok(buttonVariantStyles.includes("hover:bg-[color-mix(in_srgb,var(--button-container-color,var(--primary))_92%,var(--button-content-color,var(--on-primary)))]"), "hover state layer opacity is 8%");
-  assert.ok(buttonVariantStyles.includes("focus-visible:bg-[color-mix(in_srgb,var(--button-container-color,var(--primary))_88%,var(--button-content-color,var(--on-primary)))]"), "focus state layer opacity is 12%");
+  assert.ok(buttonVariantStyles.includes("focus-visible:bg-[color-mix(in_srgb,var(--button-container-color,var(--primary))_90%,var(--button-content-color,var(--on-primary)))]"), "focus state layer opacity is 10%");
   assert.ok(buttonVariantStyles.includes("color-mix(in srgb, var(--surface) 94.88%, var(--surface-tint))"));
   assert.ok(buttonVariantStyles.includes("color-mix(in srgb, var(--surface) 93.06%, var(--surface-tint))"));
-  assert.ok(submitButton.includes("color-mix(in srgb, var(--on-surface) 12%, transparent)"));
+  assert.ok(submitButton.includes("color-mix(in srgb, var(--on-surface) 10%, transparent)"));
   assert.ok(submitButton.includes("color-mix(in srgb, var(--on-surface) 38%, transparent)"));
 });
 
@@ -184,6 +201,19 @@ test("icon button API separates official action variants from toggle variants", 
 });
 
 test("icon toggle states use their own AndroidX color roles instead of action-button defaults", () => {
+  const iconStyleLine = (prefix) => iconButton.split("\n").find((line) => line.trimStart().startsWith(prefix)) ?? "";
+  assert.ok(iconStyleLine("const filled =").includes("var(--on-surface)_38%"));
+  assert.ok(iconStyleLine("const filledTonal =").includes("var(--on-surface)_38%"));
+  assert.ok(iconStyleLine("const outlined =").includes("var(--outline-variant)_38%") && iconStyleLine("const outlined =").includes("var(--on-surface)_38%"));
+  assert.ok(iconStyleLine("standard: ").includes("var(--on-surface-variant)_38%"));
+  assert.ok(iconButton.split("\n").filter((line) => line.trimStart().startsWith("filled: ")).every((line) => line.includes("var(--on-surface)_38%")));
+  const toggleStylesStart = iconButton.indexOf("const toggleUncheckedStyles:");
+  const toggleStylesEnd = iconButton.indexOf("const targetDimensions", toggleStylesStart);
+  const toggleStyles = iconButton.slice(toggleStylesStart, toggleStylesEnd);
+  const filledTonalToggleStyles = toggleStyles.split("\n").filter((line) => line.trimStart().startsWith('"filled-tonal": '));
+  assert.equal(filledTonalToggleStyles.length, 2, "unchecked and checked filled-tonal toggle styles are both explicit");
+  assert.ok(filledTonalToggleStyles.every((line) => line.includes("var(--on-surface)_38%")));
+
   assert.ok(iconButton.includes("const toggleUncheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButton.includes("const toggleCheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButton.includes('filled: "border border-transparent bg-[var(--icon-button-container-color,var(--surface-container))] text-[var(--icon-button-content-color,var(--on-surface-variant))]'));
@@ -192,9 +222,12 @@ test("icon toggle states use their own AndroidX color roles instead of action-bu
   assert.ok(iconButton.includes('filled: "border border-transparent bg-[var(--icon-button-checked-container-color,var(--primary))] text-[var(--icon-button-checked-content-color,var(--on-primary))]'));
   assert.ok(iconButton.includes('"filled-tonal": "border border-transparent bg-[var(--icon-button-checked-container-color,var(--secondary))] text-[var(--icon-button-checked-content-color,var(--on-secondary))]'));
   assert.ok(iconButton.includes('outlined: "border border-transparent bg-[var(--icon-button-checked-container-color,var(--inverse-surface))] text-[var(--icon-button-checked-content-color,var(--inverse-on-surface))]'));
-  assert.ok(iconButton.includes("group-focus-visible:bg-[color-mix(in_srgb,var(--icon-button-container-color,transparent)_88%,var(--icon-button-content-color,var(--on-surface-variant)))]"));
-  assert.ok(iconButton.includes("group-disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
-  assert.ok(iconButton.includes("group-active:bg-[color-mix(in_srgb,var(--icon-button-container-color,transparent)_88%,var(--on-surface))]"), "outlined pressed state uses the AndroidX on-surface role");
+  assert.ok(iconButton.includes("hover 8%, focus 10%, pressed 10%"));
+  assert.ok(iconButton.includes("group-focus-visible:bg-[color-mix(in_srgb,var(--icon-button-container-color,transparent)_90%,var(--icon-button-content-color,var(--on-surface-variant)))]"));
+  assert.ok(iconButton.includes("group-disabled:border-[color-mix(in_srgb,var(--outline-variant)_38%,transparent)]"));
+  assert.ok(iconButton.includes("group-disabled:text-[var(--icon-button-disabled-content-color,color-mix(in_srgb,var(--on-surface)_38%,transparent))]"), "filled and outlined vibrant disabled content uses on-surface");
+  assert.ok(iconButton.includes("group-disabled:text-[var(--icon-button-disabled-content-color,color-mix(in_srgb,var(--on-surface-variant)_38%,transparent))]"), "standard disabled content follows LocalContentColor");
+  assert.ok(iconButton.includes("group-active:bg-[color-mix(in_srgb,var(--icon-button-container-color,transparent)_90%,var(--on-surface-variant))]"), "outlined pressed state uses the AndroidX on-surface-variant role");
   assert.ok(!iconButton.includes("const selectedStyles:"), "legacy selected overlay map must be removed");
 });
 

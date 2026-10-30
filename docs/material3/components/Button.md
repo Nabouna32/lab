@@ -4,20 +4,23 @@
 
 ## Autorité et sources
 
-La référence est le code AndroidX Jetpack Compose Material 3, figé au commit [`2fb1702c1c62a6059e73d757d9e4eda1044ce21d`](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/).
+La référence est le code AndroidX Jetpack Compose Material 3, figé au commit [`5113b82a4ed6416d6344efa50e41db8cb65928ff`](https://github.com/androidx/androidx/commit/5113b82a4ed6416d6344efa50e41db8cb65928ff) de la branche `androidx-compose-material3-release`.
 
-- [Button.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Button.kt)
-- [ButtonTokens.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledButtonTokens.kt)
-- [ElevatedButtonTokens.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/ElevatedButtonTokens.kt)
-- [FilledTonalButtonTokens.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledTonalButtonTokens.kt)
-- [OutlinedButtonTokens.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/OutlinedButtonTokens.kt)
-- [TextButtonTokens.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/TextButtonTokens.kt)
-- [StateTokens.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/StateTokens.kt)
-- [Surface.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Surface.kt)
-- [ColorScheme.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/ColorScheme.kt)
+- [Button.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Button.kt)
+- [BaselineButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/BaselineButtonTokens.kt)
+- [ButtonSmallTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/ButtonSmallTokens.kt)
+- [Ripple.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Ripple.kt)
+- [FilledButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledButtonTokens.kt)
+- [ElevatedButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/ElevatedButtonTokens.kt)
+- [FilledTonalButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledTonalButtonTokens.kt)
+- [OutlinedButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/OutlinedButtonTokens.kt)
+- [TextButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/TextButtonTokens.kt)
+- [StateTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/StateTokens.kt)
+- [Surface.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Surface.kt)
+- [ColorScheme.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/ColorScheme.kt)
 - [Référence API Button](https://developer.android.com/reference/kotlin/androidx/compose/material3/Button.composable), [ButtonDefaults](https://developer.android.com/reference/kotlin/androidx/compose/material3/ButtonDefaults) et [guide officiel](https://developer.android.com/develop/ui/compose/components/button).
 
-La révision source est immuable. La correspondance exacte avec une version publiée de l’artefact Maven n’est pas établie ; les constats ci-dessous portent sur ce snapshot.
+La référence est désormais alignée sur Compose Material 3 1.4.0 stable, commit source `5113b82a4ed6416d6344efa50e41db8cb65928ff`. L’archive des sources publiées a été comparée à 249 fichiers Kotlin du commit, sans divergence ; voir le [manifeste de provenance Material 3 1.4.0](../catalog/baselines/material3-1.4.0.json).
 
 ## Contrat AndroidX vérifié dans la source
 
@@ -27,9 +30,12 @@ La révision source est immuable. La correspondance exacte avec une version publ
 - TextButton : 12 dp horizontal ; avec icône, 12 dp au début et 16 dp à la fin.
 - Icône : 18 dp ; espace icône-libellé : 8 dp.
 - `labelLarge` : 14 sp, graisse moyenne, hauteur de ligne 20 sp, espacement des lettres 0,1 sp.
-- Opacité des couches d’état : survol 8 %, focus 12 %, appui 12 %. Ces valeurs ne sont pas l’alpha du ripple.
+- Opacité des couches d’état : survol 8 %, focus 10 %, appui 10 %, glissement 16 %. `RippleDefaults.RippleAlpha` réutilise ces mêmes tokens pour les états hover/focus/press/drag ; le ripple pressé est donc à 10 %.
 - Les cinq variantes définissent leurs propres couleurs et élévations. `ElevatedButton` applique une teinte de surface à 1 dp au repos et 3 dp au survol ; `Button` et `FilledTonalButton` passent de 0 à 1 dp au survol ; `OutlinedButton` et `TextButton` n’ont pas d’élévation par défaut.
-- Les conteneurs désactivés utilisent le rôle `onSurface` à 12 % et les libellés désactivés à 38 %, selon les tokens des variantes.
+- `Button` et `ElevatedButton` : conteneur désactivé `onSurface` à 10 %, contenu `onSurface` à 38 %.
+- `FilledTonalButton` : conteneur désactivé `onSurface` à 12 %, contenu `onSurface` à 38 %.
+- `OutlinedButton` : conteneur transparent, contour `outlineVariant` à 10 %, contenu `onSurfaceVariant` à 38 %.
+- `TextButton` : conteneur transparent, contenu `onSurfaceVariant` à 38 %.
 
 Les valeurs Android dp/sp sont traduites en unités CSS pour le port Web. Une égalité numérique ne garantit pas une taille physique identique ni un rendu pixel à pixel.
 
@@ -64,10 +70,12 @@ AndroidX ne définit pas de variante « destructive ». Le sens métier ne suffi
 - [x] Vérifier les dimensions, couleurs, élévations et états des cinq variantes dans les sources.
 - [x] Partager le contrat de layout entre `Button` et `AppLink`.
 - [ ] Inventorier tous les usages de production et migrer les styles locaux hérités.
-- [ ] Vérifier en navigateur les couleurs calculées, le contraste et les états en thèmes clair/sombre.
-- [ ] Vérifier l’origine, le découpage, l’annulation et le clavier du ripple ainsi que la réduction des animations.
-- [ ] Tester les libellés FR/EN longs, les petits écrans, l’alignement des icônes et le zoom à 200 %.
-- [ ] Exécuter tests, lint, vérification TypeScript et build sur le dernier commit.
+- [x] Vérifier en Chromium les couleurs calculées des cinq variantes en thème clair, les états hover/disabled, le basculement clair/sombre sur la variante filled et le reflow à 320, 360, 390, 768, 1024, 1440 et 1920 CSS px sur une surface de test locale.
+- [ ] Terminer la revue du contraste en contexte : axe-core ne relève aucune violation sur la surface de test, mais conserve un résultat `color-contrast` incomplet qui nécessite une vérification manuelle.
+- [x] Vérifier l’origine du ripple, son clipping, la libération sur `pointerup` et `pointercancel`, le déclenchement clavier, le nettoyage après animation et l’absence de ripple sous `prefers-reduced-motion`.
+- [x] Vérifier l’absence de débordement horizontal sur petits écrans et grands écrans (320–1920 CSS px) sur la surface de test.
+- [ ] Tester les libellés FR/EN longs, l’alignement des icônes et le zoom à 200 %.
+- [x] Exécuter tests, lint, vérification TypeScript et build sur le dernier commit : 744 tests réussis, 2 ignorés ; lint sans erreur (8 avertissements existants) ; TypeScript et build réussis ; CI #4611 verte sur `080b627`.
 - [ ] Comparer le rendu navigateur aux références épinglées et consigner les écarts observés.
 
-Les assertions statiques et une CI verte ne prouvent pas la fidélité visuelle. Tant que le navigateur n’a pas été vérifié, le rendu reste non vérifié.
+Validation navigateur locale du 30 octobre 2026 : Chromium/Playwright sur une route de test temporaire non livrée, sans Preview ni déploiement. Les cinq variantes ont été inspectées en thème clair/sombre ; les couleurs disabled ont été comparées aux rôles par variante. Le ripple a été exercé par pointeur et clavier, y compris `pointercancel`, puis sous réduction des animations. axe-core 4.14.0 ne détecte aucune violation WCAG 2.0/2.1 A/AA ni WCAG 2.2 AA sur cette surface ; `color-contrast` et `label-content-name-mismatch` restent incomplets et demandent une revue manuelle. Cette vérification ciblée ne vaut pas déclaration de conformité globale. L’inventaire exhaustif des usages de production et la comparaison visuelle aux références AndroidX restent à faire.
