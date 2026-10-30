@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { PageContainer } from "@/components/layout/PageLayout";
 import { assignAdminRole, removeAdminRole, revokeUserSessions, suspendUser, unsuspendUser } from "./actions";
 import { requireAdminPermission } from "@/lib/admin/authorization";
 import { createClient } from "@/lib/supabase/server";
@@ -60,7 +59,7 @@ export default async function AdminUsersPage({
 
   return (
     <main className="min-h-[calc(100vh-4.5rem)]">
-      <PageContainer width="default" spacing="none" className="py-[var(--space-8)] sm:py-[var(--space-10)]">
+      <div className="mx-auto w-full max-w-[var(--layout-content-default)] px-[var(--layout-page-gutter)] py-[var(--space-8)] sm:py-[var(--space-10)]">
       <Link href={`/${locale}/admin`} className="m3-type-label-large text-[var(--primary)]">{t.admin.usersBack}</Link>
 
       <header className="mt-6">
@@ -181,7 +180,7 @@ export default async function AdminUsersPage({
       ) : (
         <p className="mt-8 border-y border-[var(--border)] bg-[var(--surface-soft)] px-4 py-5 text-[var(--muted)]">{t.admin.usersNoResults}</p>
       )}
-      </PageContainer>
+      </div>
     </main>
   );
 }

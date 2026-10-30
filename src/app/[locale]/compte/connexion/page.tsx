@@ -1,5 +1,4 @@
 import AppLink from "@/components/ui/AppLink";
-import { PageContainer } from "@/components/layout/PageLayout";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
 import { Column } from "@/components/layout/compose/Column";
 import { notFound } from "next/navigation";
@@ -29,25 +28,21 @@ export default async function SignInPage({
   if (claimsData?.claims) {
     return (
       <main>
-        <PageContainer
-          width="account"
-          spacing="none"
-          className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]"
-        >
+        <div className="mx-auto w-full max-w-[var(--layout-content-account)] px-[var(--layout-page-gutter)]  flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
           <Panel as="section" className="w-full text-center">
             <h1 className="m3-type-title-large">{t.account.alreadySignedIn}</h1>
             <AppLink variant="inline" className="mt-6 inline-flex" href={`/${locale}/compte`}>
               {t.account.title}
             </AppLink>
           </Panel>
-        </PageContainer>
+        </div>
       </main>
     );
   }
 
   return (
     <main>
-      <PageContainer width="form" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
+      <div className="mx-auto w-full max-w-[var(--layout-content-form)] px-[var(--layout-page-gutter)]  flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
         <Panel as="section" className="w-full">
           <p className="m3-type-label-large text-[var(--primary)]">{t.account.label}</p>
           <h1 className="mt-2 m3-type-headline-large">{t.account.signIn}</h1>
@@ -96,7 +91,7 @@ export default async function SignInPage({
             <AppLink variant="inline" href={`/${locale}/compte/inscription`}>{t.account.signUp}</AppLink>
           </p>
         </Panel>
-      </PageContainer>
+      </div>
     </main>
   );
 }

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { OutlinedCard } from "@/components/ui/Card";
-import { PageContainer } from "@/components/layout/PageLayout";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getToolById } from "@/lib/tools/catalog";
@@ -19,7 +18,7 @@ export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
 
   return (
     <main className="min-h-full">
-      <PageContainer width="wide" spacing="compact">
+      <div className="mx-auto w-full max-w-[var(--layout-content-wide)] px-[var(--layout-page-gutter)] py-[var(--space-6)] sm:py-[var(--space-8)] lg:py-[var(--space-10)]">
         <OutlinedCard className="p-6 sm:p-9">
           <header className="max-w-3xl">
             <p className="m3-type-label-small text-[var(--primary)]">{copy.eyebrow}</p>
@@ -82,7 +81,7 @@ export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
             {copy.openTools}<MaterialIcon name="arrow_forward" size={18} />
           </Link>
         </div>
-      </PageContainer>
+      </div>
     </main>
   );
 }

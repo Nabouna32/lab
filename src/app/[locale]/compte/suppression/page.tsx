@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { deleteAccount } from "../actions";
-import { PageContainer } from "@/components/layout/PageLayout";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
 import { Column } from "@/components/layout/compose/Column";
 import SubmitButton from "@/components/account/SubmitButton";
@@ -31,7 +30,7 @@ export default async function DeleteAccountPage({
 
   return (
     <main>
-      <PageContainer width="form-wide" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
+      <div className="mx-auto w-full max-w-[var(--layout-content-form-wide)] px-[var(--layout-page-gutter)] flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
       <Panel as="section" className="w-full border-[var(--danger)]/40">
         <p className="m3-type-label-large text-[var(--danger-foreground)]">{t.account.deleteAccount}</p>
         <h1 className="mt-2 m3-type-headline-large">{t.account.deleteAccountTitle}</h1>
@@ -75,7 +74,7 @@ export default async function DeleteAccountPage({
           {t.account.title}
         </Link>
       </Panel>
-      </PageContainer>
+      </div>
     </main>
   );
 }

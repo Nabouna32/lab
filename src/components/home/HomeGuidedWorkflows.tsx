@@ -1,4 +1,3 @@
-import { PageContainer } from "@/components/layout/PageLayout";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getGuidedWorkflowsPath } from "@/lib/tools/routes";
@@ -14,11 +13,7 @@ export default function HomeGuidedWorkflows({ locale }: { locale: Locale }) {
 
   return (
     <section aria-label={t.guidedWorkflows.homeTitle}>
-      <PageContainer
-        width="wide"
-        spacing="none"
-        className="pb-[var(--space-8)] sm:pb-[var(--space-10)]"
-      >
+      <div className="mx-auto w-full max-w-[var(--layout-content-wide)] px-[var(--layout-page-gutter)] pb-[var(--space-8)] sm:pb-[var(--space-10)]">
         <CardLink
           href={getGuidedWorkflowsPath(locale)}
           className="group block min-h-20 p-4 transition-[background-color,border-color] duration-[var(--motion-standard)] hover:bg-[var(--surface-container-low)] motion-reduce:transition-none"
@@ -49,7 +44,7 @@ export default function HomeGuidedWorkflows({ locale }: { locale: Locale }) {
             </span>
           </Row>
         </CardLink>
-      </PageContainer>
+      </div>
     </section>
   );
 }
