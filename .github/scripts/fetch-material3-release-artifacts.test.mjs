@@ -12,8 +12,8 @@ import {
 const zipBytes = Buffer.from([0x50, 0x4b, 0x03, 0x04, 0x00]);
 const moduleBytes = (name, url) => Buffer.from(JSON.stringify({
   formatVersion: "1.1",
-  ...(url ? { url } : {}),
   component: {
+    ...(url ? { url } : {}),
     group: "androidx.compose.material3",
     module: name,
     version: "1.4.0",
