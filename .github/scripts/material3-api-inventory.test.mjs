@@ -340,3 +340,33 @@ test('preserves annotations attached to AndroidX API package declarations', () =
     ],
   }]);
 });
+
+
+const CLASSIFICATION_DUMP = `// Signature format: 4.0
+package androidx.compose.sample {
+  public final class SampleKt {
+    method @KotlinOnly @Deprecated @androidx.compose.sample.ExperimentalSample public static void sample();
+    method @BytecodeOnly public static void sample-impl();
+  }
+}
+`;
+
+test('classifies generated JVM facades and preserves Kotlin-only and API maturity markers', () => {
+  const result = inventoryApiDump(CLASSIFICATION_DUMP, {
+    artifact: 'androidx.compose.sample:sample',
+    version: '1.0.0',
+    commit: COMMIT,
+    sourcePath: 'compose/sample/api/current.txt',
+  });
+
+  assert.equal(result.declarationCount, 3);
+  assert.equal(result.generatedFacadeCount, 1);
+  assert.equal(result.kotlinOnlyCount, 1);
+  assert.equal(result.experimentalCount, 1);
+  assert.equal(result.deprecatedCount, 1);
+  assert.equal(result.sourceApiCandidateCount, 1);
+  assert.equal(result.declarations[0].classification, 'generated-jvm-facade');
+  assert.equal(result.declarations[1].classification, 'kotlin-only');
+  assert.equal(result.declarations[1].apiStatus, 'deprecated');
+  assert.ok(result.declarations[1].annotations.includes('@Deprecated'));
+});
