@@ -364,7 +364,7 @@ def api_type_to_jvm_descriptor(type_name: str, is_return: bool = False) -> str |
     }
     if value in value_classes:
         if nullable:
-            return "L" + value.replace(".", "/") + ";"
+            return _boxed_api_type_descriptor(value)
         return value_classes[value]
 
     aliases = {
