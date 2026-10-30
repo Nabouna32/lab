@@ -70,7 +70,7 @@ Administrative authorization now has a database foundation separate from executa
 
 Schema migrations are applied by the assistant through the available Supabase connector; there is no separate GitHub Actions database-release workflow. Migration SQL remains versioned in Git.
 
-For each change, review its SQL and impact before applying it, obtain explicit user approval for consequential or destructive operations, and verify the migration version recorded remotely plus the affected schema/security state. Report only checks actually performed; applying a migration does not mean local tests or pgTAP/concurrency checks ran.
+For each change, review its SQL and impact before applying it, and verify the migration version recorded remotely plus the affected schema/security state. Report only checks actually performed; applying a migration does not mean local tests or pgTAP/concurrency checks ran.
 
 ### Sauvegardes avant opération destructive
 
