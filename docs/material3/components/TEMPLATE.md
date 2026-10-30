@@ -1,87 +1,81 @@
 # <Official AndroidX component name>
 
-> **Inventory:** <catalog ID / artifact / version>  
-> **Source status:** UNVERIFIED  
-> **Port status:** À inventorier  
-> **Migration status:** À inventorier
+> **Inventaire :** <catalog ID / artifact / version>  
+> **État des sources :** UNVERIFIED  
+> **État du portage :** À inventorier  
+> **État de migration :** À inventorier
 
-## Identity and scope
+## Identité et périmètre
 
-- Official Kotlin API/package:
-- Artifact and version:
-- API maturity: stable / experimental / deprecated / unknown
-- Related APIs and overloads:
-- Explicit exclusions and rationale:
+- API/package Kotlin officiel :
+- Artefact et version :
+- Maturité de l'API : stable / experimental / deprecated / unknown
+- API et surcharges associées :
+- Exclusions explicites et justification :
 
-## Pinned evidence
+## Sources immuables et preuves
 
-- Maven artifact and exact version:
-- Published source archive URL and SHA-256:
-- Immutable AndroidX repository commit and URL, if identified:
-- Exact Kotlin source paths:
-- Exact API dump path and SHA-256, if used:
-- Official API reference:
-- Official usage/design guidance:
-- Evidence linking the published artifact, source archive, repository commit, and API dump:
-- Explicit provenance gaps:
+- Artefact Maven et version exacte :
+- URL de l'archive source publiée et SHA-256 :
+- Commit immuable du dépôt AndroidX et URL, si identifié :
+- Chemins exacts des fichiers Kotlin :
+- Chemin du fichier API public :
+- Référence API officielle :
+- Recommandations officielles d'utilisation :
+- Date de récupération et méthode de vérification :
 
-A checksum-verified official release source archive can anchor the semantic contract when the producing Git commit is unknown. In that case, mark repository/API-dump alignment `UNVERIFIED`; do not imply the commit or API dump matches the published artifact until proven.
+## Contrat public
 
-## Public contract
+Décrire les signatures, paramètres, valeurs par défaut, variantes et types publics, en distinguant les faits vérifiés des interprétations.
 
-Document every relevant public overload, parameter, type, default, annotation, and deprecation from evidence. Link back to the catalog entries. Do not silently omit experimental APIs or overloads.
+## Comportement établi par la source
 
-## Source-derived behavior
+Décrire les états, transitions, interactions, règles de layout, sémantiques, comportements d'accessibilité et éventuelles différences de plateforme.
 
-- Layout and measurement:
-- Tokens, typography, shapes, colors, and elevation:
-- State model and defaults:
-- Interaction and transition sequence:
-- Semantics and accessibility:
-- Platform/version differences:
-- Unknowns requiring investigation:
+## Audit de Loculary
 
-Distinguish facts directly established by source from interpretations.
+- Implémentation(s) actuelle(s) :
+- Fichiers et consommateurs :
+- Comportements observés :
+- Écarts par rapport à AndroidX :
+- Risques et incertitudes :
 
-## Loculary audit
+## Contrat du portage React/Web
 
-- Existing implementation path(s):
-- Verified production call sites:
-- Existing tests:
-- Reuse, replace, or create:
-- Relevant design-system decisions:
+- Nom et API exposés :
+- Sémantique HTML/ARIA :
+- Adaptations Web nécessaires :
+- Extensions propres au produit, le cas échéant :
+- États et interactions :
+- Thèmes, responsive, langues et réduction des animations :
+- Éléments volontairement non portés et justification :
 
-## React/Web port contract
+Utiliser les étiquettes `ANDROIDX`, `WEB-ADAPTATION`, `LOCULARY-EXTENSION` et `UNVERIFIED` pour distinguer la provenance et le niveau de preuve. Ne pas créer d'extension propre à Loculary lorsqu'un composant AndroidX ou une adaptation Web pertinente couvre déjà le besoin.
 
-For each deviation, label it explicitly:
+## Plan et résultats de vérification
 
-- `ANDROIDX` — behavior directly supported by the pinned AndroidX source.
-- `WEB-ADAPTATION` — required or appropriate adaptation to browser/platform semantics.
-- `LOCULARY-EXTENSION` — deliberate product-specific addition.
-- `UNVERIFIED` — not yet established by evidence.
+- [ ] Vérification des sources et du contrat public.
+- [ ] Tests de contrat et de comportement.
+- [ ] Vérification clavier et focus.
+- [ ] Vérification des technologies d'assistance.
+- [ ] Vérification des thèmes clair et sombre.
+- [ ] Vérification des contenus français et anglais.
+- [ ] Vérification responsive et zoom/reflow.
+- [ ] Vérification du rendu navigateur par comparaison avec la référence.
+- [ ] Inventaire et migration des consommateurs de production.
+- [ ] Suppression des anciennes implémentations devenues inutiles.
 
-Describe HTML semantics, keyboard behavior, focus management, ARIA/state announcements, pointer/touch behavior, responsive layout, reduced motion, and FR/EN content as applicable.
+Indiquer les commandes, résultats, environnements, versions, viewports, langues, thèmes et états réellement vérifiés. Une case cochée doit correspondre à une preuve disponible ; une vérification non effectuée reste explicitement en attente.
 
-## Verification plan and results
+## Écarts et décisions
 
-- [ ] API and source cross-check
-- [ ] Unit/contract tests
-- [ ] Keyboard and assistive-technology checks
-- [ ] Light and dark theme
-- [ ] French and English
-- [ ] Relevant viewport sizes and responsive states
-- [ ] Reduced motion
-- [ ] Real browser comparison against pinned reference
-- [ ] Existing production call sites and affected journeys
-- [ ] Lint, typecheck, tests, and build as appropriate
+Documenter chaque écart connu, son impact, les options considérées, la décision et les critères qui permettraient de le résoudre.
 
-For every completed check, record the actual command or environment, result, and remaining limitations. CI green or screenshot similarity alone is not proof of fidelity.
+## Cycle de vie
 
-## Gaps and decisions
-
-| Gap | Impact | Evidence/action needed | Status |
-|---|---|---|---|
-
-## Lifecycle
-
-Track independently: inventory presence, source review, specification, implementation, verification, and production migration. Never infer one status from another.
+- Date de création / dernière revue :
+- Version AndroidX de référence :
+- Statut : UNVERIFIED / IN-PROGRESS / VERIFIED / DEPRECATED
+- Consommateurs migrés :
+- Travail restant :
+- Décision ou spécification remplacée, le cas échéant :

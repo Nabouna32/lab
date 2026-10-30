@@ -1,61 +1,62 @@
-# Loculary — Tool Architecture
+# Loculary — Architecture des outils
 
-## Model
+## Modèle
 
-Loculary supports three levels: small tools, advanced tools, and mini-applications. All share a common platform contract while retaining tool-specific UX and visual identity.
+Loculary prend en charge trois niveaux de complexité : les petits outils, les outils avancés et les mini-applications. Tous partagent un contrat de plateforme commun, tout en conservant les interactions, visualisations et besoins propres à chaque outil.
 
-## Contract
+## Contrat
 
-A tool should declare identity, slug, localized content, complexity, version, categories, centrally managed tags and aliases, SEO metadata, examples, processing/privacy classification, capabilities, browser requirements, offline capability, sharing/state behavior, related tools, accessibility/performance expectations, and lifecycle state.
+Un outil doit déclarer son identité, son slug, ses contenus localisés, son niveau de complexité, sa version, ses catégories, ses tags et alias gérés de manière centralisée, ses métadonnées SEO, ses exemples, sa classification de traitement et de confidentialité, ses capacités, ses exigences navigateur, sa compatibilité hors ligne, le comportement de partage et d'état, ses outils associés, ses exigences d'accessibilité et de performance, ainsi que son état de cycle de vie.
 
-## UX contract
+## Contrat d'expérience utilisateur
 
-Tool pages prioritize inputs, result, actions, explanation, then documentation. Inputs should prevent impossible values where practical. Errors are clear and actionable. Reset is systematic. Sharing may represent a blank tool, configured state, or result/state when safe.
+Les pages d'outils doivent permettre d'identifier rapidement les saisies, le résultat et les actions utiles, tout en proposant les explications et la documentation nécessaires. Cet ordre exprime une priorité, pas une composition visuelle rigide. Lorsque cela est pertinent, les champs doivent empêcher les valeurs impossibles. Les erreurs doivent être claires et permettre d'agir. La réinitialisation doit être prévue pour les outils qui possèdent un état. Le partage peut représenter un outil vierge, un état configuré ou un résultat, lorsque cela ne présente pas de risque.
 
-## Capabilities
+Les composants d'interface doivent réutiliser les composants AndroidX et leurs adaptations Web ainsi que les conventions éprouvées correspondantes. Les différences entre outils doivent répondre à leurs besoins métier et ne pas réimplémenter les patterns communs.
 
-Capabilities can include local processing, file input, clipboard, camera, microphone, geolocation, external network, account data and server/database access. Access must be explicit and enforceable.
+## Capacités
 
-Capabilities are runtime permissions, not only descriptive metadata. The ToolPage provides a tool-scoped runtime containing exactly the capabilities declared by the resolved tool. Platform APIs are exposed through this runtime rather than being called directly by tool implementations.
+Les capacités peuvent inclure le traitement local, l'accès aux fichiers, au presse-papiers, à la caméra, au microphone, à la géolocalisation, au réseau externe, aux données de compte et au serveur ou à la base de données. Leur accès doit être explicite et contrôlable.
 
-The runtime currently enforces the clipboard capability. Additional browser, storage and network capabilities should follow the same pattern as their platform abstractions are introduced.
+Les capacités sont des autorisations d'exécution, et non de simples métadonnées descriptives. `ToolPage` fournit un environnement d'exécution limité à l'outil, qui contient exactement les capacités déclarées par l'outil résolu. Les API de la plateforme sont exposées par cet environnement plutôt que d'être appelées directement par les implémentations des outils.
 
-### Access
+L'environnement d'exécution applique actuellement la capacité presse-papiers. Les autres capacités navigateur, stockage et réseau doivent suivre le même modèle à mesure que leurs abstractions de plateforme sont introduites.
 
-Access is a separate axis from processing:
+### Accès
 
-- `anonymous` — usable without an account;
-- `account` — requires an authenticated account;
-- `premium` — requires the relevant paid entitlement.
+L'accès est un axe distinct du traitement :
 
-A server-backed or external tool is not automatically premium. Processing location and access policy remain independent decisions.
+- `anonymous` — utilisable sans compte ;
+- `account` — nécessite un compte authentifié ;
+- `premium` — nécessite le droit d'accès payant correspondant.
 
-## Lifecycle
+Un outil reposant sur un serveur ou un service externe n'est pas automatiquement premium. Le lieu du traitement et la politique d'accès restent des décisions indépendantes.
 
-Tool definitions in the Git-backed catalog use the lifecycle states `draft`, `review`, `published`, `hidden` and `archived`. Only published tools are exposed through the public catalog. These states are Git-backed metadata; they do not imply that catalog editing or publishing is available through an admin UI.
+## Cycle de vie
 
-## Processing
+Les définitions d'outils du catalogue géré dans Git utilisent les états de cycle de vie `draft`, `review`, `published`, `hidden` et `archived`. Seuls les outils publiés sont exposés dans le catalogue public. Ces états sont des métadonnées gérées dans Git ; ils ne signifient pas que la modification ou la publication du catalogue est disponible dans une interface d'administration.
 
-Every tool identifies local, external-service, server or hybrid processing and explains what data is transmitted, where and why.
+## Traitement
 
-## Heavy tools
+Chaque outil identifie un traitement local, par service externe, côté serveur ou hybride, et explique quelles données sont transmises, où et pour quelle raison.
 
-Use Web Workers, WebAssembly, chunking and streaming when justified. Simple tools must not inherit heavy infrastructure merely for consistency.
+## Outils exigeants en ressources
 
+Utiliser les Web Workers, WebAssembly, le traitement par blocs et le streaming lorsque les besoins le justifient. Les outils simples ne doivent pas hériter d'une infrastructure lourde au seul motif de maintenir une uniformité technique.
 
-## Registry and execution modules
+## Registre et modules d'exécution
 
-Published tools are resolved through a central registry. The registry maps a stable tool identifier to an independently loadable implementation module.
+Les outils publiés sont résolus au moyen d'un registre central. Celui-ci associe un identifiant d'outil stable à un module d'implémentation pouvant être chargé indépendamment.
 
-A module may contain a custom UI, tool-specific logic and tool-owned editorial/documentation content; it is not required to conform to a generic form renderer. The registry resolves the executable tool and its editorial component together so tool-specific content does not accumulate in a central switch. The generic route and ToolPage shell provide shared platform infrastructure such as metadata, trust indicators, documentation, related tools and future common actions.
+Un module peut contenir une interface spécialisée, la logique propre à l'outil et son contenu éditorial ou documentaire ; il n'est pas obligé de se conformer à un moteur générique de formulaires. Le registre résout ensemble l'outil exécutable et son composant éditorial afin d'éviter l'accumulation de contenus propres aux outils dans un switch central. La route générique et l'enveloppe `ToolPage` fournissent l'infrastructure partagée de la plateforme, notamment les métadonnées, les indicateurs de confiance, la documentation, les outils associés et les futures actions communes.
 
-The registry is the executable bridge between the catalog and tool implementations. Catalog metadata and future database-backed product data must not be treated as a substitute for executable module code.
+Le registre est le lien exécutable entre le catalogue et les implémentations des outils. Les métadonnées du catalogue et de futures données produit stockées en base ne doivent pas être considérées comme un substitut au code des modules exécutables.
 
-New published tools should therefore normally require:
+Un nouvel outil publié nécessite donc normalement :
 
-1. a catalog definition;
-2. a registered implementation module with its tool-owned editorial component;
-3. automated registry coverage;
-4. the relevant tool tests.
+1. une définition dans le catalogue ;
+2. un module d'implémentation enregistré avec son composant éditorial propre ;
+3. une couverture automatisée du registre ;
+4. les tests pertinents pour cet outil.
 
-The public route is resolved dynamically from the tool category and slug, allowing the catalog to scale without one App Router page per tool.
+La route publique est résolue dynamiquement à partir de la catégorie et du slug de l'outil, ce qui permet au catalogue de croître sans créer une page App Router par outil.

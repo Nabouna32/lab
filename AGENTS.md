@@ -50,7 +50,7 @@ Deux modes de travail sont possibles. Le mode collaboratif est le mode par défa
 
 ## Mise en œuvre
 
-- Pour toute évolution visuelle, préserver l'ambition d'une application Android Material 3 Fidelity soignée, proche de la qualité d'une application Pixel. Ne pas choisir une interface générique ou appauvrie au seul motif qu'elle est plus rapide à coder ; consulter `docs/DESIGN-SYSTEM.md` et les spécifications AndroidX pertinentes.
+- Pour toute évolution visuelle, préserver l'ambition d'une application Android Material 3 Fidelity soignée, proche de la qualité d'une application Pixel. Cette direction visuelle est fixe. S'appuyer sur les composants AndroidX et leurs adaptations Web, ainsi que sur les conventions d'interface familières et éprouvées des applications Pixel et des applications grand public de qualité. Ne pas inventer un nouveau pattern lorsque les modèles reconnus répondent déjà au besoin ; ne pas choisir une interface générique ou appauvrie au seul motif qu'elle est plus rapide à coder. Consulter `docs/DESIGN-SYSTEM.md` et les spécifications AndroidX pertinentes.
 
 - Privilégie la solution la plus simple qui répond durablement au besoin, sans sacrifier la qualité. Évite les abstractions, duplications et contraintes destinées à des besoins hypothétiques.
 - Selon la tâche, vérifie les cas limites, les états d'interface, le responsive, le clavier et les technologies d'assistance, les animations réduites, les performances et les traductions françaises et anglaises.

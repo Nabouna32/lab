@@ -1,332 +1,332 @@
-# Loculary — Privacy and Processing Principles
+# Loculary — Principes de confidentialité et de traitement
 
-## Goal
+## Objectif
 
-Loculary's privacy model is based on a simple principle:
+Le modèle de confidentialité de Loculary repose sur un principe simple :
 
-> **Transparency is part of trust.**
+> **La transparence fait partie de la confiance.**
 
-Users should not have to guess what Loculary does with their data. The product should make data flows understandable, inspectable, and controllable.
+Les utilisateurs ne doivent pas avoir à deviner ce que Loculary fait de leurs données. Le produit doit rendre les flux de données compréhensibles, vérifiables et contrôlables.
 
-The default engineering position is:
+La position technique par défaut est la suivante :
 
-> **If a tool can process data locally, keep the data local.**
+> **Lorsqu'un outil peut traiter les données localement, elles doivent rester locales.**
 
-This document is an engineering/product direction, not a legal privacy notice. Actual public launch documentation must be reviewed against implemented data flows and applicable law.
+Ce document définit une orientation produit et technique ; il ne constitue pas une notice juridique de confidentialité. Avant le lancement public, la documentation destinée aux utilisateurs doit être vérifiée au regard des flux réellement implémentés et du droit applicable.
 
-## Processing classifications
+## Classifications des traitements
 
-Every tool must declare its processing classification:
+Chaque outil doit déclarer sa classification de traitement.
 
 ### Local
 
-All relevant processing occurs on the user's device.
+Tous les traitements concernés sont effectués sur l'appareil de l'utilisateur.
 
-User-facing message:
+Message destiné à l'utilisateur :
 
 > 🔒 **Vos fichiers restent sur votre appareil.**
 
-Where appropriate, the UI should explain that processing occurs locally and whether the tool uses browser APIs, Web Workers, WebAssembly, or other client-side technology.
+Lorsque cela est utile, l'interface doit préciser que le traitement est local et indiquer si l'outil utilise les API du navigateur, des Web Workers, WebAssembly ou une autre technologie côté client.
 
-### External
+### Externe
 
-The browser sends selected data to an external provider.
+Le navigateur transmet certaines données sélectionnées à un fournisseur externe.
 
-The tool must explain:
+L'outil doit expliquer :
 
-- provider;
-- destination/domain;
-- data transmitted;
-- purpose;
-- storage/retention information when known;
-- service dependency;
-- relevant provider privacy policy;
-- failure/fallback behavior.
+- le fournisseur ;
+- la destination ou le domaine ;
+- les données transmises ;
+- la finalité ;
+- les informations de stockage et de conservation lorsqu'elles sont connues ;
+- la dépendance à ce service ;
+- la référence à sa politique de confidentialité ;
+- le comportement en cas d'échec ou de solution de repli.
 
-### Loculary server
+### Serveur Loculary
 
-The operation requires Loculary infrastructure.
+L'opération nécessite l'infrastructure de Loculary.
 
-The same transparency requirements apply, including:
+Les mêmes exigences de transparence s'appliquent, notamment :
 
-- what data is sent;
-- why it is required;
-- where it is stored;
-- retention period;
-- who can access it;
-- deletion behavior;
-- relevant security controls.
+- les données envoyées ;
+- la raison de leur transmission ;
+- leur lieu de stockage ;
+- la durée de conservation ;
+- les personnes ou systèmes qui peuvent y accéder ;
+- les modalités de suppression ;
+- les mesures de sécurité pertinentes.
 
-### Hybrid
+### Hybride
 
-Part of the operation occurs locally and part through a remote service.
+Une partie de l'opération est réalisée localement et une autre par un service distant.
 
-The boundary must be explicit. The UI must not describe a hybrid operation as simply "local".
+La frontière entre les deux traitements doit être explicite. L'interface ne doit pas présenter une opération hybride comme étant simplement « locale ».
 
-## Mandatory processing declaration
+## Déclaration obligatoire du traitement
 
-Processing classification is part of the Tool contract, not optional marketing metadata.
+La classification du traitement fait partie du contrat des outils ; ce n'est pas une simple métadonnée marketing facultative.
 
-A tool definition should be able to declare at minimum:
+Une définition d'outil doit pouvoir déclarer au minimum :
 
-- processing location;
-- transmitted data categories;
-- external providers;
-- storage behavior;
-- retention;
-- required browser permissions;
-- capabilities used;
-- fallback behavior;
-- privacy-sensitive operations.
+- le lieu du traitement ;
+- les catégories de données transmises ;
+- les fournisseurs externes ;
+- le comportement de stockage ;
+- la conservation ;
+- les permissions navigateur nécessaires ;
+- les capacités utilisées ;
+- le comportement de repli ;
+- les opérations sensibles du point de vue de la confidentialité.
 
-This metadata should be available to the UI, search/filtering, documentation, auditing, and automated checks.
+Ces métadonnées doivent pouvoir être utilisées par l'interface, la recherche et les filtres, la documentation, les audits et les contrôles automatisés.
 
-## Privacy detail view
+## Détails sur la confidentialité
 
-The short status indicator should link to a tooltip, expandable explanation, or dedicated privacy/processing view.
+L'indicateur de statut succinct doit mener à une infobulle, une explication dépliable ou une vue dédiée au traitement et à la confidentialité.
 
-The detailed view should answer, in plain language:
+Cette vue détaillée doit répondre en langage clair aux questions suivantes :
 
-1. Where is the processing performed?
-2. What data leaves the device?
-3. Where is it sent?
-4. Why is it needed?
-5. Is it stored?
-6. For how long, if applicable?
-7. Which third parties are involved?
-8. What browser permissions are requested?
-9. What happens if the external service is unavailable?
-10. Can the user use the tool without the optional data?
+1. Où le traitement est-il effectué ?
+2. Quelles données quittent l'appareil ?
+3. Où sont-elles envoyées ?
+4. Pourquoi leur transmission est-elle nécessaire ?
+5. Sont-elles stockées ?
+6. Pendant combien de temps, le cas échéant ?
+7. Quels tiers interviennent ?
+8. Quelles permissions du navigateur sont demandées ?
+9. Que se passe-t-il si le service externe est indisponible ?
+10. L'utilisateur peut-il utiliser l'outil sans fournir les données facultatives ?
 
-Technical details may be available for users who want deeper inspection.
+Les détails techniques peuvent être accessibles aux personnes qui souhaitent approfondir.
 
-## Data minimization
+## Minimisation des données
 
-If a tool does not need a data field, it must not request it.
+Un outil ne doit pas demander un champ de données dont il n'a pas besoin.
 
-Inputs should be limited to the minimum information required to perform the operation.
+Les saisies doivent se limiter aux informations strictement nécessaires à l'opération.
 
-Client-provided data must always be considered untrusted. Server-side validation and authorization remain mandatory even when the client UI already validates the same input.
+Toute donnée fournie par le client doit être considérée comme non fiable. La validation et l'autorisation côté serveur restent obligatoires, même lorsque l'interface cliente valide déjà la même saisie.
 
-## Browser permissions
+## Permissions du navigateur
 
-Tools must explicitly declare required browser capabilities, such as:
+Les outils doivent déclarer explicitement les capacités du navigateur nécessaires, par exemple :
 
-- file access;
-- clipboard;
-- camera;
-- microphone;
-- geolocation;
+- accès aux fichiers ;
+- presse-papiers ;
+- caméra ;
+- microphone ;
+- géolocalisation ;
 - notifications.
 
-Permissions should be requested only when needed and as close as practical to the user action requiring them.
+Les permissions doivent être demandées uniquement lorsqu'elles sont nécessaires et, autant que possible, au moment de l'action utilisateur qui les requiert.
 
-A tool must not request broad permissions merely for convenience.
+Un outil ne doit pas demander des permissions étendues par simple commodité.
 
-## Scope of local-processing disclosures
+## Portée des déclarations de traitement local
 
-The local-processing message describes the **inputs and results of the current tool**, not every piece of product state Loculary may keep. Some separate features can store non-sensitive tool identifiers or favorites in browser storage, and account features may synchronize favorites or collections. The disclosure must not imply that Loculary never stores any data at all. It should state whether this tool sends its inputs/results to a server or saves them to an account/history. Explicit user actions such as copying or downloading a result remain under the user's control.
+Le message relatif au traitement local décrit les **saisies et les résultats de l'outil utilisé**, et non l'ensemble des états du produit que Loculary peut conserver. Certaines fonctionnalités distinctes peuvent stocker dans le navigateur des identifiants d'outils non sensibles ou des favoris ; les fonctionnalités de compte peuvent synchroniser des favoris ou des collections. La déclaration ne doit donc pas laisser entendre que Loculary ne stocke absolument aucune donnée. Elle doit préciser si cet outil envoie ses saisies ou ses résultats à un serveur, ou les enregistre dans un compte ou un historique. Les actions explicites de l'utilisateur, comme copier ou télécharger un résultat, restent sous son contrôle.
 
-## Local file processing
+## Traitement local des fichiers
 
-For local file tools, the product should clearly communicate the local boundary.
+Pour les outils qui manipulent des fichiers localement, le produit doit communiquer clairement cette limite de traitement.
 
-Preferred message:
+Message recommandé :
 
 > 🔒 **Vos fichiers restent sur votre appareil.**
 
-This claim must be technically justified. Local-only tools should be auditable through code review and automated/static checks where practical.
+Cette affirmation doit être techniquement justifiée. Les outils exclusivement locaux doivent pouvoir être audités par revue de code et, lorsque cela est pertinent, par des contrôles statiques et automatisés.
 
-A tool must not be classified as local-only if it can transmit user file contents, metadata, or derived sensitive data to a remote service.
+Un outil ne peut pas être classé comme exclusivement local s'il est susceptible de transmettre à un service distant le contenu d'un fichier fourni par l'utilisateur, ses métadonnées ou des données sensibles dérivées.
 
-## Account data domains
+## Domaines de données du compte
 
-User data should be logically separated into domains:
+Les données utilisateur doivent être séparées logiquement en domaines :
 
-- identity/authentication;
-- preferences, including the light/dark theme;
-- product data such as favorites and collections;
-- security records.
+- identité et authentification ;
+- préférences, notamment le thème clair/sombre ;
+- données produit telles que les favoris et les collections ;
+- enregistrements de sécurité.
 
-This separation should support least-privilege access, retention rules, deletion, export, and auditing.
+Cette séparation doit faciliter les contrôles d'accès au moindre privilège, les règles de conservation, la suppression, l'export et l'audit.
 
-## Account-facing privacy controls
+## Contrôles de confidentialité du compte
 
-Privacy, consent, identity and preference controls should remain understandable and accessible from the existing account settings. Keep the account experience simple; do not introduce a dedicated privacy/data dashboard unless a concrete future need justifies it.
+Les contrôles relatifs à la confidentialité, au consentement, à l'identité et aux préférences doivent rester compréhensibles et accessibles depuis les paramètres de compte existants. L'expérience du compte doit rester simple ; ne pas introduire un tableau de bord dédié aux données personnelles sans besoin futur concret qui le justifie.
 
-## Account deletion
+## Suppression du compte
 
-Account deletion should aim for complete deletion of account-associated data.
+La suppression d'un compte doit viser l'effacement complet des données qui lui sont associées.
 
-The deletion workflow should show what will be deleted, what may need to be anonymized for technical/legal reasons, and what consequences are irreversible.
+Le parcours de suppression doit indiquer ce qui sera supprimé, ce qui pourrait devoir être anonymisé pour des raisons techniques ou juridiques et quelles conséquences sont irréversibles.
 
-When deletion of a specific record is genuinely impossible or inappropriate, the system should anonymize it as strongly as practical and document the reason.
+Lorsqu'il est réellement impossible ou inapproprié de supprimer un enregistrement précis, le système doit l'anonymiser aussi fortement que possible et documenter la raison.
 
-Deletion must cover relevant domains, including:
+La suppression doit couvrir les domaines pertinents, notamment :
 
-- identity/account data;
-- preferences;
-- favorites;
-- collections.
+- les données d'identité et de compte ;
+- les préférences ;
+- les favoris ;
+- les collections.
 
-The implementation must be designed to avoid orphaned personal data.
+L'implémentation doit éviter les données personnelles orphelines.
 
-### Implemented account deletion behavior
+### Comportement de suppression du compte implémenté
 
-The current account implementation permanently deletes the Supabase Auth user rather than using a soft-delete. The `public.profiles` row and administrator role bindings reference `auth.users` with cascading deletion. Administrative audit records are security records and are not deleted with the account: a `BEFORE DELETE ON auth.users` trigger clears polymorphic user-target references in the same transaction, while the `actor_user_id` foreign key sets actor references to null. The event itself is retained so the audit history remains useful. If deletion is rejected, the trigger's audit cleanup rolls back with the deletion. This retention is limited to the audit record and its non-identifying metadata; it is not a general retention rule for future user-owned data.
+L'implémentation actuelle du compte supprime définitivement l'utilisateur Supabase Auth au lieu d'utiliser une suppression logique. La ligne `public.profiles` et les associations de rôles administratifs référencent `auth.users` avec une suppression en cascade. Les enregistrements du journal d'audit administratif sont des données de sécurité et ne sont pas supprimés avec le compte : un trigger `BEFORE DELETE ON auth.users` efface dans la même transaction les références polymorphes aux utilisateurs ciblés, tandis que la clé étrangère `actor_user_id` remplace les références à l'acteur par `NULL`. L'événement lui-même est conservé afin que l'historique d'audit reste exploitable. Si la suppression est refusée, le nettoyage du journal d'audit est annulé avec elle. Cette conservation est limitée à l'enregistrement d'audit et à ses métadonnées non identifiantes ; elle ne constitue pas une règle générale de conservation pour de futures données appartenant aux utilisateurs.
 
-## Data export
+## Export des données
 
-Account-backed personal-data exports should use a structured, documented format, include the relevant user-owned domains, explain exclusions or transformations, and require appropriate authentication and authorization.
+Les exports de données personnelles associées à un compte doivent utiliser un format structuré et documenté, inclure les domaines pertinents appartenant à l'utilisateur, expliquer les exclusions ou transformations et exiger une authentification et une autorisation adaptées.
 
-The local collections backup is a separate, user-initiated browser download. It contains only device-local collection names, creation dates and tool IDs; synced collections and tool inputs/results are excluded. Import is validated and additive, stays in the browser, and does not transmit the file to a service. The user controls where the downloaded backup is stored.
+La sauvegarde des collections locales est un téléchargement distinct, déclenché par l'utilisateur depuis le navigateur. Elle ne contient que les noms des collections locales à l'appareil, leurs dates de création et les identifiants des outils ; les collections synchronisées et les saisies ou résultats des outils en sont exclus. L'import est validé et additif, reste dans le navigateur et ne transmet pas le fichier à un service. L'utilisateur contrôle l'emplacement où la sauvegarde téléchargée est conservée.
 
-## Encryption and secrets
+## Chiffrement et secrets
 
-Protection should be proportional to sensitivity.
+La protection doit être proportionnée à la sensibilité des données.
 
-The architecture should use:
+L'architecture doit utiliser :
 
-- encryption in transit for network communication;
-- platform/provider encryption at rest where available;
-- strong password handling through established authentication providers/libraries rather than custom cryptography;
-- encryption or tokenization of especially sensitive application data where justified;
-- strict secret management for credentials and API keys.
+- le chiffrement des communications réseau en transit ;
+- le chiffrement au repos fourni par la plateforme ou le prestataire lorsqu'il est disponible ;
+- une gestion robuste des mots de passe par des fournisseurs et bibliothèques d'authentification établis, plutôt qu'une cryptographie développée sur mesure ;
+- le chiffrement ou la tokenisation des données applicatives particulièrement sensibles lorsque cela est justifié ;
+- une gestion stricte des secrets, identifiants et clés API.
 
-Cryptography should use established, maintained primitives and libraries. Loculary should not invent its own encryption scheme.
+La cryptographie doit reposer sur des primitives et bibliothèques établies et maintenues. Loculary ne doit pas inventer son propre mécanisme de chiffrement.
 
-### Limitation actuelle — protection contre les mots de passe divulgués (30 octobre 2026)
+### Limite actuelle — protection contre les mots de passe divulgués (30 octobre 2026)
 
-L'Advisor de sécurité du projet Supabase Loculary signale actuellement le contrôle `auth_leaked_password_protection` au niveau `WARN` : la protection contre les mots de passe divulgués est désactivée.
+Le Security Advisor du projet Supabase Loculary signale actuellement le contrôle `auth_leaked_password_protection` au niveau `WARN` : la protection contre les mots de passe divulgués est désactivée.
 
 Supabase réserve cette fonctionnalité (vérification via l'API Pwned Passwords de Have I Been Pwned) au plan Pro et aux offres supérieures. Cette alerte correspond donc à une limite de l'offre Free ; elle ne signale ni un stockage des mots de passe en clair ni une compromission. Supabase Auth stocke les mots de passe sous forme d'empreintes bcrypt. Voir la [documentation officielle sur la sécurité des mots de passe](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection).
 
-Décision de produit et suivi :
+Décision produit et suivi :
 
-- conserver le plan Free ; ne pas déclencher d'upgrade pour faire disparaître cet avertissement ;
-- ne pas présenter le diagnostic comme corrigé ou la protection comme active ;
-- conserver et vérifier séparément les autres protections Auth disponibles sur le plan actuel ;
-- réévaluer cette limitation uniquement si le plan change ou si Supabase propose une alternative compatible Free.
+- conserver le plan Free ; ne pas déclencher de changement d'offre uniquement pour faire disparaître cet avertissement ;
+- ne pas présenter le diagnostic comme corrigé ni la protection comme active ;
+- conserver et vérifier séparément les autres protections Auth disponibles dans l'offre actuelle ;
+- réévaluer cette limitation uniquement si l'offre change ou si Supabase propose une solution de remplacement compatible avec Free.
 
-État vérifié le 30 octobre 2026 : avertissement toujours renvoyé par Security Advisor ; aucun réglage Auth ni paramètre de facturation modifié pendant cette vérification.
+État indiqué lors de la vérification du 30 octobre 2026 : avertissement toujours renvoyé par Security Advisor ; aucun réglage Auth ni paramètre de facturation modifié pendant cette vérification.
 
-## Cookies and consent
+## Cookies et consentement
 
-Consent controls should be understandable and granular without becoming intentionally burdensome.
+Les contrôles de consentement doivent être compréhensibles et granulaires, sans devenir volontairement contraignants.
 
-Users should have simple choices such as:
+Les utilisateurs doivent disposer de choix simples, par exemple :
 
 - **Tout accepter**
-- **Refuser les cookies/traceurs non nécessaires**
+- **Refuser les cookies et traceurs non nécessaires**
 - **Personnaliser**
 
-The refusal path should be as easy as the acceptance path.
+Le refus doit être aussi simple que l'acceptation.
 
-The product should not force users through dozens of partner-by-partner switches merely to refuse non-essential tracking.
+Le produit ne doit pas obliger les utilisateurs à parcourir des dizaines de réglages partenaire par partenaire pour refuser le suivi non essentiel.
 
-Consent categories must reflect the actual technologies and data flows in use, and the applicable jurisdictions. Do not predeclare provider-specific categories before the corresponding technology is selected.
+Les catégories de consentement doivent refléter les technologies et flux de données réellement utilisés, ainsi que les juridictions applicables. Ne pas déclarer à l'avance des catégories propres à un fournisseur avant que la technologie correspondante ait été choisie.
 
-### Recent tools
+### Outils récents
 
-The recent-tools list is held only in React memory for the current tab so it can survive client-side navigation without retaining a browsing history. Tool IDs are not written to `localStorage` or `sessionStorage` and are not sent to a server. The state resets on a full page reload or when the tab closes. The previous persistent key is removed once when the updated application loads. Do not reintroduce automatic persistent recent-tool tracking without a separate privacy review and, if required, prior consent.
+La liste des outils récents est conservée uniquement dans la mémoire React de l'onglet courant afin de survivre à la navigation côté client sans constituer un historique de navigation persistant. Les identifiants des outils ne sont écrits ni dans `localStorage` ni dans `sessionStorage`, et ne sont pas envoyés à un serveur. L'état est réinitialisé lors d'un rechargement complet de la page ou à la fermeture de l'onglet. L'ancienne clé persistante est supprimée une fois au chargement de la version mise à jour de l'application. Ne pas réintroduire le suivi automatique et persistant des outils récents sans une revue de confidentialité distincte et, si nécessaire, un consentement préalable.
 
-## External API catalog
+## Catalogue des API externes
 
-Every external integration should have a traceable catalog entry containing:
+Chaque intégration externe doit disposer d'une entrée traçable contenant :
 
-- provider;
-- domain/endpoint;
-- purpose;
-- data transmitted;
-- authentication model;
-- privacy policy reference;
-- retention behavior when known;
-- cost/quota;
-- fallback behavior;
-- owner/maintainer;
-- implementation location.
+- le fournisseur ;
+- le domaine ou endpoint ;
+- la finalité ;
+- les données transmises ;
+- le modèle d'authentification ;
+- la référence à la politique de confidentialité ;
+- le comportement de conservation lorsqu'il est connu ;
+- le coût et les quotas ;
+- le comportement de repli ;
+- le responsable ou mainteneur ;
+- l'emplacement de l'implémentation.
 
-This catalog is an operational trust and cost-control mechanism.
+Ce catalogue est un mécanisme opérationnel de confiance et de maîtrise des coûts.
 
-## API secrets
+## Secrets API
 
-API secrets must never appear in:
+Les secrets API ne doivent jamais apparaître dans :
 
-- frontend bundles;
-- client-side environment variables intended for public exposure;
-- Git history;
-- documentation;
-- tool metadata.
+- les bundles frontend ;
+- les variables d'environnement côté client destinées à être publiques ;
+- l'historique Git ;
+- la documentation ;
+- les métadonnées des outils.
 
-When a provider requires a secret, the backend must act as the controlled proxy/orchestration layer where appropriate.
+Lorsqu'un fournisseur exige un secret, le backend doit jouer le rôle de proxy contrôlé ou de couche d'orchestration lorsque cela est approprié.
 
-Client-side APIs must be treated as public unless the provider explicitly documents a safe public model.
+Les API utilisables côté client doivent être considérées comme publiques, sauf si le fournisseur documente explicitement un modèle public sûr.
 
-## Rate limiting and abuse protection
+## Limitation de débit et protection contre les abus
 
-Rate limiting should be applied where an operation can create meaningful cost, abuse, enumeration, spam, or denial-of-service risk.
+Une limitation de débit doit être appliquée lorsqu'une opération peut entraîner un coût significatif, des abus, de l'énumération, du spam ou un risque de déni de service.
 
-The limit should be proportional to the operation rather than globally restrictive.
+La limite doit être proportionnée à l'opération, plutôt que restrictive de manière globale.
 
-Examples include:
+Exemples :
 
-- external API calls;
-- authentication endpoints;
-- account recovery;
-- expensive server-side operations.
+- appels à des API externes ;
+- endpoints d'authentification ;
+- récupération de compte ;
+- opérations coûteuses côté serveur.
 
-## Tool capability isolation
+## Isolation des capacités des outils
 
-Tools should explicitly declare capabilities such as:
+Les outils doivent déclarer explicitement les capacités dont ils ont besoin, par exemple :
 
-- local-processing;
-- file-input;
-- clipboard;
-- camera;
-- microphone;
-- geolocation;
-- network/external-api;
-- account-data;
-- database access.
+- `local-processing` ;
+- `file-input` ;
+- `clipboard` ;
+- `camera` ;
+- `microphone` ;
+- `geolocation` ;
+- `network/external-api` ;
+- `account-data` ;
+- accès à la base de données.
 
-A tool should receive only the capabilities it actually needs.
+Un outil ne doit recevoir que les capacités dont il a réellement besoin.
 
-Tool code must not gain arbitrary access to:
+Le code d'un outil ne doit pas obtenir un accès arbitraire :
 
-- other users' data;
-- account secrets;
-- server credentials;
-- unrelated tool state;
-- internal administrative APIs.
+- aux données d'autres utilisateurs ;
+- aux secrets de compte ;
+- aux identifiants du serveur ;
+- à l'état d'outils sans rapport ;
+- aux API administratives internes.
 
-## Trust philosophy
+## Philosophie de confiance
 
-Loculary should aim to earn trust through three things:
+Loculary doit gagner la confiance grâce à trois éléments :
 
-1. **Privacy** — collect and transmit as little as reasonably possible.
-2. **Transparency** — clearly explain what happens when data moves.
-3. **Utility** — make privacy-preserving choices without making the product unnecessarily difficult to use.
+1. **Confidentialité** — collecter et transmettre aussi peu de données que raisonnablement possible.
+2. **Transparence** — expliquer clairement ce qui se passe lorsque des données sont transférées.
+3. **Utilité** — préserver les choix respectueux de la vie privée sans rendre le produit inutilement difficile à utiliser.
 
-The product should never ask users to trust blindly when the system can explain or expose the relevant information instead.
+Le produit ne doit jamais demander aux utilisateurs de faire confiance aveuglément lorsque le système peut expliquer ou exposer les informations pertinentes.
 
 ## Conservation des journaux et limites des prestataires
 
-L’inventaire des prestataires distingue les journaux applicatifs des journaux gérés par les hébergeurs :
+L'inventaire des prestataires distingue les journaux applicatifs des journaux gérés par les hébergeurs :
 
-- **Supabase Free** : les logs de plateforme/API/base de données sont conservés 24 heures ; Auth Audit Logs est limité à une heure.
+- **Supabase Free** : les logs de plateforme, d'API et de base de données sont conservés 24 heures ; Auth Audit Logs est limité à une heure.
 - **Vercel Hobby** : les logs runtime sont conservés une heure ; les logs de build restent associés aux déploiements sans purge automatique.
-- Ces journaux fournisseurs ne sont pas purgés par Loculary. Aucun Log Drain, export tiers ou archivage externe de ces journaux n’est activé.
+- Ces journaux fournisseurs ne sont pas purgés par Loculary. Aucun Log Drain, export tiers ou archivage externe de ces journaux n'est activé.
 
-**Politique applicative active en production depuis le 30 octobre 2026 :** douze mois glissants pour le journal administratif Loculary et les exécutions terminées de `pg_cron`, avec purge automatique quotidienne à 03:00 UTC. Les exécutions cron incomplètes restent préservées. Aucun mécanisme d’exception de conservation ni archive des journaux applicatifs n’est conservé. Aucune sauvegarde Google Drive ou archive externe de ces journaux n’est créée.
+**Politique applicative indiquée comme active en production depuis le 30 octobre 2026 :** douze mois glissants pour le journal administratif Loculary et les exécutions terminées de `pg_cron`, avec purge automatique quotidienne à 03:00 UTC. Les exécutions cron incomplètes restent préservées. Aucun mécanisme d'exception de conservation ni archive des journaux applicatifs n'est conservé. Aucune sauvegarde Google Drive ou archive externe de ces journaux n'est créée.
 
-La migration `20261030160000_extend_log_retention_to_12_months.sql` est enregistrée en production. Le job `loculary-log-retention-12m` est actif ; son premier passage après migration est attendu le 31 octobre à 03:00 UTC. Les 19 assertions pgTAP ont réussi dans une transaction annulée et n’ont laissé aucune donnée de test en base.
+La migration `20261030160000_extend_log_retention_to_12_months.sql` est indiquée comme enregistrée en production. Le job `loculary-log-retention-12m` est indiqué comme actif ; son premier passage après migration est attendu le 31 octobre à 03:00 UTC. Les 19 assertions pgTAP ont réussi dans une transaction annulée et n'ont laissé aucune donnée de test en base.
 
-La durée de douze mois est un choix de conservation documenté selon les finalités de Loculary ; elle ne constitue pas un maximum universel fixé par le RGPD. Les journaux gérés par les prestataires restent soumis à leurs conditions effectives.
- 
-## Future legal/compliance work
+La durée de douze mois est un choix de conservation documenté selon les finalités de Loculary ; elle ne constitue pas une durée maximale universelle fixée par le RGPD. Les journaux gérés par les prestataires restent soumis à leurs conditions effectives.
 
-Before broad public launch, privacy/legal documentation should be reviewed against the actual implementation, data flows, consent mechanisms, retention policies, and jurisdictions served.
+## Travaux juridiques et conformité à venir
+
+Avant un lancement public à grande échelle, la documentation juridique et de confidentialité doit être revue au regard de l'implémentation réelle, des flux de données, des mécanismes de consentement, des politiques de conservation et des juridictions desservies.
 
 ## Laboratoire de conception
 
-La galerie de composants s’exécute localement dans l’application et n’enregistre aucun état de maintenance dans Supabase. Les décisions techniques, les spécifications et les vérifications sont conservées dans le dépôt Git. Le journal d’audit d’administration demeure distinct et continue d’utiliser la permission `audit.read`.
+La galerie de composants s'exécute localement dans l'application et n'enregistre aucun état de maintenance dans Supabase. Les décisions techniques, les spécifications et les vérifications sont conservées dans le dépôt Git. Le journal d'audit d'administration demeure distinct et continue d'utiliser la permission `audit.read`.
