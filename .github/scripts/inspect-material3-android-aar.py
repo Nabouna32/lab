@@ -155,9 +155,20 @@ def _api_parameter_type(parameter: str) -> str:
 
 def _callable_parts(line: str, kind: str) -> tuple[str, str, list[str]] | None:
     body = line.split(kind, 1)[1].strip()
-    opening = body.find("(")
     closing = body.rfind(")")
-    if opening < 0 or closing < opening:
+    if closing < 0:
+        return None
+    depth = 0
+    opening = -1
+    for index in range(closing, -1, -1):
+        if body[index] == ")":
+            depth += 1
+        elif body[index] == "(":
+            depth -= 1
+            if depth == 0:
+                opening = index
+                break
+    if opening < 0:
         return None
     prefix = _strip_api_modifiers(_strip_api_annotations(body[:opening]))
     name_match = re.search(r"([A-Za-z_$][A-Za-z0-9_$-]*)$", prefix)
@@ -336,8 +347,6 @@ def api_type_to_jvm_descriptor(type_name: str, is_return: bool = False) -> str |
         package_path = "/".join(segments[:first_type])
         binary_type = "$".join(segments[first_type:])
         return "L" + (package_path + "/" if package_path else "") + binary_type + ";"
-    if re.fullmatch(r"[A-Z][A-Za-z0-9_]*", value):
-        return "Ljava/lang/Object;"
     return None
 
 
@@ -398,8 +407,8 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
         if binary is None:
             missing_classes.append(class_name + ".class")
             continue
-        binary_methods = [m for m in binary["methodSignatures"] if m["publicProtected"]]
-        binary_fields = [f for f in binary.get("fieldSignatures", []) if f["publicProtected"]]
+        binary_methods = [m for m in binary["methodSignatures"] if m.get("publicProtected", True)]
+        binary_fields = [f for f in binary.get("fieldSignatures", []) if f.get("publicProtected", True)]
 
         for method in api_members["methods"]:
             counts["methods"] += 1
@@ -496,7 +505,6 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
         "apiMethodCount": api_method_count,
         "sourceLevelMethodCount": api_method_count - counts["bytecodeOnlyMethods"],
         "sourceLevelDescriptorMatches": counts["methodDescriptorMatches"] - counts["bytecodeOnlyDescriptorMatches"],
-        "sourceLevelNameMatches": counts["methodDescriptorMatches"] - counts["bytecodeOnlyDescriptorMatches"],
         "bytecodeOnlyMethodCount": counts["bytecodeOnlyMethods"],
         "bytecodeOnlyDescriptorMatches": counts["bytecodeOnlyDescriptorMatches"],
         "constructorCount": counts["constructors"],
