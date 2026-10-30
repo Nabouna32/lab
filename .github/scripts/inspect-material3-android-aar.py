@@ -330,6 +330,8 @@ def inspect(directory: Path) -> dict:
             "totalKotlinSourceFiles": source_commit_report["totalKotlinSourceFiles"],
             "verifiedByteForByte": source_commit_report["verifiedByteForByte"],
             "mismatchCount": source_commit_report["mismatchCount"],
+            "result": source_commit_report["result"],
+            "workflowRun": "https://github.com/Nabouna32/lab/actions/runs/40984365256",
         },
         "officialApiDump": {
             "repository": "androidx/androidx",
@@ -360,7 +362,7 @@ def inspect(directory: Path) -> dict:
             "sourceMapping": "Class-file SourceFile attributes mapped to source-archive package paths; file-level mapping does not prove declaration-level API equivalence.",
             "apiDumpAlignment": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_BINARY_API_COMPARISON_PENDING",
             "limitations": [
-                "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch, and all published Kotlin sources match that release commit byte-for-byte; declaration-level comparison against the published AAR is still pending.",
+                "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch, and all 249 published Kotlin sources match that release commit byte-for-byte (CI run 40984365256); declaration-level comparison against the published AAR remains pending.",
                 "The derived JVM surface is not an official AndroidX API dump and must not be used as a Kotlin API compatibility claim.",
                 "Source-file mapping does not prove that every public binary declaration has an equivalent public Kotlin source declaration.",
             ],
