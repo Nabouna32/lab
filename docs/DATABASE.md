@@ -72,6 +72,12 @@ Schema migrations are applied by the assistant through the available Supabase co
 
 For each change, review its SQL and impact before applying it, obtain explicit user approval for consequential or destructive operations, and verify the migration version recorded remotely plus the affected schema/security state. Report only checks actually performed; applying a migration does not mean local tests or pgTAP/concurrency checks ran.
 
+### Sauvegardes avant opération destructive
+
+L’organisation Supabase de Loculary est sur le **Free Plan** (état vérifié via la Management API). Selon la documentation officielle Supabase, ce plan ne bénéficie pas des sauvegardes quotidiennes automatiques des plans payants ; Supabase recommande des exports réguliers avec le CLI et une copie hors site. Avant une opération présentant un risque réel de perte de données, établir une sauvegarde indépendante des données concernées, vérifier que les fichiers sont complets et non vides, conserver leurs empreintes SHA-256 hors du dépôt, et tester la restauration dans un environnement isolé lorsque cela est possible. Ne jamais présenter un export partiel comme une sauvegarde complète : `supabase db dump` exclut notamment les schémas gérés `auth`, `storage` et ceux créés par les extensions. Les identifiants de connexion et les fichiers de sauvegarde ne doivent jamais être publiés dans GitHub ou dans les conversations.
+
+Le connecteur Supabase disponible permet de consulter et modifier le schéma, mais ne fournit pas d’opération d’export/restauration de sauvegarde. Si une sauvegarde vérifiable est nécessaire et qu’aucun mécanisme adapté n’est accessible, demander l’export à l’opérateur avant l’opération destructive ; ne jamais prétendre qu’un point de restauration existe sans preuve.
+
 The retained `.github/scripts/test-account-deletion-concurrency.sh` script and pgTAP tests remain useful regression checks, but are not run automatically by the connector. The main [GitHub Actions CI](../.github/workflows/ci.yml) conditionally runs `deno check --frozen index.ts` for the currently listed Edge Functions when files under `supabase/functions/**` change or the workflow is dispatched. It does not deploy functions or apply database migrations. Keep this description aligned with the actual workflow rather than a separate workflow file.
 
 
