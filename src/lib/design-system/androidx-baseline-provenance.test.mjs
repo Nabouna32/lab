@@ -49,6 +49,32 @@ const materialComponentsBaseline = JSON.parse(readFileSync(
   "utf8",
 ));
 
+test("Material 3 Android release artifacts are independently pinned without claiming API parity", () => {
+  const android = baseline.publishedAndroidVariant;
+  assert.equal(android.artifact, "androidx.compose.material3:material3-android");
+  assert.equal(android.referenceVersion, "1.4.0");
+  assert.match(android.sourceArchive.url, /material3-android-1\.4\.0-sources\.jar$/);
+  assert.match(android.sourceArchive.publishedSha256, /^[a-f0-9]{64}$/);
+  assert.match(android.sourceArchive.gitBlobSha1, /^[a-f0-9]{40}$/);
+  assert.equal(android.sourceArchive.sizeBytes, 703105);
+  assert.equal(android.sourceArchive.checksumStatus, "verified-against-google-maven-sidecar");
+  assert.match(android.aar.url, /material3-android-1\.4\.0\.aar$/);
+  assert.match(android.aar.publishedSha256, /^[a-f0-9]{64}$/);
+  assert.match(android.aar.gitBlobSha1, /^[a-f0-9]{40}$/);
+  assert.equal(android.aar.sizeBytes, 5167765);
+  assert.equal(android.aar.checksumStatus, "verified-against-google-maven-sidecar");
+  assert.equal(android.moduleMetadata.common.component, "androidx.compose.material3:material3:1.4.0");
+  assert.equal(android.moduleMetadata.common.variantCount, 12);
+  assert.equal(android.moduleMetadata.android.component, "androidx.compose.material3:material3:1.4.0");
+  assert.equal(android.moduleMetadata.android.variantCount, 3);
+  assert.equal(android.moduleMetadata.android.componentRedirect, "../../material3/1.4.0/material3-1.4.0.module");
+  assert.equal(android.verification.result, "passed");
+  assert.match(android.verification.workflowRun, /^https:\/\/github\.com\/Nabouna32\/lab\/actions\/runs\/\d+$/);
+  assert.match(android.verification.verifiedCommit, /^[a-f0-9]{40}$/);
+  assert.match(android.verification.artifactUrl, /^https:\/\/github\.com\/Nabouna32\/lab\/actions\/runs\/\d+\/artifacts\/\d+$/);
+  assert.equal(baseline.apiDumpAlignment.status, "UNVERIFIED");
+});
+
 test("Material Components Views source archive provenance is verified and pinned separately", () => {
   assert.equal(materialComponentsBaseline.artifact, "com.google.android.material:material");
   assert.equal(materialComponentsBaseline.referenceVersion, "1.14.0");
