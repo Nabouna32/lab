@@ -416,3 +416,26 @@ package androidx.compose.sample {
     sourcePath: 'compose/sample/api/current.txt',
   }), /Unsupported public declaration syntax/);
 });
+
+
+const FUN_INTERFACE_DUMP = `// Signature format: 4.0
+package androidx.compose.sample {
+  @androidx.compose.runtime.Stable public fun interface SampleListener {
+    method public void onEvent();
+  }
+}
+`;
+
+test('treats Kotlin fun interfaces as types and retains their member owner', () => {
+  const result = inventoryApiDump(FUN_INTERFACE_DUMP, {
+    artifact: 'androidx.compose.sample:sample',
+    version: '1.0.0',
+    commit: COMMIT,
+    sourcePath: 'compose/sample/api/current.txt',
+  });
+
+  assert.equal(result.declarationCount, 2);
+  assert.equal(result.declarations[0].kind, 'interface');
+  assert.equal(result.declarations[0].symbol, 'SampleListener');
+  assert.equal(result.declarations[1].owner, 'SampleListener');
+});
