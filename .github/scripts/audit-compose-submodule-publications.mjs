@@ -65,12 +65,12 @@ export function validateModuleMetadata(bytes, expected, label) {
     variants: metadata.variants.map((variant) => ({
       name: variant.name ?? null,
       attributes: variant.attributes ?? {},
-      availableAt: variant.availableAt
+      availableAt: (variant['available-at'] ?? variant.availableAt)
         ? {
-            url: variant.availableAt.url ?? null,
-            group: variant.availableAt.group ?? null,
-            module: variant.availableAt.module ?? null,
-            version: variant.availableAt.version ?? null,
+            url: (variant['available-at'] ?? variant.availableAt).url ?? null,
+            group: (variant['available-at'] ?? variant.availableAt).group ?? null,
+            module: (variant['available-at'] ?? variant.availableAt).module ?? null,
+            version: (variant['available-at'] ?? variant.availableAt).version ?? null,
           }
         : null,
     })),
