@@ -218,15 +218,22 @@ def main() -> int:
     publication = json.loads(args.publication_report.read_text(encoding="utf-8"))
     manifest = json.loads(args.provenance_manifest.read_text(encoding="utf-8"))
     commit = manifest["releaseCommit"]
-    results = [
-        verify_family(family, args.archives_dir, publication, commit)
-        for family in FAMILIES
-    ]
+    results = []
+    for family in FAMILIES:
+        try:
+            results.append(verify_family(family, args.archives_dir, publication, commit))
+        except Exception as error:  # Preserve diagnostics for the CI artifact before failing closed.
+            results.append({
+                "familyId": family["familyId"],
+                "releaseCommit": commit,
+                "status": "error",
+                "error": str(error),
+            })
     report = {
         "schemaVersion": 1,
         "referenceVersion": manifest["referenceVersion"],
         "releaseCommit": commit,
-        "status": "verified-byte-for-byte" if all(item["status"] == "verified-byte-for-byte" for item in results) else "unverified",
+        "status": "verified-byte-for-byte" if len(results) == len(FAMILIES) and all(item["status"] == "verified-byte-for-byte" for item in results) else "unverified",
         "families": results,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
