@@ -52,14 +52,14 @@ export default async function LocaleLayout({
             <FavoritesProvider toolIds={toolIds}>
               <CollectionsProvider toolIds={toolIds}>
                 <div className="flex min-h-dvh">
-                <AdaptiveAppNavigation locale={locale} />
-                <div className="flex min-w-0 flex-1 flex-col pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">
-                  <Header locale={locale} />
-                  <div className="min-h-0 flex-1" style={{ viewTransitionName: "loculary-workspace" }}>
-                    {children}
+                  <AdaptiveAppNavigation locale={locale} />
+                  <div className="flex min-w-0 flex-1 flex-col pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">
+                    <Header locale={locale} />
+                    <div className="min-h-0 flex-1" style={{ viewTransitionName: "loculary-workspace" }}>
+                      {children}
+                    </div>
+                    <Footer locale={locale} />
                   </div>
-                  <Footer locale={locale} />
-                </div>
                 </div>
               </CollectionsProvider>
             </FavoritesProvider>
