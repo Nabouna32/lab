@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/ui/Checkbox";
 import { Chip } from "@/components/ui/Chip";
 import { IconToggleButton } from "@/components/ui/IconButton";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
-import { MaterialTextField } from "@/components/ui/MaterialTextField";
+import { OutlinedSecureTextField } from "@/components/ui/OutlinedSecureTextField";
 import { NavigationBar } from "@/components/ui/NavigationBar";
 import { ProgressIndicator } from "@/components/ui/ProgressIndicator";
 import { Select } from "@/components/ui/Select";
@@ -90,10 +90,11 @@ export default function VisualLab({ initialLocale }: { initialLocale: Locale }) 
                 <option value="webp">WebP</option>
                 <option value="jpeg">JPEG</option>
               </Select>
-              <MaterialTextField
+              <OutlinedSecureTextField
                 id="lab-material-password"
                 label={fr ? "Nouveau mot de passe" : "New password"}
-                type="password"
+                showPasswordLabel={fr ? "Afficher le mot de passe" : "Show password"}
+                hidePasswordLabel={fr ? "Masquer le mot de passe" : "Hide password"}
                 value={password}
                 onChange={setPassword}
                 minLength={8}

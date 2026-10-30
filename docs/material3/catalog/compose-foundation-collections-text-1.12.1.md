@@ -22,7 +22,7 @@ Les compositions de catalogue actuelles sont finies et rendues par les mécanism
 
 Deux composants expérimentaux ne sont pas des preuves d'usage produit : [Carousel](../../../src/components/ui/Carousel.tsx) et [ScrollField](../../../src/components/ui/ScrollField.tsx) n'ont pas de consommateur importé trouvé dans le dépôt. Le premier est un défilement horizontal CSS scroll-snap inspiré des carousels Material 3 ; le second est un sélecteur à cinq lignes avec boutons natifs et ne constitue pas un port de `PagerState`.
 
-La saisie, elle, est largement utilisée : [TextField](../../../src/components/ui/TextField.tsx) repose sur `input` natif, [TextArea](../../../src/components/ui/TextArea.tsx) sur `textarea`, [MaterialTextField](../../../src/components/ui/MaterialTextField.tsx) est un champ contrôlé employé dans le parcours de changement de mot de passe, et [ToolSearch](../../../src/components/tools/ToolSearch.tsx) construit un champ de recherche/combobox Web. Les champs sont aussi présents dans les outils texte, les formulaires de compte et les calculateurs.
+La saisie, elle, est largement utilisée : [TextField](../../../src/components/ui/TextField.tsx) repose sur `input` natif, [TextArea](../../../src/components/ui/TextArea.tsx) sur `textarea`, [OutlinedTextField](../../../src/components/ui/OutlinedTextField.tsx) adapte le composant AndroidX OutlinedTextField et [OutlinedSecureTextField](../../../src/components/ui/OutlinedSecureTextField.tsx) compose le parcours sécurisé du changement de mot de passe. [ToolSearch](../../../src/components/tools/ToolSearch.tsx) construit un champ de recherche/combobox Web. Les champs sont aussi présents dans les outils texte, les formulaires de compte et les calculateurs.
 
 ## Contrats AndroidX et décisions Web
 

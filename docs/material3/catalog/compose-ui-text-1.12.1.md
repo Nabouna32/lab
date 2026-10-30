@@ -64,7 +64,8 @@ Fichiers examinés :
 
 - `src/components/ui/TextField.tsx` : wrapper natif `input`, labels associés par `htmlFor`/`id`, `inputMode`, type et attributs HTML transmis ; deux variantes visuelles Fidelity/Expressive.
 - `src/components/ui/TextArea.tsx` : wrapper natif `textarea`, label, états d'erreur/aide et attributs HTML transmis. Le composant documente explicitement qu'il s'agit d'une adaptation Web multiligne et non d'un composant Compose distinct.
-- `src/components/ui/MaterialTextField.tsx` : champ contrôlé, label flottant, supporting text, erreur, compteur et révélation de mot de passe ; il s'agit d'une adaptation React/Web.
+- `src/components/ui/OutlinedTextField.tsx` : adaptation React/Web contrôlée d'AndroidX OutlinedTextField, avec label flottant, supporting text, erreur, compteur et contenus auxiliaires.
+- `src/components/ui/OutlinedSecureTextField.tsx` : composition sécurisée au-dessus de OutlinedTextField, avec input natif password/text et IconButton de visibilité localisé.
 - `src/app/globals.css` : rôles typographiques Material 3 partagés et unités CSS rem documentées comme références Web, pas comme conversion dp/sp.
 
 Les recherches ciblées montrent des usages directs de `TextField`/`TextArea` dans le testeur d'expressions régulières et le laboratoire de conception. Elles ne constituent pas un audit exhaustif de tous les consommateurs ni des parcours de production.
@@ -81,7 +82,7 @@ Les recherches ciblées montrent des usages directs de `TextField`/`TextArea` da
 
 - [x] Baseline release, dump API et sources publiées identifiés et alignés selon la preuve CI #4516.
 - [x] Sources Kotlin épinglées examinées pour texte enrichi, styles, paragraphes et mesure.
-- [x] Implémentations React/Web TextField, TextArea, MaterialTextField et rôles CSS typographiques consultés.
+- [x] Implémentations React/Web TextField, TextArea, OutlinedTextField, OutlinedSecureTextField et rôles CSS typographiques consultés.
 - [ ] Audit exhaustif des call sites et parcours de production.
 - [ ] Tests clavier, lecteur d'écran, zoom/reflow, FR/EN et RTL dans un navigateur réel.
 - [ ] Comparaison visuelle navigateur avec les références produit et vérification des polices chargées.

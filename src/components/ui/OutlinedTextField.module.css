@@ -13,41 +13,21 @@
   gap: 12px;
   min-height: 56px;
   padding-inline: 16px;
-  border: 1px solid transparent;
-  border-bottom-color: var(--on-surface-variant, var(--muted));
-  border-radius: 4px 4px 0 0;
-  background: var(--surface-container-highest, var(--surface));
-  transition: border-color 160ms ease, border-width 160ms ease, background-color 160ms ease;
-}
-
-.root[data-variant="outlined"] .field {
   border: 1px solid var(--outline, var(--border));
   border-radius: 4px;
   background: transparent;
+  transition: border-color 160ms ease, border-width 160ms ease, background-color 160ms ease;
 }
 
-.root[data-variant="filled"][data-error="true"]:not([data-disabled="true"]) .field {
-  border-bottom-color: var(--error, currentColor);
-}
-
-.root[data-variant="outlined"][data-error="true"]:not([data-disabled="true"]) .field {
+.root[data-error="true"]:not([data-disabled="true"]) .field {
   border-color: var(--error, currentColor);
 }
 
 .root:focus-within:not([data-disabled="true"]) .field {
-  border-bottom-width: 2px;
-  border-bottom-color: var(--primary, currentColor);
-}
-
-.root[data-variant="outlined"]:focus-within:not([data-disabled="true"]) .field {
   border: 2px solid var(--primary, currentColor);
 }
 
-.root[data-variant="filled"][data-error="true"]:focus-within:not([data-disabled="true"]) .field {
-  border-bottom-color: var(--error, currentColor);
-}
-
-.root[data-variant="outlined"][data-error="true"]:focus-within:not([data-disabled="true"]) .field {
+.root[data-error="true"]:focus-within:not([data-disabled="true"]) .field {
   border-color: var(--error, currentColor);
 }
 
@@ -84,7 +64,7 @@
 
 .label {
   position: absolute;
-  left: 0;
+  left: 8px;
   top: 50%;
   max-width: 100%;
   overflow: hidden;
@@ -94,6 +74,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   pointer-events: none;
+  padding-inline: 4px;
+  background: var(--surface, var(--background, Canvas));
   transform: translateY(-50%);
   transform-origin: left center;
   transition: top 160ms ease, font-size 160ms ease, color 160ms ease, transform 160ms ease;
@@ -101,21 +83,10 @@
 
 .input:focus + .label,
 .input:not(:placeholder-shown) + .label {
-  top: 8px;
+  top: -8px;
   font-size: var(--m3-type-label-small-size);
   line-height: var(--m3-type-label-small-line-height);
   transform: none;
-}
-
-.root[data-variant="outlined"] .label {
-  left: 8px;
-  padding-inline: 4px;
-  background: var(--surface, var(--background, Canvas));
-}
-
-.root[data-variant="outlined"] .input:focus + .label,
-.root[data-variant="outlined"] .input:not(:placeholder-shown) + .label {
-  top: -8px;
 }
 
 .input:focus + .label {
@@ -167,10 +138,6 @@
 
 .root[data-disabled="true"] .field {
   border-color: color-mix(in srgb, var(--on-surface, var(--foreground)) 12%, transparent);
-  background: color-mix(in srgb, var(--on-surface, var(--foreground)) 4%, transparent);
-}
-
-.root[data-variant="outlined"][data-disabled="true"] .field {
   background: transparent;
 }
 

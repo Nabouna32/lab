@@ -9,7 +9,9 @@ const iconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", 
 const progressSource = readFileSync(new URL("../../components/ui/ProgressIndicator.tsx", import.meta.url), "utf8");
 const progressCss = readFileSync(new URL("../../components/ui/progress-indicator.module.css", import.meta.url), "utf8");
 const textFieldSource = readFileSync(new URL("../../components/ui/TextField.tsx", import.meta.url), "utf8");
-const materialTextFieldSource = readFileSync(new URL("../../components/ui/MaterialTextField.tsx", import.meta.url), "utf8");
+const outlinedTextFieldSource = readFileSync(new URL("../../components/ui/OutlinedTextField.tsx", import.meta.url), "utf8");
+const outlinedTextFieldCssSource = readFileSync(new URL("../../components/ui/OutlinedTextField.module.css", import.meta.url), "utf8");
+const outlinedSecureTextFieldSource = readFileSync(new URL("../../components/ui/OutlinedSecureTextField.tsx", import.meta.url), "utf8");
 const visualLabSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
 const textAreaSource = readFileSync(new URL("../../components/ui/TextArea.tsx", import.meta.url), "utf8");
 const calculatorFieldSource = readFileSync(new URL("../../components/tools/calculator/CalculatorField.tsx", import.meta.url), "utf8");
@@ -414,14 +416,23 @@ test("SegmentedControl follows the AndroidX item-shape and state contract", () =
 });
 
 test("TextField labels reflect invalid state while disabled labels keep disabled color", () => {
+  assert.doesNotMatch(textFieldSource, /variant\?: "fidelity" \| "expressive"|isExpressive|expressiveInputClasses/);
   assert.match(textFieldSource, /const isInvalid = !disabled && Boolean\(inputProps\["aria-invalid"\]\);/);
   assert.match(textFieldSource, /isInvalid \? "text-\[var\(--danger\)\]" : "text-\[var\(--foreground\)\]"/);
-  assert.match(textFieldSource, /disabled \? "text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]" : isInvalid \? "text-\[var\(--danger\)\] peer-aria-\[invalid=true\]:text-\[var\(--danger\)\]"/);
+  assert.match(textFieldSource, /disabled \? "text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]" : isInvalid \? "text-\[var\(--danger\)\]" : "text-\[var\(--foreground\)\]"/);
 });
 
-test("Design Lab exposes the production MaterialTextField validation without requiring an account", () => {
-  assert.ok(visualLabSource.includes('import { MaterialTextField } from "@/components/ui/MaterialTextField"'));
-  assert.ok(visualLabSource.includes('<MaterialTextField'));
+test("Design Lab exposes the production OutlinedSecureTextField without requiring an account", () => {
+  assert.match(outlinedTextFieldSource, /export function OutlinedTextField/);
+  assert.match(outlinedSecureTextFieldSource, /export function OutlinedSecureTextField/);
+  assert.doesNotMatch(outlinedTextFieldSource, /variant\?: "filled" \| "outlined"|data-variant|secure/);
+  assert.match(outlinedTextFieldCssSource, /border: 1px solid var\(--outline/);
+  assert.match(outlinedTextFieldCssSource, /border: 2px solid var\(--primary/);
+  assert.match(outlinedTextFieldCssSource, /border-radius: 4px/);
+  assert.match(outlinedTextFieldCssSource, /top: -8px/);
+  assert.doesNotMatch(outlinedTextFieldCssSource, /data-variant/);
+  assert.ok(visualLabSource.includes('import { OutlinedSecureTextField } from "@/components/ui/OutlinedSecureTextField"'));
+  assert.ok(visualLabSource.includes('<OutlinedSecureTextField'));
   assert.ok(visualLabSource.includes('id="lab-material-password"'));
   assert.ok(visualLabSource.includes('autoComplete="new-password"'));
   assert.ok(visualLabSource.includes('error={passwordTooShort ? passwordRule : undefined}'));
@@ -430,7 +441,7 @@ test("Design Lab exposes the production MaterialTextField validation without req
 
 test("TextField and TextArea keep their explicit inputId bound to the visible label", () => {
   assert.match(textFieldSource, /Omit<InputHTMLAttributes<HTMLInputElement>, "id">/);
-  assert.equal((textFieldSource.match(/\{\.\.\.inputProps\}\s+id=\{inputId\}/g) ?? []).length, 2);
+  assert.equal((textFieldSource.match(/\{\.\.\.inputProps\}\s+id=\{inputId\}/g) ?? []).length, 1);
   assert.match(textAreaSource, /Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "id">/);
   assert.match(textAreaSource, /\{\.\.\.textareaProps\}\s+id=\{inputId\}/);
   assert.match(calculatorFieldSource, /Omit<InputHTMLAttributes<HTMLInputElement>, "id">/);
@@ -714,7 +725,8 @@ test("email and password settings preserve accessible, localized account operati
   assert.match(emailPage, /role="alert"/);
   assert.match(emailPage, /<TextField label=\{t\.account\.email\}[^>]*type="email"/);
   assert.match(passwordPage, /<PasswordChangeForm locale=\{locale\} t=\{t\.account\} serverError=\{query\.error\} \/>/);
-  assert.equal((passwordForm.match(/secure showPasswordLabel=\{t\.showPassword\} hidePasswordLabel=\{t\.hidePassword\}/g) ?? []).length, 3);
+  assert.equal((passwordForm.match(/<OutlinedSecureTextField/g) ?? []).length, 3);
+  assert.equal((passwordForm.match(/showPasswordLabel=\{t\.showPassword\} hidePasswordLabel=\{t\.hidePassword\}/g) ?? []).length, 3);
   assert.match(passwordForm, /autoComplete="current-password"/);
   assert.match(passwordForm, /autoComplete="new-password"/);
   assert.match(passwordForm, /minLength=\{8\} maxLength=\{128\}/);
@@ -725,9 +737,12 @@ test("email and password settings preserve accessible, localized account operati
   assert.match(messagesSource, /hidePassword: "Masquer le mot de passe"/);
   assert.match(messagesSource, /showPassword: "Show password"/);
   assert.match(messagesSource, /hidePassword: "Hide password"/);
-  assert.match(materialTextFieldSource, /<IconButton/);
-  assert.match(materialTextFieldSource, /<MaterialIcon name=\{revealed \? "visibility_off" : "visibility"\}/);
-  assert.doesNotMatch(materialTextFieldSource, /"Show password"|"Hide password"|"Show"|"Hide"/);
+  assert.match(outlinedSecureTextFieldSource, /<IconButton/);
+  assert.match(outlinedSecureTextFieldSource, /autoComplete: "current-password" \| "new-password"/);
+  assert.doesNotMatch(outlinedSecureTextFieldSource, /autoComplete \?\?/);
+  assert.match(outlinedSecureTextFieldSource, /<MaterialIcon name=\{revealed \? "visibility_off" : "visibility"\}/);
+  assert.doesNotMatch(outlinedSecureTextFieldSource, /"Show password"|"Hide password"|"Show"|"Hide"/);
+  assert.doesNotMatch(outlinedTextFieldSource, /data-variant|secure/);
   assert.match(messagesSource, /changePasswordDescription: "Choisissez un nouveau mot de passe/);
   assert.match(messagesSource, /changePasswordDescription: "Choose a new password/);
 });
