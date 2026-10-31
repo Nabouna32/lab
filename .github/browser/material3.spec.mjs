@@ -211,57 +211,132 @@ for (const entry of locales) {
 
 
 for (const entry of locales) {
-  test("navigation compacte expose cinq destinations et un menu secondaire sans doublons (" + entry.locale + ")", async ({ page }) => {
+  test("navigation compacte et menu secondaire restent utilisables (" + entry.locale + ")", async ({ page }) => {
+    await page.emulateMedia({ colorScheme: "light" });
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(entry.path);
 
     const compactLinks = page.locator('nav a[data-nav-key]:visible');
-    await expect(compactLinks).toHaveCount(5);
-    const keys = await compactLinks.evaluateAll((links) => links.map((link) => link.getAttribute("data-nav-key")));
-    expect(keys).toEqual(["home", "tools", "favorites", "collections", "account"]);
+    const compactViewports = [
+      { width: 320, height: 568 },
+      { width: 390, height: 844 },
+      { width: 600, height: 800 },
+      { width: 767, height: 390 },
+    ];
 
+    for (const viewport of compactViewports) {
+      await page.setViewportSize(viewport);
+      await expect(compactLinks).toHaveCount(5);
+      const metrics = await compactLinks.evaluateAll((links) => ({
+        keys: links.map((link) => link.getAttribute("data-nav-key")),
+        rects: links.map((link) => {
+          const rect = link.getBoundingClientRect();
+          return { width: rect.width, height: rect.height };
+        }),
+        documentWidth: document.documentElement.scrollWidth,
+        viewportWidth: document.documentElement.clientWidth,
+      }));
+      expect(metrics.keys).toEqual(["home", "tools", "favorites", "collections", "account"]);
+      expect(metrics.documentWidth).toBeLessThanOrEqual(metrics.viewportWidth + 1);
+      expect(Math.max(...metrics.rects.map((rect) => rect.width)) - Math.min(...metrics.rects.map((rect) => rect.width))).toBeLessThanOrEqual(1);
+      expect(metrics.rects.every((rect) => rect.height >= 56)).toBe(true);
+    }
+
+    await page.setViewportSize({ width: 320, height: 390 });
+    await page.emulateMedia({ colorScheme: "dark" });
     const moreLabel = entry.locale === "fr" ? "Plus" : "More";
     const trigger = page.getByRole("button", { name: moreLabel });
     await expect(trigger).toBeVisible();
     await trigger.click();
+
     const secondary = page.locator("#mobile-secondary-navigation");
     await expect(secondary).toHaveAttribute("aria-hidden", "false");
-    await expect(secondary.getByRole("link")).toHaveCount(1);
-    await expect(secondary.getByRole("link")).toHaveAccessibleName(
+    const primarySecondaryNavigation = secondary.getByRole("navigation").first();
+    await expect(primarySecondaryNavigation.getByRole("link")).toHaveCount(1);
+    await expect(primarySecondaryNavigation.getByRole("link")).toHaveAccessibleName(
       entry.locale === "fr" ? "Parcours guidés" : "Guided workflows",
     );
     await expect(secondary.locator('input[type="radio"]')).toHaveCount(3);
+    await expect(secondary.getByRole("navigation").nth(1).getByRole("link")).toHaveCount(2);
 
+    const panelRect = await secondary.evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom, height: rect.height };
+    });
+    expect(panelRect.left).toBeGreaterThanOrEqual(0);
+    expect(panelRect.right).toBeLessThanOrEqual(320);
+    expect(panelRect.top).toBeGreaterThanOrEqual(0);
+    expect(panelRect.bottom).toBeLessThanOrEqual(326);
+    expect(panelRect.height).toBeLessThanOrEqual(246);
+
+    await page.keyboard.press("Tab");
+    await expect(primarySecondaryNavigation.getByRole("link")).toBeFocused();
     await page.keyboard.press("Escape");
     await expect(secondary).toHaveAttribute("aria-hidden", "true");
     await expect(trigger).toBeFocused();
 
     await trigger.click();
+    const darkLabel = entry.locale === "fr" ? "Sombre" : "Dark";
+    await secondary.getByRole("radio", { name: darkLabel }).check({ force: true });
+    await expect(secondary.getByRole("radio", { name: darkLabel })).toBeChecked();
     await expect(secondary).toHaveAttribute("aria-hidden", "false");
-    await page.locator("main").click({ position: { x: 8, y: 8 } });
+
+    const outsideButton = page.getByTestId("long-label-button");
+    await outsideButton.click();
     await expect(secondary).toHaveAttribute("aria-hidden", "true");
+    await expect(outsideButton).toBeFocused();
 
     await trigger.click();
-    await secondary.getByRole("link", {
+    await primarySecondaryNavigation.getByRole("link", {
       name: entry.locale === "fr" ? "Parcours guidés" : "Guided workflows",
     }).click();
     await expect(page).toHaveURL(new RegExp(entry.locale === "fr" ? "/fr/parcours-guides" : "/en/guided-workflows"));
     await expect(secondary).toHaveAttribute("aria-hidden", "true");
+
+    await trigger.click();
+    const languageNavigation = secondary.getByRole("navigation").nth(1);
+    const alternateLanguage = entry.locale === "fr" ? "English" : "Français";
+    await languageNavigation.getByRole("link", { name: alternateLanguage }).click();
+    await expect(page).toHaveURL(new RegExp(entry.locale === "fr" ? "/en/guided-workflows" : "/fr/parcours-guides"));
+    await expect(secondary).toHaveAttribute("aria-hidden", "true");
   });
 }
 
-test("navigation étendue conserve les six destinations et expose les préférences dédiées", async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
+test("navigation adaptative conserve les six destinations et les préférences sur le rail", async ({ page }) => {
   await page.goto("/fr/design-lab");
+  const desktopViewports = [
+    { width: 768, height: 390 },
+    { width: 844, height: 390 },
+    { width: 1024, height: 600 },
+    { width: 1200, height: 480 },
+    { width: 1440, height: 900 },
+    { width: 1920, height: 1080 },
+  ];
 
-  const desktopLinks = page.locator("aside nav a[data-nav-key]");
-  await expect(desktopLinks).toHaveCount(6);
-  await expect(page.getByRole("button", { name: "Plus" })).toHaveCount(0);
-  await expect(page.locator('input[name="loculary-theme-desktop"]')).toHaveCount(3);
-  await expect(page.locator('nav[aria-label="Langue"]')).toBeVisible();
+  for (const viewport of desktopViewports) {
+    await page.setViewportSize(viewport);
+    const desktopLinks = page.locator("aside nav a[data-nav-key]:visible");
+    await expect(desktopLinks).toHaveCount(6);
+    await expect(page.locator('nav[aria-label="Langue"]')).toBeVisible();
+    await expect(page.locator('input[name="loculary-theme-desktop"]')).toHaveCount(3);
+    await expect(page.getByRole("button", { name: "Plus" })).toHaveCount(0);
+    const metrics = await page.evaluate(() => ({
+      documentWidth: document.documentElement.scrollWidth,
+      viewportWidth: document.documentElement.clientWidth,
+      navOverflow: getComputedStyle(document.querySelector("aside nav")).overflowY,
+    }));
+    expect(metrics.documentWidth).toBeLessThanOrEqual(metrics.viewportWidth + 1);
+    expect(metrics.navOverflow).toBe("auto");
+  }
+
+  await page.setViewportSize({ width: 768, height: 390 });
+  await page.locator('aside a[data-nav-key="account"]').scrollIntoViewIfNeeded();
+  await expect(page.locator('aside a[data-nav-key="account"]')).toBeVisible();
   await expect(page.locator('input[name="loculary-theme-desktop"][value="system"]')).toBeChecked();
-});
 
+  await page.locator('nav[aria-label="Langue"]').getByRole("link", { name: "English" }).click();
+  await expect(page).toHaveURL(/\/en\/design-lab/);
+});
 test("focus clavier visible et réduction des animations", async ({ page }) => {
   await page.goto("/fr/design-lab");
   await page.evaluate(() => {
