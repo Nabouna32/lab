@@ -97,6 +97,7 @@ Recouper ensuite les affirmations et liens importants avec le dépôt et les sys
 - Mettre à jour le corps de l'issue lorsque l'objectif, le périmètre, les décisions, l'état, les critères ou la prochaine action changent durablement. Le corps doit rester la source actuelle de reprise.
 - Utiliser les commentaires pour les transitions utiles : décision, découverte, résultat significatif, validation, incident ou changement d'état. Ne pas commenter chaque commande, tentative ou vérification.
 - Fermer uniquement lorsque les critères d'acceptation sont vérifiés. Une PR fusionnée ne suffit pas si des contrôles de production ou d'autres critères restent requis.
+- Réouvrir une issue clôturée si une preuve nouvelle montre que ses critères n'étaient pas satisfaits, que le défaut initial persiste ou réapparaît, ou que la décision de clôture reposait sur une hypothèse devenue fausse. Documenter la preuve et actualiser l'objectif, le périmètre et les critères ; créer une nouvelle issue si le besoin est distinct ou si le périmètre a substantiellement changé.
 - Pour un doublon, relier explicitement l'issue de référence avant fermeture. Pour une issue obsolète ou sans valeur actuelle, expliquer brièvement le constat avant fermeture. Conserver les issues encore valides ; investiguer celles dont l'état est incertain.
 - Ne pas fermer ou reclasser en masse sans examen individuel. Ne pas créer de labels de priorité ou d'état par défaut.
 
