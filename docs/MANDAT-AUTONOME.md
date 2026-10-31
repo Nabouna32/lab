@@ -185,7 +185,9 @@ Lorsqu'une issue formalise un transfert PILOTAGE → AUTONOME, elle doit reflét
 
 La taxonomie, la structure, la création, la mise à jour, la clôture et la réouverture des issues, les cas Dependabot, les demandes d'action humaine et l'hygiène des commentaires sont définis dans `docs/ISSUE-GUIDELINES.md`. Ce document est la référence centrale : ne pas recopier sa taxonomie ni ses procédures ici. Les permissions propres à chaque mode sont définies dans `AGENTS.md`.
 
-En mode AUTONOME, les issues portant `action-humaine` sont totalement exclues : les filtrer de toutes les recherches avec `-label:action-humaine`, ne pas les lire, les mentionner, les commenter, les modifier ou surveiller leur état. Ne pas attendre d'action ou de réponse. Les travaux autonomes indépendants continuent selon la section 4. La création d'une telle issue suit exclusivement la procédure de `docs/ISSUE-GUIDELINES.md`.
+En mode AUTONOME, les issues portant `action-humaine` sont totalement exclues : les filtrer de toutes les recherches avec `-label:action-humaine`, ne pas lire leur corps ou leurs commentaires, les commenter, les modifier, vérifier leur état, retirer leur label ou surveiller leur évolution. Ne pas mentionner spontanément leur existence, leur contenu ou une action attendue, et ne pas attendre d'action ou de réponse. Les travaux autonomes indépendants continuent selon la section 4. La création d'une telle issue suit exclusivement la procédure de `docs/ISSUE-GUIDELINES.md`.
+
+Une demande explicite de l'utilisateur portant sur la politique générale ou la signification d'une action humaine peut recevoir une réponse de principe sans consultation d'une issue exclue ni divulgation de son contenu. Cette réponse ne réactive pas l'issue et n'autorise ni lecture, ni surveillance, ni commentaire, ni modification, ni reprise autonome. Toute reprise opérationnelle relève du mode COLLABORATIF, à la demande de l'utilisateur et selon les validations définies dans `AGENTS.md`.
 
 
 ## 7. Gestion des blocages et interruptions
@@ -212,6 +214,7 @@ Si la session risque de s'interrompre, enregistrer avant la fin un état concis 
 - Lorsque le changement est prêt et que les contrôles et protections le permettent, conduire la livraison jusqu'à la fusion et, si approprié, jusqu'à la mise en production.
 - Vérifier l'état après fusion et le résultat en production lorsque cela est techniquement possible. Distinguer les vérifications réalisées de celles qui restent impossibles.
 - Vérifier également l'état réel des issues liées après fusion : ne pas supposer que le mot-clé Closes a produit une clôture automatique. Si l'issue reste ouverte et que tous ses critères sont satisfaits, la clôturer manuellement ; sinon la laisser ouverte.
+- Pour les chantiers significatifs, consigner une synthèse finale proportionnée dans le corps de l'issue et/ou un commentaire final daté, avec les preuves et limites utiles ; éviter les duplications et ne pas imposer de commentaire artificiel aux tâches triviales. Appliquer `docs/ISSUE-GUIDELINES.md`.
 - Ne jamais contourner une protection obligatoire pour accélérer la livraison. Si une protection ou une permission bloque l'opération, chercher une solution conforme et documenter précisément le blocage.
 
 ### Stratégie de tests et évolution autonome de la CI
