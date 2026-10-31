@@ -103,7 +103,7 @@ Le formulaire de création, les contrôles natifs, les boutons, les statuts et l
 
 Les styles partagés sont alignés sur les tokens AndroidX 1.4.0 vérifiés : contour `outlineVariant` et libellé `onSurfaceVariant` à l'état non sélectionné, conteneur `secondaryContainer` et contenu `onSecondaryContainer` à l'état sélectionné. Le Web conserve une hauteur minimale de 40 px sur ces filtres pour ne pas réduire la zone d'interaction existante ; AndroidX définit 32 dp pour le conteneur, sans assimilation à 32 px CSS. La sélection reste contrôlée par l'état React et exposée par `aria-pressed`.
 
-Les suggestions dynamiques du panneau de recherche restent à migrer vers `SuggestionChip` dans une tranche séparée, car leur activation doit préserver le focus du champ et le comportement de recherche. La migration des filtres et les tests de contrat source ne prouvent pas le rendu navigateur : thèmes clair/sombre, contraste en contexte, zoom, viewports et clavier restent à vérifier.
+Les suggestions dynamiques sans résultat ont été migrées vers le `SuggestionChip` partagé dans la PR #1124. Leur activation préserve le focus du champ et réutilise le moteur de recherche existant. Cette migration et ses tests de contrat source ne prouvent pas le rendu navigateur : thèmes clair/sombre, contraste en contexte, zoom, viewports et clavier restent à vérifier.
 
 ## Suggestions de recherche
 
