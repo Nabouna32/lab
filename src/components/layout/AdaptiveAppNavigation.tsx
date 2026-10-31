@@ -61,7 +61,7 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
         href={item.href}
         prefetch={item.key === "account" ? false : undefined}
         aria-current={selected ? "page" : undefined}
-        aria-label={compact ? item.label : undefined}
+        aria-label={compact ? item.mobileLabel ?? item.label : undefined}
         data-nav-key={item.key}
         data-selected={selected ? "true" : "false"}
         className={compact ? styles.mobileItem : styles.desktopItem}
