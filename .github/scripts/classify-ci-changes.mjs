@@ -60,7 +60,7 @@ export function classifyCiChanges(paths, expectedCount) {
     lightweight_only: lightweightOnly,
     dependencies_changed: dependenciesChanged,
     governance_changed: governanceChanged,
-    androidx_provenance_changed: androidxCatalogChanged,
+    androidx_provenance_changed: androidxProvenanceChanged,
     supabase_changed: supabaseChanged,
   };
 }
