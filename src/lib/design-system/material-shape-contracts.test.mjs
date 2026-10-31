@@ -4,7 +4,7 @@ import { test } from "node:test";
 
 test("shared shape tokens are consumed by date, navigation and slider compositions", () => {
   const datePicker = readFileSync(new URL("../../components/ui/DatePicker.module.css", import.meta.url), "utf8");
-  const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
+  const adaptiveNavigation = readFileSync(new URL("../../components/layout/AdaptiveAppNavigation.module.css", import.meta.url), "utf8");
   const recentTools = readFileSync(new URL("../../components/home/RecentTools.tsx", import.meta.url), "utf8");
   const relatedTools = readFileSync(new URL("../../components/tools/RelatedTools.tsx", import.meta.url), "utf8");
   const toolCard = readFileSync(new URL("../../components/tools/ToolCard.tsx", import.meta.url), "utf8");
@@ -22,7 +22,8 @@ test("shared shape tokens are consumed by date, navigation and slider compositio
   assert.ok(datePicker.includes("border-radius: var(--shape-corner-extra-large)"));
   assert.ok(datePicker.includes("border-radius: var(--shape-corner-small)"));
   assert.ok(datePicker.includes("border-radius: var(--shape-corner-large)"));
-  assert.ok(appLink.includes("rounded-[var(--shape-corner-full)]"));
+  assert.ok(adaptiveNavigation.includes("shape-corner-full"), "the actual adaptive navigation owns its full shape");
+  assert.ok(adaptiveNavigation.includes("shape-corner-medium"), "adaptive navigation uses the shared medium shape");
   assert.ok(recentTools.includes("rounded-[var(--m3-card-shape)]"));
   assert.ok(recentTools.includes("rounded-[var(--shape-corner-medium)]"));
   assert.ok(relatedTools.includes("shape-corner-medium"));
