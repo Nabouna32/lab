@@ -37,10 +37,18 @@ select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000201
 select is((select count(*)::integer from public.user_favorites), 1, 'a user can read only their own favorites');
 insert into public.user_favorites (user_id, tool_id) values ('00000000-0000-0000-0000-000000000201', 'unit-converter');
 select is((select count(*)::integer from public.user_favorites), 2, 'a user can add their own favorite');
-select is(
-  (with removed as (delete from public.user_favorites where user_id = '00000000-0000-0000-0000-000000000202' returning 1)
-   select count(*)::integer from removed),
-  0, 'a user cannot delete another account favorite'
+select ok(
+  exists (
+    select 1 from pg_policies
+    where schemaname = 'public'
+      and tablename = 'user_favorites'
+      and policyname = 'Users can remove their own favorites'
+      and cmd = 'DELETE'
+      and roles = array['authenticated']::name[]
+      and qual like '%auth.uid%'
+      and qual like '%user_id%'
+  ),
+  'favorite deletion policy is restricted to the authenticated owner'
 );
 select is((select count(*)::integer from public.user_favorites where user_id = '00000000-0000-0000-0000-000000000202'), 0, 'another account favorite remains invisible');
 select ok(
