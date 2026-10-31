@@ -42,6 +42,21 @@ L’implémentation React sépare les rôles action/toggle et déclare explicite
 - Le ripple partagé adapte `ripple()` de Compose au Web : il est découpé à la surface visuelle de 40 px tandis que le bouton natif conserve une cible minimale de 48 px. Le focus visible est appliqué au bouton natif (anneau 2 px, offset 2 px) et le fond de focus de la surface interne reste une couche d’état séparée. Les toggles gardent la sémantique native de bouton et exposent leur état coché avec `aria-pressed`, le modèle Web établi ; ils ne sont pas exposés comme des cases à cocher.
 - `shape` mappe Compose `Shape` à `border-radius` CSS ; `colors` accepte les rôles de couleur par défaut, désactivés et cochés inspirés d’AndroidX.
 
+## Inventaire des consommateurs de production
+
+Audit du code de production au 31 octobre 2026. La distinction action/toggle est déterminée par la sémantique du contrôle, pas par son apparence.
+
+| Surface | API partagée | Sémantique et contrat observé |
+|---|---|---|
+| `OutlinedSecureTextField` | `IconButton` | Révèle/masque le mot de passe ; le nom accessible change entre « afficher » et « masquer », donc c'est une action et non un toggle `aria-pressed`. L'état disabled suit le champ. |
+| `HeaderSearch` | `IconButton` | Déclencheur de disclosure ; expose `aria-expanded` et `aria-controls`, et utilise une ref pour la gestion du focus. |
+| `ToolSearch` | `IconButton` + `FilledIconButton` | Efface la requête en conservant le focus du champ ; le bouton rempli soumet le formulaire nativement et est désactivé quand la requête est vide. |
+| `UnitConverter` | `OutlinedIconButton` | Action d'inversion des unités avec nom accessible et titre localisés. |
+| `NumberBaseConverter` | `OutlinedIconButton` | Action d'inversion des bases avec nom accessible et titre localisés ; `self-end` ne règle que l'alignement flex. |
+| `FavoriteButton` compact | `IconToggleButton` | État persistant favori/non favori via `checked` et `onCheckedChange` ; le composant expose `aria-pressed`. La variante complète conserve les boutons texte `FilledTonalButton`/`OutlinedButton` et leur état `aria-pressed`. |
+
+Le Design Lab affiche les huit variantes comme spécimens de référence ; il ne constitue pas un consommateur de production. Aucun usage de production de `FilledTonalIconButton` ou des variantes toggle autres que `IconToggleButton` n'a été trouvé dans l'inventaire actuel.
+
 ## Vérifications requises
 
 - [x] Épingler les références API et tokens sur le commit stable Material 3 1.4.0, vérifié contre l’archive des sources publiées.
@@ -60,6 +75,7 @@ L’implémentation React sépare les rôles action/toggle et déclare explicite
 - [x] Exécuter tests, lint, TypeScript et build : 744 tests réussis, 2 ignorés ; lint sans erreur (8 avertissements existants) ; TypeScript et build réussis ; CI #4611 verte sur `080b627`.
 - [ ] Inspecter le rendu navigateur par rapport aux références épinglées ; consigner les différences et questions non résolues.
 - [x] Migrer les points d’usage de production connus et les spécimens Design Lab des props génériques variant/selected vers les composants nommés action/toggle.
-- [ ] Terminer l’inventaire exhaustif des usages de production et vérifier tous les tokens d’état CSS et le rendu navigateur réel.
+- [x] Inventorier les consommateurs de production et documenter leur sémantique action/toggle (voir la table ci-dessus).
+- [ ] Vérifier exhaustivement les tokens d’état CSS et le rendu navigateur réel par variante dans les thèmes clair/sombre, avec clavier, zoom et contraste.
 
 La validation locale du 30 octobre 2026 a utilisé Chromium/Playwright sur une route de test temporaire non livrée, sans Preview ni déploiement. Les quatre variantes IconButton d’action et les quatre états toggle ont été exercés ; les cibles de 48 px, les noms accessibles, l’état `aria-pressed`, le hover, l’activation clavier et les couleurs disabled ont été inspectés. axe-core 4.14.0 ne détecte aucune violation WCAG 2.0/2.1 A/AA ni WCAG 2.2 AA sur la surface de test ; des contrôles de contraste et de nom de libellé restent incomplets et demandent une revue manuelle. Cette vérification ciblée ne vaut pas déclaration de conformité globale. Les rapports DOM externes obtenus en Production n’exposent pas de façon fiable les attributs ARIA ni `document.activeElement` ; les tests statiques garantissent le contrat source, mais ne remplacent pas une vérification navigateur instrumentée du retour de focus et des styles calculés.
