@@ -1,6 +1,6 @@
 import Link from "next/link";
 import LocularyLogo from "@/components/brand/LocularyLogo";
-import DesktopHeaderMenu from "@/components/layout/DesktopHeaderMenu";
+import HeaderPreferences from "@/components/layout/HeaderPreferences";
 import HeaderSearch from "@/components/layout/HeaderSearch";
 import { TopAppBar } from "@/components/ui/TopAppBar";
 import type { Locale } from "@/lib/i18n/config";
@@ -26,7 +26,7 @@ export default function Header({ locale }: { locale: Locale }) {
       actions={
         <>
           <HeaderSearch locale={locale} searchLabel={t.tools.searchLabel} />
-          <DesktopHeaderMenu locale={locale} />
+          <HeaderPreferences locale={locale} />
         </>
       }
       className="sticky top-0 z-50 border-b border-[var(--border)]/80"
