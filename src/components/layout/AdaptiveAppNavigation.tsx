@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import LocularyLogo from "@/components/brand/LocularyLogo";
 import { CollectionIcon } from "@/components/ui/CollectionIcon";
@@ -16,8 +16,7 @@ type Destination = {
   key: string;
   href: string;
   label: string;
-  mobileLabel?: string;
-  icon: "home" | "apps" | "person";
+  icon: "home" | "apps" | "person" | "search";
   group: "main" | "personal";
   match: (pathname: string) => boolean;
   customIcon?: "star" | "collections";
@@ -25,7 +24,6 @@ type Destination = {
 
 export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
   const pathname = usePathname();
-  const [moreOpen, setMoreOpen] = useState(false);
   const t = getMessages(locale);
   const destinations = useMemo<Destination[]>(() => {
     const home = `/${locale}`;
@@ -36,8 +34,8 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
     const account = `/${locale}/compte`;
     return [
       { key: "home", href: home, label: t.nav.home, icon: "home", group: "main", match: (path) => path === home },
-      { key: "tools", href: tools, label: t.nav.explore, icon: "apps", group: "main", match: (path) => path === tools || path.startsWith(tools + "/") || path.startsWith(`/${locale}/categories`) },
-      { key: "guided", href: guided, label: t.guidedWorkflows.homeTitle, mobileLabel: t.nav.guidedShort, icon: "apps", group: "main", match: (path) => path === guided || path.startsWith(guided + "/") },
+      { key: "tools", href: tools, label: t.nav.explore, icon: "search", group: "main", match: (path) => path === tools || path.startsWith(tools + "/") || path.startsWith(`/${locale}/categories`) },
+      { key: "guided", href: guided, label: t.guidedWorkflows.homeTitle, icon: "apps", group: "main", match: (path) => path === guided || path.startsWith(guided + "/") },
       { key: "favorites", href: favorites, label: t.nav.favorites, icon: "apps", group: "personal", customIcon: "star", match: (path) => path === favorites || path.startsWith(favorites + "/") },
       { key: "collections", href: collections, label: t.nav.collections, icon: "apps", group: "personal", customIcon: "collections", match: (path) => path === collections || path.startsWith(collections + "/") },
       { key: "account", href: account, label: t.nav.space, icon: "person", group: "personal", match: (path) => path === account || path.startsWith(account + "/") },
@@ -45,7 +43,7 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
   }, [locale, t]);
 
   const active = destinations.find((item) => item.match(pathname))?.key ?? "home";
-  const primary = destinations.filter((item) => ["home", "tools", "guided", "favorites"].includes(item.key));
+  const compact = destinations.filter((item) => ["home", "tools", "favorites", "collections", "account"].includes(item.key));
 
   function iconFor(item: Destination) {
     if (item.customIcon === "star") return <StarIcon filled className={styles.customIcon} />;
@@ -61,24 +59,23 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
         href={item.href}
         prefetch={item.key === "account" ? false : undefined}
         aria-current={selected ? "page" : undefined}
-        aria-label={compact ? item.mobileLabel ?? item.label : undefined}
         data-nav-key={item.key}
         data-selected={selected ? "true" : "false"}
         className={compact ? styles.mobileItem : styles.desktopItem}
       >
         <span className={compact ? styles.mobileIcon : styles.desktopIcon} aria-hidden="true">{iconFor(item)}</span>
-        <span className={compact ? styles.mobileLabel : styles.desktopLabel}>{compact ? item.mobileLabel ?? item.label : item.label}</span>
+        <span className={compact ? styles.mobileLabel : styles.desktopLabel}>{item.label}</span>
       </Link>
     );
   }
 
   return (
     <>
-      <aside className={styles.sidebar} aria-label={t.nav.menu}>
+      <aside className={styles.sidebar}>
         <Link href={`/${locale}`} className={styles.brand} aria-label={`Loculary — ${t.nav.home}`}>
           <LocularyLogo wordmarkClassName="hidden text-base font-bold tracking-[-0.03em] min-[1200px]:inline" />
         </Link>
-        <nav className={styles.desktopNav} aria-label={t.nav.menu}>
+        <nav className={styles.desktopNav} aria-label={t.nav.primaryNavigation}>
           <div className={styles.group}>{destinations.filter((item) => item.group === "main").map((item) => link(item))}</div>
           <div className={styles.separator} />
           <p className={styles.groupLabel}>{t.nav.space}</p>
@@ -88,18 +85,8 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
           <span className={styles.footerHint}>{t.nav.account}</span>
         </div>
       </aside>
-      <nav className={styles.mobileNav} aria-label={t.nav.menu}>
-        {primary.map((item) => link(item, true))}
-        <div className={styles.mobileMore}>
-          <button type="button" className={styles.mobileItem} aria-expanded={moreOpen} aria-controls="mobile-secondary-navigation" onClick={() => setMoreOpen((open) => !open)}>
-            <span className={styles.mobileIcon} aria-hidden="true"><MaterialIcon name="more_horiz" size={24} /></span>
-            <span className={styles.mobileLabel}>{t.nav.more}</span>
-          </button>
-          {moreOpen ? <div id="mobile-secondary-navigation" className={styles.mobileMoreMenu}>
-            {link(destinations.find((item) => item.key === "collections")!, true)}
-            {link(destinations.find((item) => item.key === "account")!, true)}
-          </div> : null}
-        </div>
+      <nav className={styles.mobileNav} aria-label={t.nav.primaryNavigation}>
+        {compact.map((item) => link(item, true))}
       </nav>
     </>
   );

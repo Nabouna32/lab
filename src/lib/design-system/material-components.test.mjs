@@ -20,7 +20,7 @@ const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", impo
 const buttonVariantStylesSource = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
 const iconButtonSource = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
-const headerMenuSource = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
+const headerPreferencesSource = readFileSync(new URL("../../components/layout/HeaderPreferences.tsx", import.meta.url), "utf8");
 const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.url), "utf8");
 const typographyComponentStyles = {
   buttonGroup: readFileSync(new URL("../../components/ui/ButtonGroup.module.css", import.meta.url), "utf8"),
@@ -193,35 +193,27 @@ test("common navigation and identity icons use the shared Material Symbols compo
   const starSource = readFileSync(new URL("../../components/ui/StarIcon.tsx", import.meta.url), "utf8");
   const collectionSource = readFileSync(new URL("../../components/ui/CollectionIcon.tsx", import.meta.url), "utf8");
   const searchSource = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
-  const headerSource = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
+  const navigationSource = readFileSync(new URL("../../components/layout/AdaptiveAppNavigation.tsx", import.meta.url), "utf8");
+  const headerPreferencesSource = readFileSync(new URL("../../components/layout/HeaderPreferences.tsx", import.meta.url), "utf8");
   assert.match(starSource, /MaterialIcon name=\{filled \? "star_fill" : "star"\}/);
   assert.match(collectionSource, /MaterialIcon name="collections_bookmark"/);
   assert.match(searchSource, /MaterialIcon name="search"/);
-  assert.match(headerSource, /MaterialIcon name="apps"/);
-  assert.match(headerSource, /h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-\[var\(--primary-container\)\]/);
-  assert.match(headerSource, /bg-\[var\(--tertiary-container\)\] text-\[var\(--on-tertiary-container\)\]/);
-  assert.match(headerSource, /t\.nav\.exploreDescription/);
+  assert.match(navigationSource, /icon: "search"/);
+  assert.match(headerPreferencesSource, /MaterialIcon name="apps"/);
+  assert.match(headerPreferencesSource, /t\.guidedWorkflows\.homeTitle/);
+  assert.match(headerPreferencesSource, /t\.nav\.language/);
+  assert.match(headerPreferencesSource, /t\.theme\.title/);
+  assert.match(headerPreferencesSource, /MaterialIcon name="more_horiz"/);
   const messagesSource = readFileSync(new URL("../../lib/i18n/messages.ts", import.meta.url), "utf8");
-  assert.match(messagesSource, /exploreDescription: "Parcours tous les outils disponibles"/);
-  assert.match(messagesSource, /exploreDescription: "Browse all available tools"/);
-  assert.match(headerSource, /t\.nav\.favorites/);
-  assert.match(headerSource, /t\.nav\.favoritesDescription/);
-  assert.match(headerSource, /t\.nav\.collections/);
-  assert.match(headerSource, /t\.nav\.collectionsDescription/);
-  assert.doesNotMatch(headerSource, /locale === "fr"|locale === "en"/);
-  assert.match(messagesSource, /favorites: "Favoris"/);
-  assert.match(messagesSource, /favorites: "Favorites"/);
-  assert.match(messagesSource, /collections: "Collections"/);
-  assert.match(messagesSource, /collections: "Collections"/);
-  assert.match(headerSource, /m3-type-label-large block text-\[var\(--foreground\)\]/);
-  assert.doesNotMatch(headerSource, /function Icon\(/);
+  assert.match(messagesSource, /homeTitle: "Parcours guidés"/);
+  assert.match(messagesSource, /homeTitle: "Guided workflows"/);
 });
 
 test("standard functional UI surfaces do not reintroduce one-off inline SVG icons", () => {
   const sharedFunctionalIconCallSites = [
     "../../app/[locale]/compte/page.tsx",
     "../../app/[locale]/design-lab/VisualLab.tsx",
-    "../../components/layout/DesktopHeaderMenu.tsx",
+    "../../components/layout/HeaderPreferences.tsx",
     "../../components/layout/LanguageFlag.tsx",
     "../../components/layout/HeaderSearch.tsx",
     "../../components/tools/ToolSearch.tsx",
@@ -470,13 +462,13 @@ test("M3 web reference tokens document Android dp/sp magnitude without claiming 
   assert.match(globalCss, /--m3-type-label-large-size: 0\.875rem/);
 });
 
-test("header menu uses a restrained semantic color hierarchy across destinations and settings", () => {
-  assert.match(headerMenuSource, /bg-\[var\(--surface-container-high\)\] text-\[var\(--on-surface-variant\)\]/);
-  assert.match(headerMenuSource, /bg-\[var\(--primary-container\)\] text-\[var\(--on-primary-container\)\]/);
-  assert.match(headerMenuSource, /bg-\[var\(--tertiary-container\)\] text-\[var\(--on-tertiary-container\)\]/);
-  assert.match(headerMenuSource, /grid grid-cols-3 gap-1/);
-  assert.match(headerMenuSource, /const selected = themeReady && theme === option\.value/);
-  assert.match(headerMenuSource, /w-\[min\(18rem,calc\(100vw-1\.5rem\)\)\]/);
+test("header preferences use restrained Material 3 semantic colors", () => {
+  assert.match(headerPreferencesSource, /bg-\[var\(--surface-container-high\)\]/);
+  assert.match(headerPreferencesSource, /bg-\[var\(--primary-container\)\] text-\[var\(--on-primary-container\)\]/);
+  assert.match(headerPreferencesSource, /bg-\[var\(--secondary-container\)\] text-\[var\(--on-secondary-container\)\]/);
+  assert.match(headerPreferencesSource, /grid grid-cols-3 gap-1/);
+  assert.match(headerPreferencesSource, /const selected = themeReady && theme === option\.value/);
+  assert.match(headerPreferencesSource, /w-\[min\(20rem,calc\(100vw-1\.5rem\)\)\]/);
 });
 
 test("header menu copy uses neutral destination titles and direct descriptions in both locales", () => {
@@ -491,22 +483,21 @@ test("header menu copy uses neutral destination titles and direct descriptions i
 });
 
 test("header theme controls defer client-dependent selected state until after hydration", () => {
-  assert.match(headerMenuSource, /function subscribeHydrationReady\(\)/);
-  assert.match(headerMenuSource, /function getHydrationReadySnapshot\(\)\s*\{\s*return true;/);
-  assert.match(headerMenuSource, /function getServerHydrationReadySnapshot\(\)\s*\{\s*return false;/);
-  assert.match(headerMenuSource, /useSyncExternalStore\(\s*subscribeHydrationReady,\s*getHydrationReadySnapshot,\s*getServerHydrationReadySnapshot,/);
-  assert.doesNotMatch(headerMenuSource, /setThemeReady/);
-  assert.match(headerMenuSource, /<fieldset className="min-w-0 px-2 pb-1 pt-1">/);
-  assert.match(headerMenuSource, /<legend className="m3-type-label-small/);
-  assert.match(headerMenuSource, /type="radio"/);
-  assert.match(headerMenuSource, /name="loculary-theme"/);
-  assert.match(headerMenuSource, /checked=\{selected\}/);
-  assert.match(headerMenuSource, /onChange=\{\(\) => selectTheme\(option\.value\)\}/);
-  assert.match(headerMenuSource, /peer-focus-visible:ring-2/);
-  assert.doesNotMatch(headerMenuSource, /aria-pressed=/);
-  assert.match(headerMenuSource, /const selected = themeReady && theme === option\.value/);
+  assert.match(headerPreferencesSource, /function subscribeHydrationReady\(\)/);
+  assert.match(headerPreferencesSource, /function getHydrationReadySnapshot\(\)\s*\{\s*return true;/);
+  assert.match(headerPreferencesSource, /function getServerHydrationReadySnapshot\(\)\s*\{\s*return false;/);
+  assert.match(headerPreferencesSource, /useSyncExternalStore\(\s*subscribeHydrationReady,\s*getHydrationReadySnapshot,\s*getServerHydrationReadySnapshot,/);
+  assert.doesNotMatch(headerPreferencesSource, /setThemeReady/);
+  assert.match(headerPreferencesSource, /<fieldset className="min-w-0 px-2 pb-1 pt-1">/);
+  assert.match(headerPreferencesSource, /<legend className="m3-type-label-small/);
+  assert.match(headerPreferencesSource, /type="radio"/);
+  assert.match(headerPreferencesSource, /name=\{compact \? "loculary-theme-mobile" : "loculary-theme-desktop"\}/);
+  assert.match(headerPreferencesSource, /checked=\{selected\}/);
+  assert.match(headerPreferencesSource, /onChange=\{\(\) => setTheme\(option\.value\)\}/);
+  assert.match(headerPreferencesSource, /peer-focus-visible:ring-2/);
+  assert.doesNotMatch(headerPreferencesSource, /aria-pressed=/);
+  assert.match(headerPreferencesSource, /const selected = themeReady && theme === option\.value/);
 });
-
 
 test("destructive account and collection actions preserve link/button semantics and use shared Material 3 controls", () => {
   const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
@@ -658,6 +649,19 @@ test("application navigation preserves accessible links and localized destinatio
   assert.match(navigation, /<Link[\s\S]*?aria-current=\{selected \? "page" : undefined\}/);
   assert.match(navigation, /getToolsPath\(locale\)/);
   assert.match(navigation, /getGuidedWorkflowsPath\(locale\)/);
+  assert.match(navigation, /\["home", "tools", "favorites", "collections", "account"\]/);
+  assert.match(navigation, /icon: "search"/);
+  assert.doesNotMatch(navigation, /mobileMore|moreOpen|mobile-secondary-navigation/);
+
+  const headerPreferences = readFileSync(new URL("../../components/layout/HeaderPreferences.tsx", import.meta.url), "utf8");
+  assert.match(headerPreferences, /getGuidedWorkflowsPath\(locale\)/);
+  assert.match(headerPreferences, /aria-label=\{t\.nav\.more\}/);
+  assert.match(headerPreferences, /pointerdown/);
+  assert.match(headerPreferences, /event\.key !== "Escape"/);
+  assert.match(headerPreferences, /window\.matchMedia\("\(min-width: 768px\)"\)/);
+  assert.match(headerPreferences, /name=\{compact \? "loculary-theme-mobile" : "loculary-theme-desktop"\}/);
+  assert.match(headerPreferences, /hidden items-center gap-3 md:flex/);
+  assert.match(headerPreferences, /relative md:hidden/);
   assert.match(navigation, /\$\{locale\}\/compte/);
   assert.match(navigationCss, /:focus-visible/);
   assert.match(navigationCss, /prefers-reduced-motion: reduce/);

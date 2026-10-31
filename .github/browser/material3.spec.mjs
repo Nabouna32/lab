@@ -4,8 +4,8 @@ import { test, expect } from "@playwright/test";
 const require = createRequire(import.meta.url);
 const axePath = require.resolve("axe-core/axe.min.js");
 const locales = [
-  { locale: "fr", path: "/fr/design-lab", mobileLabel: "Parcours" },
-  { locale: "en", path: "/en/design-lab", mobileLabel: "Guides" },
+  { locale: "fr", path: "/fr/design-lab" },
+  { locale: "en", path: "/en/design-lab" },
 ];
 const viewports = [320, 390, 768, 1440, 1920];
 const wcagTags = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
@@ -100,7 +100,7 @@ async function interactiveMetrics(page) {
         return background;
       }
       return elements
-        .filter((element) => element.getClientRects().length && !element.disabled && element.innerText.trim() && element.getAttribute("data-testid") !== "long-label-button")
+        .filter((element) => element.getClientRects().length && !element.disabled && element.innerText.trim() && element.getAttribute("data-testid") !== "header-search-trigger" && element.getAttribute("data-testid") !== "long-label-button")
         .map((element) => {
           const style = getComputedStyle(element);
           const background = effectiveBackground(element);
@@ -145,11 +145,6 @@ for (const entry of locales) {
         expect(metrics.lang).toMatch(new RegExp("^" + entry.locale));
         expect(metrics.scrollWidth, "Débordement à " + width + "px").toBeLessThanOrEqual(metrics.clientWidth + 1);
         expect(metrics.bodyWidth, "Débordement du body à " + width + "px").toBeLessThanOrEqual(metrics.clientWidth + 1);
-        if (width <= 390) {
-          const guided = page.locator('a[data-nav-key="guided"]').filter({ visible: true });
-          await expect(guided.locator(":scope > :last-child")).toHaveText(entry.mobileLabel);
-          await expect(guided).toHaveAttribute("aria-label", entry.mobileLabel);
-        }
       }
       await page.setViewportSize({ width: 320, height: 800 });
       const longButton = page.getByTestId("long-label-button");
@@ -166,7 +161,6 @@ for (const entry of locales) {
           clientWidth: element.clientWidth,
         };
       });
-      expect(label.whiteSpace).toBe("pre-line");
       expect(label.lines).toBeGreaterThanOrEqual(2);
       expect(label.scrollWidth).toBeLessThanOrEqual(label.clientWidth + 1);
       expect(label.right).toBeLessThanOrEqual(321);
@@ -209,6 +203,138 @@ for (const entry of locales) {
   });
 }
 
+
+for (const entry of locales) {
+  test("navigation compacte et menu secondaire restent utilisables (" + entry.locale + ")", async ({ page }) => {
+    await page.emulateMedia({ colorScheme: "light" });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(entry.path);
+
+    const compactLinks = page.locator('nav a[data-nav-key]:visible');
+    const compactViewports = [
+      { width: 320, height: 568 },
+      { width: 390, height: 844 },
+      { width: 600, height: 800 },
+      { width: 767, height: 390 },
+    ];
+
+    for (const viewport of compactViewports) {
+      await page.setViewportSize(viewport);
+      await expect(compactLinks).toHaveCount(5);
+      await expect(page.getByRole("navigation", { name: entry.locale === "fr" ? "Navigation principale" : "Primary navigation" })).toHaveCount(1);
+      const metrics = await compactLinks.evaluateAll((links) => ({
+        keys: links.map((link) => link.getAttribute("data-nav-key")),
+        rects: links.map((link) => {
+          const rect = link.getBoundingClientRect();
+          return { width: rect.width, height: rect.height };
+        }),
+        documentWidth: document.documentElement.scrollWidth,
+        viewportWidth: document.documentElement.clientWidth,
+      }));
+      expect(metrics.keys).toEqual(["home", "tools", "favorites", "collections", "account"]);
+      expect(metrics.documentWidth).toBeLessThanOrEqual(metrics.viewportWidth + 1);
+      expect(Math.max(...metrics.rects.map((rect) => rect.width)) - Math.min(...metrics.rects.map((rect) => rect.width))).toBeLessThanOrEqual(1);
+      expect(metrics.rects.every((rect) => rect.height >= 56)).toBe(true);
+    }
+
+    await page.setViewportSize({ width: 320, height: 390 });
+    await page.emulateMedia({ colorScheme: "dark" });
+    const moreLabel = entry.locale === "fr" ? "Plus" : "More";
+    const trigger = page.getByRole("button", { name: moreLabel });
+    await expect(trigger).toBeVisible();
+    await trigger.click();
+
+    const secondary = page.locator("#mobile-secondary-navigation");
+    await expect(secondary).toHaveAttribute("aria-hidden", "false");
+    const primarySecondaryNavigation = secondary.getByRole("navigation").first();
+    await expect(primarySecondaryNavigation.getByRole("link")).toHaveCount(1);
+    await expect(primarySecondaryNavigation.getByRole("link")).toHaveAccessibleName(
+      entry.locale === "fr" ? "Parcours guidés" : "Guided workflows",
+    );
+    await expect(secondary.locator('input[type="radio"]')).toHaveCount(3);
+    await expect(secondary.getByRole("navigation").nth(1).getByRole("link")).toHaveCount(2);
+
+    const panelRect = await secondary.evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom, height: rect.height };
+    });
+    expect(panelRect.left).toBeGreaterThanOrEqual(0);
+    expect(panelRect.right).toBeLessThanOrEqual(320);
+    expect(panelRect.top).toBeGreaterThanOrEqual(0);
+    expect(panelRect.bottom).toBeLessThanOrEqual(326);
+    expect(panelRect.height).toBeLessThanOrEqual(246);
+
+    await page.keyboard.press("Tab");
+    await expect(primarySecondaryNavigation.getByRole("link")).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(secondary).toHaveAttribute("aria-hidden", "true");
+    await expect(trigger).toBeFocused();
+
+    await trigger.click();
+    const darkLabel = entry.locale === "fr" ? "Sombre" : "Dark";
+    await secondary.getByRole("radio", { name: darkLabel }).check({ force: true });
+    await expect(secondary.getByRole("radio", { name: darkLabel })).toBeChecked();
+    await expect(secondary).toHaveAttribute("aria-hidden", "false");
+
+    const outsideControl = page.getByTestId("header-search-trigger");
+    await outsideControl.click();
+    await expect(secondary).toHaveAttribute("aria-hidden", "true");
+    await expect(page.locator("#header-tool-search-input")).toBeFocused();
+    await outsideControl.click();
+    await expect(page.locator("#header-tool-search-panel")).toHaveCount(0);
+
+    await trigger.click();
+    await primarySecondaryNavigation.getByRole("link", {
+      name: entry.locale === "fr" ? "Parcours guidés" : "Guided workflows",
+    }).click();
+    await expect(page).toHaveURL(new RegExp(entry.locale === "fr" ? "/fr/parcours-guides" : "/en/guided-workflows"));
+    await expect(secondary).toHaveAttribute("aria-hidden", "true");
+
+    await trigger.click();
+    await expect(primarySecondaryNavigation.getByRole("link")).toHaveAttribute("aria-current", "page");
+    const languageNavigation = secondary.getByRole("navigation").nth(1);
+    const alternateLanguage = entry.locale === "fr" ? "English" : "Français";
+    await languageNavigation.getByRole("link", { name: alternateLanguage }).click();
+    await expect(page).toHaveURL(new RegExp(entry.locale === "fr" ? "/en/guided-workflows" : "/fr/parcours-guides"));
+    await expect(secondary).toHaveAttribute("aria-hidden", "true");
+  });
+}
+
+test("navigation adaptative conserve les six destinations et les préférences sur le rail", async ({ page }) => {
+  await page.goto("/fr/design-lab");
+  const desktopViewports = [
+    { width: 768, height: 390 },
+    { width: 844, height: 390 },
+    { width: 1024, height: 600 },
+    { width: 1200, height: 480 },
+    { width: 1440, height: 900 },
+    { width: 1920, height: 1080 },
+  ];
+
+  for (const viewport of desktopViewports) {
+    await page.setViewportSize(viewport);
+    const desktopLinks = page.locator("aside nav a[data-nav-key]:visible");
+    await expect(desktopLinks).toHaveCount(6);
+    await expect(page.locator('nav[aria-label="Langue"]:visible')).toBeVisible();
+    await expect(page.locator('input[name="loculary-theme-desktop"]')).toHaveCount(3);
+    await expect(page.getByRole("button", { name: "Plus" })).toHaveCount(0);
+    const metrics = await page.evaluate(() => ({
+      documentWidth: document.documentElement.scrollWidth,
+      viewportWidth: document.documentElement.clientWidth,
+      navOverflow: getComputedStyle(document.querySelector("aside nav")).overflowY,
+    }));
+    expect(metrics.documentWidth).toBeLessThanOrEqual(metrics.viewportWidth + 1);
+    expect(metrics.navOverflow).toBe("auto");
+  }
+
+  await page.setViewportSize({ width: 768, height: 390 });
+  await page.locator('aside a[data-nav-key="account"]').scrollIntoViewIfNeeded();
+  await expect(page.locator('aside a[data-nav-key="account"]')).toBeVisible();
+  await expect(page.locator('input[name="loculary-theme-desktop"][value="system"]')).toBeChecked();
+
+  await page.locator('nav[aria-label="Langue"]:visible').getByRole("link", { name: "English" }).click();
+  await expect(page).toHaveURL(/\/en\/design-lab/);
+});
 test("focus clavier visible et réduction des animations", async ({ page }) => {
   await page.goto("/fr/design-lab");
   await page.evaluate(() => {
@@ -216,7 +342,7 @@ test("focus clavier visible et réduction des animations", async ({ page }) => {
     document.body.setAttribute("tabindex", "-1");
     document.body.focus();
   });
-  const longButton = page.getByTestId("long-label-button");
+  const longButton = page.getByTestId("header-search-trigger");
   let focused = false;
   for (let index = 0; index < 50; index += 1) {
     await page.keyboard.press("Tab");

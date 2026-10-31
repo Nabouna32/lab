@@ -16,7 +16,7 @@ const toolsCatalogueSource = readSource("../../app/[locale]/[section]/page.tsx")
 const toolSearchSource = readSource("../../components/tools/ToolSearch.tsx");
 const adminDashboardSource = readSource("../../app/[locale]/admin/page.tsx");
 const adminUsersSource = readSource("../../app/[locale]/admin/utilisateurs/page.tsx");
-const desktopHeaderMenuSource = readSource("../../components/layout/DesktopHeaderMenu.tsx");
+const headerPreferencesSource = readSource("../../components/layout/HeaderPreferences.tsx");
 const messagesSource = readSource("../../lib/i18n/messages.ts");
 const toolCardSource = readSource("../../components/tools/ToolCard.tsx");
 const searchResultsSource = readSource("../../components/tools/SearchResultsClient.tsx");
@@ -125,7 +125,7 @@ test("global header uses the shared Material 3 small TopAppBar with content gutt
   assert.ok(headerSource.includes('import { TopAppBar } from "@/components/ui/TopAppBar"'));
   assert.ok(headerSource.includes("<TopAppBar"));
   assert.ok(headerSource.includes("<HeaderSearch"));
-  assert.ok(headerSource.includes("<DesktopHeaderMenu"));
+  assert.ok(headerSource.includes("<HeaderPreferences"));
   assert.ok(headerSource.includes('maxWidth: "var(--layout-content-wide)"'));
   assert.ok(headerSource.includes('marginInline: "auto"'));
   assert.ok(headerSource.includes('paddingInline: "var(--layout-page-gutter)"'));
@@ -135,13 +135,15 @@ test("global header uses the shared Material 3 small TopAppBar with content gutt
   assert.ok(!headerSource.includes('import { Modifier, RowScope } from "@/components/layout/compose/Modifier"'));
 });
 
-test("header menu exposes a localized primary navigation landmark and an accessible disclosure", () => {
-  assert.ok(desktopHeaderMenuSource.includes('<nav aria-label={t.nav.primaryNavigation}>'));
-  assert.ok(desktopHeaderMenuSource.includes("aria-expanded={open}"));
-  assert.ok(desktopHeaderMenuSource.includes('aria-controls="header-menu"'));
-  assert.ok(desktopHeaderMenuSource.includes("aria-hidden={!open}"));
-  assert.ok(desktopHeaderMenuSource.includes("inert={!open}"));
-  assert.ok(desktopHeaderMenuSource.includes("triggerRef.current?.focus()"));
+test("primary and secondary navigation landmarks are localized and the secondary disclosure is accessible", () => {
+  const adaptiveNavigationSource = readSource("../../components/layout/AdaptiveAppNavigation.tsx");
+  assert.ok(adaptiveNavigationSource.includes("aria-label={t.nav.primaryNavigation}"));
+  assert.ok(headerPreferencesSource.includes('<nav aria-label={t.nav.more}>'));
+  assert.ok(headerPreferencesSource.includes("aria-expanded={open}"));
+  assert.ok(headerPreferencesSource.includes('aria-controls={open ? "mobile-secondary-navigation" : undefined}'));
+  assert.ok(headerPreferencesSource.includes("aria-hidden={!open}"));
+  assert.ok(headerPreferencesSource.includes("inert={!open}"));
+  assert.ok(headerPreferencesSource.includes("triggerRef.current?.focus()"));
   assert.ok(messagesSource.includes('primaryNavigation: "Navigation principale"'));
   assert.ok(messagesSource.includes('primaryNavigation: "Primary navigation"'));
 });
@@ -242,13 +244,13 @@ test("admin dashboard content uses shared Material 3 typography roles", () => {
 
 
 test("desktop navigation menu uses shared Material 3 typography roles", () => {
-  for (const role of ["m3-type-label-large", "m3-type-label-medium", "m3-type-label-small", "m3-type-body-small"]) {
-    assert.ok(desktopHeaderMenuSource.includes(role), `desktop header menu should consume ${role}`);
+  for (const role of ["m3-type-label-large", "m3-type-label-medium", "m3-type-label-small"]) {
+    assert.ok(headerPreferencesSource.includes(role), `desktop header menu should consume ${role}`);
   }
 
-  assert.ok(!desktopHeaderMenuSource.includes("text-[11px]"));
-  assert.ok(!desktopHeaderMenuSource.includes("text-sm font-semibold"));
-  assert.ok(!desktopHeaderMenuSource.includes("text-xs"));
+  assert.ok(!headerPreferencesSource.includes("text-[11px]"));
+  assert.ok(!headerPreferencesSource.includes("text-sm font-semibold"));
+  assert.ok(!headerPreferencesSource.includes("text-xs"));
 });
 
 
