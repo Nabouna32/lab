@@ -55,6 +55,11 @@ export function classifyCiChanges(paths, expectedCount) {
     path.startsWith('docs/material3/catalog/inventories/') ||
     path === 'docs/material3/catalog/families.json');
   const supabaseChanged = paths.some((path) => path.startsWith('supabase/functions/'));
+  const supabaseDatabaseChanged = paths.some((path) =>
+    path === 'supabase/config.toml' ||
+    path.startsWith('supabase/migrations/') ||
+    path.startsWith('supabase/tests/')
+  );
 
   return {
     lightweight_only: lightweightOnly,
@@ -62,6 +67,7 @@ export function classifyCiChanges(paths, expectedCount) {
     governance_changed: governanceChanged,
     androidx_provenance_changed: androidxProvenanceChanged,
     supabase_changed: supabaseChanged,
+    supabase_database_changed: supabaseDatabaseChanged,
   };
 }
 
