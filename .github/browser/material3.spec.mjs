@@ -34,8 +34,8 @@ async function runAxe(page, label) {
   expect(result.violations, "Violations WCAG " + label).toEqual([]);
 }
 
-async function buttonMetrics(page) {
-  return page.locator('section[aria-labelledby="actions-title"] button')
+async function interactiveMetrics(page) {
+  return page.locator('section[aria-labelledby="actions-title"] button, footer a, a[data-material-button-link="true"]')
     .evaluateAll((elements) => {
       function parseColor(value) {
         const rgb = value.match(/rgba?\(([^)]+)\)/i);
@@ -110,6 +110,7 @@ async function buttonMetrics(page) {
           const isText = /Texte|Text$/.test(element.innerText.trim());
           return {
             label: element.innerText.trim(),
+            kind: element.tagName.toLowerCase(),
             minWidth: style.minWidth,
             minHeight: style.minHeight,
             paddingInlineStart: style.paddingInlineStart,
@@ -177,15 +178,20 @@ for (const entry of locales) {
         await page.setViewportSize({ width: 390, height: 844 });
         await page.goto(entry.path);
         await runAxe(page, entry.locale + " " + colorScheme);
-        const results = await buttonMetrics(page);
-        expect(results.length).toBeGreaterThanOrEqual(6);
-        const failures = results.filter((result) =>
+        const results = await interactiveMetrics(page);
+        const buttons = results.filter((result) => result.kind === "button");
+        const links = results.filter((result) => result.kind === "a");
+        expect(buttons.length).toBeGreaterThanOrEqual(6);
+        expect(links.length).toBeGreaterThan(0);
+        const contrastFailures = results.filter((result) =>
           result.textContrast < 4.5 ||
-          (result.borderContrast !== null && result.borderContrast < 3) ||
+          (result.borderContrast !== null && result.borderContrast < 3)
+        );
+        const geometryFailures = buttons.filter((result) =>
           result.minWidth !== "58px" ||
           result.minHeight !== "40px" ||
-          result.paddingInlineStart !== ( /Texte|Text$/.test(result.label) ? "12px" : "24px") ||
-          result.paddingInlineEnd !== ( /Texte|Text$/.test(result.label) ? "12px" : "24px") ||
+          result.paddingInlineStart !== (/Texte|Text$/.test(result.label) ? "12px" : "24px") ||
+          result.paddingInlineEnd !== (/Texte|Text$/.test(result.label) ? "12px" : "24px") ||
           result.paddingBlockStart !== "8px" ||
           result.paddingBlockEnd !== "8px" ||
           result.fontSize !== "14px" ||
@@ -195,8 +201,9 @@ for (const entry of locales) {
           result.gap !== "8px" ||
           Number.parseFloat(result.borderRadius) < 9999
         );
-        console.log("Button " + entry.locale + " " + colorScheme + " : " + JSON.stringify(results));
-        expect(failures, "Contraste ou géométrie Button incorrects").toEqual([]);
+        console.log("Boutons et liens " + entry.locale + " " + colorScheme + " : " + JSON.stringify(results));
+        expect(contrastFailures, "Contraste des boutons, liens ou contours insuffisant").toEqual([]);
+        expect(geometryFailures, "Géométrie Button incorrecte").toEqual([]);
       });
     }
   });
@@ -254,18 +261,22 @@ test("recherche mobile : navigation clavier des suggestions", async ({ page }) =
   await page.getByTestId("header-search-trigger").click();
   const input = page.locator("#header-tool-search-input");
   await expect(input).toBeVisible();
-  await input.fill("json");
+  await input.fill("âge");
   await expect(input).toHaveAttribute("aria-expanded", "true");
-  const listboxId = await input.getAttribute("aria-controls");
-  const listbox = page.locator("#" + listboxId);
+  await expect(input).toHaveAttribute("aria-controls", "header-tool-search-results");
+  const listbox = page.locator("#header-tool-search-results");
   await expect(listbox).toHaveAttribute("role", "listbox");
+  await expect(listbox).toHaveAttribute("aria-busy", "true");
   await expect(listbox.getByRole("option").first()).toBeVisible();
+  await expect(listbox).toHaveAttribute("aria-busy", "false");
   await page.keyboard.press("ArrowDown");
-  const activeId = await input.getAttribute("aria-activedescendant");
-  expect(activeId).toBeTruthy();
-  await expect(page.locator("#" + activeId)).toHaveAttribute("role", "option");
+  await expect(input).toHaveAttribute("aria-activedescendant", "header-tool-search-result-0");
+  await expect(page.locator("#header-tool-search-result-0")).toHaveAttribute("role", "option");
   await page.keyboard.press("Escape");
   await expect(input).toHaveAttribute("aria-expanded", "false");
+  await expect(input).not.toHaveAttribute("aria-controls");
   await page.keyboard.press("ArrowDown");
   await expect(input).toHaveAttribute("aria-expanded", "true");
+  await expect(input).toHaveAttribute("aria-controls", "header-tool-search-results");
+  await expect(input).toHaveAttribute("aria-activedescendant", "header-tool-search-result-0");
 });
