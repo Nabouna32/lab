@@ -814,6 +814,7 @@ test("shared controls use Material Symbols instead of Unicode chevrons and actio
   assert.match(sources[1], /keyboard_arrow_up/);
   assert.match(sources[1], /keyboard_arrow_down/);
   assert.match(sources[2], /close/);
+  assert.match(sources[3], /add/);
 });
 
 
