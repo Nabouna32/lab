@@ -50,18 +50,16 @@ L'inventaire mécanique compte 2 343 déclarations : 1 389 candidates API source
 
 ## Audit ciblé des adaptations Loculary
 
-- **Surfaces natives :** `Carousel` utilise `overflow-x: auto`, scroll snap, `overscroll-behavior-inline: contain` et des commandes clavier. `ModalBottomSheet` et plusieurs menus utilisent aussi le scroll DOM natif. Les wrappers Web `Scaffold`, `NavigationSuiteScaffold`, `NavigationDrawer`, `NavigationRail` et `WideNavigationRail` n'avaient aucun consommateur produit ; ils sont retirés plutôt que maintenus comme ports anticipés. Leur API AndroidX reste dans l'inventaire source et pourra être portée lorsqu'un parcours réel le nécessitera.
-- **Pull-to-refresh :** `PullToRefreshBox` suit des événements Pointer et vérifie `scrollTop`, avec un bouton explicite de rafraîchissement utile à l'accessibilité. Son propre commentaire reconnaît que l'arbitrage nested-scroll et l'overscroll de plateforme diffèrent de Compose. Le conteneur est scrollable et n'établit pas de capture du pointeur ; le comportement tactile reste à vérifier en navigateur réel.
-- **Bottom sheet :** `BottomSheetScaffold` utilise une capture Pointer et un seuil fixe de 40 px. Le bouton du handle fournit une activation clavier, mais l'implémentation ne reproduit pas les seuils de position/vélocité et l'animation d'ancrage AndroidX.
-- **Dismiss par swipe :** `SwipeToDismissBox` capture le pointeur et conserve une action bouton explicite. En revanche, ses valeurs `start-to-end` / `end-to-start` sont actuellement décidées avec le signe physique de `dx` ; elles ne suivent donc pas la direction logique RTL. À corriger avant de considérer ce composant comme conforme ou de le promouvoir dans un parcours produit.
-- **Périmètre d'usage vérifié :** les recherches d'import exactes confirment qu'aucune page ni aucun composant produit ne consommait `Scaffold`, `NavigationSuiteScaffold`, `NavigationDrawer`, `NavigationRail` ou `WideNavigationRail` ; les dépendances entre eux étaient internes à ce groupe. `NavigationBar` reste uniquement comme spécimen interactif dans le Design Lab. Les tables `design_audit_*` correspondantes ont été supprimées par la migration de retrait déjà appliquée en production ; les anciennes migrations et l'inventaire AndroidX restent des archives de référence, pas des dépendances d'exécution.
+L'audit d'import exact ne trouve aucun consommateur produit ni spécimen Design Lab pour les wrappers Web `Carousel`, `ModalBottomSheet`, `BottomSheetScaffold`, `PullToRefreshBox`, `SwipeToDismissBox`, `Scaffold`, `NavigationSuiteScaffold`, `NavigationDrawer`, `NavigationRail` et `WideNavigationRail`. Leurs implémentations et feuilles CSS ont donc été supprimées plutôt que maintenues comme ports anticipés. Leurs contrats restent présents dans l'inventaire AndroidX 1.4.0 / Compose 1.12.1 ; ils seront adaptés à React/Web lorsqu'un parcours produit réel le justifiera.
+
+`NavigationBar` est conservée uniquement comme spécimen interactif du Design Lab ; elle n'est pas branchée à la navigation produit. Les anciennes entrées des migrations de catalogue sont historiques : les tables `design_audit_*` correspondantes ont déjà été retirées en production.
+
+Les composants de scroll encore utilisés doivent conserver les mécanismes DOM natifs (scroll, focus et clavier) au lieu de réimplémenter le moteur Compose. Aucun correctif RTL, tactile ou d'ancrage n'est en attente pour les wrappers supprimés.
 
 ## Décisions et travaux restants
 
-1. Garder le scroll natif DOM comme implémentation par défaut ; tester les conteneurs imbriqués, le clavier, le focus et le scroll sur mobile/tablette.
-2. Corriger et tester la correspondance logique RTL de `SwipeToDismissBox` avant toute utilisation réelle.
-3. Revoir `PullToRefreshBox` sur appareil tactile : arbitrage avec le scroll vertical, annulation/capture Pointer, seuil, état de rafraîchissement et alternative sans geste.
-4. Revoir le comportement d'ancrage du bottom sheet si ce composant est retenu : seuils, vélocité, annulation, mouvement réduit et sens de layout.
-5. La tranche complémentaire [collections, texte et focus](compose-foundation-collections-text-1.12.1.md) examine les contrats Lazy lists/grids, Pager/snapping, sélection, saisie, focus/relocation et drag-and-drop ; elle conclut à ne pas porter préventivement les primitives sans usage Loculary démontré. La revue sémantique globale Foundation reste partielle.
+1. Conserver le scroll DOM natif pour les parcours effectivement utilisés ; tester les conteneurs imbriqués, le clavier, le focus et le scroll sur mobile/tablette.
+2. Ne pas recréer les wrappers supprimés avant qu'un besoin produit concret et son consommateur soient identifiés.
+3. La tranche complémentaire [collections, texte et focus](compose-foundation-collections-text-1.12.1.md) examine les contrats Lazy lists/grids, Pager/snapping, sélection, saisie, focus/relocation et drag-and-drop ; elle conclut à ne pas porter préventivement les primitives sans usage Loculary démontré. La revue sémantique globale Foundation reste partielle.
 
-**Statut final de cette tranche :** contrats scroll/gestures examinés à partir des sources épinglées ; adaptations Web cartographiées ; conformité navigateur non vérifiée ; inventaire sémantique global Foundation toujours `in-progress`.
+**Statut final de cette tranche :** inventaire source et contrats pertinents examinés ; ports Web sans consommateur supprimés ; conformité navigateur des composants conservés non revendiquée ; inventaire sémantique global Foundation toujours `in-progress`.
