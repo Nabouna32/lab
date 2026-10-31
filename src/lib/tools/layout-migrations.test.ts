@@ -125,7 +125,7 @@ test("global header uses the shared Material 3 small TopAppBar with content gutt
   assert.ok(headerSource.includes('import { TopAppBar } from "@/components/ui/TopAppBar"'));
   assert.ok(headerSource.includes("<TopAppBar"));
   assert.ok(headerSource.includes("<HeaderSearch"));
-  assert.ok(headerSource.includes("<DesktopHeaderMenu"));
+  assert.ok(headerSource.includes("<HeaderPreferences"));
   assert.ok(headerSource.includes('maxWidth: "var(--layout-content-wide)"'));
   assert.ok(headerSource.includes('marginInline: "auto"'));
   assert.ok(headerSource.includes('paddingInline: "var(--layout-page-gutter)"'));
