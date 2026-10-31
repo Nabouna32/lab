@@ -157,10 +157,17 @@ class CdpClient {
 async function stopProcess(processRef) {
   if (!processRef || processRef.exitCode !== null || processRef.signalCode !== null) return;
   processRef.kill("SIGTERM");
-  await Promise.race([
-    new Promise((resolve) => processRef.once("exit", resolve)),
-    delay(5000),
+  const exited = await Promise.race([
+    new Promise((resolve) => processRef.once("exit", () => resolve(true))),
+    delay(5000).then(() => false),
   ]);
+  if (!exited && processRef.exitCode === null && processRef.signalCode === null) {
+    processRef.kill("SIGKILL");
+    await new Promise((resolve) => {
+      if (processRef.exitCode !== null || processRef.signalCode !== null) return resolve();
+      processRef.once("exit", resolve);
+    });
+  }
 }
 
 async function main() {
