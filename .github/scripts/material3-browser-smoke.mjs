@@ -312,6 +312,31 @@ async function main() {
               a: values[3] ?? 1,
             };
           }
+          const oklab = value.match(/oklab\(([^)]+)\)/i);
+          if (oklab) {
+            const values = oklab[1].split(/[,\s/]+/).filter(Boolean).map(Number);
+            const L = values[0];
+            const a = values[1];
+            const b = values[2];
+            const lRoot = L + 0.3963377774 * a + 0.2158037573 * b;
+            const mRoot = L - 0.1055613458 * a - 0.0638541728 * b;
+            const sRoot = L - 0.0894841775 * a - 1.2914855480 * b;
+            const l = lRoot ** 3;
+            const m = mRoot ** 3;
+            const s = sRoot ** 3;
+            function encode(channel) {
+              const value = channel <= 0.0031308
+                ? 12.92 * channel
+                : 1.055 * Math.sign(channel) * Math.abs(channel) ** (1 / 2.4) - 0.055;
+              return Math.max(0, Math.min(255, value * 255));
+            }
+            return {
+              r: encode(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s),
+              g: encode(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s),
+              b: encode(-0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s),
+              a: values[3] ?? 1,
+            };
+          }
           return null;
         }
         function composite(foreground, background) {
