@@ -93,17 +93,17 @@ La page interactive de gestion des collections (`CollectionsView`) reste à audi
 
 Le formulaire de création, les contrôles natifs, les boutons, les statuts et le dialogue de suppression conservent leur sémantique et leurs responsabilités. Les panneaux utilisent désormais le port partagé `Card`, les rôles typographiques Material 3 et l'échelle de formes commune. Les choix de collection restent des boutons natifs avec un état sélectionné explicite ; ils ne sont pas artificiellement convertis en cartes interactives.
 
-## Filtres de résultats de recherche
+## Recherche, filtres et suggestions
 
 **Challenge page blanche**
 
-- **Migration ciblée :** conserver les catégories réellement présentes dans les résultats, la sélection unique, le nombre de résultats et le moteur de recherche existant.
-- **Reconstruction depuis une page blanche :** une refonte du parcours complet serait disproportionnée pour cet écart et toucherait à l'URL, au moteur et à la navigation sans bénéfice démontré.
-- **Décision :** remplacer les boutons de filtre locaux par le composant partagé `FilterChip`. Le filtre « toutes les catégories » reste sans icône ; chaque catégorie utilise son Material Symbol, remplacé par la coche du FilterChip lorsqu'elle est sélectionnée. Les destinations de recherche restent des liens natifs.
+- **Migration ciblée :** conserver les catégories réellement présentes dans les résultats, la sélection unique, le nombre de résultats, le moteur de recherche, les suggestions dynamiques, le focus du champ et les destinations natives.
+- **Reconstruction depuis une page blanche :** une refonte du parcours complet serait disproportionnée pour ces écarts et toucherait à l'URL, au moteur et à la navigation sans bénéfice démontré.
+- **Décision :** utiliser le composant partagé `FilterChip` pour les filtres de catégories et `SuggestionChip` pour les suggestions de requête dans le panneau. Le filtre « toutes les catégories » reste sans icône ; chaque catégorie utilise son Material Symbol, remplacé par la coche du FilterChip lorsqu'elle est sélectionnée. Les suggestions qui naviguent depuis la page de résultats restent de vrais liens.
 
-Les styles partagés sont alignés sur les tokens AndroidX 1.4.0 vérifiés : contour `outlineVariant` et libellé `onSurfaceVariant` à l'état non sélectionné, conteneur `secondaryContainer` et contenu `onSecondaryContainer` à l'état sélectionné. Le Web conserve une hauteur minimale de 40 px sur ces filtres pour ne pas réduire la zone d'interaction existante ; AndroidX définit 32 dp pour le conteneur, sans assimilation à 32 px CSS. La sélection reste contrôlée par l'état React et exposée par `aria-pressed`.
+Les styles partagés suivent les tokens AndroidX 1.4.0 vérifiés : contour `outlineVariant` et libellé `onSurfaceVariant` à l'état non sélectionné, conteneur `secondaryContainer` et contenu `onSecondaryContainer` à l'état sélectionné ; SuggestionChip conserve un conteneur transparent, un contour `outlineVariant` et un libellé `onSurfaceVariant`. Le Web conserve une hauteur minimale de 40 px pour ces deux groupes afin de ne pas réduire la zone d'interaction existante ; AndroidX définit 32 dp pour le conteneur, sans assimilation à 32 px CSS. La sélection FilterChip reste contrôlée par l'état React et exposée par `aria-pressed`.
 
-Les suggestions dynamiques du panneau de recherche restent à migrer vers `SuggestionChip` dans une tranche séparée, car leur activation doit préserver le focus du champ et le comportement de recherche. La migration des filtres et les tests de contrat source ne prouvent pas le rendu navigateur : thèmes clair/sombre, contraste en contexte, zoom, viewports et clavier restent à vérifier.
+Le popup ignore les événements `pointerdown` dont la cible est dans sa propre surface ; l'activation d'une SuggestionChip met à jour la requête puis rend le focus au champ. Le comportement de recherche et la navigation ne sont pas réécrits. Les tests de contrat source ne prouvent pas le rendu navigateur : thèmes clair/sombre, contraste en contexte, zoom, viewports et clavier restent à vérifier.
 
 ## Prochaine tranche
 
