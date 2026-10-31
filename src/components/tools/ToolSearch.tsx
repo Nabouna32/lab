@@ -340,7 +340,7 @@ export default function ToolSearch({
                 type="button"
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => { setSearchError(false); setIsSearching(true); setSearchRetryCount((count) => count + 1); }}
-                className="mt-3 min-h-10 rounded-full px-4"
+                className="mt-3"
               >
                 {t.tools.retrySearch}
               </OutlinedButton>
