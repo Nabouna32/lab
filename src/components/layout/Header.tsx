@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { LocularyLogo } from "@/components/brand/LocularyLogo";
-import { DesktopHeaderMenu } from "@/components/layout/DesktopHeaderMenu";
+import DesktopHeaderMenu from "@/components/layout/DesktopHeaderMenu";
 import HeaderSearch from "@/components/layout/HeaderSearch";
 import { TopAppBar } from "@/components/ui/TopAppBar";
 import type { Locale } from "@/lib/i18n/config";
