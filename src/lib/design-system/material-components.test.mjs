@@ -18,6 +18,7 @@ const calculatorFieldSource = readFileSync(new URL("../../components/tools/calcu
 const selectSource = readFileSync(new URL("../../components/ui/Select.tsx", import.meta.url), "utf8");
 const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
 const snackbarSource = readFileSync(new URL("../../components/ui/Snackbar.tsx", import.meta.url), "utf8");
+const timezoneConverterSource = readFileSync(new URL("../../components/tools/timezone-converter/TimezoneConverter.tsx", import.meta.url), "utf8");
 const buttonVariantStylesSource = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
 const iconButtonSource = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
@@ -64,6 +65,13 @@ test("Snackbar action delegates inverse color and minimum width to the shared Te
   assert.ok(snackbarSource.includes('colors={{ contentColor: "var(--lab-inverse-primary,var(--inverse-primary))" }}'));
   assert.ok(!snackbarSource.includes("min-w-[44px]"), "the shared AndroidX TextButton minimum width must not be reduced");
   assert.ok(!snackbarSource.includes("text-[var(--lab-inverse-primary"), "the inverse-primary color must not be duplicated in local utility classes");
+});
+
+test("timezone removal action preserves the shared TextButton geometry", () => {
+  assert.ok(timezoneConverterSource.includes('<TextButton type="button" aria-label={t.removeDestination + " " + zone}'));
+  assert.ok(timezoneConverterSource.includes('className="shrink-0"'), "only the flex layout constraint remains local");
+  assert.ok(!timezoneConverterSource.includes("min-h-9"), "the 40px shared minimum height must not be reduced");
+  assert.ok(!timezoneConverterSource.includes("px-2"), "the shared TextButton horizontal padding must remain intact");
 });
 
 test("shared typography roles drive component CSS instead of duplicated font metrics", () => {
