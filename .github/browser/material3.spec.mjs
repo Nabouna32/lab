@@ -222,6 +222,7 @@ for (const entry of locales) {
     for (const viewport of compactViewports) {
       await page.setViewportSize(viewport);
       await expect(compactLinks).toHaveCount(5);
+      await expect(page.getByRole("navigation", { name: entry.locale === "fr" ? "Navigation principale" : "Primary navigation" })).toHaveCount(1);
       const metrics = await compactLinks.evaluateAll((links) => ({
         keys: links.map((link) => link.getAttribute("data-nav-key")),
         rects: links.map((link) => {
