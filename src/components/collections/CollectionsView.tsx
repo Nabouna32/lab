@@ -9,6 +9,7 @@ import { Button, FilledTonalButton, OutlinedButton, TextButton } from "@/compone
 import { AlertDialog } from "@/components/ui/AlertDialog";
 import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIcon";
 import { Card } from "@/components/ui/Card";
+import { OutlinedTextField } from "@/components/ui/OutlinedTextField";
 import { createLocalCollectionsBackup, MAX_LOCAL_COLLECTIONS, MAX_LOCAL_COLLECTIONS_BACKUP_CHARS, parseLocalCollectionsBackup, type StoredLocalCollection } from "@/lib/collections/local-collections";
 
 export type CollectionTool = { id: string; icon: MaterialIconName; name: string; description: string; href: string };
@@ -21,6 +22,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
   const [pendingDeleteCollection, setPendingDeleteCollection] = useState<{ id: string; name: string } | null>(null);
   const [editingCollectionId, setEditingCollectionId] = useState<string | null>(null);
   const [editingCollectionName, setEditingCollectionName] = useState("");
+  const [editingCollectionError, setEditingCollectionError] = useState("");
   const [renaming, setRenaming] = useState(false);
   const renamingRef = useRef(false);
   const [addingTool, setAddingTool] = useState("");
@@ -113,12 +115,13 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
       if (await data.renameCollection(collection.id, nextName)) {
         setEditingCollectionId(null);
         setEditingCollectionName("");
+        setEditingCollectionError("");
         setMessage("");
       } else {
-        setMessage(copy.error);
+        setEditingCollectionError(copy.error);
       }
     } catch {
-      setMessage(copy.error);
+      setEditingCollectionError(copy.error);
     } finally {
       renamingRef.current = false;
       setRenaming(false);
@@ -238,10 +241,10 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
         <p className="m3-type-body-large mt-2 max-w-2xl text-[var(--muted)]">{copy.description}</p>
       </Card></header>
 
-      {data.error && <p role="status" className="m3-type-body-medium mb-5 rounded-[var(--shape-corner-small)] border border-[var(--error)]/40 bg-[var(--error-container)] px-4 py-3 text-[var(--on-error-container)]">{copy.error}</p>}
+      {data.error && !(editingCollectionError && editingCollectionId === active?.id) && <p role="status" className="m3-type-body-medium mb-5 rounded-[var(--shape-corner-small)] border border-[var(--error)]/40 bg-[var(--error-container)] px-4 py-3 text-[var(--on-error-container)]">{copy.error}</p>}
       {message && <p role="status" className="m3-type-body-medium mb-5 font-medium text-[var(--primary)]">{message}</p>}
-      <form className="mb-6" onSubmit={(event) => { event.preventDefault(); void create(); }}><Card className="flex flex-col gap-3 p-4 sm:flex-row">
-        <input value={name} onChange={(event) => setName(event.target.value)} maxLength={80} required placeholder={copy.placeholder} aria-label={copy.placeholder} className="min-h-12 min-w-0 flex-1 rounded-[var(--shape-corner-extra-small)] border border-[var(--outline)] bg-[var(--surface)] px-4 m3-type-body-large text-[var(--on-surface)] outline-none transition-[border-color,box-shadow] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]" />
+      <form className="mb-6" onSubmit={(event) => { event.preventDefault(); void create(); }}><Card className="flex flex-col items-stretch gap-3 p-4 sm:flex-row sm:items-center">
+        <div className="min-w-0 flex-1"><OutlinedTextField id="collection-create-name" label={copy.placeholder} value={name} onChange={setName} maxLength={80} required /></div>
             {data.userId && <label className="m3-type-body-medium flex min-h-12 items-center gap-2 text-[var(--muted)] sm:px-2"><input type="checkbox" checked={synchronize} onChange={(event) => setSynchronize(event.target.checked)} className="h-4 w-4 accent-[var(--primary)]" />{copy.syncLabel}</label>}
         <Button type="submit" disabled={data.loading || creating || !name.trim() || ((!data.userId || !synchronize) && localLimitReached)}>{creating ? (fr ? "Création…" : "Creating…") : copy.create}</Button>
       </Card></form>
@@ -293,12 +296,12 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
                     <div className="min-w-0"><h2 className="m3-type-title-large break-words">{active.name}</h2><p className="m3-type-body-medium mt-1 text-[var(--muted)]">{active.user_collection_items.length} {fr ? "outils" : "tools"}</p></div>
                     {editingCollectionId === active.id ? (
                       <form className="flex min-w-0 flex-1 flex-wrap items-center gap-2 sm:justify-end" onSubmit={(event) => { event.preventDefault(); void rename(); }}>
-                        <input autoFocus value={editingCollectionName} onChange={(event) => setEditingCollectionName(event.target.value)} maxLength={80} required aria-label={copy.renamePlaceholder} className="min-h-12 min-w-0 flex-1 rounded-[var(--shape-corner-extra-small)] border border-[var(--outline)] bg-[var(--surface)] px-3 m3-type-body-large text-[var(--on-surface)] outline-none transition-[border-color,box-shadow] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]" />
+                        <div className="min-w-0 flex-1"><OutlinedTextField id="collection-rename-name" label={copy.renamePlaceholder} value={editingCollectionName} onChange={setEditingCollectionName} maxLength={80} required autoFocus error={editingCollectionError || undefined} /></div>
                         <Button type="submit" disabled={renaming || !editingCollectionName.trim()}>{renaming ? (fr ? "Enregistrement…" : "Saving…") : copy.saveRename}</Button>
-                        <TextButton type="button" disabled={renaming} onClick={() => { setEditingCollectionId(null); setEditingCollectionName(""); }}>{copy.cancelRename}</TextButton>
+                        <TextButton type="button" disabled={renaming} onClick={() => { setEditingCollectionId(null); setEditingCollectionName(""); setEditingCollectionError(""); }}>{copy.cancelRename}</TextButton>
                       </form>
                     ) : (
-                      <TextButton type="button" onClick={() => { setEditingCollectionId(active.id); setEditingCollectionName(active.name); }}>{copy.rename}</TextButton>
+                      <TextButton type="button" onClick={() => { setEditingCollectionId(active.id); setEditingCollectionName(active.name); setEditingCollectionError(""); }}>{copy.rename}</TextButton>
                     )}
                   </div>
                   <div className="mt-4 flex flex-col gap-2 sm:flex-row">
