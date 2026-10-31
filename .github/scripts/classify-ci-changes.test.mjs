@@ -8,7 +8,8 @@ test('classifies documentation-only changes as lightweight', () => {
     dependencies_changed: false,
     governance_changed: false,
     androidx_provenance_changed: false,
-    supabase_changed: false,
+    supabase_functions_changed: false,
+    supabase_database_changed: false,
   });
 });
 
@@ -18,7 +19,8 @@ test('classifies governance documentation as lightweight and governance-touched'
     dependencies_changed: false,
     governance_changed: true,
     androidx_provenance_changed: false,
-    supabase_changed: false,
+    supabase_functions_changed: false,
+    supabase_database_changed: false,
   });
 });
 
@@ -28,7 +30,8 @@ test('workflow changes require full CI while still exercising classifier tests',
     dependencies_changed: false,
     governance_changed: true,
     androidx_provenance_changed: false,
-    supabase_changed: false,
+    supabase_functions_changed: false,
+    supabase_database_changed: false,
   });
 });
 
@@ -38,7 +41,8 @@ test('CI tooling changes require full CI and exercise classifier tests', () => {
     dependencies_changed: false,
     governance_changed: true,
     androidx_provenance_changed: false,
-    supabase_changed: false,
+    supabase_functions_changed: false,
+    supabase_database_changed: false,
   });
 });
 
@@ -48,7 +52,8 @@ test('runtime changes force the full suite even when mixed with documentation', 
     dependencies_changed: false,
     governance_changed: false,
     androidx_provenance_changed: false,
-    supabase_changed: false,
+    supabase_functions_changed: false,
+    supabase_database_changed: false,
   });
 });
 
@@ -58,7 +63,8 @@ test('governance mixed with runtime still marks governance but disables lightwei
     dependencies_changed: false,
     governance_changed: true,
     androidx_provenance_changed: false,
-    supabase_changed: false,
+    supabase_functions_changed: false,
+    supabase_database_changed: false,
   });
 });
 
@@ -68,7 +74,8 @@ test('dependency manifests disable lightweight mode and trigger dependency revie
     dependencies_changed: true,
     governance_changed: false,
     androidx_provenance_changed: false,
-    supabase_changed: false,
+    supabase_functions_changed: false,
+    supabase_database_changed: false,
   });
 });
 
@@ -78,7 +85,8 @@ test('dependency changes mixed with governance preserve both flags', () => {
     dependencies_changed: true,
     governance_changed: true,
     androidx_provenance_changed: false,
-    supabase_changed: false,
+    supabase_functions_changed: false,
+    supabase_database_changed: false,
   });
 });
 
@@ -111,7 +119,8 @@ test('accepts exactly 3,000 valid changed paths', () => {
     dependencies_changed: false,
     governance_changed: false,
     androidx_provenance_changed: false,
-    supabase_changed: false,
+    supabase_functions_changed: false,
+    supabase_database_changed: false,
   });
 });
 
@@ -142,8 +151,41 @@ test('marks Supabase Edge Function changes for targeted Deno validation', () => 
     dependencies_changed: false,
     governance_changed: false,
     androidx_provenance_changed: false,
-    supabase_changed: true,
+    supabase_functions_changed: true,
+    supabase_database_changed: false,
   });
+});
+
+test('classifies Supabase documentation as lightweight without running service checks', () => {
+  assert.deepEqual(classifyCiChanges(['supabase/functions/README.md'], 1), {
+    lightweight_only: true,
+    dependencies_changed: false,
+    governance_changed: false,
+    androidx_provenance_changed: false,
+    supabase_functions_changed: false,
+    supabase_database_changed: false,
+  });
+});
+
+test('classifies Supabase config, migrations, tests, seed, roles and schemas for database validation', () => {
+  for (const path of [
+    'supabase/config.toml',
+    'supabase/migrations/20261030160000_extend_log_retention_to_12_months.sql',
+    'supabase/tests/log_retention.sql',
+    'supabase/tests/order_test.pg',
+    'supabase/seed.sql',
+    'supabase/roles.sql',
+    'supabase/schemas/public.sql',
+  ]) {
+    assert.equal(classifyCiChanges([path], 1).supabase_database_changed, true, path);
+    assert.equal(classifyCiChanges([path], 1).supabase_functions_changed, false, path);
+  }
+});
+
+test('unknown Supabase operational files conservatively trigger both validations', () => {
+  const result = classifyCiChanges(['supabase/supabase.lock'], 1);
+  assert.equal(result.supabase_functions_changed, true);
+  assert.equal(result.supabase_database_changed, true);
 });
 
 import { readFileSync } from 'node:fs';
@@ -162,13 +204,15 @@ test('ESLint-only dependency upgrades still run lint while skipping unrelated ch
 });
 
 test('production build runs independently and the aggregate job reports applicable PR checks', () => {
-  const buildJob = workflow.slice(workflow.indexOf('  build:'), workflow.indexOf('  supabase:'));
+  const buildJob = workflow.slice(workflow.indexOf('  build:'), workflow.indexOf('  supabase-functions:'));
   const gateJob = workflow.slice(workflow.indexOf('  ci:'));
   assert.ok(buildJob.includes('run: npm run build'));
   assert.ok(gateJob.includes('name: Synthèse des validations'));
-  assert.ok(gateJob.includes('needs: [prepare, quality, build, supabase]'));
+  assert.ok(gateJob.includes('needs: [prepare, quality, build, supabase-functions, supabase-database]'));
   assert.ok(gateJob.includes('PREPARE_RESULT'));
   assert.ok(gateJob.includes('BUILD_RESULT'));
+  assert.ok(gateJob.includes('SUPABASE_FUNCTIONS_RESULT'));
+  assert.ok(gateJob.includes('SUPABASE_DATABASE_RESULT'));
   assert.equal(gateJob.includes('NPM_AUDIT_RESULT'), false, 'full npm audit belongs to daily surveillance, not PR validation');
 });
 
