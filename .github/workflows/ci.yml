@@ -27,6 +27,7 @@ jobs:
       dependencies_changed: ${{ steps.changes.outputs.dependencies_changed }}
       governance_changed: ${{ steps.changes.outputs.governance_changed }}
       androidx_catalog_changed: ${{ steps.changes.outputs.androidx_catalog_changed }}
+      browser_tests_changed: ${{ steps.changes.outputs.browser_tests_changed }}
       supabase_changed: ${{ steps.changes.outputs.supabase_changed }}
       dependency_manifests_only: ${{ steps.changes.outputs.dependency_manifests_only }}
       dependency_scope: ${{ steps.dependency_scope.outputs.scope }}
@@ -279,6 +280,44 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
+  browser-tests:
+    name: Validation ciblée de la migration Playwright
+    needs: prepare
+    if: github.event_name == 'pull_request' && needs.prepare.outputs.browser_tests_changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Installer Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.21.0
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Installer les dépendances du projet
+        run: npm ci
+
+      - name: Installer Playwright Test (version épinglée)
+        run: npm install --no-save --package-lock=false --ignore-scripts @playwright/test@1.64.0
+
+      - name: Compiler l'application
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+          NEXT_PUBLIC_SUPABASE_URL: "http://127.0.0.1:54321"
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_local_placeholder"
+        run: npm run build
+
+      - name: Installer Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Exécuter la suite Playwright de migration
+        run: npx playwright test
+
   supabase:
     name: Vérification Supabase
     needs: prepare
@@ -309,7 +348,7 @@ jobs:
 
   ci:
     name: Node.js 24.21.0
-    needs: [prepare, quality, build, supabase, npm-audit]
+    needs: [prepare, quality, build, browser-tests, supabase, npm-audit]
     if: always() && github.event_name != 'schedule'
     runs-on: ubuntu-latest
     timeout-minutes: 2
@@ -319,6 +358,7 @@ jobs:
           PREPARE_RESULT: ${{ needs.prepare.result }}
           QUALITY_RESULT: ${{ needs.quality.result }}
           BUILD_RESULT: ${{ needs.build.result }}
+          BROWSER_TESTS_RESULT: ${{ needs.browser-tests.result }}
           SUPABASE_RESULT: ${{ needs.supabase.result }}
           NPM_AUDIT_RESULT: ${{ needs.npm-audit.result }}
           EVENT_NAME: ${{ github.event_name }}
@@ -334,7 +374,7 @@ jobs:
               ;;
             *) echo "The npm audit job must succeed when applicable: $NPM_AUDIT_RESULT" >&2; exit 1 ;;
           esac
-          for result in "$PREPARE_RESULT" "$QUALITY_RESULT" "$BUILD_RESULT" "$SUPABASE_RESULT"; do
+          for result in "$PREPARE_RESULT" "$QUALITY_RESULT" "$BUILD_RESULT" "$BROWSER_TESTS_RESULT" "$SUPABASE_RESULT"; do
             case "$result" in
               success|skipped) ;;
               *) echo "A required CI job did not pass: $result" >&2; exit 1 ;;
