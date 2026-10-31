@@ -17,9 +17,8 @@ test("les filtres de recherche utilisent le FilterChip partagé", () => {
 
 test("le FilterChip conserve aria-pressed et les rôles de couleur AndroidX", () => {
   assert.ok(chip.includes("aria-pressed={filter || input ? selected : undefined}"));
-  assert.ok(chipCss.includes(".filter { color: var(--on-surface-variant); }"));
+  assert.ok(chipCss.includes(".filter { border-color: var(--outline-variant); color: var(--on-surface-variant); }"));
   assert.ok(chipCss.includes(".filter:not(.selected) svg { color: var(--primary); }"));
   assert.ok(chipCss.includes("var(--on-secondary-container)"));
   assert.ok(chipCss.includes("var(--secondary-container)"));
-  assert.ok(chipCss.includes(".filter { border-color: var(--outline-variant); color: var(--on-surface-variant); }"));
 });

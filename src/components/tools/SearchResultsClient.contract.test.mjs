@@ -18,7 +18,8 @@ test("empty search page offers the localized quick-start tools instead of a blan
 test("search results expose localized category filters and keep filtered counts aligned", () => {
   assert.ok(component.includes("const availableCategories = categories.filter"));
   assert.ok(component.includes("const filteredResults = selectedCategory"));
-  assert.ok(component.includes("aria-pressed={selectedCategory === category.id}"));
+  assert.ok(component.includes("selected={selectedCategory === category.id}"));
+  assert.ok(component.includes("variant=\"filter\""));
   assert.ok(component.includes("{filteredResults.map(({ tool }) =>"));
   assert.ok(component.includes("formatPlural(locale, filteredResults.length"));
   assert.match(messages, /filterByCategory: "Filtrer par catégorie"/);
