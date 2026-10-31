@@ -93,6 +93,18 @@ La page interactive de gestion des collections (`CollectionsView`) reste à audi
 
 Le formulaire de création, les contrôles natifs, les boutons, les statuts et le dialogue de suppression conservent leur sémantique et leurs responsabilités. Les panneaux utilisent désormais le port partagé `Card`, les rôles typographiques Material 3 et l'échelle de formes commune. Les choix de collection restent des boutons natifs avec un état sélectionné explicite ; ils ne sont pas artificiellement convertis en cartes interactives.
 
+## Filtres de résultats de recherche
+
+**Challenge page blanche**
+
+- **Migration ciblée :** conserver les catégories réellement présentes dans les résultats, la sélection unique, le nombre de résultats et le moteur de recherche existant.
+- **Reconstruction depuis une page blanche :** une refonte du parcours complet serait disproportionnée pour cet écart et toucherait à l'URL, au moteur et à la navigation sans bénéfice démontré.
+- **Décision :** remplacer les boutons de filtre locaux par le composant partagé `FilterChip`. Le filtre « toutes les catégories » reste sans icône ; chaque catégorie utilise son Material Symbol, remplacé par la coche du FilterChip lorsqu'elle est sélectionnée. Les destinations de recherche restent des liens natifs.
+
+Les styles partagés sont alignés sur les tokens AndroidX 1.4.0 vérifiés : contour `outlineVariant` et libellé `onSurfaceVariant` à l'état non sélectionné, conteneur `secondaryContainer` et contenu `onSecondaryContainer` à l'état sélectionné. Le Web conserve une hauteur minimale de 40 px sur ces filtres pour ne pas réduire la zone d'interaction existante ; AndroidX définit 32 dp pour le conteneur, sans assimilation à 32 px CSS. La sélection reste contrôlée par l'état React et exposée par `aria-pressed`.
+
+Les suggestions dynamiques du panneau de recherche restent à migrer vers `SuggestionChip` dans une tranche séparée, car leur activation doit préserver le focus du champ et le comportement de recherche. La migration des filtres et les tests de contrat source ne prouvent pas le rendu navigateur : thèmes clair/sombre, contraste en contexte, zoom, viewports et clavier restent à vérifier.
+
 ## Prochaine tranche
 
-La centralisation du layout partagé Button/AppLink est livrée ; la PR #1093 a ensuite aligné les états et couleurs Button/IconButton sur la baseline stable Material 3 1.4.0 et ajouté des vérifications Chromium ciblées. La prochaine tranche est un inventaire exploitable des consommateurs et surcharges locales, puis la migration ciblée des écarts démontrés. Ne pas confondre ces validations de surface avec une conformité complète : les points restants sont listés dans les spécifications Button et IconButton.
+Poursuivre l'inventaire des consommateurs Button/IconButton et de leurs surcharges locales ; corriger uniquement les écarts de contrat ou de composition démontrés. La validation runtime du focus header, les couleurs calculées des variantes et la comparaison visuelle AndroidX restent distinctes des tests statiques déjà livrés.

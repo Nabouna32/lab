@@ -94,7 +94,7 @@ La migration reste partielle et la conformité globale n’est pas établie.
 | [TopAppBar](components/TopAppBar.md) | Petite variante intégrée au header global ; CSS min-height 64 px, smoke test Production FR/EN (recherche, menu, Escape, landmark nav) | Viewports exacts, hauteur DOM calculée, restitution du focus, lecteur d’écran et parité clair/sombre non vérifiés |
 | [IconButton](components/IconButton.md) | Huit API action/toggle ; cibles 48 px, surface 40 px et anneau focus-visible 2 px/offset 2 px liés aux rôles M3 ; disclosures header ARIA testées statiquement | Focus clavier et styles calculés par variante, surcharges, géométrie/couleurs clair/sombre, contraste et inventaire exhaustif des usages |
 | [Card](components/Card.md) | Variantes `Card`, `ElevatedCard`, `OutlinedCard` et composition `CardLink` séparées | Valeurs source et usages de production à vérifier |
-| [Chip](components/Chip.md) | Adaptation des variantes Assist, Filter, Input et Suggestion | Parité des états et du rendu à vérifier |
+| [Chip](components/Chip.md) | Adaptation Assist/Filter/Input/Suggestion ; `FilterChip` utilisé pour les filtres de catégories des résultats de recherche | États, couleurs calculées, contraste, géométrie et parité navigateur à vérifier |
 | [Badge / BadgedBox](components/Badge.md) | Adaptation Web avec rôles de couleur et nom accessible explicites | Tailles, ancrage et usage dans les contrôles à vérifier |
 | Autres familles | Inventaire et couverture incomplets | À inventorier selon le périmètre déclaré |
 
