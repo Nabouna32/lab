@@ -1,3 +1,4 @@
+// Keep Edge Function checks and PostgreSQL checks independently scoped.
 import { readFileSync } from 'node:fs';
 
 const MAX_CHANGED_FILES = 3000;
