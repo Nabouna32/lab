@@ -1,5 +1,4 @@
 import type { CSSProperties, ReactNode } from "react";
-import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import styles from "./TopAppBar.module.css";
 
 type TopAppBarBaseProps = {
@@ -9,7 +8,6 @@ type TopAppBarBaseProps = {
   className?: string;
   style?: CSSProperties;
   /** Web adaptation for page gutters and a constrained content width. */
-  contentClassName?: string;
   contentStyle?: CSSProperties;
 };
 
@@ -18,7 +16,7 @@ type TopAppBarNavigationProps =
       onNavigationClick: () => void;
       /** Required whenever a navigation action is rendered; callers supply a localized label. */
       navigationLabel: string;
-      navigationIcon?: ReactNode;
+      navigationIcon: ReactNode;
     }
   | {
       onNavigationClick?: undefined;
@@ -35,7 +33,6 @@ export function TopAppBar(props: TopAppBarProps) {
     actions,
     className = "",
     style,
-    contentClassName = "",
     contentStyle,
   } = props;
   const navigation = "onNavigationClick" in props && typeof props.onNavigationClick === "function"
@@ -44,7 +41,7 @@ export function TopAppBar(props: TopAppBarProps) {
 
   return (
     <header className={[styles.root, className].filter(Boolean).join(" ")} style={style}>
-      <div className={[styles.row, contentClassName].filter(Boolean).join(" ")} style={contentStyle}>
+      <div className={styles.row} style={contentStyle}>
         {navigation ? (
           <button
             type="button"
@@ -52,7 +49,7 @@ export function TopAppBar(props: TopAppBarProps) {
             aria-label={navigation.navigationLabel}
             onClick={navigation.onNavigationClick}
           >
-            {navigation.navigationIcon ?? <MaterialIcon name="menu" size={24} />}
+            {navigation.navigationIcon}
           </button>
         ) : null}
         <div className={styles.title}>{title}</div>
