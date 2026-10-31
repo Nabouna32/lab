@@ -422,7 +422,7 @@ for (const entry of locales) {
 
     const inputLabel = entry.locale === "fr" ? "Cuisine" : "Cooking";
     const dismissLabel = entry.locale === "fr" ? "Retirer Cuisine" : "Remove Cooking";
-    const inputChip = page.getByTestId("input-chip");
+    const inputChip = page.getByTestId("input-chip").locator("..");
     const chipButton = inputChip.getByRole("button", { name: inputLabel });
     const dismissButton = inputChip.getByRole("button", { name: dismissLabel });
     await expect(chipButton).toHaveAttribute("aria-pressed", "true");
@@ -435,7 +435,7 @@ for (const entry of locales) {
     await expect(inputChip).toHaveCount(0);
     await expect(filter).toHaveAttribute("aria-pressed", "true");
 
-    const disabledChip = page.getByTestId("disabled-input-chip");
+    const disabledChip = page.getByTestId("disabled-input-chip").locator("..");
     const disabledLabel = entry.locale === "fr" ? "Désactivé" : "Disabled";
     const disabledDismissLabel = entry.locale === "fr" ? "Retirer Désactivé" : "Remove Disabled";
     const disabledChipButton = disabledChip.getByRole("button", { name: disabledLabel });
