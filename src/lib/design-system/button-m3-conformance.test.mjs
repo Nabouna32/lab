@@ -13,6 +13,9 @@ const favoriteButton = readFileSync(new URL("../../components/favorites/Favorite
 const baseConverter = readFileSync(new URL("../../components/tools/number-base-converter/NumberBaseConverter.tsx", import.meta.url), "utf8");
 const languageSelector = readFileSync(new URL("../../components/layout/LanguageSelector.tsx", import.meta.url), "utf8");
 const headerSearch = readFileSync(new URL("../../components/layout/HeaderSearch.tsx", import.meta.url), "utf8");
+const secureTextField = readFileSync(new URL("../../components/ui/OutlinedSecureTextField.tsx", import.meta.url), "utf8");
+const toolSearch = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
+const unitConverter = readFileSync(new URL("../../components/tools/unit-converter/UnitConverter.tsx", import.meta.url), "utf8");
 const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
 const favoritesView = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
 const adminUsers = readFileSync(new URL("../../app/[locale]/admin/utilisateurs/page.tsx", import.meta.url), "utf8");
@@ -231,6 +234,23 @@ test("favorite action uses shared M3 controls and never shrinks icon touch targe
   assert.ok(favoriteButton.includes("const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;"));
   assert.ok(favoriteButton.includes("checked={active}") && favoriteButton.includes("onCheckedChange"));
   assert.ok(!favoriteButton.includes("min-h-10 min-w-10"));
+});
+
+test("production IconButton consumers preserve action and toggle semantics", () => {
+  assert.ok(secureTextField.includes("<IconButton"));
+  assert.ok(secureTextField.includes("label={revealed ? hidePasswordLabel : showPasswordLabel}"));
+  assert.ok(!secureTextField.includes("<IconToggleButton"), "a changing show/hide label is an action, not a pressed-state toggle");
+
+  const clearStart = toolSearch.indexOf("<IconButton");
+  const clearEnd = toolSearch.indexOf("</IconButton>", clearStart);
+  const clearButton = toolSearch.slice(clearStart, clearEnd);
+  assert.ok(clearStart >= 0 && clearEnd > clearStart);
+  assert.ok(clearButton.includes("label={t.tools.clearSearch}"));
+  assert.ok(clearButton.includes("onMouseDown={(event) => event.preventDefault()}"));
+  assert.ok(clearButton.includes("inputRef.current?.focus();"), "clearing the query restores focus to the search field");
+  assert.ok(toolSearch.includes('<FilledIconButton label={t.tools.searchSubmit} type="submit" disabled={!query.trim()}>'));
+
+  assert.ok(unitConverter.includes('<OutlinedIconButton onClick={swapUnits} label={t.swap} title={t.swap}>'));
 });
 
 test("number-base swap action uses the shared OutlinedIconButton with a 24px icon", () => {
