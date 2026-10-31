@@ -17,7 +17,6 @@ concurrency:
 jobs:
   prepare:
     name: Préparation CI
-    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
@@ -190,7 +189,6 @@ jobs:
     needs: prepare
     if: >-
       ${{ always() &&
-          github.event_name != 'schedule' &&
           (needs.prepare.result == 'success' || github.event_name == 'pull_request') &&
           (github.event_name != 'pull_request' || needs.prepare.outputs.lightweight_only != 'true') }}
     runs-on: ubuntu-latest
@@ -229,7 +227,6 @@ jobs:
     needs: prepare
     if: >-
       ${{ always() &&
-          github.event_name != 'schedule' &&
           (needs.prepare.result == 'success' || github.event_name == 'pull_request') &&
           (github.event_name != 'pull_request' ||
             (needs.prepare.outputs.lightweight_only != 'true' &&
@@ -265,7 +262,6 @@ jobs:
     needs: prepare
     if: >-
       ${{ needs.prepare.result == 'success' &&
-          github.event_name != 'schedule' &&
           (github.event_name == 'workflow_dispatch' || needs.prepare.outputs.supabase_changed == 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -291,7 +287,7 @@ jobs:
   ci:
     name: Node.js 24.21.0
     needs: [prepare, quality, build, supabase]
-    if: always() && github.event_name != 'schedule'
+    if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
