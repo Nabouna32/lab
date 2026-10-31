@@ -41,7 +41,7 @@ test("daily surveillance audits npm and runs pinned Playwright Chromium on the s
   assert.match(triggers, /default: ""/);
   assert.doesNotMatch(triggers, /default: "main"/);
   assert.ok(triggers.includes('description: "Révision facultative ; laisser vide pour utiliser la branche choisie dans le sélecteur GitHub"'));
-  assert.equal((surveillance.match(/ref: \\$\\{\\{ inputs\\.ref \\|\\| github\\.ref \\}\\}/g) || []).length, 2);
+  assert.equal((surveillance.match(/ref: \$\{\{ inputs\.ref \|\| github\.ref \}\}/g) || []).length, 2);
   assert.match(surveillance, /ref: \$\{\{ inputs\.ref \|\| github\.ref \}\}/);
   assert.match(sectionFor(surveillance, "audit-dependances"), /run: node \.github\/scripts\/run-npm-audit\.mjs/);
   const browser = sectionFor(surveillance, "tests-navigateur");
