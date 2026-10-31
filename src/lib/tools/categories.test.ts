@@ -365,7 +365,7 @@ test("category pictograms use the shared Material Symbols component instead of e
 
   assert.match(categoryRouteSource, /MaterialIcon name=\{category\.icon\}/);
   assert.match(explorerSource, /MaterialIcon name=\{category\.icon\}/);
-  assert.match(searchResultsSource, /MaterialIcon name=\{category\.icon\}/);
+  assert.match(searchResultsSource, /leadingIcon=\{category\.icon\}/);
   assert.match(toolSearchSource, /MaterialIcon name=\{tool\.icon\}/);
   assert.match(favoritesSource, /MaterialIcon name=\{tool\.icon\}/);
   assert.match(collectionsSource, /MaterialIcon name=\{tool\.icon\}/);

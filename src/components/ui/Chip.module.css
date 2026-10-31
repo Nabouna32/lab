@@ -12,7 +12,7 @@
 .chip:active:not(:disabled) { background: color-mix(in srgb, currentColor 12%, transparent); }
 .chip:focus-visible,.dismiss:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 .chip:disabled,.dismiss:disabled { color: color-mix(in srgb, var(--on-surface) 38%, transparent); cursor: default; }
-.filter { color: var(--on-surface-variant); }
+.filter { border-color: var(--outline-variant); color: var(--on-surface-variant); }
 .filter:not(.selected) svg { color: var(--primary); }
 .filter.selected,.elevated-filter.selected {
   border-color: transparent; color: var(--on-secondary-container);
