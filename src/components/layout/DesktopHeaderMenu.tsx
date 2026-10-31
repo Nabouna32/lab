@@ -163,6 +163,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
           (open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0")
         }
       >
+        <nav aria-label={t.nav.primaryNavigation}>
         <Link
           href={getToolsPath(locale)}
           onClick={closeMenu}
@@ -218,6 +219,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
           </span>
           <MaterialIcon name="chevron_right" size={16} className="h-4 w-4 text-[var(--muted)] transition-transform group-hover:translate-x-0.5" />
         </Link>
+        </nav>
 
         <div className="my-1.5 h-px bg-[var(--border)]" />
 
