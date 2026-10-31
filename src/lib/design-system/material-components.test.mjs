@@ -23,27 +23,20 @@ const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url)
 const headerMenuSource = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
 const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.url), "utf8");
 const typographyComponentStyles = {
-  bottomSheetScaffold: readFileSync(new URL("../../components/ui/BottomSheetScaffold.module.css", import.meta.url), "utf8"),
   buttonGroup: readFileSync(new URL("../../components/ui/ButtonGroup.module.css", import.meta.url), "utf8"),
   datePicker: readFileSync(new URL("../../components/ui/DatePicker.module.css", import.meta.url), "utf8"),
   floatingActionButton: readFileSync(new URL("../../components/ui/FloatingActionButton.module.css", import.meta.url), "utf8"),
   floatingActionButtonMenu: readFileSync(new URL("../../components/ui/FloatingActionButtonMenu.module.css", import.meta.url), "utf8"),
   floatingToolbar: readFileSync(new URL("../../components/ui/FloatingToolbar.module.css", import.meta.url), "utf8"),
-  modalBottomSheet: readFileSync(new URL("../../components/ui/ModalBottomSheet.module.css", import.meta.url), "utf8"),
-  pullToRefresh: readFileSync(new URL("../../components/ui/PullToRefreshBox.module.css", import.meta.url), "utf8"),
   rangeSlider: readFileSync(new URL("../../components/ui/RangeSlider.module.css", import.meta.url), "utf8"),
   segmentedButtonGroup: readFileSync(new URL("../../components/ui/SegmentedButtonGroup.module.css", import.meta.url), "utf8"),
   splitButton: readFileSync(new URL("../../components/ui/SplitButton.module.css", import.meta.url), "utf8"),
-  swipeToDismiss: readFileSync(new URL("../../components/ui/SwipeToDismissBox.module.css", import.meta.url), "utf8"),
-  wideNavigationRail: readFileSync(new URL("../../components/ui/WideNavigationRail.module.css", import.meta.url), "utf8"),
   slider: readFileSync(new URL("../../components/ui/slider.module.css", import.meta.url), "utf8"),
   alertDialog: readFileSync(new URL("../../components/ui/AlertDialog.module.css", import.meta.url), "utf8"),
   datePickerDialog: readFileSync(new URL("../../components/ui/DatePickerDialog.module.css", import.meta.url), "utf8"),
   dropdownMenu: readFileSync(new URL("../../components/ui/DropdownMenu.module.css", import.meta.url), "utf8"),
   exposedDropdownMenu: readFileSync(new URL("../../components/ui/ExposedDropdownMenu.module.css", import.meta.url), "utf8"),
   navigationBar: readFileSync(new URL("../../components/ui/NavigationBar.module.css", import.meta.url), "utf8"),
-  navigationDrawer: readFileSync(new URL("../../components/ui/NavigationDrawer.module.css", import.meta.url), "utf8"),
-  navigationRail: readFileSync(new URL("../../components/ui/NavigationRail.module.css", import.meta.url), "utf8"),
   radioButton: readFileSync(new URL("../../components/ui/RadioButton.module.css", import.meta.url), "utf8"),
   snackbar: readFileSync(new URL("../../components/ui/Snackbar.module.css", import.meta.url), "utf8"),
   tabs: readFileSync(new URL("../../components/ui/Tabs.module.css", import.meta.url), "utf8"),
@@ -71,8 +64,6 @@ test("shared typography roles drive component CSS instead of duplicated font met
     ["dropdownMenu", "--m3-type-label-large-size", "--m3-type-body-medium-size", "--m3-type-body-small-size"],
     ["exposedDropdownMenu", "--m3-type-body-medium-size", "--m3-type-body-small-size"],
     ["navigationBar", "--m3-type-label-medium-size"],
-    ["navigationDrawer", "--m3-type-title-large-size", "--m3-type-title-small-size", "--m3-type-label-large-size"],
-    ["navigationRail", "--m3-type-label-medium-size", "--m3-type-label-small-size"],
     ["radioButton", "--m3-type-body-medium-size"],
     ["snackbar", "--m3-type-body-medium-size"],
     ["tabs", "--m3-type-label-large-size"],
@@ -81,19 +72,14 @@ test("shared typography roles drive component CSS instead of duplicated font met
     ["tooltip", "--m3-type-body-small-size", "--m3-type-body-medium-size", "--m3-type-title-small-size"],
     ["topAppBar", "--m3-type-title-large-size", "--m3-type-headline-small-size", "--m3-type-headline-medium-size"],
     
-    ["bottomSheetScaffold", "--m3-type-label-large-size"],
     ["buttonGroup", "--m3-type-label-large-size"],
     ["datePicker", "--m3-type-label-medium-size", "--m3-type-label-large-size", "--m3-type-body-small-size", "--m3-type-title-small-size", "--m3-type-body-medium-size"],
     ["floatingActionButton", "--m3-type-label-large-size"],
     ["floatingActionButtonMenu", "--m3-type-label-large-size"],
     ["floatingToolbar", "--m3-type-label-large-size"],
-    ["modalBottomSheet", "--m3-type-title-large-size", "--m3-type-body-medium-size"],
-    ["pullToRefresh", "--m3-type-body-medium-size"],
     ["rangeSlider", "--m3-type-label-large-size", "--m3-type-body-medium-size"],
     ["segmentedButtonGroup", "--m3-type-label-large-size"],
     ["splitButton", "--m3-type-label-large-size"],
-    ["swipeToDismiss", "--m3-type-label-large-size"],
-    ["wideNavigationRail", "--m3-type-label-large-size"],
     ["slider", "--m3-type-body-medium-size", "--m3-type-label-large-size", "--m3-type-body-small-size"],
   ];
 
@@ -813,9 +799,7 @@ test("shared controls use Material Symbols instead of Unicode chevrons and actio
   const sources = [
     readFileSync(new URL("../../components/ui/SplitButton.tsx", import.meta.url), "utf8"),
     readFileSync(new URL("../../components/ui/ScrollField.tsx", import.meta.url), "utf8"),
-    readFileSync(new URL("../../components/ui/BottomSheetScaffold.tsx", import.meta.url), "utf8"),
     readFileSync(new URL("../../components/ui/FloatingToolbar.tsx", import.meta.url), "utf8"),
-    readFileSync(new URL("../../components/ui/SwipeToDismissBox.tsx", import.meta.url), "utf8"),
     readFileSync(new URL("../../components/ui/FloatingActionButtonMenu.tsx", import.meta.url), "utf8"),
   ];
   for (const source of sources) {
@@ -825,10 +809,8 @@ test("shared controls use Material Symbols instead of Unicode chevrons and actio
   assert.match(sources[0], /keyboard_arrow_down/);
   assert.match(sources[1], /keyboard_arrow_up/);
   assert.match(sources[1], /keyboard_arrow_down/);
-  assert.match(sources[2], /keyboard_arrow_down/);
-  assert.match(sources[3], /close/);
-  assert.match(sources[4], /close/);
-  assert.match(sources[5], /add/);
+  assert.match(sources[2], /close/);
+  assert.match(sources[3], /add/);
 });
 
 
@@ -839,11 +821,9 @@ test("back navigation uses the shared Material Symbols icon", () => {
 });
 
 
-test("date, navigation rail and PDF controls use shared Material Symbols", () => {
-  const rail = readFileSync(new URL("../../components/ui/WideNavigationRail.tsx", import.meta.url), "utf8");
+test("date and PDF controls use shared Material Symbols", () => {
   const datePicker = readFileSync(new URL("../../components/ui/DatePicker.tsx", import.meta.url), "utf8");
   const imageToPdf = readFileSync(new URL("../../components/tools/image-to-pdf/ImageToPdf.tsx", import.meta.url), "utf8");
-  assert.match(rail, /MaterialIcon name=\{expanded \? "chevron_left" : "chevron_right"\}/);
   assert.match(datePicker, /MaterialIcon name="chevron_left"/);
   assert.match(datePicker, /MaterialIcon name="chevron_right"/);
   assert.match(imageToPdf, /MaterialIcon name="picture_as_pdf"/);
