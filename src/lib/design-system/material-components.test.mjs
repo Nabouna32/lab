@@ -100,7 +100,7 @@ test("shared production compositions consume named typography and shape roles", 
   const toolCard = readFileSync(new URL("../../components/tools/ToolCard.tsx", import.meta.url), "utf8");
   const validationMessage = readFileSync(new URL("../../components/ui/ValidationMessage.tsx", import.meta.url), "utf8");
 
-  assert.match(appLink, /m3-type-label-large/);
+  assert.match(appLink, /materialButtonVariantStyles\[variant\]/, "AppLink delegates typography and shape to the shared Button variants");
   assert.match(resultPanel, /m3-type-label-medium/);
   assert.match(resultPanel, /m3-type-body-medium/);
   assert.match(resultPanel, /m3-type-display-small/);
@@ -852,4 +852,11 @@ test("duration mode labels do not embed platform-dependent emoji", () => {
   assert.match(messages, /datesMode: "Entre deux dates", timesMode: "Entre deux horaires"/);
   assert.doesNotMatch(messages, /datesMode: "📅/u);
   assert.doesNotMatch(messages, /timesMode: "🕐/u);
+});
+
+
+test("AppLink exposes only the link variants consumed by the application", () => {
+  const appLinkSource = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
+  assert.match(appLinkSource, /export type AppLinkVariant = "inline" \| MaterialButtonVariant/);
+  assert.doesNotMatch(appLinkSource, /\bnavigation:\s*\[/);
 });

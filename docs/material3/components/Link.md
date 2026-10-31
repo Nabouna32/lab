@@ -17,7 +17,7 @@ Implémentation : src/components/ui/AppLink.tsx.
 - **Sémantique obligatoire :** utiliser Next.js Link et conserver le rendu d’une ancre. Ne pas remplacer la navigation par un élément button.
 - **Présentation d’action :** filled, elevated, filled-tonal, outlined et text réutilisent material-button-variant-styles.ts, la même source de classes que les boutons natifs. Ce partage empêche les variantes visuelles de dériver.
 - **Contenu avec icône :** leadingIcon applique les retraits horizontaux correspondants à la variante Button.
-- **Navigation ordinaire :** navigation reste un traitement contextuel pour la navigation de l’en-tête. inline conserve le traitement de lien textuel.
+- **Navigation spécialisée :** la navigation principale et le menu desktop restent assemblés par `AdaptiveAppNavigation` et `DesktopHeaderMenu`, qui portent l’état courant, les cibles et les interactions propres à ces parcours. `AppLink` ne conserve pas de variante `navigation` sans consommateur ; `inline` reste le lien textuel.
 - **Réduction des animations :** les transitions CSS respectent prefers-reduced-motion. Aucun ripple de bouton n’est injecté dans une ancre.
 - **États et accessibilité :** le focus clavier doit rester visible ; le texte doit annoncer la destination ou l’action. Les liens ne reçoivent pas artificiellement les états disabled, pressed ou selected d’un bouton.
 - **Couleurs sémantiques :** la prop `colors` partage le contrat `ButtonColors` (`containerColor`, `contentColor`, `disabledContainerColor`, `disabledContentColor`) et les apparences personnalisées doivent utiliser les rôles du thème. Une action destructive n’implique pas automatiquement une ancre rouge ou remplie ; la hiérarchie et la conséquence réelle guident le choix.

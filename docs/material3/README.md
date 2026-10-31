@@ -89,7 +89,7 @@ La migration reste partielle et la conformité globale n’est pas établie.
 | Composant | Portage | Migration / preuve restante |
 |---|---|---|
 | [Button](components/Button.md) | Portage React ; tokens Material 3 1.4.0 alignés et variantes contrôlées en Chromium | Inventaire exhaustif des usages, revue manuelle du contraste, libellés longs/zoom 200 % et comparaison visuelle AndroidX |
-| [Lien Web](components/Link.md) | `AppLink` conserve la sémantique d'ancre et partage les variantes visuelles du bouton | Audit global des usages |
+| [Lien Web](components/Link.md) | `AppLink` conserve la sémantique d'ancre, avec variantes inline et Button réellement consommées ; navigation principale gérée par ses composants dédiés | Contraste, focus, zoom et libellés longs à vérifier |
 | [ListItem](components/ListItem.md) | Adaptation standard ; hauteurs 56/72/88 tokenisées en rem, alignement haut des slots leading/trailing sur trois lignes ; trois usages dans les liens du compte | Variantes interactives et parité navigateur non vérifiées |
 | [TopAppBar](components/TopAppBar.md) | Petite variante intégrée au header global ; CSS min-height 64 px, smoke test Production FR/EN (recherche, menu, Escape, landmark nav) | Viewports exacts, hauteur DOM calculée, restitution du focus, lecteur d’écran et parité clair/sombre non vérifiés |
 | [IconButton](components/IconButton.md) | Huit API action/toggle ; cibles 48 px, surface 40 px et anneau focus-visible 2 px/offset 2 px liés aux rôles M3 ; disclosures header ARIA testées statiquement | Focus clavier et styles calculés par variante, surcharges, géométrie/couleurs clair/sombre, contraste et inventaire exhaustif des usages |
