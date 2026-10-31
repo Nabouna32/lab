@@ -142,17 +142,15 @@ test('ESLint-only dependency upgrades still run lint while skipping unrelated ch
   assert.ok(qualityJob.includes("needs.prepare.outputs.dependency_scope != 'lint_only'"), 'typecheck and unit tests should be skipped for a verified ESLint-only upgrade');
 });
 
-test('production build runs independently and remains covered by the required status gate', () => {
+test('production build runs independently and the aggregate job reports applicable PR checks', () => {
   const buildJob = workflow.slice(workflow.indexOf('  build:'), workflow.indexOf('  supabase:'));
-  const gateJob = workflow.slice(workflow.indexOf('  ci:'), workflow.indexOf('  npm-audit:'));
+  const gateJob = workflow.slice(workflow.indexOf('  ci:'));
   assert.ok(buildJob.includes('run: npm run build'));
-  assert.ok(gateJob.includes('name: Node.js 24.21.0'));
-  assert.ok(gateJob.includes('needs: [prepare, quality, build, supabase, npm-audit]'));
-  assert.ok(gateJob.includes('NPM_AUDIT_RESULT'));
-  assert.ok(gateJob.includes('case "$NPM_AUDIT_RESULT" in'));
-  assert.ok(gateJob.includes('The npm audit job must succeed'));
+  assert.ok(gateJob.includes('name: Synthèse des validations'));
+  assert.ok(gateJob.includes('needs: [prepare, quality, build, supabase]'));
   assert.ok(gateJob.includes('PREPARE_RESULT'));
   assert.ok(gateJob.includes('BUILD_RESULT'));
+  assert.equal(gateJob.includes('NPM_AUDIT_RESULT'), false, 'full npm audit belongs to daily surveillance, not PR validation');
 });
 
 test('governance changes execute every CI tooling test instead of maintaining a partial list', () => {
