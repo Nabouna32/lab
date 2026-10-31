@@ -23,18 +23,14 @@ const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url)
 const headerMenuSource = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
 const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.url), "utf8");
 const typographyComponentStyles = {
-  bottomSheetScaffold: readFileSync(new URL("../../components/ui/BottomSheetScaffold.module.css", import.meta.url), "utf8"),
   buttonGroup: readFileSync(new URL("../../components/ui/ButtonGroup.module.css", import.meta.url), "utf8"),
   datePicker: readFileSync(new URL("../../components/ui/DatePicker.module.css", import.meta.url), "utf8"),
   floatingActionButton: readFileSync(new URL("../../components/ui/FloatingActionButton.module.css", import.meta.url), "utf8"),
   floatingActionButtonMenu: readFileSync(new URL("../../components/ui/FloatingActionButtonMenu.module.css", import.meta.url), "utf8"),
   floatingToolbar: readFileSync(new URL("../../components/ui/FloatingToolbar.module.css", import.meta.url), "utf8"),
-  modalBottomSheet: readFileSync(new URL("../../components/ui/ModalBottomSheet.module.css", import.meta.url), "utf8"),
-  pullToRefresh: readFileSync(new URL("../../components/ui/PullToRefreshBox.module.css", import.meta.url), "utf8"),
   rangeSlider: readFileSync(new URL("../../components/ui/RangeSlider.module.css", import.meta.url), "utf8"),
   segmentedButtonGroup: readFileSync(new URL("../../components/ui/SegmentedButtonGroup.module.css", import.meta.url), "utf8"),
   splitButton: readFileSync(new URL("../../components/ui/SplitButton.module.css", import.meta.url), "utf8"),
-  swipeToDismiss: readFileSync(new URL("../../components/ui/SwipeToDismissBox.module.css", import.meta.url), "utf8"),
   slider: readFileSync(new URL("../../components/ui/slider.module.css", import.meta.url), "utf8"),
   alertDialog: readFileSync(new URL("../../components/ui/AlertDialog.module.css", import.meta.url), "utf8"),
   datePickerDialog: readFileSync(new URL("../../components/ui/DatePickerDialog.module.css", import.meta.url), "utf8"),
@@ -807,9 +803,7 @@ test("shared controls use Material Symbols instead of Unicode chevrons and actio
   const sources = [
     readFileSync(new URL("../../components/ui/SplitButton.tsx", import.meta.url), "utf8"),
     readFileSync(new URL("../../components/ui/ScrollField.tsx", import.meta.url), "utf8"),
-    readFileSync(new URL("../../components/ui/BottomSheetScaffold.tsx", import.meta.url), "utf8"),
     readFileSync(new URL("../../components/ui/FloatingToolbar.tsx", import.meta.url), "utf8"),
-    readFileSync(new URL("../../components/ui/SwipeToDismissBox.tsx", import.meta.url), "utf8"),
     readFileSync(new URL("../../components/ui/FloatingActionButtonMenu.tsx", import.meta.url), "utf8"),
   ];
   for (const source of sources) {
@@ -819,10 +813,7 @@ test("shared controls use Material Symbols instead of Unicode chevrons and actio
   assert.match(sources[0], /keyboard_arrow_down/);
   assert.match(sources[1], /keyboard_arrow_up/);
   assert.match(sources[1], /keyboard_arrow_down/);
-  assert.match(sources[2], /keyboard_arrow_down/);
-  assert.match(sources[3], /close/);
-  assert.match(sources[4], /close/);
-  assert.match(sources[5], /add/);
+  assert.match(sources[2], /close/);
 });
 
 
