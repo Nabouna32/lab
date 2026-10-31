@@ -44,6 +44,7 @@ test("daily surveillance audits npm and runs pinned Playwright Chromium on the s
   assert.match(browser, /@playwright\/test@1\.64\.1/);
   assert.match(browser, /npx playwright install --with-deps chromium/);
   assert.match(browser, /npx playwright test/);
+  assert.doesNotMatch(surveillance, /material3-browser-smoke/);
   assert.match(browser, /if: failure\(\)/);
   assert.doesNotMatch(browser, /if: always\(\)/);
   assert.doesNotMatch(surveillance, /vercel deploy|supabase db push|deploy --prod/i);
