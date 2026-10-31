@@ -53,8 +53,7 @@ Adaptations Web déclarées :
 - `multiline` est une extension de mise en page Web.
 - `AppLink` reste une ancre : activation native par Entrée, pas par Espace.
 - Le ripple est rendu par événements pointeur/clavier et CSS ; il ne prétend pas reproduire le moteur Compose.
-- L'action du Snackbar réutilise `TextButton` et transmet `inversePrimary` via `colors`. La hauteur Web est renforcée à 44 px pour la cible tactile, tandis que la largeur minimale de 58 px reste héritée du contrat Button partagé ; aucune couleur ou largeur concurrente n'est recopiée dans `className`.
-- Les actions inline de suppression conservent la géométrie partagée de `TextButton` (hauteur minimale 40 px et padding source) ; seules les contraintes de layout comme `shrink-0` peuvent être ajoutées localement.
+- Le bouton de retrait des destinations du convertisseur de fuseaux horaires conserve la géométrie partagée de `TextButton` (hauteur minimale 40 px et padding source) ; seule la contrainte de layout `shrink-0` est ajoutée localement.
 
 ## Choisir une variante
 
