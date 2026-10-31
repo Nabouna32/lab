@@ -408,8 +408,8 @@ test("recherche mobile : navigation clavier des suggestions", async ({ page }) =
 });
 
 
-test("navigation adaptive respecte les métriques et rôles de couleur Material 3", async ({ page }) => {
-  await page.emulateMedia({ colorScheme: "light" });
+for (const colorScheme of ["light", "dark"]) {\n  test("navigation adaptive respecte les métriques et rôles de couleur Material 3 (" + colorScheme + ")", async ({ page }) => {
+    await page.emulateMedia({ colorScheme });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/fr/design-lab");
 
@@ -499,4 +499,5 @@ test("navigation adaptive respecte les métriques et rôles de couleur Material 
   expect(drawer.iconHeight).toBe(24);
   expect(drawer.labelFontSize).toBe("14px");
   expect(drawer.labelColor).toBe(tokens.onSecondaryContainer);
-});
+  });
+}
