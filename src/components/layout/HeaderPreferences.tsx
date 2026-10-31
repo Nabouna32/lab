@@ -27,7 +27,7 @@ const themeOptions = [
   { value: "dark", icon: "dark_mode" },
 ] as const;
 
-export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
+export default function HeaderPreferences({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
