@@ -285,13 +285,122 @@ async function main() {
     async function runAxe(label) {
       await cdp.evaluate(axeSource);
       const result = await cdp.evaluate(
-        "axe.run(document, { runOnly: { type: 'tag', values: " + JSON.stringify(wcagTags) + " } }).then(function (r) { return { violations: r.violations.map(function (v) { return { id: v.id, impact: v.impact, help: v.help, nodes: v.nodes.map(function (n) { return { target: n.target, summary: n.failureSummary }; }) }; }), incomplete: r.incomplete.map(function (v) { return v.id; }) }; })",
+        "axe.run(document, { runOnly: { type: 'tag', values: " + JSON.stringify(wcagTags) + " } }).then(function (r) { return { violations: r.violations.map(function (v) { return { id: v.id, impact: v.impact, help: v.help, nodes: v.nodes.map(function (n) { return { target: n.target, summary: n.failureSummary }; }) }; }), incomplete: r.incomplete.map(function (v) { return { id: v.id, help: v.help, nodes: v.nodes.map(function (n) { return { target: n.target, summary: n.failureSummary }; }) }; }) }; })",
         true,
       );
       if (result.violations.length) {
         throw new Error("Violations axe-core " + label + " : " + JSON.stringify(result.violations, null, 2));
       }
-      console.log("axe-core " + label + " : 0 violation WCAG ; contrôles incomplets : " + result.incomplete.join(", "));
+      console.log("axe-core " + label + " : 0 violation WCAG ; contrôles incomplets : " + JSON.stringify(result.incomplete));
+    }
+
+    async function checkButtonContrast(label) {
+      const results = await cdp.evaluate(String.raw`(() => {
+        function parseColor(value) {
+          const rgb = value.match(/rgba?\(([^)]+)\)/i);
+          if (rgb) {
+            const values = rgb[1].split(/[,\s/]+/).filter(Boolean).map(Number);
+            return { r: values[0], g: values[1], b: values[2], a: values[3] ?? 1 };
+          }
+          const srgb = value.match(/color\(srgb\s+([^)]+)\)/i);
+          if (srgb) {
+            const values = srgb[1].split(/[,\s/]+/).filter(Boolean).map(Number);
+            return {
+              r: values[0] * 255,
+              g: values[1] * 255,
+              b: values[2] * 255,
+              a: values[3] ?? 1,
+            };
+          }
+          const oklab = value.match(/oklab\(([^)]+)\)/i);
+          if (oklab) {
+            const values = oklab[1].split(/[,\s/]+/).filter(Boolean).map(Number);
+            const L = values[0];
+            const a = values[1];
+            const b = values[2];
+            const lRoot = L + 0.3963377774 * a + 0.2158037573 * b;
+            const mRoot = L - 0.1055613458 * a - 0.0638541728 * b;
+            const sRoot = L - 0.0894841775 * a - 1.2914855480 * b;
+            const l = lRoot ** 3;
+            const m = mRoot ** 3;
+            const s = sRoot ** 3;
+            function encode(channel) {
+              const value = channel <= 0.0031308
+                ? 12.92 * channel
+                : 1.055 * Math.sign(channel) * Math.abs(channel) ** (1 / 2.4) - 0.055;
+              return Math.max(0, Math.min(255, value * 255));
+            }
+            return {
+              r: encode(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s),
+              g: encode(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s),
+              b: encode(-0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s),
+              a: values[3] ?? 1,
+            };
+          }
+          return null;
+        }
+        function composite(foreground, background) {
+          const alpha = foreground.a + background.a * (1 - foreground.a);
+          if (alpha === 0) return { r: 0, g: 0, b: 0, a: 0 };
+          return {
+            r: (foreground.r * foreground.a + background.r * background.a * (1 - foreground.a)) / alpha,
+            g: (foreground.g * foreground.a + background.g * background.a * (1 - foreground.a)) / alpha,
+            b: (foreground.b * foreground.a + background.b * background.a * (1 - foreground.a)) / alpha,
+            a: alpha,
+          };
+        }
+        function linear(channel) {
+          const value = channel / 255;
+          return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+        }
+        function luminance(color) {
+          return 0.2126 * linear(color.r) + 0.7152 * linear(color.g) + 0.0722 * linear(color.b);
+        }
+        function effectiveBackground(element) {
+          const ancestors = [];
+          for (let node = element; node; node = node.parentElement) ancestors.push(node);
+          let background = { r: 255, g: 255, b: 255, a: 1 };
+          for (const node of ancestors.reverse()) {
+            const color = parseColor(getComputedStyle(node).backgroundColor);
+            if (color && color.a > 0) background = composite(color, background);
+          }
+          return background;
+        }
+        const elements = [
+          ...document.querySelectorAll('section[aria-labelledby="actions-title"] button'),
+          ...document.querySelectorAll('footer a, a[data-material-button-link="true"]'),
+        ];
+        return elements
+          .filter((element) => element.getClientRects().length && !element.disabled && element.innerText.trim())
+          .map((element) => {
+            const style = getComputedStyle(element);
+            const foreground = parseColor(style.color);
+            const background = effectiveBackground(element);
+            const text = foreground.a < 1 ? composite(foreground, background) : foreground;
+            const light = Math.max(luminance(text), luminance(background));
+            const dark = Math.min(luminance(text), luminance(background));
+            const border = parseColor(style.borderTopColor);
+            const borderVisible = border && border.a >= 0.5 && Number.parseFloat(style.borderTopWidth) > 0;
+            const borderText = borderVisible && border.a < 1 ? composite(border, background) : border;
+            const borderLight = borderText ? Math.max(luminance(borderText), luminance(background)) : 0;
+            const borderDark = borderText ? Math.min(luminance(borderText), luminance(background)) : 0;
+            return {
+              label: element.innerText.trim(),
+              kind: element.tagName.toLowerCase(),
+              foreground: style.color,
+              background: 'rgb(' + Math.round(background.r) + ', ' + Math.round(background.g) + ', ' + Math.round(background.b) + ')',
+              rawBackground: style.backgroundColor,
+              ratio: Number(((light + 0.05) / (dark + 0.05)).toFixed(2)),
+              borderRatio: borderVisible ? Number(((borderLight + 0.05) / (borderDark + 0.05)).toFixed(2)) : null,
+            };
+          });
+      })()`);
+      assert(results.length >= 7, "Les variantes Button attendues ne sont pas toutes présentes : " + JSON.stringify(results));
+      const failures = results.filter((result) => result.ratio < 4.5 || (result.borderRatio !== null && result.borderRatio < 3));
+      if (failures.length) {
+        throw new Error("Contraste texte (4,5:1) ou bordure (3:1) insuffisant " + label + " : " + JSON.stringify(failures));
+      }
+      console.log("Contraste texte et liens " + label + " : " + JSON.stringify(results));
     }
 
     async function testFocusVisible() {
@@ -360,12 +469,14 @@ async function main() {
       await setViewport({ width: 390, height: 844, mobile: true });
       await testFocusVisible();
       await runAxe(entry.locale + " light");
+      await checkButtonContrast(entry.locale + " light");
 
       await cdp.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-color-scheme", value: "dark" }] });
       await navigate(entry.path);
       await setViewport({ width: 390, height: 844, mobile: true });
       await capture(entry.locale + "-design-lab-dark-390");
       await runAxe(entry.locale + " dark");
+      await checkButtonContrast(entry.locale + " dark");
     }
 
     await cdp.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
