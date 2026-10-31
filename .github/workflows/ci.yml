@@ -285,7 +285,7 @@ jobs:
           done
 
   ci:
-    name: Node.js 24.21.0
+    name: Synthèse des validations
     needs: [prepare, quality, build, supabase]
     if: always()
     runs-on: ubuntu-latest
