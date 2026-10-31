@@ -34,7 +34,7 @@ test("npm audit runs daily and manually, but not on pull requests", () => {
 
 test("the required Node.js gate requires npm audit whenever it applies", () => {
   const gate = sectionFor("ci");
-  assert.match(gate, /needs: \[prepare, quality, build, supabase, npm-audit\]/);
+  assert.match(gate, /needs: \[prepare, quality, build, browser-tests, supabase, npm-audit\]/);
   assert.match(gate, /NPM_AUDIT_RESULT: \$\{\{ needs\.npm-audit\.result \}\}/);
   assert.match(gate, /EVENT_NAME: \$\{\{ github\.event_name \}\}/);
   assert.match(gate, /case "\$NPM_AUDIT_RESULT" in/);
