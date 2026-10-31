@@ -1,0 +1,46 @@
+name: Probe temporaire CLI Supabase
+
+on:
+  push:
+    branches:
+      - test/supabase-db-validation
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    name: Vérifier la validation SQL sans stack complète
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Installer la CLI Supabase épinglée
+        uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3
+        with:
+          version: 2.122.0
+
+      - name: Découvrir les commandes disponibles
+        run: |
+          supabase --version
+          supabase --help
+          supabase db start --help
+          supabase test db --help
+          supabase db lint --help
+
+      - name: Démarrer uniquement PostgreSQL et appliquer les migrations
+        run: supabase db start
+
+      - name: Exécuter les tests pgTAP
+        run: supabase test db
+
+      - name: Analyser les fonctions SQL
+        run: supabase db lint --local --fail-on error
+
+      - name: Arrêter la base locale
+        if: always()
+        run: supabase stop
