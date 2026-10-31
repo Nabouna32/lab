@@ -81,7 +81,7 @@ Le challenge est obligatoire pour les fondations, les contrats partagés, les ou
 
 Les en-têtes conservent leur repère HTML `header`, les listes restent des listes et les destinations restent des liens natifs. Les surfaces utilisent désormais le port partagé `Card` et les textes les rôles typographiques Material 3. Les anciennes grandes formes, bordures décoratives et ombres propres aux cartes ont été retirées au profit du contrat de carte remplie. Les wrappers de composition Loculary qui ne font que répliquer les contraintes de largeur ou d'espacement doivent être remplacés par les primitives AndroidX pertinentes ou par les mécanismes CSS natifs, puis supprimés après migration de leurs consommateurs. La validation navigateur des thèmes, langues, largeurs et états reste à effectuer ; cette migration ne vaut pas preuve de parité pixel.
 
-La page interactive de gestion des collections (`CollectionsView`) reste à auditer séparément avant sa migration, car elle comporte des formulaires, des imports/exports, des dialogues et des états de synchronisation supplémentaires.
+Le parcours interactif de gestion des collections (`CollectionsView`) est détaillé dans la section suivante : l'audit conserve ses opérations locales/synchronisées et leurs protections de confidentialité, tout en remplaçant le renommage bloquant par une édition inline.
 
 ## Gestion des collections
 
