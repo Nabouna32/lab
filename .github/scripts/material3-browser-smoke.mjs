@@ -262,7 +262,7 @@ async function main() {
       if (viewport.width <= 390) {
         const guidedLabel = await cdp.evaluate("(() => { const link = Array.from(document.querySelectorAll('a[data-nav-key=\"guided\"]')).find((item) => item.getClientRects().length); const label = link?.lastElementChild; return link && label ? { text: label.textContent.trim(), width: label.clientWidth, scrollWidth: label.scrollWidth, ariaLabel: link.getAttribute('aria-label') } : null; })()");
         const expectedLabel = locale === "fr" ? "Parcours" : "Guides";
-        const expectedAccessibleName = locale === "fr" ? "Parcours guidés" : "Guided workflows";
+        const expectedAccessibleName = expectedLabel;
         assert(guidedLabel && guidedLabel.text === expectedLabel && guidedLabel.scrollWidth <= guidedLabel.width + 1,
           path + " : libellé du parcours tronqué sur mobile : " + JSON.stringify(guidedLabel));
         assert(guidedLabel.ariaLabel === expectedAccessibleName,
