@@ -455,6 +455,18 @@ for (const entry of locales) {
       await disabledDismissButton.evaluate((element) => element.click());
       await expect(disabledChip).toBeVisible();
 
+      // Run the page-wide scan at the top so the sticky app bar cannot cover an off-screen target.
+      await page.evaluate(() => window.scrollTo(0, 0));
+      const passwordToggle = page.getByRole("button", {
+        name: entry.locale === "fr" ? "Afficher le mot de passe" : "Show password",
+      });
+      await expect(passwordToggle).toBeInViewport();
+      const passwordTarget = await passwordToggle.evaluate((element) => {
+        const rect = element.getBoundingClientRect();
+        return { width: rect.width, height: rect.height };
+      });
+      expect(passwordTarget.width).toBeGreaterThanOrEqual(48);
+      expect(passwordTarget.height).toBeGreaterThanOrEqual(48);
       await runAxe(page, entry.locale + " Design Lab Chips " + colorScheme);
     });
   }
