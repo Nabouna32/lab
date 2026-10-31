@@ -8,6 +8,7 @@ test('classifies documentation-only changes as lightweight', () => {
     dependencies_changed: false,
     governance_changed: false,
     androidx_catalog_changed: false,
+    browser_tests_changed: false,
     supabase_changed: false,
   });
 });
@@ -18,6 +19,7 @@ test('classifies governance documentation as lightweight and governance-touched'
     dependencies_changed: false,
     governance_changed: true,
     androidx_catalog_changed: false,
+    browser_tests_changed: false,
     supabase_changed: false,
   });
 });
@@ -28,6 +30,7 @@ test('workflow changes require full CI while still exercising classifier tests',
     dependencies_changed: false,
     governance_changed: true,
     androidx_catalog_changed: false,
+    browser_tests_changed: false,
     supabase_changed: false,
   });
 });
@@ -38,6 +41,7 @@ test('CI tooling changes require full CI and exercise classifier tests', () => {
     dependencies_changed: false,
     governance_changed: true,
     androidx_catalog_changed: false,
+    browser_tests_changed: false,
     supabase_changed: false,
   });
 });
@@ -48,6 +52,7 @@ test('runtime changes force the full suite even when mixed with documentation', 
     dependencies_changed: false,
     governance_changed: false,
     androidx_catalog_changed: false,
+    browser_tests_changed: false,
     supabase_changed: false,
   });
 });
@@ -58,6 +63,7 @@ test('governance mixed with runtime still marks governance but disables lightwei
     dependencies_changed: false,
     governance_changed: true,
     androidx_catalog_changed: false,
+    browser_tests_changed: false,
     supabase_changed: false,
   });
 });
@@ -68,6 +74,7 @@ test('dependency manifests disable lightweight mode and trigger dependency revie
     dependencies_changed: true,
     governance_changed: false,
     androidx_catalog_changed: false,
+    browser_tests_changed: false,
     supabase_changed: false,
   });
 });
@@ -78,6 +85,7 @@ test('dependency changes mixed with governance preserve both flags', () => {
     dependencies_changed: true,
     governance_changed: true,
     androidx_catalog_changed: false,
+    browser_tests_changed: false,
     supabase_changed: false,
   });
 });
@@ -111,6 +119,7 @@ test('accepts exactly 3,000 valid changed paths', () => {
     dependencies_changed: false,
     governance_changed: false,
     androidx_catalog_changed: false,
+    browser_tests_changed: false,
     supabase_changed: false,
   });
 });
@@ -133,8 +142,15 @@ test('marks every Supabase project change for targeted validation', () => {
     dependencies_changed: false,
     governance_changed: false,
     androidx_catalog_changed: false,
+    browser_tests_changed: false,
     supabase_changed: true,
   });
+});
+
+test('isolates Playwright migration checks to browser test sources', () => {
+  assert.equal(classifyCiChanges(['.github/workflows/ci.yml'], 1).browser_tests_changed, false);
+  assert.equal(classifyCiChanges(['playwright.config.mjs'], 1).browser_tests_changed, true);
+  assert.equal(classifyCiChanges(['.github/browser-tests/material3.spec.mjs'], 1).browser_tests_changed, true);
 });
 
 test('isolates AndroidX publication audits to the Material 3 catalog', () => {
