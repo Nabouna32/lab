@@ -54,3 +54,15 @@ test("collection deletion uses the shared destructive AlertDialog instead of nat
   assert.doesNotMatch(source, /window\.confirm/);
   assert.match(source, /<MaterialIcon name="delete" size=\{18\}/);
 });
+
+
+test("collection rename uses an inline accessible form instead of a blocking browser prompt", async () => {
+  const source = await readFile(viewFile, "utf8");
+  assert.ok(source.includes("async function rename()"));
+  assert.ok(source.includes("editingCollectionName.trim()"));
+  assert.ok(source.includes("setRenaming(false)"));
+  assert.ok(source.includes("aria-label={copy.renamePlaceholder}"));
+  assert.ok(source.includes("maxLength={80}"));
+  assert.ok(source.includes("disabled={renaming || !editingCollectionName.trim()}"));
+  assert.ok(!source.includes("window.prompt"));
+});
