@@ -209,6 +209,59 @@ for (const entry of locales) {
   });
 }
 
+
+for (const entry of locales) {
+  test("navigation compacte expose cinq destinations et un menu secondaire sans doublons (" + entry.locale + ")", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(entry.path);
+
+    const compactLinks = page.locator('nav a[data-nav-key]:visible');
+    await expect(compactLinks).toHaveCount(5);
+    const keys = await compactLinks.evaluateAll((links) => links.map((link) => link.getAttribute("data-nav-key")));
+    expect(keys).toEqual(["home", "tools", "favorites", "collections", "account"]);
+
+    const moreLabel = entry.locale === "fr" ? "Plus" : "More";
+    const trigger = page.getByRole("button", { name: moreLabel });
+    await expect(trigger).toBeVisible();
+    await trigger.click();
+    const secondary = page.locator("#mobile-secondary-navigation");
+    await expect(secondary).toHaveAttribute("aria-hidden", "false");
+    await expect(secondary.getByRole("link")).toHaveCount(1);
+    await expect(secondary.getByRole("link")).toHaveAccessibleName(
+      entry.locale === "fr" ? "Parcours guidés" : "Guided workflows",
+    );
+    await expect(secondary.locator('input[type="radio"]')).toHaveCount(3);
+
+    await page.keyboard.press("Escape");
+    await expect(secondary).toHaveAttribute("aria-hidden", "true");
+    await expect(trigger).toBeFocused();
+
+    await trigger.click();
+    await expect(secondary).toHaveAttribute("aria-hidden", "false");
+    await page.locator("main").click({ position: { x: 8, y: 8 } });
+    await expect(secondary).toHaveAttribute("aria-hidden", "true");
+
+    await trigger.click();
+    await secondary.getByRole("link", {
+      name: entry.locale === "fr" ? "Parcours guidés" : "Guided workflows",
+    }).click();
+    await expect(page).toHaveURL(new RegExp(entry.locale === "fr" ? "/fr/parcours-guides" : "/en/guided-workflows"));
+    await expect(secondary).toHaveAttribute("aria-hidden", "true");
+  });
+}
+
+test("navigation étendue conserve les six destinations et expose les préférences dédiées", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/fr/design-lab");
+
+  const desktopLinks = page.locator("aside nav a[data-nav-key]");
+  await expect(desktopLinks).toHaveCount(6);
+  await expect(page.getByRole("button", { name: "Plus" })).toHaveCount(0);
+  await expect(page.locator('input[name="loculary-theme-desktop"]')).toHaveCount(3);
+  await expect(page.locator('nav[aria-label="Langue"]')).toBeVisible();
+  await expect(page.locator('input[name="loculary-theme-desktop"][value="system"]')).toBeChecked();
+});
+
 test("focus clavier visible et réduction des animations", async ({ page }) => {
   await page.goto("/fr/design-lab");
   await page.evaluate(() => {
