@@ -1,0 +1,53 @@
+name: Generate and verify ESLint lockfile
+
+on:
+  push:
+    branches:
+      - fix/eslint-peer-dependency-alignment
+    paths:
+      - package.json
+      - package-lock.json
+      - .github/workflows/resolve-eslint-lock.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: eslint-lockfile-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  resolve-lockfile:
+    name: Résoudre le lockfile avec Node.js 24
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.21.0
+          cache: npm
+
+      - name: Regenerate package lock without lifecycle scripts
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+
+      - name: Verify clean install and peer graph
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm ls eslint eslint-plugin-react eslint-plugin-import eslint-plugin-jsx-a11y eslint-config-next --all
+          npm exec eslint -- --version
+
+      - name: Commit the generated lockfile
+        run: |
+          if git diff --quiet -- package-lock.json; then
+            echo "package-lock.json is already synchronized"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          git commit -m "fix(tooling): régénérer le lockfile pour ESLint 9.39.5"
+          git push
