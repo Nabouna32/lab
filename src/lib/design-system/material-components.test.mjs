@@ -658,6 +658,19 @@ test("application navigation preserves accessible links and localized destinatio
   assert.match(navigation, /<Link[\s\S]*?aria-current=\{selected \? "page" : undefined\}/);
   assert.match(navigation, /getToolsPath\(locale\)/);
   assert.match(navigation, /getGuidedWorkflowsPath\(locale\)/);
+  assert.match(navigation, /\["home", "tools", "favorites", "collections", "account"\]/);
+  assert.match(navigation, /icon: "search"/);
+  assert.doesNotMatch(navigation, /mobileMore|moreOpen|mobile-secondary-navigation/);
+
+  const headerPreferences = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
+  assert.match(headerPreferences, /getGuidedWorkflowsPath\(locale\)/);
+  assert.match(headerPreferences, /aria-label=\{t\.nav\.more\}/);
+  assert.match(headerPreferences, /pointerdown/);
+  assert.match(headerPreferences, /event\.key === "Escape"/);
+  assert.match(headerPreferences, /window\.matchMedia\("\(min-width: 768px\)"\)/);
+  assert.match(headerPreferences, /name=\{compact \? "loculary-theme-mobile" : "loculary-theme-desktop"\}/);
+  assert.match(headerPreferences, /hidden items-center gap-3 md:flex/);
+  assert.match(headerPreferences, /relative md:hidden/);
   assert.match(navigation, /\$\{locale\}\/compte/);
   assert.match(navigationCss, /:focus-visible/);
   assert.match(navigationCss, /prefers-reduced-motion: reduce/);
