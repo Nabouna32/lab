@@ -83,6 +83,12 @@ Adapter la longueur à la complexité, mais inclure les éléments nécessaires 
 
 Les recommandations de PILOTAGE sont un point de départ argumenté, pas un ordre à exécuter aveuglément. AUTONOME doit revalider les éléments susceptibles d'avoir changé et challenger le plan à partir du dépôt et des systèmes actuels.
 
+### Lecture préalable obligatoire en mode AUTONOME
+
+Avant de décider d'exécuter une issue, AUTONOME doit lire son corps intégral et tous ses commentaires GitHub, sur toutes les pages disponibles. Il reconstitue la chronologie et distingue les décisions actives, les décisions remplacées, les validations, les résultats, les blocages et les éléments historiques. Un résumé, un ancien checkpoint ou le seul corps de l'issue ne remplace pas cette lecture.
+
+Recouper ensuite les affirmations et liens importants avec le dépôt et les systèmes actuels. Si une partie de l'issue ou des commentaires est inaccessible, le signaler, chercher une méthode d'accès alternative raisonnable et ne pas prétendre avoir effectué une lecture complète. Cette lecture préparatoire ne signifie pas que chaque ancien commentaire reste une consigne active : appliquer les règles d'hygiène ci-dessous.
+
 ## 5. Création, classement et cycle de vie
 
 - Rechercher les issues existantes avant d'en créer une ; éviter les doublons et relier les sujets réellement dépendants.
