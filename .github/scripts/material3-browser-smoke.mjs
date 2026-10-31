@@ -297,9 +297,9 @@ async function main() {
     async function checkButtonContrast(label) {
       const results = await cdp.evaluate(String.raw`(() => {
         function parseColor(value) {
-          const match = value.match(/rgba?\\(([^)]+)\\)/i);
+          const match = value.match(/rgba?\(([^)]+)\)/i);
           if (!match) return null;
-          const values = match[1].split(/[,\\s/]+/).filter(Boolean).map(Number);
+          const values = match[1].split(/[,\s/]+/).filter(Boolean).map(Number);
           return { r: values[0], g: values[1], b: values[2], a: values[3] ?? 1 };
         }
         function composite(foreground, background) {
