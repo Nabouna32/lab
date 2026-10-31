@@ -22,6 +22,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
   const [editingCollectionId, setEditingCollectionId] = useState<string | null>(null);
   const [editingCollectionName, setEditingCollectionName] = useState("");
   const [renaming, setRenaming] = useState(false);
+  const renamingRef = useRef(false);
   const [addingTool, setAddingTool] = useState("");
   const [message, setMessage] = useState("");
   const [creating, setCreating] = useState(false);
@@ -105,7 +106,8 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
   async function rename() {
     const collection = data.collections.find((item) => item.id === editingCollectionId);
     const nextName = editingCollectionName.trim();
-    if (!collection || !nextName || renaming) return;
+    if (!collection || !nextName || renamingRef.current) return;
+    renamingRef.current = true;
     setRenaming(true);
     try {
       if (await data.renameCollection(collection.id, nextName)) {
@@ -118,6 +120,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
     } catch {
       setMessage(copy.error);
     } finally {
+      renamingRef.current = false;
       setRenaming(false);
     }
   }
