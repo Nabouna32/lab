@@ -295,7 +295,7 @@ async function main() {
     }
 
     async function checkButtonContrast(label) {
-      const results = await cdp.evaluate(String.raw\`(() => {
+      const results = await cdp.evaluate(String.raw`(() => {
         function parseColor(value) {
           const match = value.match(/rgba?\\(([^)]+)\\)/i);
           if (!match) return null;
@@ -344,7 +344,7 @@ async function main() {
               ratio: Number(((light + 0.05) / (dark + 0.05)).toFixed(2)),
             };
           });
-      })()\`);
+      })()`);
       assert(results.length >= 7, "Les variantes Button attendues ne sont pas toutes présentes : " + JSON.stringify(results));
       const failures = results.filter((result) => result.ratio < 4.5);
       if (failures.length) {
