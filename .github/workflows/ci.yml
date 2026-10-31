@@ -6,7 +6,7 @@ on:
       - main
   workflow_dispatch:
   schedule:
-    - cron: "30 3 * * 1"
+    - cron: "30 3 * * *"
 
 permissions:
   contents: read
@@ -320,11 +320,18 @@ jobs:
           BUILD_RESULT: ${{ needs.build.result }}
           SUPABASE_RESULT: ${{ needs.supabase.result }}
           NPM_AUDIT_RESULT: ${{ needs.npm-audit.result }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           set -euo pipefail
           case "$NPM_AUDIT_RESULT" in
             success) ;;
-            *) echo "The npm audit job must succeed: $NPM_AUDIT_RESULT" >&2; exit 1 ;;
+            skipped)
+              if [[ "$EVENT_NAME" != "pull_request" ]]; then
+                echo "The npm audit job was unexpectedly skipped." >&2
+                exit 1
+              fi
+              ;;
+            *) echo "The npm audit job must succeed when applicable: $NPM_AUDIT_RESULT" >&2; exit 1 ;;
           esac
           for result in "$PREPARE_RESULT" "$QUALITY_RESULT" "$BUILD_RESULT" "$SUPABASE_RESULT"; do
             case "$result" in
@@ -336,6 +343,7 @@ jobs:
 
   npm-audit:
     name: Audit de sécurité npm
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
