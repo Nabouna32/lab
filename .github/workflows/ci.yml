@@ -262,6 +262,22 @@ jobs:
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_local_placeholder"
         run: npm run build
 
+      - name: Local Chromium and axe-core regression
+        run: node .github/scripts/material3-browser-smoke.mjs
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+          NEXT_PUBLIC_SUPABASE_URL: "http://127.0.0.1:54321"
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_local_placeholder"
+
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: material3-browser-evidence
+          path: artifacts/browser/
+          if-no-files-found: ignore
+          retention-days: 7
+
   supabase:
     name: Vérification Supabase
     needs: prepare
