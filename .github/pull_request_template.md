@@ -12,4 +12,5 @@
      Closes #123 uniquement si cette PR termine tous les critères de l'issue.
      Refs #123 pour une contribution partielle ou une étape intermédiaire.
      Si aucune issue ne correspond, indiquer « Aucune issue liée » : une issue préalable n'est pas obligatoire pour un travail autonome.
+     Après fusion, vérifier que l'issue a réellement été clôturée ; si elle reste ouverte, vérifier les critères avant toute clôture manuelle.
 -->
