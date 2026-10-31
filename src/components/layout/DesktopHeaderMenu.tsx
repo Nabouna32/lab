@@ -62,6 +62,10 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
       triggerRef.current?.focus();
     }
 
+    function handlePopState() {
+      setOpenPath(null);
+    }
+
     const desktopQuery = window.matchMedia("(min-width: 768px)");
     function handleViewportChange() {
       if (desktopQuery.matches) setOpenPath(null);
@@ -69,10 +73,12 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
 
     document.addEventListener("pointerdown", handlePointerDown);
     document.addEventListener("keydown", handleKeyDown, true);
+    window.addEventListener("popstate", handlePopState);
     desktopQuery.addEventListener("change", handleViewportChange);
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown);
       document.removeEventListener("keydown", handleKeyDown, true);
+      window.removeEventListener("popstate", handlePopState);
       desktopQuery.removeEventListener("change", handleViewportChange);
     };
   }, [open]);
