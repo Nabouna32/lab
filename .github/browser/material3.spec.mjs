@@ -35,8 +35,8 @@ async function runAxe(page, label) {
 }
 
 async function buttonMetrics(page) {
-  return page.locator('section[aria-labelledby="actions-title"] button')
-    .evaluateAll((elements) => {
+  return page.evaluate(() => {
+    const elements = Array.from(document.querySelectorAll('section[aria-labelledby="actions-title"] button, footer a, a[data-material-button-link="true"]'));
       function parseColor(value) {
         const rgb = value.match(/rgba?\(([^)]+)\)/i);
         if (rgb) {
@@ -110,6 +110,7 @@ async function buttonMetrics(page) {
           const isText = /Texte|Text$/.test(element.innerText.trim());
           return {
             label: element.innerText.trim(),
+            kind: element.tagName.toLowerCase(),
             minWidth: style.minWidth,
             minHeight: style.minHeight,
             paddingInlineStart: style.paddingInlineStart,
@@ -178,10 +179,14 @@ for (const entry of locales) {
         await page.goto(entry.path);
         await runAxe(page, entry.locale + " " + colorScheme);
         const results = await buttonMetrics(page);
-        expect(results.length).toBeGreaterThanOrEqual(6);
+        const buttonResults = results.filter((result) => result.kind === "button");
+        const footerLinks = results.filter((result) => result.kind === "a");
+        expect(buttonResults.length).toBeGreaterThanOrEqual(6);
+        expect(footerLinks.length).toBeGreaterThanOrEqual(1);
         const failures = results.filter((result) =>
           result.textContrast < 4.5 ||
           (result.borderContrast !== null && result.borderContrast < 3) ||
+          (result.kind === "button" && (
           result.minWidth !== "58px" ||
           result.minHeight !== "40px" ||
           result.paddingInlineStart !== ( /Texte|Text$/.test(result.label) ? "12px" : "24px") ||
@@ -194,6 +199,7 @@ for (const entry of locales) {
           result.fontWeight !== "500" ||
           result.gap !== "8px" ||
           Number.parseFloat(result.borderRadius) < 9999
+          ))
         );
         console.log("Button " + entry.locale + " " + colorScheme + " : " + JSON.stringify(results));
         expect(failures, "Contraste ou géométrie Button incorrects").toEqual([]);
