@@ -297,10 +297,22 @@ async function main() {
     async function checkButtonContrast(label) {
       const results = await cdp.evaluate(String.raw`(() => {
         function parseColor(value) {
-          const match = value.match(/rgba?\(([^)]+)\)/i);
-          if (!match) return null;
-          const values = match[1].split(/[,\s/]+/).filter(Boolean).map(Number);
-          return { r: values[0], g: values[1], b: values[2], a: values[3] ?? 1 };
+          const rgb = value.match(/rgba?\(([^)]+)\)/i);
+          if (rgb) {
+            const values = rgb[1].split(/[,\s/]+/).filter(Boolean).map(Number);
+            return { r: values[0], g: values[1], b: values[2], a: values[3] ?? 1 };
+          }
+          const srgb = value.match(/color\(srgb\s+([^)]+)\)/i);
+          if (srgb) {
+            const values = srgb[1].split(/[,\s/]+/).filter(Boolean).map(Number);
+            return {
+              r: values[0] * 255,
+              g: values[1] * 255,
+              b: values[2] * 255,
+              a: values[3] ?? 1,
+            };
+          }
+          return null;
         }
         function composite(foreground, background) {
           const alpha = foreground.a + background.a * (1 - foreground.a);
@@ -341,6 +353,7 @@ async function main() {
               label: element.innerText.trim(),
               foreground: getComputedStyle(element).color,
               background: 'rgb(' + Math.round(background.r) + ', ' + Math.round(background.g) + ', ' + Math.round(background.b) + ')',
+              rawBackground: getComputedStyle(element).backgroundColor,
               ratio: Number(((light + 0.05) / (dark + 0.05)).toFixed(2)),
             };
           });
