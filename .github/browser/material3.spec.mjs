@@ -406,3 +406,45 @@ test("recherche mobile : navigation clavier des suggestions", async ({ page }) =
   await expect(input).toHaveAttribute("aria-controls", "header-tool-search-results");
   await expect(input).toHaveAttribute("aria-activedescendant", "header-tool-search-result-0");
 });
+
+
+for (const entry of locales) {
+  test("FilterChip et InputChip : sélection, retrait, clavier et désactivation (" + entry.locale + ")", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(entry.path);
+
+    const specimens = page.getByTestId("chip-specimens");
+    const filter = specimens.getByRole("button", { name: entry.locale === "fr" ? "Filtre actif" : "Active filter" });
+    await expect(filter).toHaveAttribute("aria-pressed", "false");
+    await filter.focus();
+    await page.keyboard.press("Enter");
+    await expect(filter).toHaveAttribute("aria-pressed", "true");
+
+    const inputLabel = entry.locale === "fr" ? "Cuisine" : "Cooking";
+    const dismissLabel = entry.locale === "fr" ? "Retirer Cuisine" : "Remove Cooking";
+    const inputChip = page.getByTestId("input-chip");
+    const chipButton = inputChip.getByRole("button", { name: inputLabel });
+    const dismissButton = inputChip.getByRole("button", { name: dismissLabel });
+    await expect(chipButton).toHaveAttribute("aria-pressed", "true");
+    await expect(dismissButton).toBeVisible();
+    await expect(dismissButton).toHaveAccessibleName(dismissLabel);
+
+    await dismissButton.focus();
+    await expect(dismissButton).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(inputChip).toHaveCount(0);
+    await expect(filter).toHaveAttribute("aria-pressed", "true");
+
+    const disabledChip = page.getByTestId("disabled-input-chip");
+    const disabledLabel = entry.locale === "fr" ? "Désactivé" : "Disabled";
+    const disabledDismissLabel = entry.locale === "fr" ? "Retirer Désactivé" : "Remove Disabled";
+    const disabledChipButton = disabledChip.getByRole("button", { name: disabledLabel });
+    const disabledDismissButton = disabledChip.getByRole("button", { name: disabledDismissLabel });
+    await expect(disabledChipButton).toBeDisabled();
+    await expect(disabledDismissButton).toBeDisabled();
+    await disabledDismissButton.evaluate((element) => element.click());
+    await expect(disabledChip).toBeVisible();
+
+    await runAxe(page, entry.locale + " Design Lab Chips");
+  });
+}
