@@ -22,7 +22,7 @@
 
 ## Vérifications restantes
 
-- [ ] Tester activation, sélection, retrait, désactivation et focus clavier dans un navigateur.
+- [x] Automatiser dans Chromium l'activation clavier, la sélection, le retrait, la désactivation et l'indépendance des actions (preuve CI à obtenir sur cette PR).
 - [ ] Vérifier le nom accessible de l'action de retrait avec un lecteur d'écran.
 - [ ] Comparer les couleurs calculées, le contraste, clair/sombre, FR/EN, zoom et tailles d'écran réelles.
 - [ ] Comparer le rendu et les états aux références AndroidX épinglées.
