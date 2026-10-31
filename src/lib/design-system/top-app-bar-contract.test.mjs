@@ -32,5 +32,5 @@ test("TopAppBar exposes Web content and root styling without leaking layout vari
 test("small TopAppBar uses the Material 3 64 px reference and shared titleLarge typography", () => {
   assert.match(styles, /min-height:\s*64px/);
   assert.match(styles, /font-size:\s*var\(--m3-type-title-large-size\)/);
-  assert.match(styles, /background:\s*var\(--lab-surface, var\(--surface, transparent\)\)/);
+  assert.match(styles, /background:\s*var\(--background, var\(--surface, transparent\)\)/);
 });
