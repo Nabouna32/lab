@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
     inputs:
       ref:
-        description: "Branche, tag ou SHA à auditer et tester"
+        description: "Révision facultative ; laisser vide pour utiliser la branche choisie dans le sélecteur GitHub"
         required: false
-        default: "main"
+        default: ""
         type: string
 
 permissions:
