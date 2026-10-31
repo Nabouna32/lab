@@ -143,9 +143,6 @@
   --m3-size-touch-target-min: 3rem; /* Web accessibility target: 48 CSS px reference */
   --m3-size-button-standard-height: 2.5rem; /* AndroidX standard button: 40 dp reference */
   --m3-size-button-medium-height: 3.5rem; /* AndroidX medium button: 56 dp reference */
-  --m3-size-snackbar-single-line-height: 3rem; /* AndroidX: 48 dp reference */
-  --m3-size-snackbar-two-line-height: 4.25rem; /* AndroidX: 68 dp reference */
-  --m3-size-snackbar-max-width: 37.5rem; /* AndroidX: 600 dp reference */
   --m3-size-text-field-min-height: 3.5rem; /* Material 3 single-line field baseline: 56 dp reference expressed as a Web rem token */
   --m3-size-list-item-one-line-min-height: 3.5rem; /* AndroidX Material 3 1.4.0 ListItem: 56 dp reference */
   --m3-size-list-item-two-line-min-height: 4.5rem; /* AndroidX Material 3 1.4.0 ListItem: 72 dp reference */
@@ -215,7 +212,6 @@
   --m3-type-label-small-line-height: 1rem;
   --m3-type-label-small-weight: 500;
   --m3-type-label-small-tracking: 0.045455em;
-  --m3-snackbar-vertical-padding: 0.875rem; /* AndroidX: 14 dp reference */
 
   /* First-party Material Web shape tokens, expressed in CSS px for the web implementation. */
   --shape-corner-none: 0px;
