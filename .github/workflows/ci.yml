@@ -314,7 +314,7 @@ jobs:
         with:
           version: 2.122.0
 
-      - name: Démarrer PostgreSQL seul et appliquer toutes les migrations
+      - name: Démarrer la base locale minimale et appliquer toutes les migrations
         id: db_start
         run: supabase db start
 
