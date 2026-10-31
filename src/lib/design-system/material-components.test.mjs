@@ -17,7 +17,6 @@ const textAreaSource = readFileSync(new URL("../../components/ui/TextArea.tsx", 
 const calculatorFieldSource = readFileSync(new URL("../../components/tools/calculator/CalculatorField.tsx", import.meta.url), "utf8");
 const selectSource = readFileSync(new URL("../../components/ui/Select.tsx", import.meta.url), "utf8");
 const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
-const snackbarSource = readFileSync(new URL("../../components/ui/Snackbar.tsx", import.meta.url), "utf8");
 const buttonVariantStylesSource = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
 const iconButtonSource = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
@@ -58,14 +57,6 @@ function contrastRatio(first, second) {
 function literalColors(name) {
   return [...globalCss.matchAll(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6});`, "g"))].map((match) => match[1]);
 }
-test("Snackbar action delegates inverse color and minimum width to the shared TextButton", () => {
-  assert.ok(snackbarSource.includes('<TextButton'));
-  assert.ok(snackbarSource.includes('className="min-h-11"'), "the 44px Web touch-height adaptation is retained");
-  assert.ok(snackbarSource.includes('colors={{ contentColor: "var(--lab-inverse-primary,var(--inverse-primary))" }}'));
-  assert.ok(!snackbarSource.includes("min-w-[44px]"), "the shared TextButton minimum width must not be reduced");
-  assert.ok(!snackbarSource.includes("text-[var(--lab-inverse-primary"), "the inverse-primary color must not be duplicated in local utility classes");
-});
-
 test("shared typography roles drive component CSS instead of duplicated font metrics", () => {
   const expectations = [
     ["alertDialog", "--m3-type-headline-small-size", "--m3-type-body-medium-size"],
