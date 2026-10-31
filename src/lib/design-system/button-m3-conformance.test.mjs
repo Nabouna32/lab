@@ -145,9 +145,7 @@ test("generic tool and dialog actions use the shared AndroidX Button ports", () 
   const expenseSplitter = readFileSync(new URL("../../components/tools/expense-splitter/ExpenseSplitter.tsx", import.meta.url), "utf8");
   const datePickerDialog = readFileSync(new URL("../../components/ui/DatePickerDialog.tsx", import.meta.url), "utf8");
   const timePickerDialog = readFileSync(new URL("../../components/ui/TimePickerDialog.tsx", import.meta.url), "utf8");
-  const snackbar = readFileSync(new URL("../../components/ui/Snackbar.tsx", import.meta.url), "utf8");
   const datePickerCss = readFileSync(new URL("../../components/ui/DatePickerDialog.module.css", import.meta.url), "utf8");
-  const snackbarCss = readFileSync(new URL("../../components/ui/Snackbar.module.css", import.meta.url), "utf8");
 
   assert.ok(expenseSplitter.includes('import { Button, OutlinedButton } from "@/components/ui/Button"'));
   assert.ok(!expenseSplitter.includes("buttonClass"), "legacy local action styles must be removed after migration");
@@ -155,9 +153,7 @@ test("generic tool and dialog actions use the shared AndroidX Button ports", () 
   assert.ok(datePickerDialog.includes("<Button type=\"button\""));
   assert.ok(timePickerDialog.includes("<TextButton ref={cancelRef}"));
   assert.ok(timePickerDialog.includes("<Button type=\"button\""));
-  assert.ok(snackbar.includes("<TextButton"));
   assert.ok(!datePickerCss.includes(".textAction") && !datePickerCss.includes(".confirmAction"));
-  assert.ok(!snackbarCss.includes(".action,"), "Snackbar action styles are owned by the shared Button port");
 });
 
 test("icon button API separates official action variants from toggle variants", () => {

@@ -25,12 +25,9 @@ const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.u
 const typographyComponentStyles = {
   buttonGroup: readFileSync(new URL("../../components/ui/ButtonGroup.module.css", import.meta.url), "utf8"),
   datePicker: readFileSync(new URL("../../components/ui/DatePicker.module.css", import.meta.url), "utf8"),
-  floatingActionButton: readFileSync(new URL("../../components/ui/FloatingActionButton.module.css", import.meta.url), "utf8"),
-  floatingActionButtonMenu: readFileSync(new URL("../../components/ui/FloatingActionButtonMenu.module.css", import.meta.url), "utf8"),
   floatingToolbar: readFileSync(new URL("../../components/ui/FloatingToolbar.module.css", import.meta.url), "utf8"),
   rangeSlider: readFileSync(new URL("../../components/ui/RangeSlider.module.css", import.meta.url), "utf8"),
   segmentedButtonGroup: readFileSync(new URL("../../components/ui/SegmentedButtonGroup.module.css", import.meta.url), "utf8"),
-  splitButton: readFileSync(new URL("../../components/ui/SplitButton.module.css", import.meta.url), "utf8"),
   slider: readFileSync(new URL("../../components/ui/slider.module.css", import.meta.url), "utf8"),
   alertDialog: readFileSync(new URL("../../components/ui/AlertDialog.module.css", import.meta.url), "utf8"),
   datePickerDialog: readFileSync(new URL("../../components/ui/DatePickerDialog.module.css", import.meta.url), "utf8"),
@@ -38,7 +35,6 @@ const typographyComponentStyles = {
   exposedDropdownMenu: readFileSync(new URL("../../components/ui/ExposedDropdownMenu.module.css", import.meta.url), "utf8"),
   navigationBar: readFileSync(new URL("../../components/ui/NavigationBar.module.css", import.meta.url), "utf8"),
   radioButton: readFileSync(new URL("../../components/ui/RadioButton.module.css", import.meta.url), "utf8"),
-  snackbar: readFileSync(new URL("../../components/ui/Snackbar.module.css", import.meta.url), "utf8"),
   tabs: readFileSync(new URL("../../components/ui/Tabs.module.css", import.meta.url), "utf8"),
   timePicker: readFileSync(new URL("../../components/ui/TimePicker.module.css", import.meta.url), "utf8"),
   toggleButton: readFileSync(new URL("../../components/ui/ToggleButton.module.css", import.meta.url), "utf8"),
@@ -65,7 +61,6 @@ test("shared typography roles drive component CSS instead of duplicated font met
     ["exposedDropdownMenu", "--m3-type-body-medium-size", "--m3-type-body-small-size"],
     ["navigationBar", "--m3-type-label-medium-size"],
     ["radioButton", "--m3-type-body-medium-size"],
-    ["snackbar", "--m3-type-body-medium-size"],
     ["tabs", "--m3-type-label-large-size"],
     ["timePicker", "--m3-type-body-medium-size", "--m3-type-body-small-size"],
     ["toggleButton", "--m3-type-label-large-size"],
@@ -74,12 +69,9 @@ test("shared typography roles drive component CSS instead of duplicated font met
     
     ["buttonGroup", "--m3-type-label-large-size"],
     ["datePicker", "--m3-type-label-medium-size", "--m3-type-label-large-size", "--m3-type-body-small-size", "--m3-type-title-small-size", "--m3-type-body-medium-size"],
-    ["floatingActionButton", "--m3-type-label-large-size"],
-    ["floatingActionButtonMenu", "--m3-type-label-large-size"],
     ["floatingToolbar", "--m3-type-label-large-size"],
     ["rangeSlider", "--m3-type-label-large-size", "--m3-type-body-medium-size"],
     ["segmentedButtonGroup", "--m3-type-label-large-size"],
-    ["splitButton", "--m3-type-label-large-size"],
     ["slider", "--m3-type-body-medium-size", "--m3-type-label-large-size", "--m3-type-body-small-size"],
   ];
 
@@ -464,7 +456,6 @@ test("M3 web reference tokens document Android dp/sp magnitude without claiming 
   assert.match(globalCss, /--m3-ref-unit: 0\.0625rem/);
   assert.match(globalCss, /CSS rem\/px are NOT Android dp\/sp/);
   assert.match(globalCss, /--m3-size-segmented-button-min-height: 2\.5rem/);
-  assert.match(globalCss, /--m3-size-snackbar-max-width: 37\.5rem/);
   assert.match(globalCss, /--m3-size-text-field-min-height: 3\.5rem; \/\* Material 3 single-line field baseline/);
   assert.match(globalCss, /--m3-outline-width: 0\.0625rem/);
   assert.match(globalCss, /--shape-corner-extra-small: 4px/);
@@ -801,20 +792,16 @@ test("dropdown selection and expansion glyphs use the shared Material Symbols re
 
 test("shared controls use Material Symbols instead of Unicode chevrons and action glyphs", () => {
   const sources = [
-    readFileSync(new URL("../../components/ui/SplitButton.tsx", import.meta.url), "utf8"),
     readFileSync(new URL("../../components/ui/ScrollField.tsx", import.meta.url), "utf8"),
     readFileSync(new URL("../../components/ui/FloatingToolbar.tsx", import.meta.url), "utf8"),
-    readFileSync(new URL("../../components/ui/FloatingActionButtonMenu.tsx", import.meta.url), "utf8"),
   ];
   for (const source of sources) {
     assert.match(source, /MaterialIcon/);
     assert.doesNotMatch(source, /[⌄⌃×]/u);
   }
+  assert.match(sources[0], /keyboard_arrow_up/);
   assert.match(sources[0], /keyboard_arrow_down/);
-  assert.match(sources[1], /keyboard_arrow_up/);
-  assert.match(sources[1], /keyboard_arrow_down/);
-  assert.match(sources[2], /close/);
-  assert.match(sources[3], /add/);
+  assert.match(sources[1], /close/);
 });
 
 
