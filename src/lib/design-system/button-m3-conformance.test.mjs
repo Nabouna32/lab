@@ -91,6 +91,8 @@ test("button-styled links preserve anchors and share the ripple interaction", ()
   assert.match(button, /getMaterialButtonLayoutClasses\(variant, \{ leadingIcon, multiline \}\)/);
   assert.match(appLink, /getMaterialButtonLayoutClasses\(variant, \{ leadingIcon \}\)/);
   assert.doesNotMatch(timezoneConverter, /className="[^"]*px-2/);
+  assert.match(timezoneConverter, /aria-label=\{t\.removeDestination \+ " " \+ zone\}/);
+  assert.match(timezoneConverter, /disabled=\{destinationTimeZones\.length <= 1\}/);
   assert.match(buttonLayout, /min-h-10/);
   assert.match(buttonLayout, /min-w-\[58px\]/);
   assert.match(buttonLayout, /ps-3 pe-4/);
