@@ -61,7 +61,7 @@ Adaptations Web déclarées :
 - `OutlinedButton` : action secondaire avec contour.
 - `TextButton` : action contextuelle à faible emphase.
 
-AndroidX ne définit pas de variante « destructive ». Le sens métier ne suffit pas à prescrire un fond rouge, une icône ou une boîte de dialogue : choisir le composant selon le contexte et ne personnaliser les rôles d’erreur que si l’action le justifie. La navigation doit rester un lien.
+AndroidX ne définit pas de variante « destructive ». Le sens métier ne suffit pas à prescrire un fond rouge, une icône ou une boîte de dialogue : choisir le composant selon le contexte et ne personnaliser les rôles d’erreur que si l’action le justifie. Dans l’administration, le retrait d’un rôle utilise le rôle `error` via la propriété `colors` de `TextButton`, sans réduire sa cible tactile ; la suspension n’utilise ce rôle que lorsque l’action est réellement destructive, pas lors de la réactivation d’un compte. Éviter les surcharges Tailwind locales de couleur qui contournent les couches d’état du composant. La navigation doit rester un lien.
 
 ## Vérifications restantes
 
