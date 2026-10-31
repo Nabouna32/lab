@@ -3,10 +3,14 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const workflowPath = new URL("../workflows/ci.yml", import.meta.url);
+const surveillancePath = new URL("../workflows/surveillance.yml", import.meta.url);
+const codeqlPath = new URL("../workflows/codeql.yml", import.meta.url);
 const workflow = readFileSync(workflowPath, "utf8");
+const surveillance = readFileSync(surveillancePath, "utf8");
+const codeql = readFileSync(codeqlPath, "utf8");
 
-function sectionFor(jobName) {
-  const lines = workflow.split(/\r?\n/);
+function sectionFor(source, jobName) {
+  const lines = source.split(/\r?\n/);
   const start = lines.findIndex((line) => line === `  ${jobName}:`);
   assert.notEqual(start, -1, `Missing workflow job: ${jobName}`);
 
@@ -17,25 +21,37 @@ function sectionFor(jobName) {
   return lines.slice(start, next === -1 ? undefined : next).join("\n");
 }
 
-test("npm audit runs on pull requests, scheduled runs, and manual dispatches", () => {
+test("the PR workflow keeps the fast validation path separate from surveillance", () => {
   const triggers = workflow.slice(0, workflow.indexOf("\njobs:"));
   assert.match(triggers, /^  pull_request:/m);
   assert.match(triggers, /^  workflow_dispatch:/m);
-  assert.match(triggers, /^  schedule:/m);
-
-  const audit = sectionFor("npm-audit");
-  assert.match(audit, /^  npm-audit:/m);
-  assert.doesNotMatch(audit, /^    if:/m);
-  assert.match(audit, /run: node \.github\/scripts\/run-npm-audit\.mjs/);
-  assert.match(audit, /node-version: 24\.21\.0/);
-  assert.match(audit, /permissions:\n      contents: read/);
+  assert.doesNotMatch(triggers, /^  schedule:/m);
+  assert.doesNotMatch(workflow, /^  npm-audit:$/m);
+  assert.doesNotMatch(workflow, /material3-browser-smoke|playwright test|axe-core regression/);
+  assert.match(workflow, /needs: \[prepare, quality, build, supabase\]/);
+  assert.doesNotMatch(workflow, /NPM_AUDIT_RESULT|needs\.npm-audit/);
 });
 
-test("the required Node.js gate fails when the npm audit job does not pass", () => {
-  const gate = sectionFor("ci");
-  assert.match(gate, /needs: \[prepare, quality, build, supabase, npm-audit\]/);
-  assert.match(gate, /NPM_AUDIT_RESULT: \$\{\{ needs\.npm-audit\.result \}\}/);
-  assert.match(gate, /case "\$NPM_AUDIT_RESULT" in/);
-  assert.match(gate, /success\) ;;/);
-  assert.match(gate, /The npm audit job must succeed/);
+test("daily surveillance audits npm and runs pinned Playwright Chromium on the selected ref", () => {
+  const triggers = surveillance.slice(0, surveillance.indexOf("\njobs:"));
+  assert.match(triggers, /^  schedule:/m);
+  assert.match(triggers, /cron: "30 3 \* \* \*"/);
+  assert.match(triggers, /^  workflow_dispatch:/m);
+  assert.match(triggers, /default: "main"/);
+  assert.match(surveillance, /ref: \$\{\{ inputs\.ref \|\| github\.ref \}\}/);
+  assert.match(sectionFor(surveillance, "audit-dependances"), /run: node \.github\/scripts\/run-npm-audit\.mjs/);
+  const browser = sectionFor(surveillance, "tests-navigateur");
+  assert.match(browser, /@playwright\/test@1\.64\.1/);
+  assert.match(browser, /npx playwright install --with-deps chromium/);
+  assert.match(browser, /npx playwright test/);
+  assert.match(browser, /if: failure\(\)/);
+  assert.doesNotMatch(browser, /if: always\(\)/);
+  assert.doesNotMatch(surveillance, /vercel deploy|supabase db push|deploy --prod/i);
+});
+
+test("CodeQL scans main pushes and its weekly schedule without running on pull requests", () => {
+  const triggers = codeql.slice(0, codeql.indexOf("\njobs:"));
+  assert.match(triggers, /^  push:/m);
+  assert.match(triggers, /^  schedule:/m);
+  assert.doesNotMatch(triggers, /^  pull_request:/m);
 });
