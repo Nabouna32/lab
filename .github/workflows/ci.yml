@@ -24,7 +24,8 @@ jobs:
       dependencies_changed: ${{ steps.changes.outputs.dependencies_changed }}
       governance_changed: ${{ steps.changes.outputs.governance_changed }}
       androidx_provenance_changed: ${{ steps.changes.outputs.androidx_provenance_changed }}
-      supabase_changed: ${{ steps.changes.outputs.supabase_changed }}
+      supabase_functions_changed: ${{ steps.changes.outputs.supabase_functions_changed }}
+      supabase_database_changed: ${{ steps.changes.outputs.supabase_database_changed }}
       dependency_manifests_only: ${{ steps.changes.outputs.dependency_manifests_only }}
       dependency_scope: ${{ steps.dependency_scope.outputs.scope }}
     steps:
@@ -258,12 +259,12 @@ jobs:
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_local_placeholder"
         run: npm run build
 
-  supabase:
-    name: Vérification Supabase
+  supabase-functions:
+    name: Vérification des fonctions Edge Supabase
     needs: prepare
     if: >-
       ${{ needs.prepare.result == 'success' &&
-          (github.event_name == 'workflow_dispatch' || needs.prepare.outputs.supabase_changed == 'true') }}
+          (github.event_name == 'workflow_dispatch' || needs.prepare.outputs.supabase_functions_changed == 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -273,21 +274,66 @@ jobs:
           fetch-depth: 1
           persist-credentials: false
 
-      - name: Setup Deno
+      - name: Installer Deno
         uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
         with:
           deno-version: 2.1.4
 
-      - name: Validate Supabase Edge Functions
+      - name: Découvrir et vérifier toutes les Edge Functions
         run: |
           set -euo pipefail
-          for function in account-delete admin-user-sessions admin-user-suspension; do
-            (cd "supabase/functions/$function" && deno check --frozen index.ts)
+          mapfile -t function_entries < <(find supabase/functions -mindepth 2 -maxdepth 2 -type f -name index.ts -print | sort)
+          if [ "${#function_entries[@]}" -eq 0 ]; then
+            echo "No Supabase Edge Functions found."
+            exit 0
+          fi
+          for function_entry in "${function_entries[@]}"; do
+            function_dir="$(dirname "$function_entry")"
+            echo "::group::Deno check $function_dir"
+            (cd "$function_dir" && deno check --frozen index.ts)
+            echo "::endgroup::"
           done
+
+  supabase-database:
+    name: Validation PostgreSQL Supabase — migrations, pgTAP et lint
+    needs: prepare
+    if: >-
+      ${{ needs.prepare.result == 'success' &&
+          (github.event_name == 'workflow_dispatch' || needs.prepare.outputs.supabase_database_changed == 'true') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Installer la CLI Supabase épinglée
+        uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3
+        with:
+          version: 2.122.0
+
+      - name: Démarrer la base locale minimale et appliquer toutes les migrations
+        id: db_start
+        run: supabase db start
+
+      - name: Exécuter tous les tests pgTAP
+        if: steps.db_start.outcome == 'success'
+        run: supabase test db --local
+
+      - name: Analyser le schéma PostgreSQL
+        if: always() && steps.db_start.outcome == 'success'
+        run: supabase db lint --local --fail-on error
+
+      - name: Arrêter PostgreSQL local
+        if: always() && steps.db_start.outcome != 'skipped'
+        run: supabase stop
+
 
   ci:
     name: Synthèse des validations
-    needs: [prepare, quality, build, supabase]
+    needs: [prepare, quality, build, supabase-functions, supabase-database]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 2
@@ -297,10 +343,11 @@ jobs:
           PREPARE_RESULT: ${{ needs.prepare.result }}
           QUALITY_RESULT: ${{ needs.quality.result }}
           BUILD_RESULT: ${{ needs.build.result }}
-          SUPABASE_RESULT: ${{ needs.supabase.result }}
+          SUPABASE_FUNCTIONS_RESULT: ${{ needs.supabase-functions.result }}
+          SUPABASE_DATABASE_RESULT: ${{ needs.supabase-database.result }}
         run: |
           set -euo pipefail
-          for result in "$PREPARE_RESULT" "$QUALITY_RESULT" "$BUILD_RESULT" "$SUPABASE_RESULT"; do
+          for result in "$PREPARE_RESULT" "$QUALITY_RESULT" "$BUILD_RESULT" "$SUPABASE_FUNCTIONS_RESULT" "$SUPABASE_DATABASE_RESULT"; do
             case "$result" in
               success|skipped) ;;
               *) echo "A required CI job did not pass: $result" >&2; exit 1 ;;
