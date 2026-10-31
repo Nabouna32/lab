@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type MouseEvent } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@teispace/next-themes";
 import { getLanguage, isLocale, locales, type Locale } from "@/lib/i18n/config";
@@ -36,7 +36,8 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
     getHydrationReadySnapshot,
     getServerHydrationReadySnapshot,
   );
-  const [open, setOpen] = useState(false);
+  const [openPath, setOpenPath] = useState<string | null>(null);
+  const open = openPath === pathname;
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const currentLocaleSegment = pathname.split("/")[1];
@@ -46,28 +47,24 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
   const guidedActive = pathname === guidedPath || pathname.startsWith(guidedPath + "/");
 
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
     if (!open) return;
 
     function handlePointerDown(event: PointerEvent) {
       const target = event.target;
       if (!(target instanceof Node)) return;
-      if (!rootRef.current?.contains(target)) setOpen(false);
+      if (!rootRef.current?.contains(target)) setOpenPath(null);
     }
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key !== "Escape") return;
       event.preventDefault();
-      setOpen(false);
+      setOpenPath(null);
       triggerRef.current?.focus();
     }
 
     const desktopQuery = window.matchMedia("(min-width: 768px)");
     function handleViewportChange() {
-      if (desktopQuery.matches) setOpen(false);
+      if (desktopQuery.matches) setOpenPath(null);
     }
 
     document.addEventListener("pointerdown", handlePointerDown);
@@ -84,8 +81,8 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
     return getLocalizedPath(pathname, nextLocale);
   }
 
-  function handleLanguageClick(event: React.MouseEvent<HTMLAnchorElement>, nextLocale: Locale) {
-    setOpen(false);
+  function handleLanguageClick(event: MouseEvent<HTMLAnchorElement>, nextLocale: Locale) {
+    setOpenPath(null);
     if (
       pathname === getSearchResultsPagePath(currentLocale) &&
       window.location.hash &&
@@ -185,7 +182,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
           aria-label={t.nav.more}
           aria-expanded={open}
           aria-controls={open ? "mobile-secondary-navigation" : undefined}
-          onClick={() => setOpen((value) => !value)}
+          onClick={() => setOpenPath(open ? null : pathname)}
         >
           <MaterialIcon name="more_horiz" size={24} />
         </button>
@@ -203,7 +200,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
             <Link
               href={guidedPath}
               aria-current={guidedActive ? "page" : undefined}
-              onClick={() => setOpen(false)}
+              onClick={() => setOpenPath(null)}
               className="flex min-h-12 items-center gap-3 rounded-xl px-3 py-2 text-[var(--on-surface)] outline-none transition-colors hover:bg-[var(--surface-container-high)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
             >
               <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[var(--secondary-container)] text-[var(--on-secondary-container)]" aria-hidden="true">
