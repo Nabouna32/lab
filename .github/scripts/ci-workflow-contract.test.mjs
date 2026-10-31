@@ -33,9 +33,9 @@ test("the PR workflow keeps the fast validation path separate from surveillance"
 });
 
 test("surveillance audits npm on schedule/manual runs and validates navigation PRs with Playwright", () => {
-  const triggers = surveillance.slice(0, surveillance.indexOf("\\njobs:"));
+  const triggers = surveillance.slice(0, surveillance.indexOf("\njobs:"));
   assert.match(triggers, /^  schedule:/m);
-  assert.match(triggers, /cron: "30 3 \\* \\* \\*"/);
+  assert.match(triggers, /cron: "30 3 \* \* \*"/);
   assert.match(triggers, /^  workflow_dispatch:/m);
   assert.match(triggers, /required: false/);
   assert.match(triggers, /default: ""/);
@@ -47,18 +47,18 @@ test("surveillance audits npm on schedule/manual runs and validates navigation P
     ".github/workflows/surveillance.yml",
     "src/components/layout/AdaptiveAppNavigation.tsx",
     "src/components/layout/HeaderPreferences.tsx",
-  ]) assert.ok(triggers.includes(path), `navigation surveillance should watch ${path}`);
-  assert.equal((surveillance.match(/ref: \\$\\{\\{ inputs\\.ref \\|\\| github\\.ref \\}\\}/g) || []).length, 2);
-  assert.match(surveillance, /ref: \\$\\{\\{ inputs\\.ref \\|\\| github\\.ref \\}\\}/);
-  assert.match(sectionFor(surveillance, "audit-dependances"), /if: github\\.event_name != 'pull_request'/);
-  assert.match(sectionFor(surveillance, "audit-dependances"), /run: node \\.github\\/scripts\\/run-npm-audit\\.mjs/);
+  ]) assert.ok(triggers.includes(path), "navigation surveillance should watch " + path);
+  assert.equal((surveillance.match(/ref: \$\{\{ inputs\.ref \|\| github\.ref \}\}/g) || []).length, 2);
+  assert.match(surveillance, /ref: \$\{\{ inputs\.ref \|\| github\.ref \}\}/);
+  assert.match(sectionFor(surveillance, "audit-dependances"), /if: github\.event_name != 'pull_request'/);
+  assert.match(sectionFor(surveillance, "audit-dependances"), /run: node \.github\/scripts\/run-npm-audit\.mjs/);
   const browser = sectionFor(surveillance, "tests-navigateur");
-  assert.match(browser, /@playwright\\/test@1\\.64\\.1/);
+  assert.match(browser, /@playwright\/test@1\.64\.1/);
   assert.match(browser, /npx playwright install --with-deps chromium/);
   assert.match(browser, /npx playwright test/);
   assert.doesNotMatch(surveillance, /material3-browser-smoke/);
-  assert.match(browser, /if: failure\\(\\)/);
-  assert.doesNotMatch(browser, /if: always\\(\\)/);
+  assert.match(browser, /if: failure\(\)/);
+  assert.doesNotMatch(browser, /if: always\(\)/);
   assert.doesNotMatch(surveillance, /vercel deploy|supabase db push|deploy --prod/i);
 });
 
