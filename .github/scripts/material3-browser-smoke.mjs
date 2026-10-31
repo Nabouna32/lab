@@ -403,6 +403,30 @@ async function main() {
       console.log("Contraste texte et liens " + label + " : " + JSON.stringify(results));
     }
 
+    async function checkButtonGeometry(label) {
+      const results = await cdp.evaluate("(() => Array.from(document.querySelectorAll('section[aria-labelledby=\"actions-title\"] button')).filter((element) => element.getClientRects().length && !element.disabled && element.innerText.trim() && element.getAttribute('data-testid') !== 'long-label-button').map((element) => { const style = getComputedStyle(element); return { label: element.innerText.trim(), minWidth: style.minWidth, minHeight: style.minHeight, paddingInlineStart: style.paddingInlineStart, paddingInlineEnd: style.paddingInlineEnd, paddingBlockStart: style.paddingBlockStart, paddingBlockEnd: style.paddingBlockEnd, fontSize: style.fontSize, lineHeight: style.lineHeight, letterSpacing: style.letterSpacing, fontWeight: style.fontWeight, gap: style.gap, borderRadius: style.borderRadius }; }))()");
+      assert(results.length >= 6, "Les variantes Button attendues sont absentes : " + JSON.stringify(results));
+      const failures = results.filter((result) => {
+        const isText = /Texte|Text$/.test(result.label);
+        return result.minWidth !== "58px"
+          || result.minHeight !== "40px"
+          || result.paddingInlineStart !== (isText ? "12px" : "24px")
+          || result.paddingInlineEnd !== (isText ? "12px" : "24px")
+          || result.paddingBlockStart !== "8px"
+          || result.paddingBlockEnd !== "8px"
+          || result.fontSize !== "14px"
+          || result.lineHeight !== "20px"
+          || result.letterSpacing !== "0.1px"
+          || result.fontWeight !== "500"
+          || result.gap !== "8px"
+          || result.borderRadius !== "9999px";
+      });
+      if (failures.length) {
+        throw new Error("Écart géométrique/typographique au contrat AndroidX Button " + label + " : " + JSON.stringify(failures));
+      }
+      console.log("Géométrie Button " + label + " : " + JSON.stringify(results));
+    }
+
     async function testFocusVisible() {
       await cdp.evaluate("if (document.activeElement) document.activeElement.blur(); document.body.setAttribute('tabindex', '-1'); document.body.focus(); true");
       let found = false;
@@ -470,6 +494,7 @@ async function main() {
       await testFocusVisible();
       await runAxe(entry.locale + " light");
       await checkButtonContrast(entry.locale + " light");
+      await checkButtonGeometry(entry.locale + " light");
 
       await cdp.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-color-scheme", value: "dark" }] });
       await navigate(entry.path);
@@ -477,6 +502,7 @@ async function main() {
       await capture(entry.locale + "-design-lab-dark-390");
       await runAxe(entry.locale + " dark");
       await checkButtonContrast(entry.locale + " dark");
+      await checkButtonGeometry(entry.locale + " dark");
     }
 
     await cdp.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
