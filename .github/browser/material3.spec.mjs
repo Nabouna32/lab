@@ -520,9 +520,13 @@ for (const entry of locales) {
     await editor.press("Enter");
     await expect(editor).toHaveValue("Projet final");
     await expect(editor).toHaveAttribute("aria-invalid", "true");
-    await expect(editor).toHaveAttribute("aria-describedby", /.+/);
+    const describedBy = await editor.getAttribute("aria-describedby");
+    expect(describedBy).toBeTruthy();
+    const fieldErrorId = describedBy?.split(/\s+/)[0];
+    const fieldError = page.locator(`[id="${fieldErrorId}"]`);
     const errorMessage = entry.locale === "fr" ? "Une erreur est survenue. Réessaie." : "Something went wrong. Try again.";
-    await expect(page.getByRole("alert")).toHaveText(errorMessage);
+    await expect(fieldError).toHaveAttribute("role", "alert");
+    await expect(fieldError).toHaveText(errorMessage);
     await expect(page.locator('[role="status"]')).toHaveCount(0);
     await page.evaluate(() => sessionStorage.removeItem("loculary:simulate-collection-write-failure"));
     await editor.press("Enter");
