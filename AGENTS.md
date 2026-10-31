@@ -15,6 +15,8 @@ Trois modes de travail distincts sont disponibles. Le mode **COLLABORATIF** est 
 
 Les conversations et projets ChatGPT peuvent être séparés et ne partagent pas nécessairement leur historique ni leur mémoire. Aucun mode ne doit supposer qu'un autre connaît une conversation privée. Le dépôt GitHub, ses documents canoniques et les issues correctement tenues à jour constituent le transfert de contexte commun. Les règles de gestion des issues sont centralisées dans `docs/ISSUE-GUIDELINES.md`.
 
+Dans les trois modes, le challenge critique est continu : repartir du besoin réel, vérifier la cause racine, comparer honnêtement l'existant à une cible conçue aujourd'hui, examiner les alternatives et leurs conséquences, signaler les hypothèses fausses ou les solutions contre-productives, et challenger aussi ses propres recommandations. Adapter la profondeur au risque ; le challenge n'élargit jamais les permissions du mode actif.
+
 ### Mode collaboratif (par défaut)
 
 - Agis comme partenaire technique : comprends le besoin, cherche les causes racines et challenge les demandes, l'existant et tes propres propositions. Repars de zéro si cela aide ; aucune architecture, convention ou décision n'est immuable.
