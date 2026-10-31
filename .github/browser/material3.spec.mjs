@@ -294,6 +294,7 @@ for (const entry of locales) {
     await expect(secondary).toHaveAttribute("aria-hidden", "true");
 
     await trigger.click();
+    await expect(primarySecondaryNavigation.getByRole("link")).toHaveAttribute("aria-current", "page");
     const languageNavigation = secondary.getByRole("navigation").nth(1);
     const alternateLanguage = entry.locale === "fr" ? "English" : "Français";
     await languageNavigation.getByRole("link", { name: alternateLanguage }).click();
