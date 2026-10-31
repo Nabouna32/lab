@@ -13,6 +13,7 @@ test("les suggestions du panneau de recherche utilisent SuggestionChip", () => {
   assert.ok(suggestions.includes('variant="suggestion"'));
   assert.ok(suggestions.includes("label={suggestion}"));
   assert.ok(suggestions.includes('className="min-h-10"'));
+  assert.ok(suggestions.includes("onMouseDown={(event) => event.preventDefault()}"));
   assert.ok(!suggestions.includes("<button"));
 });
 
