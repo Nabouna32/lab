@@ -105,6 +105,16 @@ Les styles partagés sont alignés sur les tokens AndroidX 1.4.0 vérifiés : co
 
 Les suggestions dynamiques du panneau de recherche restent à migrer vers `SuggestionChip` dans une tranche séparée, car leur activation doit préserver le focus du champ et le comportement de recherche. La migration des filtres et les tests de contrat source ne prouvent pas le rendu navigateur : thèmes clair/sombre, contraste en contexte, zoom, viewports et clavier restent à vérifier.
 
+## Suggestions de recherche
+
+**Challenge page blanche**
+
+- **Migration ciblée :** conserver les suggestions éditoriales FR/EN, le mécanisme de relance de recherche, l'état de chargement et le focus du champ.
+- **Reconstruction depuis une page blanche :** un parcours de suggestions intégré au champ pourrait être envisagé, mais la tranche ne justifie pas de modifier l'architecture du panneau de recherche ou ses règles de clavier.
+- **Décision :** remplacer les boutons locaux de suggestions sans résultat par le `SuggestionChip` partagé. Le bouton natif reste la sémantique correcte ; `onMouseDown.preventDefault()` empêche le transfert de focus avant l'action, puis le gestionnaire met à jour la requête et refocalise explicitement le champ. Les suggestions restent localisées et leur sélection déclenche le même moteur de recherche.
+
+La hauteur minimale de 40 px est conservée comme adaptation tactile Web. Les styles visuels proviennent de la variante partagée : contour `outlineVariant`, libellé `onSurfaceVariant`, conteneur transparent. Les tests de contrat vérifient la migration et la conservation du focus dans le code ; ils ne prouvent pas le rendu navigateur ni le comportement d'un vrai appareil tactile.
+
 ## Prochaine tranche
 
 Poursuivre l'inventaire des consommateurs Button/IconButton et de leurs surcharges locales ; corriger uniquement les écarts de contrat ou de composition démontrés. La validation runtime du focus header, les couleurs calculées des variantes et la comparaison visuelle AndroidX restent distinctes des tests statiques déjà livrés.
