@@ -506,6 +506,8 @@ for (const entry of locales) {
     const renameForm = page.locator("form").filter({ has: page.getByRole("button", { name: cancelLabel, exact: true }) });
     const field = renameForm.getByRole("textbox", { name: inputLabel });
     await expect(field).toBeFocused();
+    const fieldBounds = await field.boundingBox();
+    expect(fieldBounds?.width ?? 0).toBeGreaterThan(160);
     await field.fill("Nom abandonné");
     await page.getByRole("button", { name: cancelLabel, exact: true }).click();
     await expect(initialName).toBeVisible();
