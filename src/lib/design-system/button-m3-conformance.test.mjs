@@ -289,7 +289,15 @@ test("admin destructive actions use semantic error roles without shrinking Mater
 
 
 test("timezone destination removal keeps the shared Material 3 TextButton touch target", () => {
-  assert.match(timezoneConverter, /<TextButton[^>]*className="shrink-0"/);
-  assert.doesNotMatch(timezoneConverter, /className="min-h-9 shrink-0 px-2"/);
+  const buttonStart = timezoneConverter.indexOf('<TextButton type="button" aria-label={t.removeDestination + " " + zone}');
+  const classNameStart = timezoneConverter.indexOf('className="shrink-0"', buttonStart);
+  const buttonEnd = timezoneConverter.indexOf(">", classNameStart);
+  assert.ok(buttonStart >= 0, "the destination removal action remains a native TextButton");
+  assert.ok(classNameStart > buttonStart && buttonEnd > classNameStart, "the shared layout-only class belongs to that action");
+  const buttonMarkup = timezoneConverter.slice(buttonStart, buttonEnd + 1);
+  assert.ok(buttonMarkup.includes('aria-label={t.removeDestination + " " + zone}'));
+  assert.ok(buttonMarkup.includes("disabled={destinationTimeZones.length <= 1}"));
+  assert.ok(!buttonMarkup.includes("min-h-9"), "the shared 40px minimum height must not be reduced");
+  assert.ok(!buttonMarkup.includes("px-2"), "the shared TextButton padding must remain intact");
   assert.match(buttonLayout, /min-h-10/);
 });
