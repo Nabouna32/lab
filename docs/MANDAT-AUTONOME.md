@@ -10,7 +10,7 @@
 Ce bloc est la première lecture du mandat à chaque nouvelle session autonome. Il fournit les règles immédiatement nécessaires et renvoie aux sections détaillées qui restent la source de vérité. Il évite de relire mécaniquement tout le document et tout le dépôt à chaque invocation.
 
 1. **Initialisation minimale :** lire `AGENTS.md` et ce bloc. Vérifier le mode autonome, les limites de livraison (notamment l'interdiction de Preview Vercel sans demande explicite) et les accès réellement disponibles.
-2. **Reprise :** consulter le dernier checkpoint, la PR ou l'issue active et l'état GitHub utile. Dans une nouvelle conversation, reconstituer le contexte depuis le dépôt ; dans une conversation déjà active, réutiliser les preuves et le contexte encore valides au lieu de les récupérer à nouveau.
+2. **Reprise :** consulter le dernier checkpoint, la PR ou l'issue active et l'état GitHub utile. Appliquer `docs/ISSUE-GUIDELINES.md` pour la classification et le cycle de vie des issues. Dans une nouvelle conversation, reconstituer le contexte depuis le dépôt ; dans une conversation déjà active, réutiliser les preuves et le contexte encore valides au lieu de les récupérer à nouveau.
 3. **Cadrage :** identifier l'objectif concret, le périmètre, les fichiers ou systèmes concernés et le risque. Formuler une hypothèse de solution initiale, puis commencer l'investigation ciblée.
 4. **Lecture à la demande :** ouvrir uniquement les sections de ce mandat et les documents canoniques directement pertinents. Étendre la lecture si une dépendance, un risque, une contradiction ou une découverte révèle un impact plus large. Pour une opération critique, irréversible, de sécurité, de données ou de production, approfondir les garanties avant d'agir.
 5. **Exécution :** démarrer le travail utile dès que le contexte minimal est établi. Ne pas retarder une première action sûre et réversible pour effectuer un audit général sans lien démontré avec la tâche. Ne pas confondre vitesse et précipitation : respecter les contrôles proportionnés au risque.
@@ -162,7 +162,9 @@ Définir des critères de sortie proportionnés au risque : besoin utilisateur, 
 
 Après clôture, ne rouvrir un sujet que sur la base d'une preuve ou d'un élément concret : défaut constaté, exigence manquante, risque significatif ou bénéfice concret suffisamment fort. Une revue finale reste normale avant livraison ; elle ne justifie pas de reprendre régulièrement un sujet terminé en l'absence de motif nouveau.
 
-Ne pas confondre activité et progrès : éviter les inventaires sans décision, les audits qui ne débouchent pas sur une action, les abstractions hypothétiques, les PR documentaires sans valeur opérationnelle et les refontes sans bénéfice démontré.## 5. Reprise obligatoire avant tout nouveau chantier
+Ne pas confondre activité et progrès : éviter les inventaires sans décision, les audits qui ne débouchent pas sur une action, les abstractions hypothétiques, les PR documentaires sans valeur opérationnelle et les refontes sans bénéfice démontré.
+
+## 5. Reprise obligatoire avant tout nouveau chantier
 
 Au début de chaque invocation ou nouvelle conversation :
 
@@ -177,107 +179,12 @@ Ne pas se fier uniquement à la mémoire conversationnelle, à un ancien comment
 
 ## 6. Issues comme checkpoints de reprise
 
-Utiliser les GitHub Issues comme mémoire opérationnelle durable, sans en faire un journal exhaustif.
+Les GitHub Issues sont la mémoire opérationnelle durable des chantiers significatifs et le moyen de transférer un contexte entre conversations ou modes qui ne partagent pas nécessairement leur historique. Elles indiquent où reprendre ; les commits, PR, CI et systèmes réels fournissent les preuves ; la documentation canonique conserve les règles et décisions durables.
 
-- Créer ou réutiliser une issue lorsqu'un chantier significatif bénéficie d'un objectif explicite, de critères de fin, d'un suivi ou d'une reprise ultérieure.
-- Ne pas créer une issue pour chaque petite correction ou opération courante.
-- Conserver dans l'issue de pilotage le contexte nécessaire : objectif, périmètre, décisions, critères de fin, dépendances, état vérifié et prochaine action.
-- Ajouter un commentaire uniquement lors d'une transition qui change réellement l'état ou la compréhension du chantier : jalon terminé, découverte qui change la stratégie, échec important, blocage, opération critique ou reprise avec un résultat nouveau. Pour les étapes intermédiaires, mettre à jour l'issue de référence plutôt que publier une succession de commentaires équivalents.
-- Ne pas commenter chaque tentative, commande, vérification ou session. Un commentaire doit apporter une information durable : fait nouveau, décision, résultat vérifié, risque ou prochaine action.
-- Maintenir un état de reprise faisant autorité par chantier. Éviter les commentaires redondants et les journaux parallèles ; lorsqu'un checkpoint précédent devient faux, le corriger ou le compléter explicitement.
-- Distinguer clairement ce qui est terminé, tenté sans succès, en cours, non vérifié et bloqué. Ajouter les liens vers commits, PR, CI et déploiements pertinents.
-- Réutiliser les issues existantes et éviter les doublons. Une issue globale n'est utile que si elle améliore réellement la coordination ; ne pas créer un tableau de bord parallèle sans besoin démontré.
-- Lors d'un assainissement du backlog, auditer les issues ouvertes et les classer avant toute fermeture : terminée (vérifier puis fermer), doublon (relier à l'issue de référence puis fermer), obsolète ou sans valeur actuelle (documenter brièvement puis fermer), encore valide (conserver et reprioriser), ou incertaine (investiguer avant décision). Ne jamais fermer toutes les issues en bloc uniquement pour donner une impression de propreté ; préserver le contexte, les liens et les problèmes non résolus. Les issues `action-humaine` ne sont ni auditées ni fermées par l'agent autonome.
-- Fermer une issue uniquement lorsque ses critères de fin sont vérifiés. Une PR fusionnée ne suffit pas toujours si la validation en production ou d'autres critères font partie de l'objectif.
+La taxonomie, la structure, la création, la mise à jour, la clôture et la réouverture des issues, les cas Dependabot, les demandes d'action humaine et l'hygiène des commentaires sont définis dans `docs/ISSUE-GUIDELINES.md`. Ce document est la référence centrale : ne pas recopier sa taxonomie ni ses procédures ici. Les permissions propres à chaque mode sont définies dans `AGENTS.md`.
 
-Les issues indiquent où reprendre ; les commits, PR, CI et systèmes réels fournissent les preuves ; la documentation canonique conserve les règles et décisions durables.
+En mode AUTONOME, les issues portant `action-humaine` sont totalement exclues : les filtrer de toutes les recherches avec `-label:action-humaine`, ne pas les lire, les mentionner, les commenter, les modifier ou surveiller leur état. Ne pas attendre d'action ou de réponse. Les travaux autonomes indépendants continuent selon la section 4. La création d'une telle issue suit exclusivement la procédure de `docs/ISSUE-GUIDELINES.md`.
 
-### Taxonomie des labels GitHub
-
-Les labels servent à classer les issues de manière cohérente et à rendre le backlog exploitable. Lors de la création ou de la reprise d'une issue, utiliser les labels existants selon les règles suivantes ; ne pas créer de variantes synonymes ni multiplier les labels sans besoin démontré.
-
-Labels de catégorie — attribuer **un seul label principal** à chaque issue de travail :
-
-| Label | Couleur | Description et règle d'utilisation |
-|---|---|---|
-| `bug` | `D73A4A` | Défaut avéré dans le comportement, la sécurité ou l'expérience de Loculary. |
-| `fonctionnalite` | `1F883D` | Création d'une nouvelle capacité ou d'un nouveau parcours utilisateur. |
-| `amelioration` | `A371F7` | Amélioration d'une fonctionnalité, d'un parcours ou de l'expérience existante. |
-| `maintenance` | `8250DF` | Travail technique interne : architecture, refactoring, dépendances, CI, performances ou dette technique. |
-| `documentation` | `0075CA` | Évolution documentaire dont la documentation est le résultat principal. |
-
-Label transversal :
-
-| Label | Couleur | Description et règle d'utilisation |
-|---|---|---|
-| `securite` | `B60205` | Issue impliquant un risque de sécurité, de confidentialité, de permissions ou de protection des données. Peut s'ajouter au label principal lorsqu'il qualifie réellement le sujet. |
-
-Label réservé aux demandes adressées à l'utilisateur :
-
-| Label | Couleur | Description et règle d'utilisation |
-|---|---|---|
-| `action-humaine` | `E4A11B` | Intervention, décision ou validation de l'utilisateur nécessaire. Exclue du mode autonome ; à traiter en conversation normale avec l'utilisateur. |
-
-Le label `action-humaine` est régi exclusivement par la règle d'étanchéité ci-dessous : il ne remplace pas un label de catégorie et ne doit jamais être attribué à une issue ordinaire de développement. Toute issue destinée à l'utilisateur reçoit aussi le préfixe `[Action humaine]` dans son titre.
-
-Labels gérés par Dependabot — conserver les identifiants exacts utilisés dans `.github/dependabot.yml` :
-
-| Label | Couleur indicative | Description |
-|---|---|---|
-| `dependencies` | `0366D6` | Mise à jour ou maintenance des dépendances du projet. |
-| `npm` | `CB3837` | Dépendances de l'écosystème npm. |
-| `github-actions` | `2088FF` | Dépendances et versions des GitHub Actions. |
-
-Ces trois labels sont appliqués par la configuration Dependabot ; ne pas les renommer ni modifier leur usage sans mettre à jour cette configuration. Les couleurs indiquées sont la convention visuelle recommandée pour le dépôt ; les labels peuvent déjà exister avec une autre couleur, à harmoniser lors d'une vérification ou d'une maintenance des labels.
-
-Ne pas créer de labels de priorité ou d'état tels que `priorite-haute`, `en-cours` ou `bloque` par défaut : la priorité est réévaluée selon la valeur et le risque, tandis que l'état réel est porté par GitHub et le contenu de l'issue. N'ajouter une autre famille de labels que si un besoin opérationnel concret et durable est établi.
-
-### Actions réservées à un humain : liens directs et procédure guidée
-
-Lorsqu’une étape ne peut réellement être effectuée que par l’utilisateur — par exemple parce qu’elle exige sa session personnelle, une confirmation interactive, un contrôle de propriété, une authentification forte, un consentement ou une permission inaccessible à l’agent — transformer le blocage en une demande d’action immédiatement exécutable.
-
-L’issue destinée à l’utilisateur doit, dans la mesure où les informations ont été vérifiées :
-
-- fournir le **lien direct exact** vers la page, le réglage ou la ressource où agir, plutôt qu’un simple lien vers l’accueil du service ou une consigne vague ;
-- donner les étapes numérotées, dans l’ordre, avec les noms exacts des menus, boutons, champs et options tels qu’ils apparaissent dans l’interface ;
-- préciser la valeur ou l’option à sélectionner, ainsi que les conséquences utiles à comprendre avant de confirmer ;
-- expliquer comment vérifier que l’action a bien été prise en compte et, si nécessaire, indiquer le résultat ou la capture non sensible à me communiquer ;
-- distinguer clairement les actions que l’utilisateur doit faire lui-même de celles que l’agent exécutera et vérifiera ensuite ;
-- fournir une solution de repli claire si le lien direct est inaccessible ou si l’interface a changé.
-
-Privilégier un lien profond vers le réglage précis, comme pour une configuration de sécurité Supabase, à condition de pouvoir en vérifier l’adresse et la pertinence. Si seul un lien vers une page de documentation officielle ou vers une section plus générale est vérifiable, l’indiquer honnêtement et fournir le chemin de navigation exact à partir de là. Ne jamais inventer ou deviner une URL, un nom de réglage, un bouton ou une permission. Si nécessaire, rechercher et vérifier la documentation officielle à jour avant de rédiger la procédure.
-
-La demande doit être compréhensible et actionnable sans connaissances techniques particulières. Éviter de demander à l’utilisateur de transmettre un mot de passe, une clé API, un jeton, un secret ou toute autre donnée sensible. S’il faut accorder une permission, recommander le niveau minimal nécessaire et expliquer comment la retirer après usage lorsqu’il y a lieu.
-
-### Issues qui nécessitent une action de l’utilisateur
-
-Ne pas interrompre l’utilisateur pour demander des nouvelles, signaler une découverte en cours de travail ou obtenir une validation intermédiaire. Continuer de façon autonome dans le périmètre du mandat et consigner les checkpoints utiles dans les issues de suivi internes au projet.
-
-Lorsqu’un blocage incontournable exige réellement une intervention, une décision ou un accès de la part de l’utilisateur, créer une **issue distincte qui lui est explicitement destinée**, plutôt que de lui poser la question dans la conversation et d’attendre une réponse ici. Cette issue est une demande d’action pour l’utilisateur, pas une tâche de travail interne à l’agent.
-
-- Choisir un titre français, direct et compréhensible sans connaissance technique approfondie, indiquant clairement qu’une action est attendue de l’utilisateur.
-- Expliquer en français courant pourquoi son intervention est indispensable, ce qui bloque, ce qui a déjà été tenté, les options raisonnables et leurs conséquences.
-- Formuler précisément l’action attendue de l’utilisateur, avec les étapes nécessaires et les liens vers l’interface ou la ressource concernée lorsque ceux-ci sont vérifiés.
-- Distinguer ce que l’utilisateur doit faire des éventuelles opérations que l’agent pourra reprendre uniquement après réintroduction explicite du sujet selon la règle d’étanchéité ci-dessous. Ne pas lui déléguer les investigations ou opérations que l’agent peut encore effectuer lui-même.
-- Ne jamais inventer un lien, un accès ou une cause. Ne pas inclure de secret ni demander de le publier dans l’issue.
-- Réutiliser une issue de demande d’action déjà ouverte si elle couvre exactement le même blocage ; éviter les doublons.
-- Après création, poursuivre uniquement les travaux indépendants utiles. Ne pas reprendre automatiquement le chantier concerné par l'action humaine.
-
-#### Règle d'étanchéité : les issues d'action humaine sont hors du mode autonome
-
-Toute issue destinée à l'utilisateur porte le label `action-humaine` (le créer s'il n'existe pas) et un titre commençant par « [Action humaine] ». Le label est réservé exclusivement aux issues qui nécessitent réellement une intervention de l'utilisateur. Lors de la création d'une telle issue, appliquer automatiquement ce label ; ne jamais l'ajouter aux issues de travail ordinaires.
-
-Ces issues sont traitées par l'utilisateur dans une conversation normale, hors mode autonome, jamais par l'agent autonome. En mode autonome :
-
-1. **Ne plus y toucher après création.** Ne pas les relire, ne pas les commenter, ne pas les relancer, ne pas vérifier si elles ont changé. Les exclure de toute recherche d'issues (reprise, revue du backlog, assainissement) en filtrant `-label:action-humaine`.
-2. **Ne jamais en parler.** Interdit dans les réponses, les comptes rendus et les checkpoints : « j'attends une réponse », « en attente de l'utilisateur », « blocage humain », ou tout rappel de ces issues. Seule exception : une ligne dans le compte rendu de la session où l'issue est créée, une seule fois. Ne pas y faire référence dans les checkpoints ultérieurs.
-3. **Ne dépendre d'aucune de ces issues.** Si un chantier est bloqué par une action humaine, abandonner ce chantier et passer directement à un autre chantier indépendant, choisi selon la section 4. Le blocage ne change ni la priorité ni le déroulement de la session.
-4. **Ne pas contourner le blocage.** Ne pas simuler l'action humaine, ne pas supprimer la protection, ne pas effectuer d'opération risquée sans le consentement, l'identité, l'accès ou la sauvegarde exigés.
-5. **Retour dans le flux uniquement sur initiative explicite de l'utilisateur.** Une issue d'action humaine n'est reprise que lorsque l'utilisateur la remet explicitement dans la discussion en mode normal, ou consigne sa décision dans `AGENTS.md` ou un document canonique. Le retrait du label ou la fermeture de l'issue peuvent matérialiser sa décision, mais ne déclenchent aucune surveillance ni reprise autonome. Une fois l'issue ainsi réintroduite, lire seulement sa conclusion (dernier commentaire ou décision consignée) et intégrer la suite comme un chantier ordinaire.
-
-Les issues d'action humaine restent ainsi totalement hors du périmètre de lecture et de décision du mode autonome, sans empêcher les autres chantiers de Loculary de progresser.
-
-Ne créer une telle issue que lorsqu’une intervention de l’utilisateur est véritablement incontournable. Les erreurs temporaires, les investigations incomplètes ou les solutions de rechange non explorées ne justifient pas de lui transférer le problème. L’issue doit être identifiable comme une demande qui lui est destinée, et non comme un item ordinaire du backlog de développement.
 
 ## 7. Gestion des blocages et interruptions
 

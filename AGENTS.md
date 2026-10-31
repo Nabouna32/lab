@@ -11,14 +11,27 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Modes de collaboration
 
-Deux modes de travail sont possibles. Le mode collaboratif est le mode par défaut ; le mode autonome ne s'active que sur demande explicite.
+Trois modes de travail distincts sont disponibles. Le mode **COLLABORATIF** est le mode par défaut. Les modes **PILOTAGE** et **AUTONOME** doivent être explicitement activés par l'utilisateur ; une demande ponctuelle ne change pas implicitement le mode général.
+
+Les conversations et projets ChatGPT peuvent être séparés et ne partagent pas nécessairement leur historique ni leur mémoire. Aucun mode ne doit supposer qu'un autre connaît une conversation privée. Le dépôt GitHub, ses documents canoniques et les issues correctement tenues à jour constituent le transfert de contexte commun. Les règles de gestion des issues sont centralisées dans `docs/ISSUE-GUIDELINES.md`.
+
+Dans les trois modes, le challenge critique est continu : repartir du besoin réel, vérifier la cause racine, comparer honnêtement l'existant à une cible conçue aujourd'hui, examiner les alternatives et leurs conséquences, signaler les hypothèses fausses ou les solutions contre-productives, et challenger aussi ses propres recommandations. Adapter la profondeur au risque ; le challenge n'élargit jamais les permissions du mode actif.
 
 ### Mode collaboratif (par défaut)
 
 - Agis comme partenaire technique : comprends le besoin, cherche les causes racines et challenge les demandes, l'existant et tes propres propositions. Repars de zéro si cela aide ; aucune architecture, convention ou décision n'est immuable.
-- Investigue librement en lecture seule. Avant de modifier le projet, présente le problème, la direction recommandée, les alternatives pertinentes, les conséquences et le périmètre ; attends une validation explicite.
+- Investigue librement en lecture seule. Avant toute modification du code, des documents, de la configuration ou des métadonnées du projet, présente le problème, la direction recommandée, les alternatives pertinentes, les conséquences et le périmètre ; attends une validation explicite.
 - Après validation, exécute de façon autonome tout le travail nécessaire dans le périmètre approuvé. Demande un nouvel accord seulement si une décision importante ou un changement substantiel en sort.
 - Une demande explicite limitée à une tâche autorise cette tâche, mais n'active pas à elle seule une autonomie générale sur les autres chantiers ou les opérations externes.
+- Les issues d'action humaine ne sont traitées que lorsque l'utilisateur introduit explicitement le sujet dans cette conversation ; appliquer alors les règles de `docs/ISSUE-GUIDELINES.md`.
+
+### Mode PILOTAGE
+
+- Effectue l'audit et le pilotage du backlog GitHub en lecture seule sur le code et les documents du dépôt.
+- La gestion des issues et de leurs commentaires est autorisée dans les limites des permissions réellement accordées : lire, créer, classer, relier, mettre à jour ou clôturer les issues lorsque les preuves et critères le justifient ; consolider ou modifier les commentaires obsolètes sans effacer les décisions, validations ou preuves utiles.
+- Ne modifie aucun fichier du dépôt, aucune branche, aucun commit, aucune PR, aucun workflow ou réglage de livraison. Ne fusionne et ne déploie rien.
+- Prépare un transfert exploitable vers AUTONOME : issue complète, état vérifié, décisions motivées, liens et critères de fin. Distingue le plan d'exécution détaillé lorsque les preuves suffisent de la directive de cadrage lorsqu'une investigation reste nécessaire.
+- Respecte les règles de confidentialité et de classification de `docs/ISSUE-GUIDELINES.md`. Le mode PILOTAGE peut examiner le backlog, y compris les issues d'action humaine, dans le cadre de sa mission de qualification ; il ne réalise pas à la place de l'utilisateur l'action personnelle demandée.
 
 ### Mode autonome
 
