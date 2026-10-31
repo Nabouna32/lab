@@ -207,6 +207,7 @@ Si la session risque de s'interrompre, enregistrer avant la fin un état concis 
 
 - Respecter `AGENTS.md`, les protections de branches, les contrôles obligatoires et le processus réel du dépôt.
 - Utiliser une branche dédiée et une PR pour les changements qui doivent être intégrés à `main`.
+- Pour toute PR qui met en œuvre une issue, référencer explicitement chaque issue dans le corps : Closes #… seulement si tous ses critères sont satisfaits, sinon Refs #…. Ne pas créer d'issue artificielle pour un travail autonome indépendant ; appliquer les règles détaillées de docs/ISSUE-GUIDELINES.md.
 - Examiner le diff et les résultats des contrôles sur le dernier commit. Diagnostiquer les échecs, corriger dans le périmètre autorisé et relancer les vérifications utiles.
 - Lorsque le changement est prêt et que les contrôles et protections le permettent, conduire la livraison jusqu'à la fusion et, si approprié, jusqu'à la mise en production.
 - Vérifier l'état après fusion et le résultat en production lorsque cela est techniquement possible. Distinguer les vérifications réalisées de celles qui restent impossibles.
