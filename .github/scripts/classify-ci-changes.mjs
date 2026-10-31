@@ -51,6 +51,7 @@ export function classifyCiChanges(paths, expectedCount) {
   const dependenciesChanged = paths.some((path) => path === 'package.json' || path === 'package-lock.json');
   const governanceChanged = paths.some((path) => GOVERNANCE_PATHS.some((pattern) => pattern.test(path)));
   const androidxCatalogChanged = paths.some((path) => path.startsWith('docs/material3/catalog/'));
+  const browserTestsChanged = paths.some((path) => path === 'playwright.config.mjs' || path.startsWith('.github/browser-tests/'));
   const supabaseChanged = paths.some((path) => path.startsWith('supabase/'));
 
   return {
@@ -58,6 +59,7 @@ export function classifyCiChanges(paths, expectedCount) {
     dependencies_changed: dependenciesChanged,
     governance_changed: governanceChanged,
     androidx_catalog_changed: androidxCatalogChanged,
+    browser_tests_changed: browserTestsChanged,
     supabase_changed: supabaseChanged,
   };
 }
