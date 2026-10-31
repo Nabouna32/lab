@@ -256,12 +256,14 @@ test("recherche mobile : navigation clavier des suggestions", async ({ page }) =
   await expect(input).toBeVisible();
   await input.fill("âge");
   await expect(input).toHaveAttribute("aria-expanded", "true");
+  await expect(input).toHaveAttribute("aria-controls", /.+/);
   const listboxId = await input.getAttribute("aria-controls");
   expect(listboxId).toBeTruthy();
   const listbox = page.locator("#" + listboxId);
   await expect(listbox).toHaveAttribute("role", "listbox");
   await expect(listbox.getByRole("option").first()).toBeVisible();
   await page.keyboard.press("ArrowDown");
+  await expect(input).toHaveAttribute("aria-activedescendant", /.+/);
   const activeId = await input.getAttribute("aria-activedescendant");
   expect(activeId).toBeTruthy();
   await expect(page.locator("#" + activeId)).toHaveAttribute("role", "option");
