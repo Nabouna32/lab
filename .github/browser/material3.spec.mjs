@@ -455,11 +455,11 @@ for (const entry of locales) {
       await disabledDismissButton.evaluate((element) => element.click());
       await expect(disabledChip).toBeVisible();
 
-      // Run the page-wide scan at the top so the sticky app bar cannot cover an off-screen target.
-      await page.evaluate(() => window.scrollTo(0, 0));
       const passwordToggle = page.getByRole("button", {
         name: entry.locale === "fr" ? "Afficher le mot de passe" : "Show password",
       });
+      // The app shell scrolls internally; center the target in that container before the full-page axe scan.
+      await passwordToggle.evaluate((element) => element.scrollIntoView({ block: "center", inline: "nearest" }));
       await expect(passwordToggle).toBeInViewport();
       const passwordTarget = await passwordToggle.evaluate((element) => {
         const rect = element.getBoundingClientRect();
@@ -476,12 +476,20 @@ for (const entry of locales) {
   test("renommage inline des collections : clavier, annulation et persistance (" + entry.locale + ")", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.addInitScript(() => {
-      localStorage.setItem("loculary:local-collections:v1", JSON.stringify([{
+      const key = "loculary:local-collections:v1";
+      localStorage.setItem(key, JSON.stringify([{
         id: "local-browser-rename",
         name: "Collection initiale",
         created_at: "2026-10-31T00:00:00.000Z",
         tool_ids: [],
       }]));
+      const originalSetItem = Storage.prototype.setItem;
+      Storage.prototype.setItem = function (storageKey, value) {
+        if (storageKey === key && sessionStorage.getItem("loculary:simulate-collection-write-failure") === "true") {
+          throw new DOMException("Simulated storage quota", "QuotaExceededError");
+        }
+        return originalSetItem.call(this, storageKey, value);
+      };
     });
     await page.goto("/" + entry.locale + "/collections");
 
@@ -506,6 +514,15 @@ for (const entry of locales) {
     await page.getByRole("button", { name: renameLabel, exact: true }).click();
     const editor = page.locator("form").filter({ has: page.getByRole("button", { name: cancelLabel, exact: true }) }).getByRole("textbox", { name: inputLabel });
     await editor.fill("Projet final");
+    await page.evaluate(() => sessionStorage.setItem("loculary:simulate-collection-write-failure", "true"));
+    await editor.press("Enter");
+    await expect(editor).toHaveValue("Projet final");
+    await expect(editor).toHaveAttribute("aria-invalid", "true");
+    await expect(editor).toHaveAttribute("aria-describedby", /.+/);
+    const errorMessage = entry.locale === "fr" ? "Une erreur est survenue. Réessaie." : "Something went wrong. Try again.";
+    await expect(page.getByRole("alert")).toHaveText(errorMessage);
+    await expect(page.locator('[role="status"]')).toHaveCount(0);
+    await page.evaluate(() => sessionStorage.removeItem("loculary:simulate-collection-write-failure"));
     await editor.press("Enter");
     await expect(page.getByRole("heading", { name: "Projet final", level: 2 })).toBeVisible();
     await expect(editor).toHaveCount(0);
