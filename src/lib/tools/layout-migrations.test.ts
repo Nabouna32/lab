@@ -135,8 +135,10 @@ test("global header uses the shared Material 3 small TopAppBar with content gutt
   assert.ok(!headerSource.includes('import { Modifier, RowScope } from "@/components/layout/compose/Modifier"'));
 });
 
-test("header menu exposes a localized primary navigation landmark and an accessible disclosure", () => {
-  assert.ok(headerPreferencesSource.includes('<nav aria-label={t.nav.primaryNavigation}>'));
+test("primary and secondary navigation landmarks are localized and the secondary disclosure is accessible", () => {
+  const adaptiveNavigationSource = readSource("../../components/layout/AdaptiveAppNavigation.tsx");
+  assert.ok(adaptiveNavigationSource.includes("aria-label={t.nav.primaryNavigation}"));
+  assert.ok(headerPreferencesSource.includes('<nav aria-label={t.nav.more}>'));
   assert.ok(headerPreferencesSource.includes("aria-expanded={open}"));
   assert.ok(headerPreferencesSource.includes('aria-controls={open ? "mobile-secondary-navigation" : undefined}'));
   assert.ok(headerPreferencesSource.includes("aria-hidden={!open}"));
