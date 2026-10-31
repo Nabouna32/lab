@@ -1,6 +1,9 @@
 name: Surveillance quotidienne
 
 on:
+  push:
+    branches:
+      - chore/finalize-playwright-browser-suite
   schedule:
     - cron: "30 3 * * *"
   workflow_dispatch:
