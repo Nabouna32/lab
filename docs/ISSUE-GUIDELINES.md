@@ -60,7 +60,7 @@ Conserver exactement les identifiants configurés dans [`.github/dependabot.yml`
 
 Ces labels sont appliqués par Dependabot. Ne pas les renommer, les remplacer par la taxonomie de travail ou modifier leur usage sans mettre à jour la configuration. Une PR Dependabot n'est pas une issue de travail : ne pas lui imposer artificiellement un label principal de catégorie. Si une issue de suivi distincte est nécessaire, lui attribuer sa propre catégorie et, le cas échéant, `securite`.
 
-Les couleurs indicatives historiquement documentées dans le mandat ne constituent pas un contrat de classification. Ne pas créer de variantes synonymes, de labels de priorité ou d'état (`en-cours`, `bloque`, etc.) sans besoin opérationnel durable démontré. La priorité est réévaluée selon la valeur et le risque ; l'état est porté par GitHub et le contenu à jour de l'issue.
+Les couleurs des labels ne constituent pas un contrat de classification : les identifiants exacts et les règles d'attribution ci-dessus font foi. Ne pas créer de variantes synonymes, de labels de priorité ou d'état (`en-cours`, `bloque`, etc.) sans besoin opérationnel durable démontré. La priorité est réévaluée selon la valeur et le risque ; l'état est porté par GitHub et le contenu à jour de l'issue.
 
 ## 4. Structure d'une issue exploitable
 
@@ -134,7 +134,7 @@ En mode AUTONOME, une issue portant `action-humaine` est totalement exclue du po
 
 1. L'exclure de toutes les recherches et revues avec `-label:action-humaine`.
 2. Ne pas lire son corps ni ses commentaires, ne pas la commenter, la modifier, la relancer, vérifier son état ou retirer son label.
-3. Ne pas en parler dans les réponses ou checkpoints et ne jamais attendre une réponse. La seule exception est une mention unique et brève dans le compte rendu de la session où l'issue vient d'être créée.
+3. Ne pas en parler dans les réponses ou checkpoints et ne jamais attendre une réponse, y compris dans le compte rendu de la session où l'issue vient d'être créée.
 4. Ne pas simuler l'action, contourner une protection ou effectuer une opération qui exige l'identité, le consentement, l'accès ou la sauvegarde manquants.
 5. Abandonner le chantier dépendant et poursuivre un travail autonome indépendant. Aucune fermeture, modification de label ou supposition que l'action a été effectuée ne déclenche une reprise.
 6. La reprise n'a lieu qu'après réintroduction explicite du sujet par l'utilisateur hors du mode AUTONOME, ou décision consignée par lui dans un document canonique. À ce moment, traiter la conclusion communiquée comme un nouveau contexte et revalider les faits utiles.
