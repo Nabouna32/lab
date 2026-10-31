@@ -259,6 +259,15 @@ async function main() {
         path + " déborde horizontalement à " + viewport.width + "px : " + JSON.stringify(metrics));
       assert(metrics.bodyWidth <= metrics.clientWidth + 1,
         path + " : le body déborde à " + viewport.width + "px : " + JSON.stringify(metrics));
+      if (viewport.width <= 390) {
+        const guidedLabel = await cdp.evaluate("(() => { const link = Array.from(document.querySelectorAll('a[data-nav-key=\"guided\"]')).find((item) => item.getClientRects().length); const label = link?.lastElementChild; return link && label ? { text: label.textContent.trim(), width: label.clientWidth, scrollWidth: label.scrollWidth, ariaLabel: link.getAttribute('aria-label') } : null; })()");
+        const expectedLabel = locale === "fr" ? "Parcours" : "Guides";
+        const expectedAccessibleName = locale === "fr" ? "Parcours guidés" : "Guided workflows";
+        assert(guidedLabel && guidedLabel.text === expectedLabel && guidedLabel.scrollWidth <= guidedLabel.width + 1,
+          path + " : libellé du parcours tronqué sur mobile : " + JSON.stringify(guidedLabel));
+        assert(guidedLabel.ariaLabel === expectedAccessibleName,
+          path + " : nom accessible du parcours mobile incorrect : " + JSON.stringify(guidedLabel));
+      }
       await capture(locale + "-design-lab-light-" + viewport.width);
       console.log("Responsive OK " + path + " " + viewport.width + "px");
     }
