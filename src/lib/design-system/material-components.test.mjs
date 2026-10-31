@@ -853,3 +853,10 @@ test("duration mode labels do not embed platform-dependent emoji", () => {
   assert.doesNotMatch(messages, /datesMode: "📅/u);
   assert.doesNotMatch(messages, /timesMode: "🕐/u);
 });
+
+
+test("AppLink exposes only the link variants consumed by the application", () => {
+  const appLinkSource = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
+  assert.match(appLinkSource, /export type AppLinkVariant = "inline" \| MaterialButtonVariant/);
+  assert.doesNotMatch(appLinkSource, /\bnavigation:\s*\[/);
+});
