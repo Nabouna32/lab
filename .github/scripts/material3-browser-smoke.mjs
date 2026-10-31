@@ -366,29 +366,41 @@ async function main() {
           }
           return background;
         }
-        return Array.from(document.querySelectorAll('section[aria-labelledby="actions-title"] button'))
+        const elements = [
+          ...document.querySelectorAll('section[aria-labelledby="actions-title"] button'),
+          ...document.querySelectorAll('footer a, a[data-material-button-link="true"]'),
+        ];
+        return elements
           .filter((element) => element.getClientRects().length && !element.disabled && element.innerText.trim())
           .map((element) => {
-            const foreground = parseColor(getComputedStyle(element).color);
+            const style = getComputedStyle(element);
+            const foreground = parseColor(style.color);
             const background = effectiveBackground(element);
             const text = foreground.a < 1 ? composite(foreground, background) : foreground;
             const light = Math.max(luminance(text), luminance(background));
             const dark = Math.min(luminance(text), luminance(background));
+            const border = parseColor(style.borderTopColor);
+            const borderVisible = border && border.a >= 0.5 && Number.parseFloat(style.borderTopWidth) > 0;
+            const borderText = borderVisible && border.a < 1 ? composite(border, background) : border;
+            const borderLight = borderText ? Math.max(luminance(borderText), luminance(background)) : 0;
+            const borderDark = borderText ? Math.min(luminance(borderText), luminance(background)) : 0;
             return {
               label: element.innerText.trim(),
-              foreground: getComputedStyle(element).color,
+              kind: element.tagName.toLowerCase(),
+              foreground: style.color,
               background: 'rgb(' + Math.round(background.r) + ', ' + Math.round(background.g) + ', ' + Math.round(background.b) + ')',
-              rawBackground: getComputedStyle(element).backgroundColor,
+              rawBackground: style.backgroundColor,
               ratio: Number(((light + 0.05) / (dark + 0.05)).toFixed(2)),
+              borderRatio: borderVisible ? Number(((borderLight + 0.05) / (borderDark + 0.05)).toFixed(2)) : null,
             };
           });
       })()`);
       assert(results.length >= 7, "Les variantes Button attendues ne sont pas toutes présentes : " + JSON.stringify(results));
-      const failures = results.filter((result) => result.ratio < 4.5);
+      const failures = results.filter((result) => result.ratio < 4.5 || (result.borderRatio !== null && result.borderRatio < 3));
       if (failures.length) {
-        throw new Error("Contraste texte Button inférieur à 4,5:1 " + label + " : " + JSON.stringify(failures));
+        throw new Error("Contraste texte (4,5:1) ou bordure (3:1) insuffisant " + label + " : " + JSON.stringify(failures));
       }
-      console.log("Contraste Button " + label + " : " + JSON.stringify(results));
+      console.log("Contraste texte et liens " + label + " : " + JSON.stringify(results));
     }
 
     async function testFocusVisible() {
