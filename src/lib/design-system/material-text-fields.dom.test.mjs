@@ -231,6 +231,7 @@ test("OutlinedTextField gives its error priority while retaining the character c
   assert.equal(input.getAttribute("aria-invalid"), "true");
   assert.equal(describedBy.length, 2);
   assert.equal(document.getElementById(describedBy[0]).textContent, "Enter a valid email address");
+  assert.equal(document.getElementById(describedBy[0]).getAttribute("role"), "alert");
   assert.equal(document.getElementById(describedBy[1]).textContent, "3/20");
   assert.equal(container.textContent.includes("Enter your email"), false);
 });

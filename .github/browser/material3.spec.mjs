@@ -455,7 +455,87 @@ for (const entry of locales) {
       await disabledDismissButton.evaluate((element) => element.click());
       await expect(disabledChip).toBeVisible();
 
+      const passwordToggle = page.getByRole("button", {
+        name: entry.locale === "fr" ? "Afficher le mot de passe" : "Show password",
+      });
+      // The app shell scrolls internally; center the target in that container before the full-page axe scan.
+      await passwordToggle.evaluate((element) => element.scrollIntoView({ block: "center", inline: "nearest" }));
+      await expect(passwordToggle).toBeInViewport();
+      const passwordTarget = await passwordToggle.evaluate((element) => {
+        const rect = element.getBoundingClientRect();
+        return { width: rect.width, height: rect.height };
+      });
+      expect(passwordTarget.width).toBeGreaterThanOrEqual(48);
+      expect(passwordTarget.height).toBeGreaterThanOrEqual(48);
       await runAxe(page, entry.locale + " Design Lab Chips " + colorScheme);
     });
   }
 }
+
+for (const entry of locales) {
+  test("renommage inline des collections : clavier, annulation et persistance (" + entry.locale + ")", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.addInitScript(() => {
+      const key = "loculary:local-collections:v1";
+      localStorage.setItem(key, JSON.stringify([{
+        id: "local-browser-rename",
+        name: "Collection initiale",
+        created_at: "2026-10-31T00:00:00.000Z",
+        tool_ids: [],
+      }]));
+      const originalSetItem = Storage.prototype.setItem;
+      Storage.prototype.setItem = function (storageKey, value) {
+        if (storageKey === key && sessionStorage.getItem("loculary:simulate-collection-write-failure") === "true") {
+          throw new DOMException("Simulated storage quota", "QuotaExceededError");
+        }
+        return originalSetItem.call(this, storageKey, value);
+      };
+    });
+    await page.goto("/" + entry.locale + "/collections");
+
+    const renameLabel = entry.locale === "fr" ? "Renommer" : "Rename";
+    const cancelLabel = entry.locale === "fr" ? "Annuler" : "Cancel";
+    const inputLabel = entry.locale === "fr" ? "Nom de la collection" : "Collection name";
+    const collectionChoice = page.getByRole("button", { name: /Collection initiale/ });
+    await expect(collectionChoice).toBeVisible();
+    await collectionChoice.click();
+    const initialName = page.getByRole("heading", { name: "Collection initiale", level: 2 });
+    await expect(initialName).toBeVisible();
+
+    await page.getByRole("button", { name: renameLabel, exact: true }).click();
+    const renameForm = page.locator("form").filter({ has: page.getByRole("button", { name: cancelLabel, exact: true }) });
+    const field = renameForm.getByRole("textbox", { name: inputLabel });
+    await expect(field).toBeFocused();
+    const fieldBounds = await field.boundingBox();
+    expect(fieldBounds?.width ?? 0).toBeGreaterThan(160);
+    await field.fill("Nom abandonné");
+    await page.getByRole("button", { name: cancelLabel, exact: true }).click();
+    await expect(initialName).toBeVisible();
+    await expect(field).toHaveCount(0);
+
+    await page.getByRole("button", { name: renameLabel, exact: true }).click();
+    const editor = page.locator("form").filter({ has: page.getByRole("button", { name: cancelLabel, exact: true }) }).getByRole("textbox", { name: inputLabel });
+    await editor.fill("Projet final");
+    await page.evaluate(() => sessionStorage.setItem("loculary:simulate-collection-write-failure", "true"));
+    await editor.press("Enter");
+    await expect(editor).toHaveValue("Projet final");
+    await expect(editor).toHaveAttribute("aria-invalid", "true");
+    const describedBy = await editor.getAttribute("aria-describedby");
+    expect(describedBy).toBeTruthy();
+    const fieldErrorId = describedBy?.split(/\s+/)[0];
+    const fieldError = page.locator(`[id="${fieldErrorId}"]`);
+    const errorMessage = entry.locale === "fr" ? "Une erreur est survenue. Réessaie." : "Something went wrong. Try again.";
+    await expect(fieldError).toHaveAttribute("role", "alert");
+    await expect(fieldError).toHaveText(errorMessage);
+    await expect(page.locator('[role="status"]')).toHaveCount(0);
+    await page.evaluate(() => sessionStorage.removeItem("loculary:simulate-collection-write-failure"));
+    await editor.press("Enter");
+    await expect(page.getByRole("heading", { name: "Projet final", level: 2 })).toBeVisible();
+    await expect(editor).toHaveCount(0);
+    await expect.poll(() => page.evaluate(() => {
+      const records = JSON.parse(localStorage.getItem("loculary:local-collections:v1") || "[]");
+      return records[0]?.name;
+    })).toBe("Projet final");
+  });
+}
+
