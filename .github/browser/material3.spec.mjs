@@ -100,7 +100,7 @@ async function interactiveMetrics(page) {
         return background;
       }
       return elements
-        .filter((element) => element.getClientRects().length && !element.disabled && element.innerText.trim() && element.getAttribute("data-testid") !== "long-label-button")
+        .filter((element) => element.getClientRects().length && !element.disabled && element.innerText.trim() && element.getAttribute("data-testid") !== "header-search-trigger")
         .map((element) => {
           const style = getComputedStyle(element);
           const background = effectiveBackground(element);
@@ -147,7 +147,7 @@ for (const entry of locales) {
         expect(metrics.bodyWidth, "Débordement du body à " + width + "px").toBeLessThanOrEqual(metrics.clientWidth + 1);
       }
       await page.setViewportSize({ width: 320, height: 800 });
-      const longButton = page.getByTestId("long-label-button");
+      const longButton = page.getByTestId("header-search-trigger");
       await expect(longButton).toBeVisible();
       const label = await longButton.evaluate((element) => {
         const range = document.createRange();
@@ -277,10 +277,12 @@ for (const entry of locales) {
     await expect(secondary.getByRole("radio", { name: darkLabel })).toBeChecked();
     await expect(secondary).toHaveAttribute("aria-hidden", "false");
 
-    const outsideButton = page.getByTestId("long-label-button");
-    await outsideButton.click();
+    const outsideControl = page.getByTestId("header-search-trigger");
+    await outsideControl.click();
     await expect(secondary).toHaveAttribute("aria-hidden", "true");
-    await expect(outsideButton).toBeFocused();
+    await expect(page.locator("#header-tool-search-input")).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(page.locator("#header-tool-search-panel")).toHaveCount(0);
 
     await trigger.click();
     await primarySecondaryNavigation.getByRole("link", {
@@ -314,7 +316,7 @@ test("navigation adaptative conserve les six destinations et les préférences s
     await page.setViewportSize(viewport);
     const desktopLinks = page.locator("aside nav a[data-nav-key]:visible");
     await expect(desktopLinks).toHaveCount(6);
-    await expect(page.locator('nav[aria-label="Langue"]')).toBeVisible();
+    await expect(page.locator('nav[aria-label="Langue"]:visible')).toBeVisible();
     await expect(page.locator('input[name="loculary-theme-desktop"]')).toHaveCount(3);
     await expect(page.getByRole("button", { name: "Plus" })).toHaveCount(0);
     const metrics = await page.evaluate(() => ({
@@ -331,7 +333,7 @@ test("navigation adaptative conserve les six destinations et les préférences s
   await expect(page.locator('aside a[data-nav-key="account"]')).toBeVisible();
   await expect(page.locator('input[name="loculary-theme-desktop"][value="system"]')).toBeChecked();
 
-  await page.locator('nav[aria-label="Langue"]').getByRole("link", { name: "English" }).click();
+  await page.locator('nav[aria-label="Langue"]:visible').getByRole("link", { name: "English" }).click();
   await expect(page).toHaveURL(/\/en\/design-lab/);
 });
 test("focus clavier visible et réduction des animations", async ({ page }) => {
@@ -341,7 +343,7 @@ test("focus clavier visible et réduction des animations", async ({ page }) => {
     document.body.setAttribute("tabindex", "-1");
     document.body.focus();
   });
-  const longButton = page.getByTestId("long-label-button");
+  const longButton = page.getByTestId("header-search-trigger");
   let focused = false;
   for (let index = 0; index < 50; index += 1) {
     await page.keyboard.press("Tab");
