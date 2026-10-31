@@ -19,10 +19,6 @@ const favoritesView = readFileSync(new URL("../../components/favorites/Favorites
 const toolSearch = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
 const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
 const recentTools = readFileSync(new URL("../../components/home/RecentTools.tsx", import.meta.url), "utf8");
-const modalBottomSheet = readFileSync(new URL("../../components/ui/ModalBottomSheet.tsx", import.meta.url), "utf8");
-const modalBottomSheetCss = readFileSync(new URL("../../components/ui/ModalBottomSheet.module.css", import.meta.url), "utf8");
-const pullToRefreshBox = readFileSync(new URL("../../components/ui/PullToRefreshBox.tsx", import.meta.url), "utf8");
-const pullToRefreshBoxCss = readFileSync(new URL("../../components/ui/PullToRefreshBox.module.css", import.meta.url), "utf8");
 
 test("shared Button exports AndroidX component names with source-derived dimensions and variant-specific states", () => {
   for (const component of ["Button", "ElevatedButton", "FilledTonalButton", "OutlinedButton", "TextButton"]) {
