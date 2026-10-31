@@ -143,7 +143,20 @@ test('marks Supabase Edge Function changes for targeted Deno validation', () => 
     governance_changed: false,
     androidx_provenance_changed: false,
     supabase_changed: true,
+    supabase_database_changed: false,
   });
+});
+
+test('marks Supabase migrations, pgTAP tests and config for local database validation', () => {
+  for (const path of [
+    'supabase/config.toml',
+    'supabase/migrations/20261030160000_extend_log_retention_to_12_months.sql',
+    'supabase/tests/log_retention.sql',
+  ]) {
+    assert.equal(classifyCiChanges([path], 1).supabase_database_changed, true, path);
+  }
+  assert.equal(classifyCiChanges(['supabase/functions/account-delete/index.ts'], 1).supabase_database_changed, false);
+  assert.equal(classifyCiChanges(['src/app/page.tsx'], 1).supabase_database_changed, false);
 });
 
 import { readFileSync } from 'node:fs';
