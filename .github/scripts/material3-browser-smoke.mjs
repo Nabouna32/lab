@@ -154,6 +154,15 @@ class CdpClient {
   }
 }
 
+async function stopProcess(processRef) {
+  if (!processRef || processRef.exitCode !== null || processRef.signalCode !== null) return;
+  processRef.kill("SIGTERM");
+  await Promise.race([
+    new Promise((resolve) => processRef.once("exit", resolve)),
+    delay(5000),
+  ]);
+}
+
 async function main() {
   mkdirSync(artifactDir, { recursive: true });
   const chromeBin = findChrome();
@@ -350,9 +359,13 @@ async function main() {
     console.log("Browser smoke tests terminés. Captures disponibles dans artifacts/browser/.");
   } finally {
     if (socket && socket.readyState === WebSocket.OPEN) socket.close();
-    if (chrome && chrome.exitCode === null) chrome.kill("SIGTERM");
-    if (server && server.exitCode === null) server.kill("SIGTERM");
-    rmSync(profileDir, { recursive: true, force: true });
+    await stopProcess(chrome);
+    await stopProcess(server);
+    try {
+      rmSync(profileDir, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
+    } catch (error) {
+      console.warn("Profil Chromium temporaire non supprimé : " + error.message);
+    }
     if (serverLogs.includes("Error:")) console.error("Next server logs:\n" + serverLogs);
     if (chromeLogs.includes("ERROR")) console.error("Chromium logs:\n" + chromeLogs);
   }
