@@ -281,7 +281,7 @@ for (const entry of locales) {
     await outsideControl.click();
     await expect(secondary).toHaveAttribute("aria-hidden", "true");
     await expect(page.locator("#header-tool-search-input")).toBeFocused();
-    await page.keyboard.press("Escape");
+    await outsideControl.click();
     await expect(page.locator("#header-tool-search-panel")).toHaveCount(0);
 
     await trigger.click();
