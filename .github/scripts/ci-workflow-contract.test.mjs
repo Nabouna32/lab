@@ -32,7 +32,7 @@ test("the PR workflow keeps the fast validation path separate from surveillance"
   assert.doesNotMatch(workflow, /NPM_AUDIT_RESULT|needs\.npm-audit/);
 });
 
-test("surveillance audits npm on schedule/manual runs and validates navigation PRs with Playwright", () => {
+test("daily surveillance audits npm and runs pinned Playwright Chromium on the selected ref", () => {
   const triggers = surveillance.slice(0, surveillance.indexOf("\njobs:"));
   assert.match(triggers, /^  schedule:/m);
   assert.match(triggers, /cron: "30 3 \* \* \*"/);
@@ -41,16 +41,8 @@ test("surveillance audits npm on schedule/manual runs and validates navigation P
   assert.match(triggers, /default: ""/);
   assert.doesNotMatch(triggers, /default: "main"/);
   assert.ok(triggers.includes('description: "Révision facultative ; laisser vide pour utiliser la branche choisie dans le sélecteur GitHub"'));
-  assert.match(triggers, /^  pull_request:/m);
-  for (const path of [
-    ".github/browser/**",
-    ".github/workflows/surveillance.yml",
-    "src/components/layout/AdaptiveAppNavigation.tsx",
-    "src/components/layout/HeaderPreferences.tsx",
-  ]) assert.ok(triggers.includes(path), "navigation surveillance should watch " + path);
   assert.equal((surveillance.match(/ref: \$\{\{ inputs\.ref \|\| github\.ref \}\}/g) || []).length, 2);
   assert.match(surveillance, /ref: \$\{\{ inputs\.ref \|\| github\.ref \}\}/);
-  assert.match(sectionFor(surveillance, "audit-dependances"), /if: github\.event_name != 'pull_request'/);
   assert.match(sectionFor(surveillance, "audit-dependances"), /run: node \.github\/scripts\/run-npm-audit\.mjs/);
   const browser = sectionFor(surveillance, "tests-navigateur");
   assert.match(browser, /@playwright\/test@1\.64\.1/);
