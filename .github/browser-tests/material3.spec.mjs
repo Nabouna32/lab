@@ -58,7 +58,7 @@ test.describe("Responsive et langues", () => {
         expect(metrics.scroll).toBeLessThanOrEqual(metrics.client + 1);
         expect(metrics.body).toBeLessThanOrEqual(metrics.client + 1);
         if (viewport.width <= 390) {
-          const link = page.locator('a[data-nav-key="guided"]').first();
+          const link = page.locator('a[data-nav-key="guided"]:visible').first();
           await expect(link).toBeVisible();
           const label = await link.evaluate((element) => {
             const node = element.lastElementChild;
