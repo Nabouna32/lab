@@ -1,9 +1,9 @@
 name: Generate and verify ESLint lockfile
 
 on:
-  push:
+  pull_request:
     branches:
-      - fix/eslint-peer-dependency-alignment
+      - main
     paths:
       - package.json
       - package-lock.json
