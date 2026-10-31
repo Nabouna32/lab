@@ -368,12 +368,15 @@ test("les adaptations Web préservent exactement les largeurs et gouttières de 
   for (const [path, widths] of layoutWidthExpectations) {
     const source = readSource(path);
     const expectedCount = Object.values(widths).reduce((total, count) => total + count, 0);
-    const gutterCount = source.match(/px-\[var\(--layout-page-gutter\)\]/g)?.length ?? 0;
-    assert.equal(gutterCount, expectedCount, `${path} doit conserver une gouttière par conteneur`);
+    const utilityGutterCount = source.match(/px-\[var\(--layout-page-gutter\)\]/g)?.length ?? 0;
+    const inlineGutterCount = source.match(/paddingInline:\s*"var\(--layout-page-gutter\)"/g)?.length ?? 0;
+    assert.equal(utilityGutterCount + inlineGutterCount, expectedCount, `${path} doit conserver une gouttière par conteneur`);
 
     for (const [width, count] of Object.entries(widths)) {
-      const pattern = new RegExp(`max-w-\\[var\\(--layout-content-${width}\\)\\]`, "g");
-      assert.equal(source.match(pattern)?.length ?? 0, count, `${path} doit conserver ${count} conteneur(s) de largeur ${width}`);
+      const utilityPattern = new RegExp(`max-w-\\[var\\(--layout-content-${width}\\)\\]`, "g");
+      const inlinePattern = new RegExp(`maxWidth:\\s*"var\\(--layout-content-${width}\\)"`, "g");
+      const actualCount = (source.match(utilityPattern)?.length ?? 0) + (source.match(inlinePattern)?.length ?? 0);
+      assert.equal(actualCount, count, `${path} doit conserver ${count} conteneur(s) de largeur ${width}`);
     }
   }
 });
