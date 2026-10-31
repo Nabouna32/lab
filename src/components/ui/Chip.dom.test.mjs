@@ -145,3 +145,54 @@ test("FilterChip désactivé et SuggestionChip ne déclenchent pas onSelectedCha
 
   assert.equal(selectedChangeCalls, 0);
 });
+
+test("InputChip expose son état sélectionné et son action de retrait avec un nom accessible", async () => {
+  let dismissCalls = 0;
+  const container = await render(
+    createElement(Chip, {
+      variant: "input",
+      label: "Cuisine",
+      selected: true,
+      onDismiss: () => {
+        dismissCalls += 1;
+      },
+      dismissLabel: "Retirer Cuisine",
+    }),
+  );
+
+  const [chipButton, dismissButton] = container.querySelectorAll("button");
+  assert.equal(chipButton.getAttribute("aria-pressed"), "true");
+  assert.equal(dismissButton.getAttribute("aria-label"), "Retirer Cuisine");
+
+  await act(async () => {
+    dismissButton.dispatchEvent(new browser.MouseEvent("click", { bubbles: true, cancelable: true }));
+  });
+
+  assert.equal(dismissCalls, 1);
+  assert.equal(chipButton.getAttribute("aria-pressed"), "true", "le retrait est distinct de la sélection du chip");
+});
+
+test("InputChip désactivé désactive aussi l'action de retrait", async () => {
+  let dismissCalls = 0;
+  const container = await render(
+    createElement(Chip, {
+      variant: "input",
+      label: "Cuisine",
+      disabled: true,
+      onDismiss: () => {
+        dismissCalls += 1;
+      },
+      dismissLabel: "Retirer Cuisine",
+    }),
+  );
+
+  const [chipButton, dismissButton] = container.querySelectorAll("button");
+  assert.equal(chipButton.disabled, true);
+  assert.equal(dismissButton.disabled, true);
+
+  await act(async () => {
+    dismissButton.dispatchEvent(new browser.MouseEvent("click", { bubbles: true, cancelable: true }));
+  });
+
+  assert.equal(dismissCalls, 0);
+});
