@@ -70,6 +70,11 @@ export default function VisualLab({ initialLocale }: { initialLocale: Locale }) 
                 {fr ? "Action d’erreur" : "Error action"}
               </Button>
             </div>
+            <div className={styles.row}>
+              <Button type="button" multiline className="max-w-[14rem]" data-testid="long-label-button">
+                {fr ? "Enregistrer les modifications et continuer" : "Save these changes and continue"}
+              </Button>
+            </div>
             {notice ? <p className={styles.notice} role="status">{notice}</p> : null}
           </div>
         </div>
