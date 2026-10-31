@@ -26,6 +26,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: Locale }) 
   const [favorite, setFavorite] = useState(false);
   const [progress, setProgress] = useState(64);
   const [selectedChip, setSelectedChip] = useState(false);
+  const [inputChipVisible, setInputChipVisible] = useState(true);
   const [navigation, setNavigation] = useState("home");
   const [format, setFormat] = useState("webp");
   const [notice, setNotice] = useState("");
@@ -118,8 +119,26 @@ export default function VisualLab({ initialLocale }: { initialLocale: Locale }) 
               <Switch id="lab-switch" checked={enabled} onCheckedChange={setEnabled} label={fr ? "Activer l’option" : "Enable option"} />
               <Slider inputId="lab-progress" label={fr ? "Progression" : "Progress"} value={progress} min={0} max={100} valueLabel={`${progress}%`} onValueChange={setProgress} />
               <ProgressIndicator label={fr ? "Progression de démonstration" : "Demo progress"} value={progress} />
-              <div className={styles.row}>
+              <div className={styles.row} data-testid="chip-specimens">
                 <Chip variant="filter" label={fr ? "Filtre actif" : "Active filter"} selected={selectedChip} onSelectedChange={setSelectedChip} />
+                {inputChipVisible ? (
+                  <Chip
+                    variant="input"
+                    label={fr ? "Cuisine" : "Cooking"}
+                    selected
+                    onDismiss={() => setInputChipVisible(false)}
+                    dismissLabel={fr ? "Retirer Cuisine" : "Remove Cooking"}
+                    data-testid="input-chip"
+                  />
+                ) : null}
+                <Chip
+                  variant="input"
+                  label={fr ? "Désactivé" : "Disabled"}
+                  disabled
+                  onDismiss={() => undefined}
+                  dismissLabel={fr ? "Retirer Désactivé" : "Remove Disabled"}
+                  data-testid="disabled-input-chip"
+                />
                 <span className={styles.muted}>{fr ? "Format choisi :" : "Selected format:"} {format.toUpperCase()}</span>
               </div>
             </div>
