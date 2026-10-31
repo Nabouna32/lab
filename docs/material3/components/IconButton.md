@@ -55,7 +55,7 @@ Audit du code de production au 31 octobre 2026. La distinction action/toggle est
 | `NumberBaseConverter` | `OutlinedIconButton` | Action d'inversion des bases avec nom accessible et titre localisés ; `self-end` ne règle que l'alignement flex. |
 | `FavoriteButton` compact | `IconToggleButton` | État persistant favori/non favori via `checked` et `onCheckedChange` ; le composant expose `aria-pressed`. La variante complète conserve les boutons texte `FilledTonalButton`/`OutlinedButton` et leur état `aria-pressed`. |
 
-Le Design Lab affiche les huit variantes comme spécimens de référence ; il ne constitue pas un consommateur de production. Aucun usage de production d'`ElevatedIconButton`, `FilledTonalIconButton` ou des variantes toggle autres que `IconToggleButton` n'a été trouvé dans l'inventaire actuel.
+Le Design Lab affiche les huit variantes comme spécimens de référence ; il ne constitue pas un consommateur de production. Aucun usage de production de `FilledTonalIconButton` ou des variantes toggle autres que `IconToggleButton` n'a été trouvé dans l'inventaire actuel.
 
 ## Vérifications requises
 
