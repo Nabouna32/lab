@@ -16,7 +16,6 @@ type Destination = {
   key: string;
   href: string;
   label: string;
-  mobileLabel?: string;
   icon: "home" | "apps" | "person" | "search";
   group: "main" | "personal";
   match: (pathname: string) => boolean;
@@ -36,7 +35,7 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
     return [
       { key: "home", href: home, label: t.nav.home, icon: "home", group: "main", match: (path) => path === home },
       { key: "tools", href: tools, label: t.nav.explore, icon: "search", group: "main", match: (path) => path === tools || path.startsWith(tools + "/") || path.startsWith(`/${locale}/categories`) },
-      { key: "guided", href: guided, label: t.guidedWorkflows.homeTitle, mobileLabel: t.nav.guidedShort, icon: "apps", group: "main", match: (path) => path === guided || path.startsWith(guided + "/") },
+      { key: "guided", href: guided, label: t.guidedWorkflows.homeTitle, icon: "apps", group: "main", match: (path) => path === guided || path.startsWith(guided + "/") },
       { key: "favorites", href: favorites, label: t.nav.favorites, icon: "apps", group: "personal", customIcon: "star", match: (path) => path === favorites || path.startsWith(favorites + "/") },
       { key: "collections", href: collections, label: t.nav.collections, icon: "apps", group: "personal", customIcon: "collections", match: (path) => path === collections || path.startsWith(collections + "/") },
       { key: "account", href: account, label: t.nav.space, icon: "person", group: "personal", match: (path) => path === account || path.startsWith(account + "/") },
@@ -60,13 +59,12 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
         href={item.href}
         prefetch={item.key === "account" ? false : undefined}
         aria-current={selected ? "page" : undefined}
-        aria-label={compact ? item.mobileLabel ?? item.label : undefined}
         data-nav-key={item.key}
         data-selected={selected ? "true" : "false"}
         className={compact ? styles.mobileItem : styles.desktopItem}
       >
         <span className={compact ? styles.mobileIcon : styles.desktopIcon} aria-hidden="true">{iconFor(item)}</span>
-        <span className={compact ? styles.mobileLabel : styles.desktopLabel}>{compact ? item.mobileLabel ?? item.label : item.label}</span>
+        <span className={compact ? styles.mobileLabel : styles.desktopLabel}>{item.label}</span>
       </Link>
     );
   }
