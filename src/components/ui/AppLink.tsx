@@ -5,7 +5,7 @@ import { getMaterialButtonInlineStyle, materialButtonVariantStyles, type Materia
 import { ButtonRipple } from "@/components/ui/ButtonRipple";
 import { getMaterialButtonLayoutClasses } from "@/components/ui/material-button-layout";
 
-export type AppLinkVariant = "inline" | "navigation" | MaterialButtonVariant;
+export type AppLinkVariant = "inline" | MaterialButtonVariant;
 
 export type AppLinkProps = LinkProps &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps> & {
@@ -23,13 +23,6 @@ const variantStyles: Partial<Record<AppLinkVariant, string>> = {
     "transition-colors duration-[var(--motion-standard)] hover:decoration-current",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]",
     "motion-reduce:transition-none",
-  ].join(" "),
-  navigation: [
-    "inline-flex min-h-9 shrink-0 items-center gap-2 rounded-[var(--shape-corner-full)] border border-transparent px-3",
-    "m3-type-label-large text-[var(--muted)] outline-none",
-    "transition-[border-color,background-color,color] duration-[var(--motion-standard)]",
-    "hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]",
-    "focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none",
   ].join(" "),
 };
 
