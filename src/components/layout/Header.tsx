@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LocularyLogo } from "@/components/brand/LocularyLogo";
+import LocularyLogo from "@/components/brand/LocularyLogo";
 import DesktopHeaderMenu from "@/components/layout/DesktopHeaderMenu";
 import HeaderSearch from "@/components/layout/HeaderSearch";
 import { TopAppBar } from "@/components/ui/TopAppBar";
@@ -14,10 +14,13 @@ export default function Header({ locale }: { locale: Locale }) {
       title={
         <Link
           href={`/${locale}`}
-          aria-label={t.nav.home}
-          className="group flex shrink-0 items-center gap-2 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] md:hidden"
+          aria-label={"Loculary - " + t.nav.home}
+          className="group flex shrink-0 items-center gap-2 rounded-[var(--shape-corner-large)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:gap-2.5 md:hidden"
         >
-          <LocularyLogo className="h-8 w-auto sm:h-9" />
+          <LocularyLogo
+            className="gap-2 sm:gap-2.5 transition-transform duration-200 group-hover:scale-[1.01]"
+            wordmarkClassName="text-base font-bold tracking-[-0.03em] sm:text-lg"
+          />
         </Link>
       }
       actions={
