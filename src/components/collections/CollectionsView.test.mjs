@@ -61,8 +61,13 @@ test("collection rename uses an inline accessible form instead of a blocking bro
   assert.ok(source.includes("async function rename()"));
   assert.ok(source.includes("editingCollectionName.trim()"));
   assert.ok(source.includes("setRenaming(false)"));
-  assert.ok(source.includes("aria-label={copy.renamePlaceholder}"));
+  assert.ok(source.includes("import { OutlinedTextField }"));
+  assert.ok(source.includes('id="collection-create-name"'));
+  assert.ok(source.includes('id="collection-rename-name"'));
+  assert.ok(source.includes("error={editingCollectionError || undefined}"));
+  assert.ok(source.includes("setEditingCollectionError(copy.error)"));
   assert.ok(source.includes("maxLength={80}"));
+  assert.ok(!source.includes("aria-label={copy.renamePlaceholder}"));
   assert.ok(source.includes("disabled={renaming || !editingCollectionName.trim()}"));
   assert.ok(!source.includes("window.prompt"));
 });
