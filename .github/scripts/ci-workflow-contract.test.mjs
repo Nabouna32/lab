@@ -28,7 +28,7 @@ test("the PR workflow keeps the fast validation path separate from surveillance"
   assert.doesNotMatch(triggers, /^  schedule:/m);
   assert.doesNotMatch(workflow, /^  npm-audit:$/m);
   assert.doesNotMatch(workflow, /material3-browser-smoke|playwright test|axe-core regression/);
-  assert.match(workflow, /needs: [prepare, quality, build, supabase-functions, supabase-database]/);
+  assert.match(workflow, /needs: \[prepare, quality, build, supabase-functions, supabase-database\]/);
   assert.doesNotMatch(workflow, /NPM_AUDIT_RESULT|needs\.npm-audit/);
 });
 
