@@ -49,25 +49,22 @@ test("global header search remains icon-triggered and keyboard-accessible", () =
 const desktopHeaderMenuSource = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
 
 test("header search disclosure exposes ARIA state and restores focus after Escape", () => {
-  assert.match(headerSearchSource, /aria-expanded=\\{open\\}/);
-  assert.match(headerSearchSource, /aria-controls=\\{open \\? "header-tool-search-panel" : undefined\\}/);
-  assert.match(headerSearchSource, /event\\.key !== "Escape"/);
-  assert.match(headerSearchSource, /restoreFocusRef\\.current = true/);
-  assert.match(headerSearchSource, /triggerRef\\.current\\?\\.focus\\(\\)/);
-  assert.match(headerSearchSource, /input\\.focus\\(\\)/);
+  assert.ok(headerSearchSource.includes("aria-expanded={open}"));
+  assert.ok(headerSearchSource.includes('aria-controls={open ? "header-tool-search-panel" : undefined}'));
+  assert.ok(headerSearchSource.includes('event.key !== "Escape"'));
+  assert.ok(headerSearchSource.includes("restoreFocusRef.current = true"));
+  assert.ok(headerSearchSource.includes("triggerRef.current?.focus()"));
+  assert.ok(headerSearchSource.includes("input.focus()"));
 });
 
 test("header menu disclosure exposes ARIA state, hides inactive content and restores focus", () => {
-  assert.match(desktopHeaderMenuSource, /aria-expanded=\\{open\\}/);
-  assert.match(desktopHeaderMenuSource, /aria-controls="header-menu"/);
-  assert.match(desktopHeaderMenuSource, /aria-hidden=\\{!open\\}/);
-  assert.match(desktopHeaderMenuSource, /inert=\\{!open\\}/);
-  assert.match(desktopHeaderMenuSource, /event\\.key === "Escape"/);
-  assert.match(desktopHeaderMenuSource, /triggerRef\\.current\\?\\.focus\\(\\)/);
-});
-
-
-test("guided workflow cards retain Material 3 semantics and reduced-motion support", () => {
+  assert.ok(desktopHeaderMenuSource.includes("aria-expanded={open}"));
+  assert.ok(desktopHeaderMenuSource.includes('aria-controls="header-menu"'));
+  assert.ok(desktopHeaderMenuSource.includes("aria-hidden={!open}"));
+  assert.ok(desktopHeaderMenuSource.includes("inert={!open}"));
+  assert.ok(desktopHeaderMenuSource.includes('event.key === "Escape"'));
+  assert.ok(desktopHeaderMenuSource.includes("triggerRef.current?.focus()"));
+});test("guided workflow cards retain Material 3 semantics and reduced-motion support", () => {
   assert.ok(guidedWorkflowsSource.includes('import { CardLink } from "@/components/ui/Card";'));
   assert.ok(guidedWorkflowsSource.includes("bg-[var(--primary-container)] text-[var(--on-primary-container)]"));
   assert.ok(guidedWorkflowsSource.includes("text-[var(--on-surface)]"));
