@@ -98,7 +98,21 @@ La migration reste partielle et la conformité globale n’est pas établie.
 | [Badge / BadgedBox](components/Badge.md) | Adaptation Web avec rôles de couleur et nom accessible explicites | Tailles, ancrage et usage dans les contrôles à vérifier |
 | Autres familles | Inventaire et couverture incomplets | À inventorier selon le périmètre déclaré |
 
-`NavigationBar` reste uniquement un spécimen interactif du Design Lab, sans consommateur dans la navigation produit. L’issue #977 est fermée et ne constitue pas une preuve de validation navigateur ; aucune fidélité AndroidX n’est revendiquée pour ce composant.
+`NavigationBar` reste un spécimen interactif du Design Lab, sans consommateur direct dans la navigation produit. La production utilise `AdaptiveAppNavigation`, une composition responsive qui adapte les patterns AndroidX selon le viewport ; ce n'est pas un port direct du composant `NavigationBar`.
+
+### Composition de navigation adaptative en production
+
+Baseline AndroidX examinée : commit immuable `5113b82a4ed6416d6344efa50e41db8cb65928ff`.
+
+| Viewport | Pattern AndroidX de référence | Contrat appliqué dans Loculary | Adaptation Web documentée |
+|---|---|---|---|
+| Mobile, moins de 768 px | [NavigationBar](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/NavigationBar.kt) | Hauteur 64 px + safe area, indicateur 56 × 32 px, icône 24 px, LabelMedium, libellé sélectionné Secondary, surface SurfaceContainer | Cinq destinations primaires, avec les parcours guidés dans le menu secondaire |
+| Tablette, 768–1199 px | [NavigationRail](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/NavigationRail.kt) | Indicateur 56 × 32 px, LabelMedium, libellé sélectionné Secondary, icône sélectionnée OnSecondaryContainer | Rail compact de 88 px : indicateur de 56 px et marges latérales cumulées de 32 px |
+| Grand écran, dès 1200 px | [NavigationDrawer](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/NavigationDrawer.kt) | Ligne de destination de 56 px, LabelLarge, indicateur pleine largeur, libellé sélectionné OnSecondaryContainer | Drawer permanent compact de 264 px, contre 360 dp dans le token AndroidX |
+
+Références de tokens épinglées : [NavigationBarTokens](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/NavigationBarTokens.kt), [NavigationBarVerticalItemTokens](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/NavigationBarVerticalItemTokens.kt), [NavigationRailCollapsedTokens](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/NavigationRailCollapsedTokens.kt), [NavigationRailVerticalItemTokens](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/NavigationRailVerticalItemTokens.kt), [NavigationRailColorTokens](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/NavigationRailColorTokens.kt) et [NavigationDrawerTokens](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/NavigationDrawerTokens.kt).
+
+La composition conserve les sémantiques Web de liens et `aria-current`. Les écarts de largeur 88/264 px sont des choix compacts de layout produit, pas des valeurs AndroidX. Les indicateurs, rôles de couleur, typographies et hauteurs d'items suivent les tokens de leur pattern respectif. Les contrats CSS et un test Playwright couvrent ces métriques ; tant que le nouveau test navigateur n'a pas été exécuté, le rendu reste **non vérifié**. L’issue #977 reste un historique et ne constitue pas une preuve de validation navigateur.
 
 ## Ordre de migration de la production
 
