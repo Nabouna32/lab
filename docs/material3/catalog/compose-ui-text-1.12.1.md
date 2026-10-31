@@ -58,17 +58,18 @@ La résolution de la direction et des polices est liée à l'environnement de mi
 
 **WEB-ADAPTATION :** définir `lang` et `dir` au bon niveau, laisser le navigateur appliquer l'algorithme bidirectionnel Unicode, conserver la sélection/copier/coller natifs et ne pas simuler les glyphes dans des images. Vérifier le zoom, le reflow, les contrastes et la taille de texte utilisateur. Les contenus interactifs intégrés doivent conserver un ordre de focus et un nom accessibles.
 
-## Audit ciblé Loculary
+## Audit ciblé Loculary — état vérifié le 31 octobre 2026
 
-Fichiers examinés :
+L'audit des consommateurs directs est désormais documenté dans [compose-ui-text-call-sites.md](compose-ui-text-call-sites.md). Il repose sur une analyse AST TypeScript des 423 fichiers `.ts`/`.tsx` suivis par Git, avec association des imports nommés et alias aux balises JSX.
 
-- `src/components/ui/TextField.tsx` : wrapper natif `input`, labels associés par `htmlFor`/`id`, `inputMode`, type et attributs HTML transmis ; deux variantes visuelles Fidelity/Expressive.
-- `src/components/ui/TextArea.tsx` : wrapper natif `textarea`, label, états d'erreur/aide et attributs HTML transmis. Le composant documente explicitement qu'il s'agit d'une adaptation Web multiligne et non d'un composant Compose distinct.
-- `src/components/ui/OutlinedTextField.tsx` : adaptation React/Web contrôlée d'AndroidX OutlinedTextField, avec label flottant, supporting text, erreur, compteur et contenus auxiliaires.
-- `src/components/ui/OutlinedSecureTextField.tsx` : composition sécurisée au-dessus de OutlinedTextField, avec input natif password/text et IconButton de visibilité localisé.
-- `src/app/globals.css` : rôles typographiques Material 3 partagés et unités CSS rem documentées comme références Web, pas comme conversion dp/sp.
+- `TextField` : 16 fichiers, 21 instances JSX ; helper natif `input`, label persistant, identifiant unique `inputId`, attributs HTML transmis. La variante expressive a été supprimée ; ce helper n'est pas un portage du composant AndroidX.
+- `TextArea` : 20 fichiers, 23 instances JSX ; helper natif `textarea`, label, aide/erreur, attributs ARIA fusionnés et présentation outlined unique. AndroidX n'expose pas de composant Material 3 autonome nommé `TextArea`.
+- `OutlinedTextField` : adaptation React/Web contrôlée du contrat AndroidX Material 3 1.4.0, avec label flottant, supporting text, erreur, compteur et contenus auxiliaires.
+- `OutlinedSecureTextField` : quatre instances dans deux fichiers (trois dans le formulaire de changement de mot de passe, une dans le Design Lab), avec input natif password/text, autocomplétion explicite et IconButton localisé.
+- Un `textarea` natif supplémentaire existe dans HashGenerator ; aucune centralisation mécanique n'est justifiée sans besoin métier démontré.
+- `src/app/globals.css` expose les rôles typographiques Material 3 ; leurs valeurs CSS rem sont des références Web qui préservent le zoom, pas des conversions physiques dp/sp.
 
-Les recherches ciblées montrent des usages directs de `TextField`/`TextArea` dans le testeur d'expressions régulières et le laboratoire de conception. Elles ne constituent pas un audit exhaustif de tous les consommateurs ni des parcours de production.
+Les décisions restent Greenfield First : conserver le DOM et les contrôles natifs pour les usages ordinaires, ne pas créer un moteur générique `Text`/Canvas ni une couche de mesure parallèle sans consommateur réel. Les besoins enrichis éventuels devront être spécifiés par parcours, avec sémantique HTML et destinations validées.
 
 ## Décisions de portage
 
@@ -83,16 +84,20 @@ Les recherches ciblées montrent des usages directs de `TextField`/`TextArea` da
 - [x] Baseline release, dump API et sources publiées identifiés et alignés selon la preuve CI #4516.
 - [x] Sources Kotlin épinglées examinées pour texte enrichi, styles, paragraphes et mesure.
 - [x] Implémentations React/Web TextField, TextArea, OutlinedTextField, OutlinedSecureTextField et rôles CSS typographiques consultés.
-- [ ] Audit exhaustif des call sites et parcours de production.
-- [ ] Tests clavier, lecteur d'écran, zoom/reflow, FR/EN et RTL dans un navigateur réel.
-- [ ] Comparaison visuelle navigateur avec les références produit et vérification des polices chargées.
+- [x] Audit AST des consommateurs directs des champs dans les 423 fichiers suivis ; détails et limites dans [compose-ui-text-call-sites.md](compose-ui-text-call-sites.md).
+- [x] Relecture des implémentations actuelles TextField, TextArea, OutlinedTextField et OutlinedSecureTextField, de leurs consommateurs, des tests DOM et des rôles typographiques CSS.
+- [x] Session navigateur interactive Production du 31 octobre sur `/fr/design-lab` et `/en/design-lab` : labels flottants et focus au clic, révélation/masquage du mot de passe dans les deux sens, thèmes Système/Clair/Sombre, traductions FR/EN et contrôles de démonstration.
+- [ ] Ordre complet de tabulation, focus-visible détaillé et annonces avec lecteur d'écran réel.
+- [ ] Viewports exacts 390×844, 768×1024 et 1440×900 : la session navigateur n'a pas permis d'imposer les dimensions ; aucune conclusion responsive n'est revendiquée.
+- [ ] Nouvel audit axe-core sur les adaptateurs actuels, revue manuelle du contraste incomplet et comparaison visuelle avec les sources AndroidX.
+- [ ] Vérification de la composition IME réelle et du tactile sur appareil physique ; la simulation Chromium antérieure ne remplace pas ces essais.
 
-Aucun test navigateur n'a été exécuté dans cette tranche. Aucune conformité visuelle ou tactile n'est revendiquée.
+La session du 31 octobre n'a soumis aucun formulaire et n'a modifié aucune donnée persistante. Elle confirme uniquement les interactions observées sur le Design Lab public en FR/EN et les trois thèmes. Elle ne constitue ni une validation globale de conformité WCAG, ni une preuve de parité AndroidX, ni une campagne responsive complète.
 
 ## Suite proposée
 
-1. Revenir aux composants de texte réellement consommés et établir un audit exhaustif de leurs call sites.
-2. Corriger uniquement les défauts reproductibles d'accessibilité, de saisie ou de rendu qui ressortent de cet audit.
-3. Passer ensuite à Compose UI ou Material 3 en sélectionnant les contrats qui touchent les composants Loculary existants.
+1. Garder les contrôles HTML natifs comme cible pour la saisie courante ; ne créer aucun moteur de texte abstrait sans besoin utilisateur démontré.
+2. Corriger uniquement les défauts reproductibles révélés par les futures vérifications clavier, lecteur d'écran, contraste, zoom et reflow.
+3. Poursuivre les autres familles AndroidX selon les consommateurs réels, sans étendre le périmètre aux API sans usage ni réduire l'ambition Material 3 Fidelity.
 
 Cette revue clôt une première investigation documentaire ciblée ; elle ne clôt pas le statut global `in-progress` de la famille UI Text.
