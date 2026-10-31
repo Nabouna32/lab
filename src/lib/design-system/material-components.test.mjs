@@ -20,7 +20,7 @@ const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", impo
 const buttonVariantStylesSource = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
 const iconButtonSource = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
-const headerMenuSource = readFileSync(new URL("../../components/layout/HeaderPreferences.tsx", import.meta.url), "utf8");
+const headerPreferencesSource = readFileSync(new URL("../../components/layout/HeaderPreferences.tsx", import.meta.url), "utf8");
 const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.url), "utf8");
 const typographyComponentStyles = {
   buttonGroup: readFileSync(new URL("../../components/ui/ButtonGroup.module.css", import.meta.url), "utf8"),
@@ -463,12 +463,12 @@ test("M3 web reference tokens document Android dp/sp magnitude without claiming 
 });
 
 test("header preferences use restrained Material 3 semantic colors", () => {
-  assert.match(headerMenuSource, /bg-\[var\(--surface-container-high\)\]/);
-  assert.match(headerMenuSource, /bg-\[var\(--primary-container\)\] text-\[var\(--on-primary-container\)\]/);
-  assert.match(headerMenuSource, /bg-\[var\(--secondary-container\)\] text-\[var\(--on-secondary-container\)\]/);
-  assert.match(headerMenuSource, /grid grid-cols-3 gap-1/);
-  assert.match(headerMenuSource, /const selected = themeReady && theme === option\.value/);
-  assert.match(headerMenuSource, /w-\[min\(20rem,calc\(100vw-1\.5rem\)\)\]/);
+  assert.match(headerPreferencesSource, /bg-\[var\(--surface-container-high\)\]/);
+  assert.match(headerPreferencesSource, /bg-\[var\(--primary-container\)\] text-\[var\(--on-primary-container\)\]/);
+  assert.match(headerPreferencesSource, /bg-\[var\(--secondary-container\)\] text-\[var\(--on-secondary-container\)\]/);
+  assert.match(headerPreferencesSource, /grid grid-cols-3 gap-1/);
+  assert.match(headerPreferencesSource, /const selected = themeReady && theme === option\.value/);
+  assert.match(headerPreferencesSource, /w-\[min\(20rem,calc\(100vw-1\.5rem\)\)\]/);
 });
 
 test("header menu copy uses neutral destination titles and direct descriptions in both locales", () => {
@@ -483,20 +483,20 @@ test("header menu copy uses neutral destination titles and direct descriptions i
 });
 
 test("header theme controls defer client-dependent selected state until after hydration", () => {
-  assert.match(headerMenuSource, /function subscribeHydrationReady\(\)/);
-  assert.match(headerMenuSource, /function getHydrationReadySnapshot\(\)\s*\{\s*return true;/);
-  assert.match(headerMenuSource, /function getServerHydrationReadySnapshot\(\)\s*\{\s*return false;/);
-  assert.match(headerMenuSource, /useSyncExternalStore\(\s*subscribeHydrationReady,\s*getHydrationReadySnapshot,\s*getServerHydrationReadySnapshot,/);
-  assert.doesNotMatch(headerMenuSource, /setThemeReady/);
-  assert.match(headerMenuSource, /<fieldset className="min-w-0 px-2 pb-1 pt-1">/);
-  assert.match(headerMenuSource, /<legend className="m3-type-label-small/);
-  assert.match(headerMenuSource, /type="radio"/);
-  assert.match(headerMenuSource, /name=\{compact \? "loculary-theme-mobile" : "loculary-theme-desktop"\}/);
-  assert.match(headerMenuSource, /checked=\{selected\}/);
-  assert.match(headerMenuSource, /onChange=\{\(\) => setTheme\(option\.value\)\}/);
-  assert.match(headerMenuSource, /peer-focus-visible:ring-2/);
-  assert.doesNotMatch(headerMenuSource, /aria-pressed=/);
-  assert.match(headerMenuSource, /const selected = themeReady && theme === option\.value/);
+  assert.match(headerPreferencesSource, /function subscribeHydrationReady\(\)/);
+  assert.match(headerPreferencesSource, /function getHydrationReadySnapshot\(\)\s*\{\s*return true;/);
+  assert.match(headerPreferencesSource, /function getServerHydrationReadySnapshot\(\)\s*\{\s*return false;/);
+  assert.match(headerPreferencesSource, /useSyncExternalStore\(\s*subscribeHydrationReady,\s*getHydrationReadySnapshot,\s*getServerHydrationReadySnapshot,/);
+  assert.doesNotMatch(headerPreferencesSource, /setThemeReady/);
+  assert.match(headerPreferencesSource, /<fieldset className="min-w-0 px-2 pb-1 pt-1">/);
+  assert.match(headerPreferencesSource, /<legend className="m3-type-label-small/);
+  assert.match(headerPreferencesSource, /type="radio"/);
+  assert.match(headerPreferencesSource, /name=\{compact \? "loculary-theme-mobile" : "loculary-theme-desktop"\}/);
+  assert.match(headerPreferencesSource, /checked=\{selected\}/);
+  assert.match(headerPreferencesSource, /onChange=\{\(\) => setTheme\(option\.value\)\}/);
+  assert.match(headerPreferencesSource, /peer-focus-visible:ring-2/);
+  assert.doesNotMatch(headerPreferencesSource, /aria-pressed=/);
+  assert.match(headerPreferencesSource, /const selected = themeReady && theme === option\.value/);
 });
 
 test("destructive account and collection actions preserve link/button semantics and use shared Material 3 controls", () => {
