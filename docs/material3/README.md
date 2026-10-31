@@ -73,7 +73,7 @@ Distinguer explicitement :
 
 Une API recensée n’est pas nécessairement portée. Un composant utilisé en production n’est pas nécessairement conforme.
 
-## État de migration — 30 octobre 2026
+## État de migration — 31 octobre 2026
 
 La migration reste partielle et la conformité globale n’est pas établie.
 
@@ -90,14 +90,14 @@ La migration reste partielle et la conformité globale n’est pas établie.
 |---|---|---|
 | [Button](components/Button.md) | Portage React ; tokens Material 3 1.4.0 alignés et variantes contrôlées en Chromium | Inventaire exhaustif des usages, revue manuelle du contraste, libellés longs/zoom 200 % et comparaison visuelle AndroidX |
 | [Lien Web](components/Link.md) | `AppLink` conserve la sémantique d'ancre et partage les variantes visuelles du bouton | Audit global des usages |
-| [ListItem](components/ListItem.md) | Adaptation existante, compositions simples alignées sur AndroidX 1.4.0 | Surcharges interactives et parité navigateur non vérifiées |
+| [ListItem](components/ListItem.md) | Adaptation standard ; hauteurs 56/72/88 tokenisées en rem, alignement haut des slots leading/trailing sur trois lignes ; trois usages dans les liens du compte | Variantes interactives et parité navigateur non vérifiées |
 | [IconButton](components/IconButton.md) | Huit API action/toggle distinctes ; rôles disabled et états alignés sur Material 3 1.4.0 ; vérifications Chromium initiales | Focus-visible par variante, surcharges, géométrie/couleurs en thèmes clair et sombre, contraste et inventaire exhaustif des usages |
 | [Card](components/Card.md) | Variantes `Card`, `ElevatedCard`, `OutlinedCard` et composition `CardLink` séparées | Valeurs source et usages de production à vérifier |
 | [Chip](components/Chip.md) | Adaptation des variantes Assist, Filter, Input et Suggestion | Parité des états et du rendu à vérifier |
 | [Badge / BadgedBox](components/Badge.md) | Adaptation Web avec rôles de couleur et nom accessible explicites | Tailles, ancrage et usage dans les contrôles à vérifier |
 | Autres familles | Inventaire et couverture incomplets | À inventorier selon le périmètre déclaré |
 
-La validation navigateur de `NavigationBar` reste suivie dans [l’issue #977](https://github.com/Nabouna32/lab/issues/977) ; cela ne signifie pas que le composant est déjà fidèle à AndroidX.
+`NavigationBar` reste uniquement un spécimen interactif du Design Lab, sans consommateur dans la navigation produit. L’issue #977 est fermée et ne constitue pas une preuve de validation navigateur ; aucune fidélité AndroidX n’est revendiquée pour ce composant.
 
 ## Ordre de migration de la production
 
