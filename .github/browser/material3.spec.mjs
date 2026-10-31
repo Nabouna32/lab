@@ -100,7 +100,7 @@ async function interactiveMetrics(page) {
         return background;
       }
       return elements
-        .filter((element) => element.getClientRects().length && !element.disabled && element.innerText.trim() && element.getAttribute("data-testid") !== "header-search-trigger")
+        .filter((element) => element.getClientRects().length && !element.disabled && element.innerText.trim() && element.getAttribute("data-testid") !== "header-search-trigger" && element.getAttribute("data-testid") !== "long-label-button")
         .map((element) => {
           const style = getComputedStyle(element);
           const background = effectiveBackground(element);
@@ -147,7 +147,7 @@ for (const entry of locales) {
         expect(metrics.bodyWidth, "Débordement du body à " + width + "px").toBeLessThanOrEqual(metrics.clientWidth + 1);
       }
       await page.setViewportSize({ width: 320, height: 800 });
-      const longButton = page.getByTestId("header-search-trigger");
+      const longButton = page.getByTestId("long-label-button");
       await expect(longButton).toBeVisible();
       const label = await longButton.evaluate((element) => {
         const range = document.createRange();
