@@ -285,13 +285,72 @@ async function main() {
     async function runAxe(label) {
       await cdp.evaluate(axeSource);
       const result = await cdp.evaluate(
-        "axe.run(document, { runOnly: { type: 'tag', values: " + JSON.stringify(wcagTags) + " } }).then(function (r) { return { violations: r.violations.map(function (v) { return { id: v.id, impact: v.impact, help: v.help, nodes: v.nodes.map(function (n) { return { target: n.target, summary: n.failureSummary }; }) }; }), incomplete: r.incomplete.map(function (v) { return v.id; }) }; })",
+        "axe.run(document, { runOnly: { type: 'tag', values: " + JSON.stringify(wcagTags) + " } }).then(function (r) { return { violations: r.violations.map(function (v) { return { id: v.id, impact: v.impact, help: v.help, nodes: v.nodes.map(function (n) { return { target: n.target, summary: n.failureSummary }; }) }; }), incomplete: r.incomplete.map(function (v) { return { id: v.id, help: v.help, nodes: v.nodes.map(function (n) { return { target: n.target, summary: n.failureSummary }; }) }; }) }; })",
         true,
       );
       if (result.violations.length) {
         throw new Error("Violations axe-core " + label + " : " + JSON.stringify(result.violations, null, 2));
       }
-      console.log("axe-core " + label + " : 0 violation WCAG ; contrôles incomplets : " + result.incomplete.join(", "));
+      console.log("axe-core " + label + " : 0 violation WCAG ; contrôles incomplets : " + JSON.stringify(result.incomplete));
+    }
+
+    async function checkButtonContrast(label) {
+      const results = await cdp.evaluate(String.raw\`(() => {
+        function parseColor(value) {
+          const match = value.match(/rgba?\\(([^)]+)\\)/i);
+          if (!match) return null;
+          const values = match[1].split(/[,\\s/]+/).filter(Boolean).map(Number);
+          return { r: values[0], g: values[1], b: values[2], a: values[3] ?? 1 };
+        }
+        function composite(foreground, background) {
+          const alpha = foreground.a + background.a * (1 - foreground.a);
+          if (alpha === 0) return { r: 0, g: 0, b: 0, a: 0 };
+          return {
+            r: (foreground.r * foreground.a + background.r * background.a * (1 - foreground.a)) / alpha,
+            g: (foreground.g * foreground.a + background.g * background.a * (1 - foreground.a)) / alpha,
+            b: (foreground.b * foreground.a + background.b * background.a * (1 - foreground.a)) / alpha,
+            a: alpha,
+          };
+        }
+        function linear(channel) {
+          const value = channel / 255;
+          return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+        }
+        function luminance(color) {
+          return 0.2126 * linear(color.r) + 0.7152 * linear(color.g) + 0.0722 * linear(color.b);
+        }
+        function effectiveBackground(element) {
+          const ancestors = [];
+          for (let node = element; node; node = node.parentElement) ancestors.push(node);
+          let background = { r: 255, g: 255, b: 255, a: 1 };
+          for (const node of ancestors.reverse()) {
+            const color = parseColor(getComputedStyle(node).backgroundColor);
+            if (color && color.a > 0) background = composite(color, background);
+          }
+          return background;
+        }
+        return Array.from(document.querySelectorAll('section[aria-labelledby="actions-title"] button'))
+          .filter((element) => element.getClientRects().length && !element.disabled && element.innerText.trim())
+          .map((element) => {
+            const foreground = parseColor(getComputedStyle(element).color);
+            const background = effectiveBackground(element);
+            const text = foreground.a < 1 ? composite(foreground, background) : foreground;
+            const light = Math.max(luminance(text), luminance(background));
+            const dark = Math.min(luminance(text), luminance(background));
+            return {
+              label: element.innerText.trim(),
+              foreground: getComputedStyle(element).color,
+              background: 'rgb(' + Math.round(background.r) + ', ' + Math.round(background.g) + ', ' + Math.round(background.b) + ')',
+              ratio: Number(((light + 0.05) / (dark + 0.05)).toFixed(2)),
+            };
+          });
+      })()\`);
+      assert(results.length >= 7, "Les variantes Button attendues ne sont pas toutes présentes : " + JSON.stringify(results));
+      const failures = results.filter((result) => result.ratio < 4.5);
+      if (failures.length) {
+        throw new Error("Contraste texte Button inférieur à 4,5:1 " + label + " : " + JSON.stringify(failures));
+      }
+      console.log("Contraste Button " + label + " : " + JSON.stringify(results));
     }
 
     async function testFocusVisible() {
@@ -360,12 +419,14 @@ async function main() {
       await setViewport({ width: 390, height: 844, mobile: true });
       await testFocusVisible();
       await runAxe(entry.locale + " light");
+      await checkButtonContrast(entry.locale + " light");
 
       await cdp.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-color-scheme", value: "dark" }] });
       await navigate(entry.path);
       await setViewport({ width: 390, height: 844, mobile: true });
       await capture(entry.locale + "-design-lab-dark-390");
       await runAxe(entry.locale + " dark");
+      await checkButtonContrast(entry.locale + " dark");
     }
 
     await cdp.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
