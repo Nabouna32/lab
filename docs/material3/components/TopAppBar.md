@@ -29,8 +29,8 @@ Les valeurs dp sont des références Android, pas une équivalence physique CSS.
 
 - `title: ReactNode` : équivalent du slot composable AndroidX. Le contenu n'est pas forcé dans un élément `h2`, car le titre d'une barre d'application n'est pas le titre hiérarchique de la page.
 - `actions: ReactNode` : actions alignées à droite.
-- `navigationIcon: ReactNode` et `onNavigationClick` : action facultative. Le type exige `navigationLabel` dès qu'un gestionnaire est fourni ; aucun libellé anglais par défaut n'est injecté.
-- `contentStyle` / `contentClassName` : adaptation Web pour les gutters et la largeur maximale du contenu.
+- `navigationIcon: ReactNode`, `navigationLabel` et `onNavigationClick` : ces trois propriétés sont requises ensemble lorsque l'action de navigation est utilisée ; aucun icône ou libellé par défaut n'est inventé.
+- `contentStyle` : adaptation Web minimale pour les gutters et la largeur maximale du contenu.
 - La racine est un landmark HTML `header`. La navigation réelle reste un groupe de liens dans un landmark `nav` distinct.
 
 ### Consommateur de production
