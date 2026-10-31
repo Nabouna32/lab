@@ -86,7 +86,7 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
         </div>
       </aside>
       <nav className={styles.mobileNav} aria-label={t.nav.menu}>
-                {compact.map((item) => link(item, true))}
+        {compact.map((item) => link(item, true))}
       </nav>
     </>
   );
