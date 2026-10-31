@@ -7,6 +7,7 @@ test('classifies documentation-only changes as lightweight', () => {
     lightweight_only: true,
     dependencies_changed: false,
     governance_changed: false,
+    androidx_provenance_changed: false,
     supabase_changed: false,
   });
 });
@@ -16,6 +17,7 @@ test('classifies governance documentation as lightweight and governance-touched'
     lightweight_only: true,
     dependencies_changed: false,
     governance_changed: true,
+    androidx_provenance_changed: false,
     supabase_changed: false,
   });
 });
@@ -25,6 +27,7 @@ test('workflow changes require full CI while still exercising classifier tests',
     lightweight_only: false,
     dependencies_changed: false,
     governance_changed: true,
+    androidx_provenance_changed: false,
     supabase_changed: false,
   });
 });
@@ -34,6 +37,7 @@ test('CI tooling changes require full CI and exercise classifier tests', () => {
     lightweight_only: false,
     dependencies_changed: false,
     governance_changed: true,
+    androidx_provenance_changed: false,
     supabase_changed: false,
   });
 });
@@ -43,6 +47,7 @@ test('runtime changes force the full suite even when mixed with documentation', 
     lightweight_only: false,
     dependencies_changed: false,
     governance_changed: false,
+    androidx_provenance_changed: false,
     supabase_changed: false,
   });
 });
@@ -52,6 +57,7 @@ test('governance mixed with runtime still marks governance but disables lightwei
     lightweight_only: false,
     dependencies_changed: false,
     governance_changed: true,
+    androidx_provenance_changed: false,
     supabase_changed: false,
   });
 });
@@ -61,6 +67,7 @@ test('dependency manifests disable lightweight mode and trigger dependency revie
     lightweight_only: false,
     dependencies_changed: true,
     governance_changed: false,
+    androidx_provenance_changed: false,
     supabase_changed: false,
   });
 });
@@ -70,6 +77,7 @@ test('dependency changes mixed with governance preserve both flags', () => {
     lightweight_only: false,
     dependencies_changed: true,
     governance_changed: true,
+    androidx_provenance_changed: false,
     supabase_changed: false,
   });
 });
@@ -102,6 +110,7 @@ test('accepts exactly 3,000 valid changed paths', () => {
     lightweight_only: true,
     dependencies_changed: false,
     governance_changed: false,
+    androidx_provenance_changed: false,
     supabase_changed: false,
   });
 });
@@ -118,11 +127,21 @@ test('rejects empty, unterminated, or internally empty NUL-delimited input', () 
   }
 });
 
+test('isolates AndroidX provenance audits to baseline and inventory inputs', () => {
+  assert.equal(classifyCiChanges(['.github/workflows/ci.yml'], 1).androidx_provenance_changed, false);
+  assert.equal(classifyCiChanges(['.github/scripts/classify-ci-changes.mjs'], 1).androidx_provenance_changed, false);
+  assert.equal(classifyCiChanges(['docs/material3/catalog/baselines/material3-1.4.0.json'], 1).androidx_provenance_changed, true);
+  assert.equal(classifyCiChanges(['docs/material3/catalog/inventories/compose-ui-1.12.1/manifest.json'], 1).androidx_provenance_changed, true);
+  assert.equal(classifyCiChanges(['docs/material3/catalog/compose-ui-text-call-sites.md'], 1).androidx_provenance_changed, false);
+  assert.equal(classifyCiChanges(['docs/material3/components/Button.md'], 1).androidx_provenance_changed, false);
+});
+
 test('marks Supabase Edge Function changes for targeted Deno validation', () => {
   assert.deepEqual(classifyCiChanges(['supabase/functions/account-delete/index.ts'], 1), {
     lightweight_only: false,
     dependencies_changed: false,
     governance_changed: false,
+    androidx_provenance_changed: false,
     supabase_changed: true,
   });
 });

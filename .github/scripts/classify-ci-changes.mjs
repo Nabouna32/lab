@@ -50,12 +50,17 @@ export function classifyCiChanges(paths, expectedCount) {
   const lightweightOnly = paths.every((path) => LIGHTWEIGHT_PATHS.some((pattern) => pattern.test(path)));
   const dependenciesChanged = paths.some((path) => path === 'package.json' || path === 'package-lock.json');
   const governanceChanged = paths.some((path) => GOVERNANCE_PATHS.some((pattern) => pattern.test(path)));
+  const androidxProvenanceChanged = paths.some((path) =>
+    path.startsWith('docs/material3/catalog/baselines/') ||
+    path.startsWith('docs/material3/catalog/inventories/') ||
+    path === 'docs/material3/catalog/families.json');
   const supabaseChanged = paths.some((path) => path.startsWith('supabase/functions/'));
 
   return {
     lightweight_only: lightweightOnly,
     dependencies_changed: dependenciesChanged,
     governance_changed: governanceChanged,
+    androidx_provenance_changed: androidxProvenanceChanged,
     supabase_changed: supabaseChanged,
   };
 }
