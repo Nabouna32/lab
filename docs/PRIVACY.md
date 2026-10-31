@@ -319,7 +319,7 @@ Le produit ne doit jamais demander aux utilisateurs de faire confiance aveuglém
 
 L'inventaire des prestataires distingue les journaux applicatifs des journaux gérés par les hébergeurs :
 
-- **Supabase Free** : les logs de plateforme, d'API et de base de données sont conservés 24 heures ; Auth Audit Logs est limité à une heure.
+- **Supabase Free** : les logs de l'API et de la base de données sont conservés un jour ; Auth Audit Logs est limité à une heure ; Platform Audit Logs n'est pas inclus dans cette offre. Voir les [tarifs Supabase](https://supabase.com/pricing).
 - **Vercel Hobby** : les logs runtime sont conservés une heure. Les logs de build restent associés aux déploiements tant que ceux-ci existent ; ils ne constituent pas une archive durable. La rétention Hobby est de 30 jours par défaut ; Vercel protège les trois derniers déploiements de production et les trois derniers déploiements tous types, ainsi que le déploiement de production courant, les déploiements aliasés et ceux des branches actives. Le plafond de 10 Go de stockage peut entraîner la suppression anticipée d'autres déploiements. Les réglages de rétention propres au projet Loculary n'ont pas été exposés par l'API consultée ; aucune politique personnalisée n'est affirmée ici. Voir la [documentation des logs runtime](https://vercel.com/docs/logs/runtime) et l'[annonce de rétention Hobby](https://vercel.com/changelog/hobby-projects-now-retain-fewer-deployments-to-free-up-storage).
 - Ces journaux fournisseurs ne sont pas purgés par Loculary. Aucun Log Drain, export tiers ou archivage externe de ces journaux n'est activé.
 
