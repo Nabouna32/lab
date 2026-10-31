@@ -459,3 +459,44 @@ for (const entry of locales) {
     });
   }
 }
+
+for (const entry of locales) {
+  test("renommage inline des collections : clavier, annulation et persistance (" + entry.locale + ")", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.addInitScript(() => {
+      localStorage.setItem("loculary:local-collections:v1", JSON.stringify([{
+        id: "local-browser-rename",
+        name: "Collection initiale",
+        created_at: "2026-10-31T00:00:00.000Z",
+        tool_ids: [],
+      }]));
+    });
+    await page.goto("/" + entry.locale + "/collections");
+
+    const renameLabel = entry.locale === "fr" ? "Renommer" : "Rename";
+    const cancelLabel = entry.locale === "fr" ? "Annuler" : "Cancel";
+    const inputLabel = entry.locale === "fr" ? "Nom de la collection" : "Collection name";
+    const initialName = page.getByRole("heading", { name: "Collection initiale", level: 2 });
+    await expect(initialName).toBeVisible();
+
+    await page.getByRole("button", { name: renameLabel, exact: true }).click();
+    const field = page.getByRole("textbox", { name: inputLabel });
+    await expect(field).toBeFocused();
+    await field.fill("Nom abandonné");
+    await page.getByRole("button", { name: cancelLabel, exact: true }).click();
+    await expect(initialName).toBeVisible();
+    await expect(field).toHaveCount(0);
+
+    await page.getByRole("button", { name: renameLabel, exact: true }).click();
+    const editor = page.getByRole("textbox", { name: inputLabel });
+    await editor.fill("Projet final");
+    await editor.press("Enter");
+    await expect(page.getByRole("heading", { name: "Projet final", level: 2 })).toBeVisible();
+    await expect(editor).toHaveCount(0);
+    await expect.poll(() => page.evaluate(() => {
+      const records = JSON.parse(localStorage.getItem("loculary:local-collections:v1") || "[]");
+      return records[0]?.name;
+    })).toBe("Projet final");
+  });
+}
+
