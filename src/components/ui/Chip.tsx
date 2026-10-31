@@ -47,7 +47,9 @@ export function Chip({
         className={["m3-type-label-large", styles.chip, styles[variant], selected ? styles.selected : "", className].filter(Boolean).join(" ")}
         onClick={(event) => {
           onClick?.(event);
-          if (filter && onSelectedChange && !props.disabled) onSelectedChange(!selected);
+          if (filter && onSelectedChange && !props.disabled && !event.defaultPrevented) {
+            onSelectedChange(!selected);
+          }
         }}
       >
         {selected && filter ? <MaterialIcon name="check" size={18} /> : leadingIcon ? <MaterialIcon name={leadingIcon} size={18} /> : null}

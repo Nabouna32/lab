@@ -22,3 +22,10 @@ test("le FilterChip conserve aria-pressed et les rôles de couleur AndroidX", ()
   assert.ok(chipCss.includes("var(--on-secondary-container)"));
   assert.ok(chipCss.includes("var(--secondary-container)"));
 });
+
+test("un clic FilterChip annulé par le consommateur ne modifie pas la sélection", () => {
+  assert.match(
+    chip,
+    /onClick\?\.\(event\);[\s\S]*?if \(filter && onSelectedChange && !props\.disabled && !event\.defaultPrevented\)/
+  );
+});

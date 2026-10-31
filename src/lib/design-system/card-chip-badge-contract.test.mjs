@@ -27,7 +27,10 @@ test("Card variants use shared semantic surfaces and keep navigation separate", 
 
 test("Chip preserves caller handlers and exposes selectable state accessibly", () => {
   assert.match(chip, /onClick\?\.\(event\)/);
-  assert.match(chip, /if \(filter && onSelectedChange && !props\.disabled\) onSelectedChange\(!selected\)/);
+  assert.match(
+    chip,
+    /if \(filter && onSelectedChange && !props\.disabled && !event\.defaultPrevented\) \{\s*onSelectedChange\(!selected\);\s*\}/
+  );
   assert.match(chip, /aria-pressed=\{filter \|\| input \? selected : undefined\}/);
   assert.ok(chip.includes("dismissLabel: string"), "dismissible chips require an explicit localized label");
   assert.doesNotMatch(chip, /dismissLabel =/);
