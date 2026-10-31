@@ -55,14 +55,32 @@ export function classifyCiChanges(paths, expectedCount) {
     path.startsWith('docs/material3/catalog/baselines/') ||
     path.startsWith('docs/material3/catalog/inventories/') ||
     path === 'docs/material3/catalog/families.json');
-  const supabaseChanged = paths.some((path) => path.startsWith('supabase/functions/'));
+  const isSupabaseDocumentation = (path) => /\.(?:md|mdx|txt)$/i.test(path);
+  const isSupabaseFunctionFile = (path) =>
+    path.startsWith('supabase/functions/') &&
+    !isSupabaseDocumentation(path) &&
+    /\.(?:[cm]?[jt]sx?|jsonc?|lock)$/i.test(path);
+  const isSupabaseDatabaseFile = (path) =>
+    path === 'supabase/config.toml' ||
+    path === 'supabase/roles.sql' ||
+    path === 'supabase/seed.sql' ||
+    /^supabase\/(?:migrations|tests|schemas)\/.+\.(?:sql|pg)$/i.test(path);
+  const supabaseFunctionsChanged = paths.some(isSupabaseFunctionFile);
+  const supabaseDatabaseChanged = paths.some(isSupabaseDatabaseFile);
+  const supabaseUnclassifiedChanged = paths.some((path) =>
+    path.startsWith('supabase/') &&
+    !isSupabaseDocumentation(path) &&
+    !isSupabaseFunctionFile(path) &&
+    !isSupabaseDatabaseFile(path)
+  );
 
   return {
     lightweight_only: lightweightOnly,
     dependencies_changed: dependenciesChanged,
     governance_changed: governanceChanged,
     androidx_provenance_changed: androidxProvenanceChanged,
-    supabase_changed: supabaseChanged,
+    supabase_functions_changed: supabaseFunctionsChanged || supabaseUnclassifiedChanged,
+    supabase_database_changed: supabaseDatabaseChanged || supabaseUnclassifiedChanged,
   };
 }
 
