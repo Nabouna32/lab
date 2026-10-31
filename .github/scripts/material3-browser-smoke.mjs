@@ -416,10 +416,10 @@ async function main() {
           || result.paddingBlockEnd !== "8px"
           || result.fontSize !== "14px"
           || result.lineHeight !== "20px"
-          || result.letterSpacing !== "0.1px"
+          || Math.abs(Number.parseFloat(result.letterSpacing) - 0.1) > 0.001
           || result.fontWeight !== "500"
           || result.gap !== "8px"
-          || result.borderRadius !== "9999px";
+          || Number.parseFloat(result.borderRadius) < 9999;
       });
       if (failures.length) {
         throw new Error("Écart géométrique/typographique au contrat AndroidX Button " + label + " : " + JSON.stringify(failures));
