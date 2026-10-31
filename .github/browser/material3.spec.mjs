@@ -423,8 +423,8 @@ for (const entry of locales) {
     const inputLabel = entry.locale === "fr" ? "Cuisine" : "Cooking";
     const dismissLabel = entry.locale === "fr" ? "Retirer Cuisine" : "Remove Cooking";
     const inputChip = page.getByTestId("input-chip").locator("..");
-    const chipButton = inputChip.getByRole("button", { name: inputLabel });
-    const dismissButton = inputChip.getByRole("button", { name: dismissLabel });
+    const chipButton = inputChip.getByRole("button", { name: inputLabel, exact: true });
+    const dismissButton = inputChip.getByRole("button", { name: dismissLabel, exact: true });
     await expect(chipButton).toHaveAttribute("aria-pressed", "true");
     await expect(dismissButton).toBeVisible();
     await expect(dismissButton).toHaveAccessibleName(dismissLabel);
@@ -438,8 +438,8 @@ for (const entry of locales) {
     const disabledChip = page.getByTestId("disabled-input-chip").locator("..");
     const disabledLabel = entry.locale === "fr" ? "Désactivé" : "Disabled";
     const disabledDismissLabel = entry.locale === "fr" ? "Retirer Désactivé" : "Remove Disabled";
-    const disabledChipButton = disabledChip.getByRole("button", { name: disabledLabel });
-    const disabledDismissButton = disabledChip.getByRole("button", { name: disabledDismissLabel });
+    const disabledChipButton = disabledChip.getByRole("button", { name: disabledLabel, exact: true });
+    const disabledDismissButton = disabledChip.getByRole("button", { name: disabledDismissLabel, exact: true });
     await expect(disabledChipButton).toBeDisabled();
     await expect(disabledDismissButton).toBeDisabled();
     await disabledDismissButton.evaluate((element) => element.click());
