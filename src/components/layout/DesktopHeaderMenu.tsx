@@ -1,36 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@teispace/next-themes";
 import { getLanguage, isLocale, locales, type Locale } from "@/lib/i18n/config";
-import { getLocalizedPath, getSearchResultsPagePath, getToolsPath } from "@/lib/tools/routes";
+import { getGuidedWorkflowsPath, getLocalizedPath, getSearchResultsPagePath } from "@/lib/tools/routes";
 import { getMessages } from "@/lib/i18n/messages";
-import { StarIcon } from "@/components/ui/StarIcon";
-import { CollectionIcon } from "@/components/ui/CollectionIcon";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
-
-const triggerClass =
-  "flex h-12 min-w-12 items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 m3-type-label-large text-[var(--foreground)] outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 hover:bg-[var(--surface-soft)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
-
-const menuOpenAfterLocaleSwitchKey = "loculary:header-menu-open-after-locale-switch";
-const menuOpenListeners = new Set<() => void>();
-let menuOpenSnapshot = false;
-let menuOpenRestoreHandled = false;
-
-function subscribeMenuOpen(listener: () => void) {
-  menuOpenListeners.add(listener);
-  return () => menuOpenListeners.delete(listener);
-}
-
-function getMenuOpenSnapshot() {
-  return menuOpenSnapshot;
-}
-
-function getServerMenuOpenSnapshot() {
-  return false;
-}
 
 function subscribeHydrationReady() {
   return () => {};
@@ -44,44 +21,11 @@ function getServerHydrationReadySnapshot() {
   return false;
 }
 
-function clearMenuOpenRestoreMarker() {
-  if (typeof window === "undefined") return;
-  try {
-    window.sessionStorage.removeItem(menuOpenAfterLocaleSwitchKey);
-  } catch {
-    // Session storage can be unavailable in restricted browsing contexts.
-  }
-}
-
-function setMenuOpen(next: boolean) {
-  clearMenuOpenRestoreMarker();
-  if (menuOpenSnapshot === next) return;
-  menuOpenSnapshot = next;
-  menuOpenListeners.forEach((listener) => listener());
-}
-
-function restoreMenuOpenAfterLocaleSwitch() {
-  if (menuOpenRestoreHandled || typeof window === "undefined") return;
-  menuOpenRestoreHandled = true;
-
-  let shouldOpen = false;
-  try {
-    shouldOpen = window.sessionStorage.getItem(menuOpenAfterLocaleSwitchKey) === "open";
-    window.sessionStorage.removeItem(menuOpenAfterLocaleSwitchKey);
-  } catch {
-    // Session storage can be unavailable in restricted browsing contexts.
-  }
-  setMenuOpen(shouldOpen);
-}
-
-function preserveMenuOpenForLocaleSwitch() {
-  if (typeof window === "undefined") return;
-  try {
-    window.sessionStorage.setItem(menuOpenAfterLocaleSwitchKey, "open");
-  } catch {
-    // If storage is unavailable, the popup still stays open for SPA navigation.
-  }
-}
+const themeOptions = [
+  { value: "system", icon: "devices" },
+  { value: "light", icon: "light_mode" },
+  { value: "dark", icon: "dark_mode" },
+] as const;
 
 export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
   const pathname = usePathname();
@@ -92,16 +36,18 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
     getHydrationReadySnapshot,
     getServerHydrationReadySnapshot,
   );
-  const t = getMessages(locale);
-  const open = useSyncExternalStore(subscribeMenuOpen, getMenuOpenSnapshot, getServerMenuOpenSnapshot);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const currentLocaleSegment = pathname.split("/")[1];
   const currentLocale: Locale = isLocale(currentLocaleSegment) ? currentLocaleSegment : locale;
+  const t = getMessages(locale);
+  const guidedPath = getGuidedWorkflowsPath(locale);
+  const guidedActive = pathname === guidedPath || pathname.startsWith(guidedPath + "/");
 
   useEffect(() => {
-    restoreMenuOpenAfterLocaleSwitch();
-  }, []);
+    setOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
@@ -109,205 +55,204 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
     function handlePointerDown(event: PointerEvent) {
       const target = event.target;
       if (!(target instanceof Node)) return;
-      if (!menuRef.current?.contains(target)) setMenuOpen(false);
+      if (!rootRef.current?.contains(target)) setOpen(false);
     }
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        setMenuOpen(false);
-        triggerRef.current?.focus();
-      }
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      setOpen(false);
+      triggerRef.current?.focus();
+    }
+
+    const desktopQuery = window.matchMedia("(min-width: 768px)");
+    function handleViewportChange() {
+      if (desktopQuery.matches) setOpen(false);
     }
 
     document.addEventListener("pointerdown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown, true);
+    desktopQuery.addEventListener("change", handleViewportChange);
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown, true);
+      desktopQuery.removeEventListener("change", handleViewportChange);
     };
   }, [open]);
 
-  function closeMenu() {
-    setMenuOpen(false);
+  function languageHref(nextLocale: Locale) {
+    return getLocalizedPath(pathname, nextLocale);
   }
 
-  function selectTheme(value: string) {
-    // Theme controls are persistent settings inside this disclosure, not
-    // one-shot menu commands: keep the surface open for further choices.
-    clearMenuOpenRestoreMarker();
-    setTheme(value);
+  function handleLanguageClick(event: React.MouseEvent<HTMLAnchorElement>, nextLocale: Locale) {
+    setOpen(false);
+    if (
+      pathname === getSearchResultsPagePath(currentLocale) &&
+      window.location.hash &&
+      event.button === 0 &&
+      !event.metaKey &&
+      !event.ctrlKey &&
+      !event.shiftKey &&
+      !event.altKey
+    ) {
+      event.preventDefault();
+      router.push(languageHref(nextLocale) + window.location.hash);
+    }
+  }
+
+  function renderThemeOptions(compact: boolean) {
+    return themeOptions.map((option) => {
+      const label = t.theme[option.value];
+      const selected = themeReady && theme === option.value;
+      return (
+        <label
+          key={option.value}
+          className={
+            compact
+              ? "min-w-0 cursor-pointer"
+              : "cursor-pointer"
+          }
+        >
+          <input
+            type="radio"
+            name={compact ? "loculary-theme-mobile" : "loculary-theme-desktop"}
+            value={option.value}
+            aria-label={label}
+            checked={selected}
+            onChange={() => setTheme(option.value)}
+            className="peer sr-only"
+          />
+          <span
+            className={
+              compact
+                ? "m3-type-label-medium flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 text-[var(--muted)] outline-none transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-inset peer-focus-visible:ring-[var(--focus-ring)] peer-checked:bg-[var(--primary-container)] peer-checked:text-[var(--on-primary-container)]"
+                : "flex h-10 w-10 items-center justify-center rounded-full text-[var(--muted)] outline-none transition-colors hover:bg-[var(--surface-soft)] peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--focus-ring)] peer-checked:bg-[var(--primary-container)] peer-checked:text-[var(--on-primary-container)]"
+            }
+            title={label}
+          >
+            <MaterialIcon
+              name={option.icon}
+              size={compact ? 18 : 20}
+            />
+            {compact ? <span>{label}</span> : null}
+          </span>
+        </label>
+      );
+    });
   }
 
   return (
-    <div ref={menuRef} className="relative">
-      <button
-        ref={triggerRef}
-        type="button"
-        className={triggerClass + " lg:h-10 lg:min-w-0" + (open ? " border-[var(--accent)] bg-[var(--surface-soft)] shadow-[var(--shadow-sm)]" : "")}
-        aria-label={t.nav.menu}
-        aria-expanded={open}
-        aria-controls="header-menu"
-        onClick={() => setMenuOpen(!open)}
-      >
-        <MaterialIcon name="menu" size={18} />
-        <span className="hidden lg:inline">{t.nav.menu}</span>
-      </button>
-
-      <div
-        id="header-menu"
-        aria-hidden={!open}
-        inert={!open}
-        className={
-          "absolute right-0 top-full z-[70] mt-3 w-[min(18rem,calc(100vw-1.5rem))] origin-top-right rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-2 shadow-[var(--shadow-lg)] transition-[opacity,transform] duration-150 " +
-          (open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0")
-        }
-      >
-        <nav aria-label={t.nav.primaryNavigation}>
-          <Link
-            href={getToolsPath(locale)}
-            onClick={closeMenu}
-            className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
-          >
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--surface-container-high)] text-[var(--on-surface-variant)]" aria-hidden="true">
-              <MaterialIcon name="apps" size={18} />
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.explore}</span>
-              <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.exploreDescription}</span>
-            </span>
-          </Link>
-
-          <Link
-            href={`/${locale}/favoris`}
-            onClick={closeMenu}
-            className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
-          >
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true"><StarIcon filled className="h-5 w-5" /></span>
-            <span className="min-w-0 flex-1">
-              <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.favorites}</span>
-              <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.favoritesDescription}</span>
-            </span>
-          </Link>
-
-          <Link
-            href={`/${locale}/collections`}
-            onClick={closeMenu}
-            className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
-          >
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--tertiary-container)] text-[var(--on-tertiary-container)]" aria-hidden="true"><CollectionIcon className="h-5 w-5" /></span>
-            <span className="min-w-0 flex-1">
-              <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.collections}</span>
-              <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.collectionsDescription}</span>
-            </span>
-          </Link>
-
-          <div className="my-1.5 h-px bg-[var(--border)]" />
-
-          <Link
-            href={"/" + locale + "/compte"}
-            prefetch={false}
-            onClick={closeMenu}
-            className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
-          >
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--surface-container-high)] text-[var(--on-surface-variant)]" aria-hidden="true">
-              <MaterialIcon name="person" size={18} className="h-[1.1rem] w-[1.1rem]" />
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.space}</span>
-              <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.account}</span>
-            </span>
-            <MaterialIcon name="chevron_right" size={16} className="h-4 w-4 text-[var(--muted)] transition-transform group-hover:translate-x-0.5" />
-          </Link>
+    <>
+      <div className="hidden items-center gap-3 md:flex">
+        <nav aria-label={t.nav.language} className="flex items-center gap-1 rounded-full bg-[var(--surface-container)] p-1">
+          {locales.map((item) => {
+            const language = getLanguage(item);
+            const active = item === currentLocale;
+            return (
+              <Link
+                key={item}
+                href={languageHref(item)}
+                hrefLang={item}
+                aria-label={language.nativeLabel}
+                aria-current={active ? "page" : undefined}
+                onClick={(event) => handleLanguageClick(event, item)}
+                className={
+                  "m3-type-label-medium flex h-8 min-w-9 items-center justify-center rounded-full px-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] " +
+                  (active
+                    ? "bg-[var(--secondary-container)] text-[var(--on-secondary-container)]"
+                    : "text-[var(--on-surface-variant)] hover:bg-[var(--surface-container-high)]")
+                }
+              >
+                {item.toUpperCase()}
+              </Link>
+            );
+          })}
         </nav>
-
-        <div className="my-1.5 h-px bg-[var(--border)]" />
-
-        <div className="px-2 pb-1 pt-1">
-          <p className="m3-type-label-small px-1 uppercase text-[var(--muted)]">{t.nav.language}</p>
-          <div className="mt-1 grid grid-cols-2 gap-1">
-            {locales.map((item) => {
-              const language = getLanguage(item);
-              const href = getLocalizedPath(pathname, item);
-              const active = item === currentLocale;
-              return (
-                <Link
-                  key={item}
-                  href={href}
-                  hrefLang={item}
-                  aria-current={active ? "page" : undefined}
-                  onClick={(event) => {
-                    // Locale changes recreate the root layout. Keep this tab's
-                    // popup open across that navigation, without persisting it
-                    // as a long-lived preference.
-                    if (
-                      item !== currentLocale &&
-                      event.button === 0 &&
-                      !event.metaKey &&
-                      !event.ctrlKey &&
-                      !event.shiftKey &&
-                      !event.altKey
-                    ) {
-                      preserveMenuOpenForLocaleSwitch();
-                    }
-                    if (pathname === getSearchResultsPagePath(currentLocale) && window.location.hash) {
-                      event.preventDefault();
-                      router.push(href + window.location.hash);
-                    }
-                  }}
-                  className={
-                    "m3-type-label-large flex min-h-10 items-center gap-2 rounded-xl px-3 py-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
-                    (active
-                      ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
-                      : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")
-                  }
-                >
-                  <span className="m3-type-label-small uppercase">{item}</span>
-                  <span className="truncate">{language.nativeLabel}</span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="my-1.5 h-px bg-[var(--border)]" />
-
-        <fieldset className="min-w-0 px-2 pb-1 pt-1">
-          <legend className="m3-type-label-small px-1 uppercase text-[var(--muted)]">{t.theme.title}</legend>
-          <div className="mt-1 grid grid-cols-3 gap-1">
-            {[
-              { value: "system", label: t.theme.system, icon: "system" },
-              { value: "light", label: t.theme.light, icon: "light" },
-              { value: "dark", label: t.theme.dark, icon: "dark" },
-            ].map((option) => {
-              const selected = themeReady && theme === option.value;
-              return (
-                <label key={option.value} className="min-w-0 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="loculary-theme"
-                    value={option.value}
-                    checked={selected}
-                    onChange={() => selectTheme(option.value)}
-                    className="peer sr-only"
-                  />
-                  <span
-                    className={
-                      "m3-type-label-medium flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 outline-none transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-inset peer-focus-visible:ring-[var(--focus-ring)] " +
-                      (selected
-                        ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
-                        : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")
-                    }
-                  >
-                    <MaterialIcon name={option.icon === "system" ? "devices" : option.icon === "dark" ? "dark_mode" : "light_mode"} size={18} />
-                    <span>{option.label}</span>
-                  </span>
-                </label>
-              );
-            })}
-          </div>
+        <fieldset className="flex items-center gap-1">
+          <legend className="sr-only">{t.theme.title}</legend>
+          {renderThemeOptions(false)}
         </fieldset>
       </div>
-    </div>
+
+      <div ref={rootRef} className="relative md:hidden">
+        <button
+          ref={triggerRef}
+          type="button"
+          className={
+            "flex h-12 min-w-12 items-center justify-center rounded-full text-[var(--on-surface)] outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] " +
+            (open ? "bg-[var(--secondary-container)] text-[var(--on-secondary-container)]" : "")
+          }
+          aria-label={t.nav.more}
+          aria-expanded={open}
+          aria-controls={open ? "mobile-secondary-navigation" : undefined}
+          onClick={() => setOpen((value) => !value)}
+        >
+          <MaterialIcon name="more_horiz" size={24} />
+        </button>
+
+        <div
+          id="mobile-secondary-navigation"
+          aria-hidden={!open}
+          inert={!open}
+          className={
+            "absolute end-0 top-full z-[70] mt-2 w-[min(20rem,calc(100vw-1.5rem))] origin-top-right rounded-2xl border border-[var(--outline-variant)] bg-[var(--surface-container)] p-2 shadow-[var(--shadow-lg)] transition-[opacity,transform] duration-150 " +
+            (open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0")
+          }
+        >
+          <nav aria-label={t.nav.primaryNavigation}>
+            <Link
+              href={guidedPath}
+              aria-current={guidedActive ? "page" : undefined}
+              onClick={() => setOpen(false)}
+              className="flex min-h-12 items-center gap-3 rounded-xl px-3 py-2 text-[var(--on-surface)] outline-none transition-colors hover:bg-[var(--surface-container-high)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[var(--secondary-container)] text-[var(--on-secondary-container)]" aria-hidden="true">
+                <MaterialIcon name="apps" size={20} />
+              </span>
+              <span className="m3-type-label-large">{t.guidedWorkflows.homeTitle}</span>
+            </Link>
+          </nav>
+
+          <div className="my-2 h-px bg-[var(--outline-variant)]" />
+
+          <div className="px-2 pb-1 pt-1">
+            <p className="m3-type-label-small px-1 text-[var(--on-surface-variant)]">{t.nav.language}</p>
+            <nav aria-label={t.nav.language} className="mt-1 grid grid-cols-2 gap-1">
+              {locales.map((item) => {
+                const language = getLanguage(item);
+                const active = item === currentLocale;
+                return (
+                  <Link
+                    key={item}
+                    href={languageHref(item)}
+                    hrefLang={item}
+                    aria-current={active ? "page" : undefined}
+                    onClick={(event) => handleLanguageClick(event, item)}
+                    className={
+                      "m3-type-label-large flex min-h-10 items-center gap-2 rounded-xl px-3 py-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
+                      (active
+                        ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
+                        : "text-[var(--on-surface-variant)] hover:bg-[var(--surface-container-high)]")
+                    }
+                  >
+                    <span className="m3-type-label-small uppercase">{item}</span>
+                    <span className="truncate">{language.nativeLabel}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+
+          <div className="my-2 h-px bg-[var(--outline-variant)]" />
+
+          <fieldset className="min-w-0 px-2 pb-1 pt-1">
+            <legend className="m3-type-label-small px-1 text-[var(--on-surface-variant)]">{t.theme.title}</legend>
+            <div className="mt-1 grid grid-cols-3 gap-1">
+              {renderThemeOptions(true)}
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </>
   );
 }
