@@ -16,6 +16,7 @@ const headerSearch = readFileSync(new URL("../../components/layout/HeaderSearch.
 const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
 const favoritesView = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
 const adminUsers = readFileSync(new URL("../../app/[locale]/admin/utilisateurs/page.tsx", import.meta.url), "utf8");
+const timezoneConverter = readFileSync(new URL("../../components/tools/timezone-converter/TimezoneConverter.tsx", import.meta.url), "utf8");
 const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
 const recentTools = readFileSync(new URL("../../components/home/RecentTools.tsx", import.meta.url), "utf8");
 
@@ -281,4 +282,11 @@ test("admin destructive actions use semantic error roles without shrinking Mater
   assert.ok(adminUsers.includes('<OutlinedButton type="submit" colors={suspended ? undefined : { contentColor: "var(--error)" }}>'));
   assert.doesNotMatch(adminUsers, /min-h-8 px-2 py-1 m3-type-label-small text-\[var\(--danger\)\]/);
   assert.doesNotMatch(adminUsers, /className="text-\[var\(--danger\)\] hover:text-\[var\(--danger\)\]"/);
+});
+
+
+test("timezone destination removal keeps the shared Material 3 TextButton touch target", () => {
+  assert.match(timezoneConverter, /<TextButton[^>]*className="shrink-0 px-2"/);
+  assert.doesNotMatch(timezoneConverter, /className="min-h-9 shrink-0 px-2"/);
+  assert.match(buttonLayout, /min-h-10/);
 });
