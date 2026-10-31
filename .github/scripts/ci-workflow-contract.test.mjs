@@ -50,6 +50,21 @@ test("daily surveillance audits npm and runs pinned Playwright Chromium on the s
   assert.doesNotMatch(surveillance, /vercel deploy|supabase db push|deploy --prod/i);
 });
 
+test("Supabase Edge Functions and database inputs receive independent, targeted validation", () => {
+  const functions = sectionFor(workflow, "supabase-functions");
+  const database = sectionFor(workflow, "supabase-database");
+  assert.match(workflow, /supabase_functions_changed/);
+  assert.match(workflow, /supabase_database_changed/);
+  assert.match(functions, /find supabase\/functions .* -name index\.ts/);
+  assert.match(functions, /deno check --frozen index\.ts/);
+  assert.match(database, /supabase\/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359/);
+  assert.match(database, /version: 2\.122\.0/);
+  assert.match(database, /supabase db start/);
+  assert.match(database, /supabase test db --local/);
+  assert.match(database, /supabase db lint --local --fail-on error/);
+  assert.doesNotMatch(database, /supabase link|supabase db push|config push/i);
+});
+
 test("CodeQL scans main pushes and its weekly schedule without running on pull requests", () => {
   const triggers = codeql.slice(0, codeql.indexOf("\njobs:"));
   assert.match(triggers, /^  push:/m);
