@@ -89,7 +89,7 @@ La page interactive de gestion des collections (`CollectionsView`) reste à audi
 
 - **Migration ciblée :** conserver les opérations existantes et leur protection des données — collections locales ou synchronisées, limite locale, export/import JSON, partage volontaire et confirmation de suppression — tout en migrant les surfaces et la typographie vers les contrats communs.
 - **Reconstruction depuis une page blanche :** elle offrirait l'occasion de revoir la disposition maître/détail, le formulaire de renommage actuellement confié à `window.prompt`, les états d'import et les interactions clavier. Ce serait une amélioration UX potentielle, mais elle ne doit pas entraîner la réécriture implicite de la logique de confidentialité ou du format de sauvegarde.
-- **Décision :** migration ciblée du rendu dans cette tranche, car la structure maître/détail reste adaptée à un écran large et se replie en une seule colonne sur petit écran. Le renommage via `window.prompt` reste un écart UX identifié à traiter lors d'une tranche dédiée aux dialogues et formulaires AndroidX ; il n'est pas considéré comme conforme.
+- **Décision :** migration ciblée du rendu dans cette tranche, car la structure maître/détail reste adaptée à un écran large et se replie en une seule colonne sur petit écran. Le renommage via `window.prompt` était un écart UX : il a été remplacé par un formulaire inline contrôlé, conservant le contexte de la collection et utilisant les boutons et champs partagés ; aucune boîte de dialogue générique n'est nécessaire pour une édition aussi courte.
 
 Le formulaire de création, les contrôles natifs, les boutons, les statuts et le dialogue de suppression conservent leur sémantique et leurs responsabilités. Les panneaux utilisent désormais le port partagé `Card`, les rôles typographiques Material 3 et l'échelle de formes commune. Les choix de collection restent des boutons natifs avec un état sélectionné explicite ; ils ne sont pas artificiellement convertis en cartes interactives.
 
@@ -107,4 +107,4 @@ Le popup ignore les événements `pointerdown` dont la cible est dans sa propre 
 
 ## Prochaine tranche
 
-Les inventaires des consommateurs Button et IconButton sont documentés et leurs écarts de contrat locaux corrigés. Poursuivre les vérifications navigateur restantes : focus clavier, contraste en contexte, zoom, libellés longs et comparaison visuelle AndroidX ; ne pas réauditer les usages déjà couverts.
+Les inventaires des consommateurs Button et IconButton sont documentés et leurs écarts de contrat locaux corrigés. La gestion des collections n'utilise plus `window.prompt` pour le renommage : le formulaire inline conserve le contexte, valide le nom, empêche les doubles soumissions et gère les erreurs en FR/EN. Vérifier cette interaction en Chromium (focus, clavier, mobile et thèmes) après la CI. Les contrôles visuels AndroidX et les validations assistives réelles restent distincts ; ne pas réauditer les usages déjà couverts.
