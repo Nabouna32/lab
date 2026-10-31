@@ -2,8 +2,8 @@
   display: block;
   width: 100%;
   box-sizing: border-box;
-  color: var(--lab-text, var(--on-surface, currentColor));
-  background: var(--lab-surface, var(--surface, transparent));
+  color: var(--foreground, var(--on-surface, currentColor));
+  background: var(--background, var(--surface, transparent));
 }
 .row {
   display: flex;
