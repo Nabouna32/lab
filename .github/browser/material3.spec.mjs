@@ -408,96 +408,97 @@ test("recherche mobile : navigation clavier des suggestions", async ({ page }) =
 });
 
 
-for (const colorScheme of ["light", "dark"]) {\n  test("navigation adaptive respecte les métriques et rôles de couleur Material 3 (" + colorScheme + ")", async ({ page }) => {
+for (const colorScheme of ["light", "dark"]) {
+  test("navigation adaptive respecte les métriques et rôles de couleur Material 3 (" + colorScheme + ")", async ({ page }) => {
     await page.emulateMedia({ colorScheme });
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/fr/design-lab");
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/fr/design-lab");
 
-  const tokens = await page.evaluate(() => {
-    function colorToken(name) {
-      const probe = document.createElement("span");
-      probe.style.color = "var(" + name + ")";
-      document.body.append(probe);
-      const value = getComputedStyle(probe).color;
-      probe.remove();
-      return value;
-    }
-    return {
-      secondary: colorToken("--secondary"),
-      secondaryContainer: colorToken("--secondary-container"),
-      onSecondaryContainer: colorToken("--on-secondary-container"),
-    };
-  });
+    const tokens = await page.evaluate(() => {
+      function colorToken(name) {
+        const probe = document.createElement("span");
+        probe.style.color = "var(" + name + ")";
+        document.body.append(probe);
+        const value = getComputedStyle(probe).color;
+        probe.remove();
+        return value;
+      }
+      return {
+        secondary: colorToken("--secondary"),
+        secondaryContainer: colorToken("--secondary-container"),
+        onSecondaryContainer: colorToken("--on-secondary-container"),
+      };
+    });
 
-  const mobile = await page.locator('nav a[data-nav-key="home"]:visible').evaluate((link) => {
-    const icon = link.children[0];
-    const label = link.children[1];
-    return {
-      itemHeight: link.getBoundingClientRect().height,
-      navHeight: link.closest("nav").getBoundingClientRect().height,
-      indicatorWidth: icon.getBoundingClientRect().width,
-      indicatorHeight: icon.getBoundingClientRect().height,
-      indicatorBackground: getComputedStyle(icon).backgroundColor,
-      iconColor: getComputedStyle(icon).color,
-      labelFontSize: getComputedStyle(label).fontSize,
-      labelColor: getComputedStyle(label).color,
-    };
-  });
-  expect(mobile.itemHeight).toBe(64);
-  expect(mobile.navHeight).toBe(65);
-  expect(mobile.indicatorWidth).toBe(56);
-  expect(mobile.indicatorHeight).toBe(32);
-  expect(mobile.indicatorBackground).toBe(tokens.secondaryContainer);
-  expect(mobile.iconColor).toBe(tokens.onSecondaryContainer);
-  expect(mobile.labelFontSize).toBe("12px");
-  expect(mobile.labelColor).toBe(tokens.secondary);
+    const mobile = await page.locator('nav a[data-nav-key="home"]:visible').evaluate((link) => {
+      const icon = link.children[0];
+      const label = link.children[1];
+      return {
+        itemHeight: link.getBoundingClientRect().height,
+        navHeight: link.closest("nav").getBoundingClientRect().height,
+        indicatorWidth: icon.getBoundingClientRect().width,
+        indicatorHeight: icon.getBoundingClientRect().height,
+        indicatorBackground: getComputedStyle(icon).backgroundColor,
+        iconColor: getComputedStyle(icon).color,
+        labelFontSize: getComputedStyle(label).fontSize,
+        labelColor: getComputedStyle(label).color,
+      };
+    });
+    expect(mobile.itemHeight).toBe(64);
+    expect(mobile.navHeight).toBe(65);
+    expect(mobile.indicatorWidth).toBe(56);
+    expect(mobile.indicatorHeight).toBe(32);
+    expect(mobile.indicatorBackground).toBe(tokens.secondaryContainer);
+    expect(mobile.iconColor).toBe(tokens.onSecondaryContainer);
+    expect(mobile.labelFontSize).toBe("12px");
+    expect(mobile.labelColor).toBe(tokens.secondary);
 
-  await page.setViewportSize({ width: 1024, height: 768 });
-  const rail = await page.locator('aside nav a[data-nav-key="home"]').evaluate((link) => {
-    const icon = link.children[0];
-    const label = link.children[1];
-    return {
-      sidebarWidth: link.closest("aside").getBoundingClientRect().width,
-      itemHeight: link.getBoundingClientRect().height,
-      itemBackground: getComputedStyle(link).backgroundColor,
-      indicatorWidth: icon.getBoundingClientRect().width,
-      indicatorHeight: icon.getBoundingClientRect().height,
-      indicatorBackground: getComputedStyle(icon).backgroundColor,
-      iconColor: getComputedStyle(icon).color,
-      labelFontSize: getComputedStyle(label).fontSize,
-      labelColor: getComputedStyle(label).color,
-    };
-  });
-  expect(rail.sidebarWidth).toBe(88);
-  expect(rail.itemHeight).toBe(56);
-  expect(rail.itemBackground).toBe("rgba(0, 0, 0, 0)");
-  expect(rail.indicatorWidth).toBe(56);
-  expect(rail.indicatorHeight).toBe(32);
-  expect(rail.indicatorBackground).toBe(tokens.secondaryContainer);
-  expect(rail.iconColor).toBe(tokens.onSecondaryContainer);
-  expect(rail.labelFontSize).toBe("12px");
-  expect(rail.labelColor).toBe(tokens.secondary);
+    await page.setViewportSize({ width: 1024, height: 768 });
+    const rail = await page.locator('aside nav a[data-nav-key="home"]').evaluate((link) => {
+      const icon = link.children[0];
+      const label = link.children[1];
+      return {
+        sidebarWidth: link.closest("aside").getBoundingClientRect().width,
+        itemHeight: link.getBoundingClientRect().height,
+        itemBackground: getComputedStyle(link).backgroundColor,
+        indicatorWidth: icon.getBoundingClientRect().width,
+        indicatorHeight: icon.getBoundingClientRect().height,
+        indicatorBackground: getComputedStyle(icon).backgroundColor,
+        iconColor: getComputedStyle(icon).color,
+        labelFontSize: getComputedStyle(label).fontSize,
+        labelColor: getComputedStyle(label).color,
+      };
+    });
+    expect(rail.sidebarWidth).toBe(88);
+    expect(rail.itemHeight).toBe(56);
+    expect(rail.itemBackground).toBe("rgba(0, 0, 0, 0)");
+    expect(rail.indicatorWidth).toBe(56);
+    expect(rail.indicatorHeight).toBe(32);
+    expect(rail.indicatorBackground).toBe(tokens.secondaryContainer);
+    expect(rail.iconColor).toBe(tokens.onSecondaryContainer);
+    expect(rail.labelFontSize).toBe("12px");
+    expect(rail.labelColor).toBe(tokens.secondary);
 
-  await page.setViewportSize({ width: 1440, height: 900 });
-  const drawer = await page.locator('aside nav a[data-nav-key="home"]').evaluate((link) => {
-    const icon = link.children[0];
-    const label = link.children[1];
-    return {
-      sidebarWidth: link.closest("aside").getBoundingClientRect().width,
-      itemHeight: link.getBoundingClientRect().height,
-      itemBackground: getComputedStyle(link).backgroundColor,
-      iconWidth: icon.getBoundingClientRect().width,
-      iconHeight: icon.getBoundingClientRect().height,
-      labelFontSize: getComputedStyle(label).fontSize,
-      labelColor: getComputedStyle(label).color,
-    };
-  });
-  expect(drawer.sidebarWidth).toBe(264);
-  expect(drawer.itemHeight).toBe(56);
-  expect(drawer.itemBackground).toBe(tokens.secondaryContainer);
-  expect(drawer.iconWidth).toBe(24);
-  expect(drawer.iconHeight).toBe(24);
-  expect(drawer.labelFontSize).toBe("14px");
-  expect(drawer.labelColor).toBe(tokens.onSecondaryContainer);
+    await page.setViewportSize({ width: 1440, height: 900 });
+    const drawer = await page.locator('aside nav a[data-nav-key="home"]').evaluate((link) => {
+      const icon = link.children[0];
+      const label = link.children[1];
+      return {
+        sidebarWidth: link.closest("aside").getBoundingClientRect().width,
+        itemHeight: link.getBoundingClientRect().height,
+        itemBackground: getComputedStyle(link).backgroundColor,
+        iconWidth: icon.getBoundingClientRect().width,
+        iconHeight: icon.getBoundingClientRect().height,
+        labelFontSize: getComputedStyle(label).fontSize,
+        labelColor: getComputedStyle(label).color,
+      };
+    });
+    expect(drawer.sidebarWidth).toBe(264);
+    expect(drawer.itemHeight).toBe(56);
+    expect(drawer.itemBackground).toBe(tokens.secondaryContainer);
+    expect(drawer.iconWidth).toBe(24);
+    expect(drawer.iconHeight).toBe(24);
+    expect(drawer.labelFontSize).toBe("14px");
+    expect(drawer.labelColor).toBe(tokens.onSecondaryContainer);
   });
 }
