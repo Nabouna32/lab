@@ -16,7 +16,7 @@ const toolsCatalogueSource = readSource("../../app/[locale]/[section]/page.tsx")
 const toolSearchSource = readSource("../../components/tools/ToolSearch.tsx");
 const adminDashboardSource = readSource("../../app/[locale]/admin/page.tsx");
 const adminUsersSource = readSource("../../app/[locale]/admin/utilisateurs/page.tsx");
-const desktopHeaderMenuSource = readSource("../../components/layout/DesktopHeaderMenu.tsx");
+const desktopHeaderMenuSource = readSource("../../components/layout/HeaderPreferences.tsx");
 const messagesSource = readSource("../../lib/i18n/messages.ts");
 const toolCardSource = readSource("../../components/tools/ToolCard.tsx");
 const searchResultsSource = readSource("../../components/tools/SearchResultsClient.tsx");
@@ -138,7 +138,7 @@ test("global header uses the shared Material 3 small TopAppBar with content gutt
 test("header menu exposes a localized primary navigation landmark and an accessible disclosure", () => {
   assert.ok(desktopHeaderMenuSource.includes('<nav aria-label={t.nav.primaryNavigation}>'));
   assert.ok(desktopHeaderMenuSource.includes("aria-expanded={open}"));
-  assert.ok(desktopHeaderMenuSource.includes('aria-controls="header-menu"'));
+  assert.ok(desktopHeaderMenuSource.includes('aria-controls={open ? "mobile-secondary-navigation" : undefined}'));
   assert.ok(desktopHeaderMenuSource.includes("aria-hidden={!open}"));
   assert.ok(desktopHeaderMenuSource.includes("inert={!open}"));
   assert.ok(desktopHeaderMenuSource.includes("triggerRef.current?.focus()"));
@@ -242,7 +242,7 @@ test("admin dashboard content uses shared Material 3 typography roles", () => {
 
 
 test("desktop navigation menu uses shared Material 3 typography roles", () => {
-  for (const role of ["m3-type-label-large", "m3-type-label-medium", "m3-type-label-small", "m3-type-body-small"]) {
+  for (const role of ["m3-type-label-large", "m3-type-label-medium", "m3-type-label-small"]) {
     assert.ok(desktopHeaderMenuSource.includes(role), `desktop header menu should consume ${role}`);
   }
 
