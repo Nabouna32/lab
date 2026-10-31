@@ -5,9 +5,11 @@ import test from "node:test";
 const workflowPath = new URL("../workflows/ci.yml", import.meta.url);
 const surveillancePath = new URL("../workflows/surveillance.yml", import.meta.url);
 const codeqlPath = new URL("../workflows/codeql.yml", import.meta.url);
+const browserPath = new URL("../workflows/browser-validation.yml", import.meta.url);
 const workflow = readFileSync(workflowPath, "utf8");
 const surveillance = readFileSync(surveillancePath, "utf8");
 const codeql = readFileSync(codeqlPath, "utf8");
+const browserValidation = readFileSync(browserPath, "utf8");
 
 function sectionFor(source, jobName) {
   const lines = source.split(/\r?\n/);
@@ -84,4 +86,17 @@ test("CodeQL pins actions and uses only the permissions required by this public 
   assert.match(permissions, /contents: read/);
   assert.match(permissions, /security-events: write/);
   assert.doesNotMatch(permissions, /actions:|packages:/);
+});
+
+
+test("pull requests execute the isolated Chromium and WCAG browser campaign", () => {
+  const triggers = browserValidation.slice(0, browserValidation.indexOf("\\njobs:"));
+  assert.match(triggers, /^  pull_request:/m);
+  assert.match(triggers, /branches:\\n      - main/);
+  assert.match(browserValidation, /@playwright\\/test@1\\.64\\.1/);
+  assert.match(browserValidation, /npx playwright install --with-deps chromium/);
+  assert.match(browserValidation, /npm run build/);
+  assert.match(browserValidation, /npx playwright test/);
+  assert.match(browserValidation, /permissions:\\n  contents: read/);
+  assert.doesNotMatch(browserValidation, /contents: write|pull-requests: write|vercel deploy|supabase db push/i);
 });
