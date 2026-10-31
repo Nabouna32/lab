@@ -183,7 +183,7 @@ export default function HeaderPreferences({ locale }: { locale: Locale }) {
           type="button"
           className={
             "flex h-12 min-w-12 items-center justify-center rounded-full text-[var(--on-surface)] outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] " +
-            (open ? "bg-[var(--secondary-container)] text-[var(--on-secondary-container)]" : "")
+            ((open || guidedActive) ? "bg-[var(--secondary-container)] text-[var(--on-secondary-container)]" : "")
           }
           aria-label={t.nav.more}
           aria-expanded={open}
