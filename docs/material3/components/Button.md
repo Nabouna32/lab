@@ -66,19 +66,38 @@ Adaptations Web déclarées :
 
 AndroidX ne définit pas de variante « destructive ». Le sens métier ne suffit pas à prescrire un fond rouge, une icône ou une boîte de dialogue : choisir le composant selon le contexte et ne personnaliser les rôles d’erreur que si l’action le justifie. Dans l’administration, le retrait d’un rôle utilise le rôle `error` via la propriété `colors` de `TextButton`, sans réduire sa cible tactile ; la suspension n’utilise ce rôle que lorsque l’action est réellement destructive, pas lors de la réactivation d’un compte. Éviter les surcharges Tailwind locales de couleur qui contournent les couches d’état du composant. La navigation doit rester un lien.
 
+## Inventaire des consommateurs de production
+
+Audit des usages directs et des wrappers partagés au 31 octobre 2026. Les consommateurs sont regroupés par responsabilité afin d'éviter de dupliquer la liste de chaque outil qui réutilise les mêmes primitives.
+
+| Famille | Consommateurs représentatifs | API Material 3 | Décision et état |
+|---|---|---|---|
+| Compte et formulaires | `SubmitButton`, pages connexion/inscription/réinitialisation/suppression, `PasswordChangeForm` | `Button` par défaut, `OutlinedButton` pour le renvoi de confirmation | La prop `variant` porte le traitement visuel ; `danger` transmet le rôle `error` via `colors` ; `className` reste une adaptation de layout. |
+| Actions réutilisées des outils | `CopyButton`, `ClearButton`, réutilisés dans de nombreux outils | `OutlinedButton` avec icône initiale | Les wrappers centralisent l'icône, le nom accessible, l'état disabled et l'action ; les pages ne recréent pas leur style. |
+| Outils et recherche | `ToolSearch`, `SearchResultsClient`, pages JSON/CSV/encodage/conversion/formatage | `OutlinedButton`, `TextButton`, `Button` | Le retry de recherche hérite maintenant de la géométrie standard ; seule sa marge externe est locale. Les autres classes locales relevées sont des contraintes de composition. |
+| Dialogues | `AlertDialog`, `DatePickerDialog`, `TimePickerDialog` | `Button`, `OutlinedButton`, `TextButton` | Actions natives, rôles d'erreur via `colors`, ordre et responsabilités conservés. |
+| Accueil et recherche récente | `RecentTools` | `TextButton` | `shrink-0` ne règle que le layout flex ; la géométrie reste partagée. |
+| Favoris et collections | `FavoriteButton` complet, `FavoritesView`, `CollectionsView`, `ImageContactSheet` | `FilledTonalButton`, `OutlinedButton`, `TextButton` | Les états sélectionnés restent explicites et accessibles ; la variante compacte de `FavoriteButton` relève de `IconToggleButton` (voir la spécification IconButton). |
+| Administration | `AdminUsers` | `TextButton`, `OutlinedButton` | Le rôle `error` n'est appliqué qu'aux actions destructives ; aucune réduction locale de cible tactile. |
+| Fuseaux horaires | `TimezoneConverter` | `TextButton` | Le retrait d'une destination conserve la hauteur minimale et le padding partagés ; seul `shrink-0` reste local. |
+| Liens | `AppLink`, Footer et pages compte/favoris | Ancre inline ou styles de variantes Button | Les liens restent des ancres. La variante `navigation` non consommée a été supprimée ; la navigation principale est portée par `AdaptiveAppNavigation` et `DesktopHeaderMenu`. |
+| Primitive non consommée | `Snackbar` | `TextButton` pour son action | Le composant existe dans le système UI mais aucun consommateur de production n'a été trouvé ; il est exclu de l'inventaire des usages actifs. |
+
+L'audit des consommateurs et des surcharges locales de couleur/géométrie est terminé. Les écarts démontrés ont été migrés vers les API partagées ; les classes restantes sur les consommateurs actifs ne servent qu'au layout. `ElevatedButton` reste disponible pour la complétude de l'API AndroidX et les spécimens du Design Lab, sans usage de production identifié.
+
 ## Vérifications restantes
 
 - [x] Épingler les fichiers source et tokens au même commit AndroidX.
 - [x] Vérifier les rôles et opacités des couleurs désactivées.
 - [x] Vérifier les dimensions, couleurs, élévations et états des cinq variantes dans les sources.
 - [x] Partager le contrat de layout entre `Button` et `AppLink`.
-- [ ] Inventorier tous les usages de production et migrer les styles locaux hérités.
+- [x] Inventorier les consommateurs de production et migrer les surcharges locales de couleur/géométrie ; voir la table ci-dessus.
 - [x] Vérifier en Chromium les couleurs calculées des cinq variantes en thème clair, les états hover/disabled, le basculement clair/sombre sur la variante filled et le reflow à 320, 360, 390, 768, 1024, 1440 et 1920 CSS px sur une surface de test locale.
 - [ ] Terminer la revue du contraste en contexte : axe-core ne relève aucune violation sur la surface de test, mais conserve un résultat `color-contrast` incomplet qui nécessite une vérification manuelle.
 - [x] Vérifier l’origine du ripple, son clipping, la libération sur `pointerup` et `pointercancel`, le déclenchement clavier, le nettoyage après animation et l’absence de ripple sous `prefers-reduced-motion`.
 - [x] Vérifier l’absence de débordement horizontal sur petits écrans et grands écrans (320–1920 CSS px) sur la surface de test.
 - [ ] Tester les libellés FR/EN longs, l’alignement des icônes et le zoom à 200 %.
-- [x] Exécuter tests, lint, vérification TypeScript et build sur le dernier commit : 744 tests réussis, 2 ignorés ; lint sans erreur (8 avertissements existants) ; TypeScript et build réussis ; CI #4611 verte sur `080b627`.
+- [x] Exécuter tests, lint, vérification TypeScript et build sur le dernier commit validé : 772 tests, 770 réussis, 2 ignorés, 0 échec ; lint sans erreur (6 avertissements non bloquants) ; TypeScript, build et gate Node.js 24.21.0 réussis ; CI #41159335086 verte sur le HEAD `023e7dc`, fusionné sous `76ba4a8`.
 - [ ] Comparer le rendu navigateur aux références épinglées et consigner les écarts observés.
 
-Validation navigateur locale du 30 octobre 2026 : Chromium/Playwright sur une route de test temporaire non livrée, sans Preview ni déploiement. Les cinq variantes ont été inspectées en thème clair/sombre ; les couleurs disabled ont été comparées aux rôles par variante. Le ripple a été exercé par pointeur et clavier, y compris `pointercancel`, puis sous réduction des animations. axe-core 4.14.0 ne détecte aucune violation WCAG 2.0/2.1 A/AA ni WCAG 2.2 AA sur cette surface ; `color-contrast` et `label-content-name-mismatch` restent incomplets et demandent une revue manuelle. Cette vérification ciblée ne vaut pas déclaration de conformité globale. L’inventaire exhaustif des usages de production et la comparaison visuelle aux références AndroidX restent à faire.
+Validation navigateur locale du 30 octobre 2026 : Chromium/Playwright sur une route de test temporaire non livrée, sans Preview ni déploiement. Les cinq variantes ont été inspectées en thème clair/sombre ; les couleurs disabled ont été comparées aux rôles par variante. Le ripple a été exercé par pointeur et clavier, y compris `pointercancel`, puis sous réduction des animations. axe-core 4.14.0 ne détecte aucune violation WCAG 2.0/2.1 A/AA ni WCAG 2.2 AA sur cette surface ; `color-contrast` et `label-content-name-mismatch` restent incomplets et demandent une revue manuelle. Cette vérification ciblée ne vaut pas déclaration de conformité globale. L'inventaire des consommateurs de production et la migration des surcharges locales sont terminés au 31 octobre 2026 ; la comparaison visuelle aux références AndroidX, la revue manuelle du contraste en contexte, les libellés FR/EN longs et le zoom à 200 % restent à faire.
