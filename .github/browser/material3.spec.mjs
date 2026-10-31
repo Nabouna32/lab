@@ -26,7 +26,7 @@ async function runAxe(page, label) {
       incomplete: report.incomplete.map(({ id, help, nodes }) => ({
         id,
         help,
-        nodes: nodes.map(({ target, summary }) => ({ target, summary })),
+        nodes: nodes.map(({ target, failureSummary }) => ({ target, failureSummary })),
       })),
     };
   }, wcagTags);
