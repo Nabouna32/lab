@@ -10,6 +10,20 @@ on:
         required: false
         default: ""
         type: string
+  pull_request:
+    paths:
+      - ".github/browser/**"
+      - ".github/scripts/ci-workflow-contract.test.mjs"
+      - ".github/workflows/surveillance.yml"
+      - "playwright.config.mjs"
+      - "package.json"
+      - "package-lock.json"
+      - "src/components/layout/AdaptiveAppNavigation.tsx"
+      - "src/components/layout/AdaptiveAppNavigation.module.css"
+      - "src/components/layout/Header.tsx"
+      - "src/components/layout/HeaderPreferences.tsx"
+      - "src/components/layout/DesktopHeaderMenu.tsx"
+      - "src/lib/i18n/messages.ts"
 
 permissions:
   contents: read
@@ -20,6 +34,7 @@ concurrency:
 
 jobs:
   audit-dependances:
+    if: github.event_name != 'pull_request'
     name: Audit complet des dépendances npm
     runs-on: ubuntu-latest
     timeout-minutes: 15
