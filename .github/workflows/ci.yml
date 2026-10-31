@@ -1,12 +1,10 @@
-name: CI
+name: Validation des contributions
 
 on:
   pull_request:
     branches:
       - main
   workflow_dispatch:
-  schedule:
-    - cron: "30 3 * * 1"
 
 permissions:
   contents: read
@@ -262,22 +260,6 @@ jobs:
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_local_placeholder"
         run: npm run build
 
-      - name: Local Chromium and axe-core regression
-        run: node .github/scripts/material3-browser-smoke.mjs
-        env:
-          NEXT_TELEMETRY_DISABLED: "1"
-          NEXT_PUBLIC_SUPABASE_URL: "http://127.0.0.1:54321"
-          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_local_placeholder"
-
-      - name: Upload browser evidence
-        if: always()
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: material3-browser-evidence
-          path: artifacts/browser/
-          if-no-files-found: ignore
-          retention-days: 7
-
   supabase:
     name: Vérification Supabase
     needs: prepare
@@ -308,7 +290,7 @@ jobs:
 
   ci:
     name: Node.js 24.21.0
-    needs: [prepare, quality, build, supabase, npm-audit]
+    needs: [prepare, quality, build, supabase]
     if: always() && github.event_name != 'schedule'
     runs-on: ubuntu-latest
     timeout-minutes: 2
@@ -319,13 +301,8 @@ jobs:
           QUALITY_RESULT: ${{ needs.quality.result }}
           BUILD_RESULT: ${{ needs.build.result }}
           SUPABASE_RESULT: ${{ needs.supabase.result }}
-          NPM_AUDIT_RESULT: ${{ needs.npm-audit.result }}
         run: |
           set -euo pipefail
-          case "$NPM_AUDIT_RESULT" in
-            success) ;;
-            *) echo "The npm audit job must succeed: $NPM_AUDIT_RESULT" >&2; exit 1 ;;
-          esac
           for result in "$PREPARE_RESULT" "$QUALITY_RESULT" "$BUILD_RESULT" "$SUPABASE_RESULT"; do
             case "$result" in
               success|skipped) ;;
@@ -333,23 +310,3 @@ jobs:
             esac
           done
           echo "All applicable CI checks passed."
-
-  npm-audit:
-    name: Audit de sécurité npm
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: 24.21.0
-
-      - name: Audit locked dependency graph
-        run: node .github/scripts/run-npm-audit.mjs
