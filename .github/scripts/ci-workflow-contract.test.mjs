@@ -93,7 +93,7 @@ test("pull requests execute the isolated Chromium and WCAG browser campaign", ()
   const triggers = browserValidation.slice(0, browserValidation.indexOf("\njobs:"));
   assert.match(triggers, /^  pull_request:/m);
   assert.match(triggers, /branches:\n      - main/);
-  assert.match(browserValidation, /@playwright\\/test@1\\.64\\.1/);
+  assert.ok(browserValidation.includes("@playwright/test@1.64.1"));
   assert.match(browserValidation, /npx playwright install --with-deps chromium/);
   assert.match(browserValidation, /npm run build/);
   assert.match(browserValidation, /npx playwright test/);
