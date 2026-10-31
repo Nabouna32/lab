@@ -25,6 +25,7 @@ jobs:
       governance_changed: ${{ steps.changes.outputs.governance_changed }}
       androidx_provenance_changed: ${{ steps.changes.outputs.androidx_provenance_changed }}
       supabase_changed: ${{ steps.changes.outputs.supabase_changed }}
+      supabase_database_changed: ${{ steps.changes.outputs.supabase_database_changed }}
       dependency_manifests_only: ${{ steps.changes.outputs.dependency_manifests_only }}
       dependency_scope: ${{ steps.dependency_scope.outputs.scope }}
     steps:
@@ -285,9 +286,44 @@ jobs:
             (cd "supabase/functions/$function" && deno check --frozen index.ts)
           done
 
+  supabase-database:
+    name: Tests SQL Supabase — pgTAP
+    needs: prepare
+    if: >-
+      ${{ needs.prepare.result == 'success' &&
+          (github.event_name == 'workflow_dispatch' || needs.prepare.outputs.supabase_database_changed == 'true') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.21.0
+
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3.0.1
+        with:
+          version: 2.84.2
+
+      - name: Start local PostgreSQL and apply migrations
+        run: supabase db start
+
+      - name: Run pgTAP database tests
+        run: supabase test db --local
+
+      - name: Stop local database
+        if: always()
+        run: supabase stop --no-backup || true
+
   ci:
     name: Synthèse des validations
-    needs: [prepare, quality, build, supabase]
+    needs: [prepare, quality, build, supabase, supabase-database]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 2
@@ -298,9 +334,10 @@ jobs:
           QUALITY_RESULT: ${{ needs.quality.result }}
           BUILD_RESULT: ${{ needs.build.result }}
           SUPABASE_RESULT: ${{ needs.supabase.result }}
+          SUPABASE_DATABASE_RESULT: ${{ needs.supabase-database.result }}
         run: |
           set -euo pipefail
-          for result in "$PREPARE_RESULT" "$QUALITY_RESULT" "$BUILD_RESULT" "$SUPABASE_RESULT"; do
+          for result in "$PREPARE_RESULT" "$QUALITY_RESULT" "$BUILD_RESULT" "$SUPABASE_RESULT" "$SUPABASE_DATABASE_RESULT"; do
             case "$result" in
               success|skipped) ;;
               *) echo "A required CI job did not pass: $result" >&2; exit 1 ;;
