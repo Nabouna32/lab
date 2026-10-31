@@ -127,7 +127,7 @@ export default async function AdminUsersPage({
                             <input type="hidden" name="locale" value={locale} />
                             <input type="hidden" name="userId" value={user.user_id} />
                             <input type="hidden" name="roleKey" value={role} />
-                            <TextButton type="submit" className="min-h-8 px-2 py-1 m3-type-label-small text-[var(--danger)] hover:text-[var(--danger)]">
+                            <TextButton type="submit" colors={{ contentColor: "var(--error)" }}>
                               {t.admin.userRemoveRole}
                             </TextButton>
                           </form>
@@ -160,7 +160,7 @@ export default async function AdminUsersPage({
                         <form action={suspended ? unsuspendUser : suspendUser}>
                           <input type="hidden" name="locale" value={locale} />
                           <input type="hidden" name="userId" value={user.user_id} />
-                          <OutlinedButton type="submit" className="text-[var(--danger)] hover:text-[var(--danger)]">
+                          <OutlinedButton type="submit" colors={suspended ? undefined : { contentColor: "var(--error)" }}>
                             {suspended ? t.admin.userUnsuspend : t.admin.userSuspend}
                           </OutlinedButton>
                         </form>

@@ -15,6 +15,7 @@ const languageSelector = readFileSync(new URL("../../components/layout/LanguageS
 const headerSearch = readFileSync(new URL("../../components/layout/HeaderSearch.tsx", import.meta.url), "utf8");
 const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
 const favoritesView = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
+const adminUsers = readFileSync(new URL("../../app/[locale]/admin/utilisateurs/page.tsx", import.meta.url), "utf8");
 const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
 const recentTools = readFileSync(new URL("../../components/home/RecentTools.tsx", import.meta.url), "utf8");
 
@@ -272,4 +273,12 @@ test("collection and favorites actions use AndroidX-named Button components", ()
 
 test("native control font reset stays in Tailwind base layer so Material 3 typography utilities win", () => {
   assert.match(globalCss, /@layer base\s*\{\s*button, input, textarea, select \{ font: inherit; \}\s*\}/);
+});
+
+
+test("admin destructive actions use semantic error roles without shrinking Material 3 targets", () => {
+  assert.ok(adminUsers.includes('<TextButton type="submit" colors={{ contentColor: "var(--error)" }}>'));
+  assert.ok(adminUsers.includes('<OutlinedButton type="submit" colors={suspended ? undefined : { contentColor: "var(--error)" }}>'));
+  assert.doesNotMatch(adminUsers, /min-h-8 px-2 py-1 m3-type-label-small text-\[var\(--danger\)\]/);
+  assert.doesNotMatch(adminUsers, /className="text-\[var\(--danger\)\] hover:text-\[var\(--danger\)\]"/);
 });
