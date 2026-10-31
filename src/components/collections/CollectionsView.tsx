@@ -19,6 +19,9 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
   const [synchronize, setSynchronize] = useState(true);
   const [activeCollection, setActiveCollection] = useState<string | null>(null);
   const [pendingDeleteCollection, setPendingDeleteCollection] = useState<{ id: string; name: string } | null>(null);
+  const [editingCollectionId, setEditingCollectionId] = useState<string | null>(null);
+  const [editingCollectionName, setEditingCollectionName] = useState("");
+  const [renaming, setRenaming] = useState(false);
   const [addingTool, setAddingTool] = useState("");
   const [message, setMessage] = useState("");
   const [creating, setCreating] = useState(false);
@@ -44,6 +47,9 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
     empty: fr ? "Pas encore de collection" : "No collections yet",
     emptyHelp: fr ? "Crée une collection pour réunir les outils qui vont ensemble." : "Create a collection to bring related tools together.",
     rename: fr ? "Renommer" : "Rename",
+    renamePlaceholder: fr ? "Nom de la collection" : "Collection name",
+    saveRename: fr ? "Enregistrer" : "Save",
+    cancelRename: fr ? "Annuler" : "Cancel",
     remove: fr ? "Supprimer" : "Delete",
     deleteCollectionTitle: fr ? "Supprimer cette collection ?" : "Delete this collection?",
     deleteCollectionDescription: (name: string) => fr ? `La collection « ${name} » et sa liste d’outils seront supprimées. Les outils resteront disponibles dans Loculary.` : `The collection “${name}” and its tool list will be deleted. The tools will remain available in Loculary.`,
@@ -94,6 +100,26 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
         setMessage(copy.error);
       }
     }).catch(() => setMessage(copy.error)).finally(() => setPendingDeleteCollection(null));
+  }
+
+  async function rename() {
+    const collection = data.collections.find((item) => item.id === editingCollectionId);
+    const nextName = editingCollectionName.trim();
+    if (!collection || !nextName || renaming) return;
+    setRenaming(true);
+    try {
+      if (await data.renameCollection(collection.id, nextName)) {
+        setEditingCollectionId(null);
+        setEditingCollectionName("");
+        setMessage("");
+      } else {
+        setMessage(copy.error);
+      }
+    } catch {
+      setMessage(copy.error);
+    } finally {
+      setRenaming(false);
+    }
   }
 
   async function create() {
@@ -262,7 +288,15 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
                 <section><Card className="p-5">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0"><h2 className="m3-type-title-large break-words">{active.name}</h2><p className="m3-type-body-medium mt-1 text-[var(--muted)]">{active.user_collection_items.length} {fr ? "outils" : "tools"}</p></div>
-                    <TextButton type="button" onClick={() => { const next = window.prompt(copy.rename, active.name); if (next?.trim()) void data.renameCollection(active.id, next).then((ok) => { if (!ok) setMessage(copy.error); }); }}>{copy.rename}</TextButton>
+                    {editingCollectionId === active.id ? (
+                      <form className="flex min-w-0 flex-1 flex-wrap items-center gap-2 sm:justify-end" onSubmit={(event) => { event.preventDefault(); void rename(); }}>
+                        <input autoFocus value={editingCollectionName} onChange={(event) => setEditingCollectionName(event.target.value)} maxLength={80} required aria-label={copy.renamePlaceholder} className="min-h-12 min-w-0 flex-1 rounded-[var(--shape-corner-extra-small)] border border-[var(--outline)] bg-[var(--surface)] px-3 m3-type-body-large text-[var(--on-surface)] outline-none transition-[border-color,box-shadow] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]" />
+                        <Button type="submit" disabled={renaming || !editingCollectionName.trim()}>{renaming ? (fr ? "Enregistrement…" : "Saving…") : copy.saveRename}</Button>
+                        <TextButton type="button" disabled={renaming} onClick={() => { setEditingCollectionId(null); setEditingCollectionName(""); }}>{copy.cancelRename}</TextButton>
+                      </form>
+                    ) : (
+                      <TextButton type="button" onClick={() => { setEditingCollectionId(active.id); setEditingCollectionName(active.name); }}>{copy.rename}</TextButton>
+                    )}
                   </div>
                   <div className="mt-4 flex flex-col gap-2 sm:flex-row">
                     <select value={addingTool} onChange={(event) => setAddingTool(event.target.value)} aria-label={copy.add} className="min-h-12 min-w-0 flex-1 rounded-[var(--shape-corner-extra-small)] border border-[var(--outline)] bg-[var(--surface)] px-3.5 py-2.5 m3-type-body-large text-[var(--on-surface)] outline-none transition-[border-color,box-shadow,background-color] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]">
