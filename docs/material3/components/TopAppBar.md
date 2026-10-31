@@ -1,6 +1,6 @@
 # TopAppBar — contrat AndroidX Material 3 vers React/Web
 
-**État :** portage partiel ; un écart typographique et un bouton de navigation inerte ont été corrigés. La parité complète du comportement, des couleurs au défilement et du rendu navigateur reste non vérifiée.
+**État au 31 octobre 2026 :** la petite variante est intégrée au header global de Loculary. Le titre et les actions sont des slots React ; le bouton de navigation est facultatif et son libellé doit être fourni par le consommateur. Les variantes centrée, moyenne et grande restent recensées dans l'inventaire AndroidX, mais ne sont pas portées faute de parcours produit qui les consomme.
 
 ## Sources épinglées
 
@@ -13,28 +13,46 @@ Snapshot AndroidX : `2fb1702c1c62a6059e73d757d9e4eda1044ce21d`.
 
 ## Contrat source vérifié
 
-| Variante | Hauteur de référence | Typographie du titre |
-|---|---:|---|
-| `TopAppBar` / petite | 64 dp | `titleLarge` |
-| `CenterAlignedTopAppBar` | 64 dp | `titleLarge` |
-| `MediumTopAppBar`, déployée | 112 dp | `headlineSmall` |
-| `LargeTopAppBar`, déployée | 152 dp | `headlineMedium` |
-| Titres repliés des variantes moyenne/grande | 64 dp | `titleLarge` |
+| Variante AndroidX | Hauteur de référence | Typographie du titre | État du port |
+|---|---:|---|---|
+| `TopAppBar` / petite | 64 dp | `titleLarge` | Portée et consommée par le header global |
+| `CenterAlignedTopAppBar` | 64 dp | `titleLarge` | Inventaire uniquement |
+| `MediumTopAppBar`, déployée | 112 dp | `headlineSmall` | Inventaire uniquement |
+| `LargeTopAppBar`, déployée | 152 dp | `headlineMedium` | Inventaire uniquement |
+| Titres repliés des variantes moyenne/grande | 64 dp | `titleLarge` | Inventaire uniquement |
 
-Les couleurs et dimensions ci-dessus sont les valeurs des tokens dans ce snapshot ; dp reste une unité Android, pas une équivalence physique CSS. Les variantes moyenne et grande utilisent aussi un comportement de défilement et une interpolation des couleurs propres à AndroidX.
+Les valeurs dp sont des références Android, pas une équivalence physique CSS. Le port Web utilise une hauteur minimale de 64 CSS px pour la petite variante et conserve les rôles typographiques partagés.
 
-## Portage Web
+## Portage Web retenu
 
-`src/components/ui/TopAppBar.tsx` expose les variantes `small`, `center-aligned`, `medium` et `large`. Le CSS réutilise les rôles typographiques partagés.
+`src/components/ui/TopAppBar.tsx` expose uniquement le contrat réellement consommé :
 
-Le bouton de navigation est rendu uniquement lorsqu'un gestionnaire `onNavigationClick` est fourni. L'icône de menu et le libellé accessible « Open navigation » ont des valeurs de secours, mais une barre sans action de navigation n'affiche pas de bouton inerte. Les consommateurs doivent fournir un libellé traduit et adapté au contexte. C'est une adaptation Web de l'emplacement facultatif de navigation AndroidX.
+- `title: ReactNode` : équivalent du slot composable AndroidX. Le contenu n'est pas forcé dans un élément `h2`, car le titre d'une barre d'application n'est pas le titre hiérarchique de la page.
+- `actions: ReactNode` : actions alignées à droite.
+- `navigationIcon: ReactNode` et `onNavigationClick` : action facultative. Le type exige `navigationLabel` dès qu'un gestionnaire est fourni ; aucun libellé anglais par défaut n'est injecté.
+- `contentStyle` / `contentClassName` : adaptation Web pour les gutters et la largeur maximale du contenu.
+- La racine est un landmark HTML `header`. La navigation réelle reste un groupe de liens dans un landmark `nav` distinct.
 
-Le challenge global « page blanche » s'applique ici aussi : si ce composant était conçu aujourd'hui, il faudrait vérifier s'il doit rester un port générique ou être remplacé/composé avec les primitives de navigation réellement nécessaires aux différents parcours. Cette question n'est pas tranchée par le simple fait que le composant existe.
+### Consommateur de production
 
-## Écarts corrigés et vérifications restantes
+`src/components/layout/Header.tsx` compose la petite TopAppBar :
 
-Le titre déployé de `MediumTopAppBar` utilisait auparavant `headlineMedium`, comme la variante grande, et les titres repliés avaient une taille codée en dur de 22/28 px. Ils utilisent maintenant respectivement les rôles partagés `headlineSmall` et `titleLarge`.
+- Le slot titre contient le lien de marque Loculary, affiché sur mobile.
+- Les actions contiennent la recherche et le menu de navigation.
+- Le contenu reste contraint par `--layout-content-wide` et `--layout-page-gutter`.
+- La barre conserve son positionnement sticky et son nom de transition.
+- La hauteur passe de 56 à 64 CSS px sur mobile : alignement volontaire sur la référence 64 dp de la petite TopAppBar.
+- Le menu expose ses liens dans un landmark `nav` avec le libellé localisé « Navigation principale » / « Primary navigation ».
 
-Le bouton de navigation ne s'affiche plus lorsqu'aucune action n'est fournie ; une assertion statique couvre ce contrat.
+Les variantes moyenne, grande et centrée ne sont pas conservées dans le code tant qu'aucun parcours produit ne les consomme. Leurs contrats AndroidX restent dans l'inventaire officiel.
 
-Restent à comparer avec AndroidX : les insets, l'alignement des actions, le comportement de défilement et d'interpolation, les états d'élévation, le clavier, les thèmes clair/sombre et les largeurs responsive. Les corrections de typographie et de contrat ne prouvent pas la conformité complète.
+## Vérifications et limites
+
+- [x] Tests de contrat : slots composables, absence de sémantique heading inventée, action de navigation facultative et libellé obligatoire.
+- [x] Tests de migration : le header utilise TopAppBar, les gutters restent centralisés et le landmark de navigation est localisé.
+- [ ] Vérifier en navigateur les viewports exacts 390×844, 768×1024 et 1440×900.
+- [ ] Vérifier Tab, focus-visible, Escape, restitution du focus et lecteur d'écran.
+- [ ] Comparer les couleurs, insets, espacements et états avec la source AndroidX en thèmes clair/sombre.
+- [ ] Confirmer la hauteur de 64 px et le comportement du panneau de recherche sur les largeurs mobiles/tablettes.
+
+La petite variante est intégrée, mais les tests statiques ne prouvent pas la parité visuelle complète. Aucun comportement de défilement/collapse des variantes moyenne/grande n'est revendiqué, car ces variantes ne sont pas portées.
