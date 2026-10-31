@@ -343,15 +343,13 @@ test("segmented control keeps labels single-line and leaves descriptions outside
 });
 
 test("IconButton variants share a visible keyboard focus ring and the 48px touch target", () => {
-  assert.match(iconButtonSource, /focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-\\[var\\(--focus-ring\\)\\]/);
-  assert.match(iconButtonSource, /focus-visible:ring-offset-2 focus-visible:ring-offset-\\[var\\(--background\\)\\]/);
-  assert.match(iconButtonSource, /const targetDimensions = "h-12 min-h-12 w-12 min-w-12"/);
-  assert.match(iconButtonSource, /const surfaceDimensions = "h-10 min-h-10 w-10 min-w-10"/);
-  assert.match(iconButtonSource, /group-focus-visible:bg-/);
-  assert.equal((globalCss.match(/--focus-ring:\\s*var\\(--primary\\)/g) ?? []).length, 2, "focus ring follows the active light and dark primary roles");
-});
-
-test("AndroidX-named Buttons support per-state color customization without product-specific variants", () => {
+  assert.ok(iconButtonSource.includes("focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"));
+  assert.ok(iconButtonSource.includes("focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"));
+  assert.ok(iconButtonSource.includes('const targetDimensions = "h-12 min-h-12 w-12 min-w-12"'));
+  assert.ok(iconButtonSource.includes('const surfaceDimensions = "h-10 min-h-10 w-10 min-w-10"'));
+  assert.ok(iconButtonSource.includes("group-focus-visible:bg-"));
+  assert.equal(globalCss.split("--focus-ring: var(--primary)").length - 1, 2, "focus ring follows the active light and dark primary roles");
+});test("AndroidX-named Buttons support per-state color customization without product-specific variants", () => {
   for (const component of ["Button", "ElevatedButton", "FilledTonalButton", "OutlinedButton", "TextButton"]) {
     assert.ok(buttonSource.includes("export function " + component + "("), "missing official component export: " + component);
   }
