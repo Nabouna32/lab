@@ -70,7 +70,7 @@ test("shared typography roles drive component CSS instead of duplicated font met
     ["timePicker", "--m3-type-body-medium-size", "--m3-type-body-small-size"],
     ["toggleButton", "--m3-type-label-large-size"],
     ["tooltip", "--m3-type-body-small-size", "--m3-type-body-medium-size", "--m3-type-title-small-size"],
-    ["topAppBar", "--m3-type-title-large-size", "--m3-type-headline-small-size", "--m3-type-headline-medium-size"],
+    ["topAppBar", "--m3-type-title-large-size"],
     
     ["buttonGroup", "--m3-type-label-large-size"],
     ["datePicker", "--m3-type-label-medium-size", "--m3-type-label-large-size", "--m3-type-body-small-size", "--m3-type-title-small-size", "--m3-type-body-medium-size"],
@@ -89,10 +89,7 @@ test("shared typography roles drive component CSS instead of duplicated font met
     }
   }
 
-  assert.match(typographyComponentStyles.topAppBar, /\.medium\.expanded \.title \{[^}]*--m3-type-headline-small-size/s);
-  assert.match(typographyComponentStyles.topAppBar, /\.large\.expanded \.title \{[^}]*--m3-type-headline-medium-size/s);
-  assert.match(typographyComponentStyles.topAppBar, /\.medium:not\(\.expanded\) \.title, \.large:not\(\.expanded\) \.title \{[^}]*--m3-type-title-large-size/s);
-  assert.doesNotMatch(typographyComponentStyles.topAppBar, /\.medium\.expanded \.title \{[^}]*--m3-type-headline-medium-size/s);
+  assert.doesNotMatch(typographyComponentStyles.topAppBar, /\.medium|\.large|\.center-aligned/);
 });
 
 test("shared production compositions consume named typography and shape roles", () => {

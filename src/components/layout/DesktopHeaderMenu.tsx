@@ -163,61 +163,63 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
           (open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0")
         }
       >
-        <Link
-          href={getToolsPath(locale)}
-          onClick={closeMenu}
-          className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
-        >
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--surface-container-high)] text-[var(--on-surface-variant)]" aria-hidden="true">
-            <MaterialIcon name="apps" size={18} />
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.explore}</span>
-            <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.exploreDescription}</span>
-          </span>
-        </Link>
+        <nav aria-label={t.nav.primaryNavigation}>
+          <Link
+            href={getToolsPath(locale)}
+            onClick={closeMenu}
+            className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
+          >
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--surface-container-high)] text-[var(--on-surface-variant)]" aria-hidden="true">
+              <MaterialIcon name="apps" size={18} />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.explore}</span>
+              <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.exploreDescription}</span>
+            </span>
+          </Link>
 
-        <Link
-          href={`/${locale}/favoris`}
-          onClick={closeMenu}
-          className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
-        >
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true"><StarIcon filled className="h-5 w-5" /></span>
-          <span className="min-w-0 flex-1">
-            <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.favorites}</span>
-            <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.favoritesDescription}</span>
-          </span>
-        </Link>
+          <Link
+            href={`/${locale}/favoris`}
+            onClick={closeMenu}
+            className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
+          >
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true"><StarIcon filled className="h-5 w-5" /></span>
+            <span className="min-w-0 flex-1">
+              <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.favorites}</span>
+              <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.favoritesDescription}</span>
+            </span>
+          </Link>
 
-        <Link
-          href={`/${locale}/collections`}
-          onClick={closeMenu}
-          className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
-        >
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--tertiary-container)] text-[var(--on-tertiary-container)]" aria-hidden="true"><CollectionIcon className="h-5 w-5" /></span>
-          <span className="min-w-0 flex-1">
-            <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.collections}</span>
-            <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.collectionsDescription}</span>
-          </span>
-        </Link>
+          <Link
+            href={`/${locale}/collections`}
+            onClick={closeMenu}
+            className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
+          >
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--tertiary-container)] text-[var(--on-tertiary-container)]" aria-hidden="true"><CollectionIcon className="h-5 w-5" /></span>
+            <span className="min-w-0 flex-1">
+              <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.collections}</span>
+              <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.collectionsDescription}</span>
+            </span>
+          </Link>
 
-        <div className="my-1.5 h-px bg-[var(--border)]" />
+          <div className="my-1.5 h-px bg-[var(--border)]" />
 
-        <Link
-          href={"/" + locale + "/compte"}
-          prefetch={false}
-          onClick={closeMenu}
-          className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
-        >
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--surface-container-high)] text-[var(--on-surface-variant)]" aria-hidden="true">
-            <MaterialIcon name="person" size={18} className="h-[1.1rem] w-[1.1rem]" />
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.space}</span>
-            <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.account}</span>
-          </span>
-          <MaterialIcon name="chevron_right" size={16} className="h-4 w-4 text-[var(--muted)] transition-transform group-hover:translate-x-0.5" />
-        </Link>
+          <Link
+            href={"/" + locale + "/compte"}
+            prefetch={false}
+            onClick={closeMenu}
+            className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+          >
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--surface-container-high)] text-[var(--on-surface-variant)]" aria-hidden="true">
+              <MaterialIcon name="person" size={18} className="h-[1.1rem] w-[1.1rem]" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.space}</span>
+              <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.account}</span>
+            </span>
+            <MaterialIcon name="chevron_right" size={16} className="h-4 w-4 text-[var(--muted)] transition-transform group-hover:translate-x-0.5" />
+          </Link>
+        </nav>
 
         <div className="my-1.5 h-px bg-[var(--border)]" />
 
