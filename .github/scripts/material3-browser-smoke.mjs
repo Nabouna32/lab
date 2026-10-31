@@ -313,30 +313,34 @@ async function main() {
     async function testSearchKeyboard() {
       await navigate("/fr/design-lab");
       await setViewport({ width: 390, height: 844, mobile: true });
-      const focused = await cdp.evaluate("(() => { const input = Array.from(document.querySelectorAll('input[role=\"combobox\"]')).find((item) => item.getClientRects().length); if (!input) return false; input.focus(); return true; })()");
-      assert(focused, "Champ de recherche combobox introuvable.");
+      const opened = await cdp.evaluate("(() => { const trigger = document.querySelector('[data-testid=header-search-trigger]'); if (!trigger) return false; trigger.click(); return true; })()");
+      assert(opened, "Déclencheur de recherche mobile introuvable.");
+      await delay(120);
+      const focused = await cdp.evaluate("(() => { const input = document.getElementById('header-tool-search-input'); if (!input) return false; input.focus(); return true; })()");
+      assert(focused, "Champ de recherche combobox introuvable après ouverture.");
       await cdp.send("Input.insertText", { text: "json" });
       await delay(500);
-      let state = await cdp.evaluate("(() => { const input = Array.from(document.querySelectorAll('input[role=\"combobox\"]')).find((item) => item.getClientRects().length); const list = input?.getAttribute('aria-controls') ? document.getElementById(input.getAttribute('aria-controls')) : null; return { expanded: input?.getAttribute('aria-expanded'), listRole: list?.getAttribute('role'), options: list?.querySelectorAll('[role=\"option\"]').length ?? 0 }; })()");
+      const readState = "(() => { const input = document.getElementById('header-tool-search-input'); const list = input?.getAttribute('aria-controls') ? document.getElementById(input.getAttribute('aria-controls')) : null; return { expanded: input?.getAttribute('aria-expanded'), listRole: list?.getAttribute('role'), options: list?.querySelectorAll('[role=option]').length ?? 0 }; })()";
+      let state = await cdp.evaluate(readState);
       assert(state.expanded === "true" && state.listRole === "listbox" && state.options > 0,
         "Les suggestions de recherche ne s'ouvrent pas : " + JSON.stringify(state));
 
       await cdp.send("Input.dispatchKeyEvent", { type: "keyDown", key: "ArrowDown", code: "ArrowDown", windowsVirtualKeyCode: 40, nativeVirtualKeyCode: 40 });
       await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", key: "ArrowDown", code: "ArrowDown", windowsVirtualKeyCode: 40, nativeVirtualKeyCode: 40 });
-      state = await cdp.evaluate("(() => { const input = Array.from(document.querySelectorAll('input[role=\"combobox\"]')).find((item) => item.getClientRects().length); const id = input?.getAttribute('aria-activedescendant'); const option = id ? document.getElementById(id) : null; return { id, role: option?.getAttribute('role'), expanded: input?.getAttribute('aria-expanded') }; })()");
+      state = await cdp.evaluate("(() => { const input = document.getElementById('header-tool-search-input'); const id = input?.getAttribute('aria-activedescendant'); const option = id ? document.getElementById(id) : null; return { id, role: option?.getAttribute('role'), expanded: input?.getAttribute('aria-expanded') }; })()");
       assert(state.id && state.role === "option" && state.expanded === "true",
         "ArrowDown ne sélectionne pas une suggestion accessible : " + JSON.stringify(state));
 
       await cdp.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27, nativeVirtualKeyCode: 27 });
       await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27, nativeVirtualKeyCode: 27 });
       await delay(100);
-      state = await cdp.evaluate("Array.from(document.querySelectorAll('input[role=\"combobox\"]')).find((item) => item.getClientRects().length)?.getAttribute('aria-expanded')");
+      state = await cdp.evaluate("document.getElementById('header-tool-search-input')?.getAttribute('aria-expanded')");
       assert(state === "false", "Escape ne ferme pas la liste de suggestions.");
 
       await cdp.send("Input.dispatchKeyEvent", { type: "keyDown", key: "ArrowDown", code: "ArrowDown", windowsVirtualKeyCode: 40, nativeVirtualKeyCode: 40 });
       await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", key: "ArrowDown", code: "ArrowDown", windowsVirtualKeyCode: 40, nativeVirtualKeyCode: 40 });
       await delay(150);
-      state = await cdp.evaluate("Array.from(document.querySelectorAll('input[role=\"combobox\"]')).find((item) => item.getClientRects().length)?.getAttribute('aria-expanded')");
+      state = await cdp.evaluate("document.getElementById('header-tool-search-input')?.getAttribute('aria-expanded')");
       assert(state === "true", "ArrowDown ne rouvre pas les suggestions après Escape.");
       console.log("Recherche clavier OK : ouverture, sélection, Escape et réouverture.");
     }
