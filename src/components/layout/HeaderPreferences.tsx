@@ -198,7 +198,7 @@ export default function HeaderPreferences({ locale }: { locale: Locale }) {
           aria-hidden={!open}
           inert={!open}
           className={
-            "absolute end-0 top-full z-[70] mt-2 w-[min(20rem,calc(100vw-1.5rem))] origin-top-right rounded-2xl border border-[var(--outline-variant)] bg-[var(--surface-container)] p-2 shadow-[var(--shadow-lg)] transition-[opacity,transform] duration-150 " +
+            "absolute end-0 top-full z-[70] mt-2 w-[min(20rem,calc(100vw-1.5rem))] max-h-[calc(100dvh-9rem)] overflow-y-auto overscroll-contain origin-top rounded-2xl border border-[var(--outline-variant)] bg-[var(--surface-container)] p-2 shadow-[var(--shadow-lg)] transition-[opacity,transform] duration-150 " +
             (open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0")
           }
         >
