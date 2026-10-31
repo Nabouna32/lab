@@ -17,6 +17,7 @@ const toolSearchSource = readSource("../../components/tools/ToolSearch.tsx");
 const adminDashboardSource = readSource("../../app/[locale]/admin/page.tsx");
 const adminUsersSource = readSource("../../app/[locale]/admin/utilisateurs/page.tsx");
 const desktopHeaderMenuSource = readSource("../../components/layout/DesktopHeaderMenu.tsx");
+const messagesSource = readSource("../../lib/i18n/messages.ts");
 const toolCardSource = readSource("../../components/tools/ToolCard.tsx");
 const searchResultsSource = readSource("../../components/tools/SearchResultsClient.tsx");
 const legalNoticeSource = readSource("../../components/legal/LegalNoticePage.tsx");
@@ -120,15 +121,24 @@ test("category page section rhythm uses the shared spacing tokens", () => {
 });
 
 
-test("header layout reuses Row and a weighted Spacer instead of a product-specific grid", () => {
-  assert.ok(headerSource.includes('import { Row } from "@/components/layout/compose/Row"'));
-  assert.ok(headerSource.includes('import { Spacer } from "@/components/layout/compose/Spacer"'));
-  assert.ok(headerSource.includes("Modifier.then(RowScope.weight(1))"));
-  assert.ok(headerSource.includes('import { Modifier, RowScope } from "@/components/layout/compose/Modifier"'));
-  assert.ok(headerSource.includes('Arrangement.spacedBy("var(--header-layout-gap)")'));
-  assert.ok(headerSource.includes('Arrangement.spacedBy("var(--header-control-gap)")'));
-  assert.ok(!headerSource.includes("flex shrink-0 items-center gap-0.5"));
-  assert.ok(!headerSource.includes("grid-cols-[1fr_auto]"));
+test("global header uses the shared Material 3 small TopAppBar with content gutters", () => {
+  assert.ok(headerSource.includes('import { TopAppBar } from "@/components/ui/TopAppBar"'));
+  assert.ok(headerSource.includes("<TopAppBar"));
+  assert.ok(headerSource.includes("<HeaderSearch"));
+  assert.ok(headerSource.includes("<DesktopHeaderMenu"));
+  assert.ok(headerSource.includes('maxWidth: "var(--layout-content-wide)"'));
+  assert.ok(headerSource.includes('marginInline: "auto"'));
+  assert.ok(headerSource.includes('paddingInline: "var(--layout-page-gutter)"'));
+  assert.ok(headerSource.includes('viewTransitionName: "loculary-header"'));
+  assert.ok(!headerSource.includes('import { Row } from "@/components/layout/compose/Row"'));
+  assert.ok(!headerSource.includes('import { Spacer } from "@/components/layout/compose/Spacer"'));
+  assert.ok(!headerSource.includes('import { Modifier, RowScope } from "@/components/layout/compose/Modifier"'));
+});
+
+test("header menu exposes a localized primary navigation landmark", () => {
+  assert.ok(desktopHeaderMenuSource.includes('<nav aria-label={t.nav.primaryNavigation}>'));
+  assert.ok(messagesSource.includes('primaryNavigation: "Navigation principale"'));
+  assert.ok(messagesSource.includes('primaryNavigation: "Primary navigation"'));
 });
 
 
