@@ -205,8 +205,8 @@ test("common navigation and identity icons use the shared Material Symbols compo
   assert.match(headerPreferencesSource, /t\.theme\.title/);
   assert.match(headerPreferencesSource, /MaterialIcon name="more_horiz"/);
   const messagesSource = readFileSync(new URL("../../lib/i18n/messages.ts", import.meta.url), "utf8");
-  assert.match(messagesSource, /guidedShort: "Parcours"/);
-  assert.match(messagesSource, /guidedShort: "Guides"/);
+  assert.match(messagesSource, /homeTitle: "Parcours guidés"/);
+  assert.match(messagesSource, /homeTitle: "Guided workflows"/);
 });
 
 test("standard functional UI surfaces do not reintroduce one-off inline SVG icons", () => {
