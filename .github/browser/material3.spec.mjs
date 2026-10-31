@@ -483,7 +483,8 @@ for (const entry of locales) {
     await expect(initialName).toBeVisible();
 
     await page.getByRole("button", { name: renameLabel, exact: true }).click();
-    const field = page.getByRole("textbox", { name: inputLabel });
+    const renameForm = page.locator("form").filter({ has: page.getByRole("button", { name: cancelLabel, exact: true }) });
+    const field = renameForm.getByRole("textbox", { name: inputLabel });
     await expect(field).toBeFocused();
     await field.fill("Nom abandonné");
     await page.getByRole("button", { name: cancelLabel, exact: true }).click();
@@ -491,7 +492,7 @@ for (const entry of locales) {
     await expect(field).toHaveCount(0);
 
     await page.getByRole("button", { name: renameLabel, exact: true }).click();
-    const editor = page.getByRole("textbox", { name: inputLabel });
+    const editor = page.locator("form").filter({ has: page.getByRole("button", { name: cancelLabel, exact: true }) }).getByRole("textbox", { name: inputLabel });
     await editor.fill("Projet final");
     await editor.press("Enter");
     await expect(page.getByRole("heading", { name: "Projet final", level: 2 })).toBeVisible();
