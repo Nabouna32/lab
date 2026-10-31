@@ -146,7 +146,7 @@
   border-radius: var(--shape-corner-full, 999px);
 }
 
- .mobileItem[data-selected="true"] {
+.mobileItem[data-selected="true"] {
   color: var(--secondary);
 }
 
