@@ -182,12 +182,14 @@ Les commentaires sont un historique, pas le seul emplacement du contexte actif.
 Toute PR qui met en œuvre un travail suivi par une issue doit référencer explicitement chaque issue concernée dans le corps de la PR, dans une section « Issues liées ». Le titre, la branche, les commits ou la proximité thématique ne remplacent pas cette relation.
 
 Choisir le mot-clé selon le résultat réellement livré :
-- **`Closes #123`**, ou `Fixes #123` / `Resolves #123`, uniquement lorsque la PR satisfait tous les critères d'acceptation et termine l'issue. GitHub ferme alors l'issue lorsque la PR est fusionnée dans la branche par défaut.
+- **`Closes #123`**, ou `Fixes #123` / `Resolves #123`, uniquement lorsque la PR satisfait tous les critères d'acceptation et termine l'issue. GitHub associe la PR à l'issue et peut la fermer à la fusion dans la branche par défaut si le paramètre du dépôt « Auto-close issues with merged linked pull requests » est activé.
 - **`Refs #123`** pour une contribution partielle, une étape intermédiaire ou une PR qui ne termine pas l'issue. Cette référence crée le lien sans demander sa clôture.
 - Pour plusieurs issues, ajouter une référence distincte par issue et choisir individuellement le mot-clé adapté. Ne pas rattacher une issue simplement parce qu'elle est proche du sujet.
 - Pour un travail autonome indépendant, aucune issue préalable n'est requise : ne pas créer d'issue artificielle. Indiquer « Aucune issue liée » ou supprimer la section si elle n'apporte rien.
 
 Avant d'utiliser un mot-clé de fermeture, vérifier le corps actuel de l'issue, tous ses critères, les validations obligatoires et les éventuelles étapes restantes. Une PR ouverte, fusionnée ou techniquement réussie ne suffit pas si l'issue demande encore une preuve complémentaire. En cas de doute, utiliser `Refs` et conserver l'issue ouverte.
+
+Après la fusion, vérifier l'état réel de l'issue : ne jamais présumer que GitHub l'a clôturée. Le paramètre d'auto-clôture peut être désactivé dans les réglages du dépôt ; voir la [documentation GitHub sur l'auto-clôture](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/managing-auto-closing-issues). Si l'issue reste ouverte alors que tous ses critères sont satisfaits, la clôturer manuellement avec la raison appropriée. Si une preuve ou une étape manque, la laisser ouverte. Ne jamais annoncer une clôture automatique sans l'avoir observée.
 
 Placer les références dans le corps descriptif de la PR, dans la section « Issues liées », afin que GitHub établisse la relation et applique la clôture automatique seulement lorsque le mot-clé et l'état de fusion le permettent. Le modèle de PR de .github/pull_request_template.md rappelle cette convention sans imposer la création d'une issue. Voir aussi la [documentation officielle GitHub sur la liaison des PR aux issues](https://docs.github.com/fr/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue).
 
