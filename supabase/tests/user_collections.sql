@@ -1,6 +1,6 @@
 begin;
 
-select plan(10);
+select plan(13);
 
 insert into auth.users (
   id, aud, role, email, raw_app_meta_data, raw_user_meta_data, created_at, updated_at
@@ -38,9 +38,15 @@ select is((select count(*)::integer from public.user_collections where user_id='
 
 reset role;
 set local role anon;
+select set_config('request.jwt.claim.sub', '', true);
+select set_config('request.jwt.claims', '{}', true);
+select is(auth.uid(), null::uuid, 'anonymous share request has no authenticated subject');
 select set_config('request.headers', '{"x-loculary-share-token":"c2c2c2c2-c2c2-42c2-82c2-c2c2c2c2c2c2"}', true);
 select is((select count(*)::integer from public.user_collections), 1, 'valid share token reveals only the explicitly shared collection');
 select is((select count(*)::integer from public.user_collection_items), 1, 'valid share token reveals only that collection items');
+select set_config('request.headers', '{"x-loculary-share-token":"invalid-token"}', true);
+select is((select count(*)::integer from public.user_collections), 0, 'invalid share token reveals no collections');
+select is((select count(*)::integer from public.user_collection_items), 0, 'invalid share token reveals no collection items');
 select ok(not has_table_privilege('anon', 'public.user_collections', 'DELETE'), 'anonymous users cannot delete collections');
 
 select * from finish();
