@@ -16,13 +16,13 @@
 - **ANDROIDX** — Assist, Filter, Input et Suggestion ont des usages distincts ; les variantes élevées existent pour Assist, Filter et Suggestion. Les FilterChip filtrent un contenu ; les SuggestionChip proposent des suggestions dynamiques pour préciser l'intention, notamment dans une recherche.
 - **ANDROIDX — FilterChip 1.4.0** — hauteur 32 dp, forme `CornerSmall`, contour `outlineVariant` de 1 dp à l'état non sélectionné ; conteneur `secondaryContainer`, libellé et coche `onSecondaryContainer`, sans contour lorsque sélectionné. Le libellé non sélectionné utilise `onSurfaceVariant` et l'icône initiale `primary`.
 - **ANDROIDX — SuggestionChip 1.4.0** — hauteur 32 dp, forme `CornerSmall`, conteneur transparent, contour `outlineVariant` de 1 dp et libellé `onSurfaceVariant` ; une icône initiale éventuelle utilise `primary`.
-- **WEB-ADAPTATION** — les interactions utilisent un vrai bouton HTML. L'API React commune `Chip` et sa propriété `variant` regroupent plusieurs signatures AndroidX ; c'est une composition Web Loculary, pas une reproduction exacte de l'API Kotlin. Le filtre de recherche migré conserve une hauteur minimale de 40 px pour ne pas réduire la zone d'interaction existante sur le Web ; cette valeur est une adaptation locale, pas une conversion dp/px.
+- **WEB-ADAPTATION** — les interactions utilisent un vrai bouton HTML. L'API React commune `Chip` et sa propriété `variant` regroupent plusieurs signatures AndroidX ; c'est une composition Web Loculary, pas une reproduction exacte de l'API Kotlin. Les FilterChip et SuggestionChip du parcours de recherche conservent une hauteur minimale de 40 px pour la cible tactile Web ; cette valeur est une adaptation locale, pas une conversion dp/px. L'activation des suggestions conserve le focus du champ via `onMouseDown.preventDefault()`, puis met à jour la requête et refocalise explicitement le champ.
 - **ACCESSIBILITÉ** — le gestionnaire `onClick` fourni par l'appelant doit être conservé ; les états de sélection sont exposés via `aria-pressed` pour les variantes Filter et Input. L'action de retrait exige un libellé localisé explicite via `dismissLabel` (contrat TypeScript) et est désactivée avec le chip.
 - **UNVERIFIED** — les interactions navigateur instrumentées, les couleurs calculées clair/sombre, le contraste en contexte, le zoom, les états désactivés et la comparaison visuelle AndroidX restent à vérifier.
 
 ## Vérifications restantes
 
-- [ ] Tester activation, sélection, retrait, désactivation et focus clavier dans un navigateur.
+- [ ] Tester activation, sélection, retrait, désactivation et focus clavier dans un navigateur, y compris le focus conservé lors du choix d'une SuggestionChip.
 - [ ] Vérifier le nom accessible de l'action de retrait avec un lecteur d'écran.
 - [ ] Comparer les couleurs calculées, le contraste, clair/sombre, FR/EN, zoom et tailles d'écran réelles.
 - [ ] Comparer le rendu et les états aux références AndroidX épinglées.
