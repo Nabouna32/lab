@@ -179,24 +179,9 @@ Ne pas se fier uniquement à la mémoire conversationnelle, à un ancien comment
 
 ## 6. Issues comme checkpoints de reprise
 
-Utiliser les GitHub Issues comme mémoire opérationnelle durable, sans en faire un journal exhaustif.
+Les GitHub Issues sont la mémoire opérationnelle durable des chantiers significatifs et le moyen de transférer un contexte entre conversations ou modes qui ne partagent pas nécessairement leur historique. Elles indiquent où reprendre ; les commits, PR, CI et systèmes réels fournissent les preuves ; la documentation canonique conserve les règles et décisions durables.
 
-- Créer ou réutiliser une issue lorsqu'un chantier significatif bénéficie d'un objectif explicite, de critères de fin, d'un suivi ou d'une reprise ultérieure.
-- Ne pas créer une issue pour chaque petite correction ou opération courante.
-- Conserver dans l'issue de pilotage le contexte nécessaire : objectif, périmètre, décisions, critères de fin, dépendances, état vérifié et prochaine action.
-- Ajouter un commentaire uniquement lors d'une transition qui change réellement l'état ou la compréhension du chantier : jalon terminé, découverte qui change la stratégie, échec important, blocage, opération critique ou reprise avec un résultat nouveau. Pour les étapes intermédiaires, mettre à jour l'issue de référence plutôt que publier une succession de commentaires équivalents.
-- Ne pas commenter chaque tentative, commande, vérification ou session. Un commentaire doit apporter une information durable : fait nouveau, décision, résultat vérifié, risque ou prochaine action.
-- Maintenir un état de reprise faisant autorité par chantier. Éviter les commentaires redondants et les journaux parallèles ; lorsqu'un checkpoint précédent devient faux, le corriger ou le compléter explicitement.
-- Distinguer clairement ce qui est terminé, tenté sans succès, en cours, non vérifié et bloqué. Ajouter les liens vers commits, PR, CI et déploiements pertinents.
-- Réutiliser les issues existantes et éviter les doublons. Une issue globale n'est utile que si elle améliore réellement la coordination ; ne pas créer un tableau de bord parallèle sans besoin démontré.
-- Lors d'un assainissement du backlog, auditer les issues ouvertes et les classer avant toute fermeture : terminée (vérifier puis fermer), doublon (relier à l'issue de référence puis fermer), obsolète ou sans valeur actuelle (documenter brièvement puis fermer), encore valide (conserver et reprioriser), ou incertaine (investiguer avant décision). Ne jamais fermer toutes les issues en bloc uniquement pour donner une impression de propreté ; préserver le contexte, les liens et les problèmes non résolus. Les issues `action-humaine` ne sont ni auditées ni fermées par l'agent autonome.
-- Fermer une issue uniquement lorsque ses critères de fin sont vérifiés. Une PR fusionnée ne suffit pas toujours si la validation en production ou d'autres critères font partie de l'objectif.
-
-Les issues indiquent où reprendre ; les commits, PR, CI et systèmes réels fournissent les preuves ; la documentation canonique conserve les règles et décisions durables.
-
-### Référence centrale de gestion des issues
-
-La taxonomie des labels, la structure des issues, leur cycle de vie, les règles Dependabot, les demandes d'action humaine et l'hygiène des commentaires sont centralisés dans `docs/ISSUE-GUIDELINES.md`. Appliquer cette référence plutôt que recopier ou redéfinir ces règles dans le mandat.
+La taxonomie, la structure, la création, la mise à jour, la clôture et la réouverture des issues, les cas Dependabot, les demandes d'action humaine et l'hygiène des commentaires sont définis dans `docs/ISSUE-GUIDELINES.md`. Ce document est la référence centrale : ne pas recopier sa taxonomie ni ses procédures ici. Les permissions propres à chaque mode sont définies dans `AGENTS.md`.
 
 En mode AUTONOME, les issues portant `action-humaine` sont totalement exclues : les filtrer de toutes les recherches avec `-label:action-humaine`, ne pas les lire, les mentionner, les commenter, les modifier ou surveiller leur état. Ne pas attendre d'action ou de réponse. Les travaux autonomes indépendants continuent selon la section 4. La création d'une telle issue suit exclusivement la procédure de `docs/ISSUE-GUIDELINES.md`.
 
