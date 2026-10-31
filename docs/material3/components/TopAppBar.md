@@ -48,11 +48,20 @@ Les variantes moyenne, grande et centrée ne sont pas conservées dans le code t
 
 ## Vérifications et limites
 
+### Vérifications statiques et Production
+
 - [x] Tests de contrat : slots composables, absence de sémantique heading inventée, action de navigation facultative et libellé obligatoire.
 - [x] Tests de migration : le header utilise TopAppBar, les gutters restent centralisés et le landmark de navigation est localisé.
-- [ ] Vérifier en navigateur les viewports exacts 390×844, 768×1024 et 1440×900.
-- [ ] Vérifier Tab, focus-visible, Escape, restitution du focus et lecteur d'écran.
-- [ ] Comparer les couleurs, insets, espacements et états avec la source AndroidX en thèmes clair/sombre.
-- [ ] Confirmer la hauteur de 64 px et le comportement du panneau de recherche sur les largeurs mobiles/tablettes.
+- [x] CI sur le commit de fusion : lint, typecheck, tests, audit npm, build et gate Node.js 24.21.0.
+- [x] Production `loculary.vercel.app` sur le commit `9725e09662005118a14c3b6d04992a04fb59f8fa` : chargement FR/EN, marque visible, recherche et menu ouvrables, fermeture Escape, focus automatique dans le champ de recherche, landmark `nav` nommé « Navigation principale » en FR et absence de débordement horizontal sur les viewports observés.
+- [x] Source CSS : la ligne de la petite TopAppBar applique `min-height: 64px`. Cette valeur est vérifiée dans le code livré, pas mesurée comme hauteur calculée du navigateur.
 
-La petite variante est intégrée, mais les tests statiques ne prouvent pas la parité visuelle complète. Aucun comportement de défilement/collapse des variantes moyenne/grande n'est revendiqué, car ces variantes ne sont pas portées.
+### Vérifications non réalisées
+
+- [ ] Viewports exacts 390×844, 768×1024 et 1440×900 : l'outil navigateur n'a pas permis de les imposer. Observations réelles uniquement : FR environ 1268×981 et 1366×948 ; EN environ 1090×961.
+- [ ] Mesure DOM calculée (`getBoundingClientRect`, `getComputedStyle`) de la hauteur réelle : non accessible dans la session navigateur. Ne pas reprendre l'estimation visuelle initiale d'environ 48 px, qui n'était pas une mesure fiable.
+- [ ] Tab, ordre complet de focus, restitution du focus après Escape et validation par lecteur d'écran.
+- [ ] Comparaison des couleurs, insets, espacements et états avec AndroidX en thèmes clair/sombre.
+- [ ] Comportement du panneau de recherche aux largeurs mobiles/tablettes et validation des breakpoints.
+
+La petite variante est intégrée et utilisée en Production. Les observations navigateur couvrent des interactions réelles mais ne prouvent pas la parité visuelle complète ni l'accessibilité exhaustive. Aucun comportement de défilement/collapse des variantes moyenne/grande n'est revendiqué, car ces variantes ne sont pas portées.
