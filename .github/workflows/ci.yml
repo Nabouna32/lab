@@ -279,11 +279,19 @@ jobs:
         with:
           deno-version: 2.1.4
 
-      - name: Validate Supabase Edge Functions
+      - name: Discover and validate all Supabase Edge Functions
         run: |
           set -euo pipefail
-          for function in account-delete admin-user-sessions admin-user-suspension; do
-            (cd "supabase/functions/$function" && deno check --frozen index.ts)
+          mapfile -t function_entries < <(find supabase/functions -mindepth 2 -maxdepth 2 -type f -name index.ts -print | sort)
+          if [ "${#function_entries[@]}" -eq 0 ]; then
+            echo "No Supabase Edge Functions found."
+            exit 0
+          fi
+          for function_entry in "${function_entries[@]}"; do
+            function_dir="$(dirname "$function_entry")"
+            echo "::group::Deno check $function_dir"
+            (cd "$function_dir" && deno check --frozen index.ts)
+            echo "::endgroup::"
           done
 
   supabase-database:
