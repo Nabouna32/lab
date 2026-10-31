@@ -99,7 +99,7 @@ export default function TimezoneConverter() {
               {destinationTimeZones.map((zone) => (
                 <div key={zone} className="flex min-h-12 items-center justify-between gap-3 rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] px-3 py-2">
                   <span className="min-w-0 break-all text-sm font-medium text-[var(--foreground)]">{zone}</span>
-                  <TextButton type="button" aria-label={t.removeDestination + " " + zone} disabled={destinationTimeZones.length <= 1} onClick={() => removeDestination(zone)} className="min-h-9 shrink-0 px-2">
+                  <TextButton type="button" aria-label={t.removeDestination + " " + zone} disabled={destinationTimeZones.length <= 1} onClick={() => removeDestination(zone)} className="shrink-0">
                     {t.removeDestination}
                   </TextButton>
                 </div>

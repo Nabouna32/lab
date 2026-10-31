@@ -53,6 +53,7 @@ Adaptations Web déclarées :
 - `multiline` est une extension de mise en page Web.
 - `AppLink` reste une ancre : activation native par Entrée, pas par Espace.
 - Le ripple est rendu par événements pointeur/clavier et CSS ; il ne prétend pas reproduire le moteur Compose.
+- Le bouton de retrait des destinations du convertisseur de fuseaux horaires conserve la géométrie partagée de `TextButton` (hauteur minimale 40 px et padding source) ; seule la contrainte de layout `shrink-0` est ajoutée localement.
 
 ## Choisir une variante
 

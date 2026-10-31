@@ -16,6 +16,7 @@ const headerSearch = readFileSync(new URL("../../components/layout/HeaderSearch.
 const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
 const favoritesView = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
 const adminUsers = readFileSync(new URL("../../app/[locale]/admin/utilisateurs/page.tsx", import.meta.url), "utf8");
+const timezoneConverter = readFileSync(new URL("../../components/tools/timezone-converter/TimezoneConverter.tsx", import.meta.url), "utf8");
 const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
 const recentTools = readFileSync(new URL("../../components/home/RecentTools.tsx", import.meta.url), "utf8");
 
@@ -89,6 +90,9 @@ test("button-styled links preserve anchors and share the ripple interaction", ()
   assert.match(appLink, /materialButtonVariantStyles\[variant\]/);
   assert.match(button, /getMaterialButtonLayoutClasses\(variant, \{ leadingIcon, multiline \}\)/);
   assert.match(appLink, /getMaterialButtonLayoutClasses\(variant, \{ leadingIcon \}\)/);
+  assert.doesNotMatch(timezoneConverter, /className="[^"]*px-2/);
+  assert.match(timezoneConverter, /aria-label=\{t\.removeDestination \+ " " \+ zone\}/);
+  assert.match(timezoneConverter, /disabled=\{destinationTimeZones\.length <= 1\}/);
   assert.match(buttonLayout, /min-h-10/);
   assert.match(buttonLayout, /min-w-\[58px\]/);
   assert.match(buttonLayout, /ps-3 pe-4/);
@@ -281,4 +285,19 @@ test("admin destructive actions use semantic error roles without shrinking Mater
   assert.ok(adminUsers.includes('<OutlinedButton type="submit" colors={suspended ? undefined : { contentColor: "var(--error)" }}>'));
   assert.doesNotMatch(adminUsers, /min-h-8 px-2 py-1 m3-type-label-small text-\[var\(--danger\)\]/);
   assert.doesNotMatch(adminUsers, /className="text-\[var\(--danger\)\] hover:text-\[var\(--danger\)\]"/);
+});
+
+
+test("timezone destination removal keeps the shared Material 3 TextButton touch target", () => {
+  const buttonStart = timezoneConverter.indexOf('<TextButton type="button" aria-label={t.removeDestination + " " + zone}');
+  const classNameStart = timezoneConverter.indexOf('className="shrink-0"', buttonStart);
+  const buttonEnd = timezoneConverter.indexOf(">", classNameStart);
+  assert.ok(buttonStart >= 0, "the destination removal action remains a native TextButton");
+  assert.ok(classNameStart > buttonStart && buttonEnd > classNameStart, "the shared layout-only class belongs to that action");
+  const buttonMarkup = timezoneConverter.slice(buttonStart, buttonEnd + 1);
+  assert.ok(buttonMarkup.includes('aria-label={t.removeDestination + " " + zone}'));
+  assert.ok(buttonMarkup.includes("disabled={destinationTimeZones.length <= 1}"));
+  assert.ok(!buttonMarkup.includes("min-h-9"), "the shared 40px minimum height must not be reduced");
+  assert.ok(!buttonMarkup.includes("px-2"), "the shared TextButton padding must remain intact");
+  assert.match(buttonLayout, /min-h-10/);
 });
