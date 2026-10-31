@@ -175,6 +175,7 @@ export function searchTools(tools: readonly Tool[], query: string, locale: Local
     // Intent-only queries use curated associations; mixed queries only boost tools
     // that have already passed the lexical relevance threshold.
     const intentBoost = getIntentBoost(tool, inferredIntents);
+    if (matchedTerms === 0 && intentBoost === 0) return { tool, score: 0 };
 
     const allTermsMatch = matchedTerms === terms.length;
     const score = termScores.reduce((total, termScore) => total + termScore, 0)
