@@ -476,6 +476,9 @@ for (const entry of locales) {
     const renameLabel = entry.locale === "fr" ? "Renommer" : "Rename";
     const cancelLabel = entry.locale === "fr" ? "Annuler" : "Cancel";
     const inputLabel = entry.locale === "fr" ? "Nom de la collection" : "Collection name";
+    const collectionChoice = page.getByRole("button", { name: /Collection initiale/ });
+    await expect(collectionChoice).toBeVisible();
+    await collectionChoice.click();
     const initialName = page.getByRole("heading", { name: "Collection initiale", level: 2 });
     await expect(initialName).toBeVisible();
 
