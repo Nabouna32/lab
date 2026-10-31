@@ -10,10 +10,11 @@ const toolSearchSource = readFileSync(
 test("ToolSearch exposes expanded state whenever its popup is actually open", () => {
   assert.match(toolSearchSource, /const isPopupOpen = showResults && overlayPosition !== null;/);
   assert.match(toolSearchSource, /aria-expanded={isPopupOpen}/);
-  assert.match(toolSearchSource, /aria-controls={hasVisibleResults \? resultsId : undefined}/);
+  assert.match(toolSearchSource, /aria-controls={isPopupOpen \? resultsId : undefined}/);
+  assert.match(toolSearchSource, /<div id={resultsId} role="listbox" aria-label={t\.tools\.suggestions} aria-busy={isSearching}/);
   assert.match(
     toolSearchSource,
-    /aria-activedescendant={hasVisibleResults && activeIndex >= 0 \? instanceId \+ "-result-" \+ activeIndex : undefined}/,
+    /aria-activedescendant={isPopupOpen && visibleResults\.length > 0 && activeIndex >= 0 \? instanceId \+ "-result-" \+ activeIndex : undefined}/,
   );
   assert.match(toolSearchSource, /{isPopupOpen && typeof document !== "undefined" && createPortal\(/);
 });

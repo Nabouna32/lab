@@ -179,7 +179,6 @@ export default function ToolSearch({
 
   const visibleResults = !isSearching && !searchError && normalizeSearchText(query) === normalizeSearchText(resultsQuery) ? results : [];
   const isPopupOpen = showResults && overlayPosition !== null;
-  const hasVisibleResults = isPopupOpen && visibleResults.length > 0;
 
   function openResult(index: number) {
     const result = visibleResults[index];
@@ -262,8 +261,8 @@ export default function ToolSearch({
           role="combobox"
           aria-autocomplete="list"
           aria-expanded={isPopupOpen}
-          aria-controls={hasVisibleResults ? resultsId : undefined}
-          aria-activedescendant={hasVisibleResults && activeIndex >= 0 ? instanceId + "-result-" + activeIndex : undefined}
+          aria-controls={isPopupOpen ? resultsId : undefined}
+          aria-activedescendant={isPopupOpen && visibleResults.length > 0 && activeIndex >= 0 ? instanceId + "-result-" + activeIndex : undefined}
           inputMode="search"
           enterKeyHint="search"
           onChange={(event) => { const nextQuery = event.target.value; searchRequest.current += 1; setQuery(nextQuery); setIsSuggestionsDismissed(false); setActiveIndex(-1); setSearchError(false); setIsSearching(nextQuery.trim().length > 0); if (!nextQuery.trim()) setOverlayPosition(null); }}
@@ -328,12 +327,13 @@ export default function ToolSearch({
           }}
           className="overflow-y-auto overscroll-contain rounded-[var(--radius-xl)] border border-[var(--outline-variant)] bg-[var(--surface-elevated)] p-2 text-[var(--foreground)] shadow-[var(--shadow-lg)]"
         >
-          {isSearching ? (
+          {isSearching && (
             <div className="flex items-center gap-3 px-4 py-5" role="status" aria-live="polite">
               <span className="h-4 w-4 shrink-0 animate-pulse rounded-full bg-[var(--primary)]" aria-hidden="true" />
               <p className="m3-type-body-medium text-[var(--foreground)]">{t.tools.searching}</p>
             </div>
-          ) : searchError ? (
+          )}
+          {searchError && (
             <div className="px-4 py-5" role="alert">
               <p className="m3-type-body-medium text-[var(--foreground)]">{t.tools.searchError}</p>
               <OutlinedButton
@@ -345,63 +345,63 @@ export default function ToolSearch({
                 {t.tools.retrySearch}
               </OutlinedButton>
             </div>
-          ) : visibleResults.length > 0 ? (
-            <>
-              <div className="flex items-center justify-between gap-3 px-3 pb-2 pt-1">
-                <p className="m3-type-label-medium text-[var(--muted)]">{t.tools.suggestions}</p>
-                <p role="status" aria-live="polite" aria-atomic="true" className="m3-type-label-small rounded-full bg-[var(--surface-soft)] px-2.5 py-1 text-[var(--muted)]">
-                  {formatPlural(locale, visibleResults.length, { one: t.tools.resultCountOne, other: t.tools.resultCountMany })}
-                </p>
-              </div>
-              <div id={resultsId} role="listbox" aria-label={t.tools.suggestions} aria-busy={false} className="grid gap-1">
-                {visibleResults.map(({ tool }, index) => {
-                  const content = getToolContent(tool, locale);
-                  const selected = activeIndex === index;
-                  return (
-                    <a
-                      key={tool.id}
-                      id={instanceId + "-result-" + index}
-                      href={hrefFor(tool.id)}
-                      role="option"
-                      aria-selected={selected}
-                      tabIndex={-1}
-                      onMouseEnter={() => setActiveIndex(index)}
-                      onMouseDown={(event) => event.preventDefault()}
-                      className={
-                        "group flex min-h-[4.25rem] items-center gap-3 rounded-[var(--radius-lg)] px-3 py-2.5 text-left outline-none transition-colors " +
-                        (selected
-                          ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
-                          : "text-[var(--foreground)] hover:bg-[var(--surface-soft)]")
-                      }
-                    >
-                      <span
-                        className={
-                          "flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-medium)] " +
-                          (selected
-                            ? "bg-[var(--on-primary-container)]/10"
-                            : "bg-[var(--surface-variant)] text-[var(--on-surface-variant)]")
-                        }
-                        aria-hidden="true"
-                      >
-                        <MaterialIcon name={tool.icon} size={22} />
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="m3-type-title-small block truncate">
-                          <HighlightMatch text={content.name} query={query} />
-                        </span>
-                        <span className="m3-type-body-small mt-1 block line-clamp-2 opacity-80">
-                          <span className="font-medium">{getCategoryName(locale, getPrimaryToolCategory(tool))}</span>
-                          <span aria-hidden="true"> · </span>
-                          {content.description}
-                        </span>
-                      </span>
-                      <MaterialIcon name="chevron_right" size={16} className="shrink-0 opacity-70" />
-                    </a>
-                  );
-                })}
-              </div>
-            </>
-          ) : (
+          )}
+          {!isSearching && !searchError && visibleResults.length > 0 && (
+            <div className="flex items-center justify-between gap-3 px-3 pb-2 pt-1">
+              <p className="m3-type-label-medium text-[var(--muted)]">{t.tools.suggestions}</p>
+              <p role="status" aria-live="polite" aria-atomic="true" className="m3-type-label-small rounded-full bg-[var(--surface-soft)] px-2.5 py-1 text-[var(--muted)]">
+                {formatPlural(locale, visibleResults.length, { one: t.tools.resultCountOne, other: t.tools.resultCountMany })}
+              </p>
+            </div>
+          )}
+          <div id={resultsId} role="listbox" aria-label={t.tools.suggestions} aria-busy={isSearching} className="grid gap-1">
+            {visibleResults.map(({ tool }, index) => {
+              const content = getToolContent(tool, locale);
+              const selected = activeIndex === index;
+              return (
+                <a
+                  key={tool.id}
+                  id={instanceId + "-result-" + index}
+                  href={hrefFor(tool.id)}
+                  role="option"
+                  aria-selected={selected}
+                  tabIndex={-1}
+                  onMouseEnter={() => setActiveIndex(index)}
+                  onMouseDown={(event) => event.preventDefault()}
+                  className={
+                    "group flex min-h-[4.25rem] items-center gap-3 rounded-[var(--radius-lg)] px-3 py-2.5 text-left outline-none transition-colors " +
+                    (selected
+                      ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
+                      : "text-[var(--foreground)] hover:bg-[var(--surface-soft)]")
+                  }
+                >
+                  <span
+                    className={
+                      "flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-medium)] " +
+                      (selected
+                        ? "bg-[var(--on-primary-container)]/10"
+                        : "bg-[var(--surface-variant)] text-[var(--on-surface-variant)]")
+                    }
+                    aria-hidden="true"
+                  >
+                    <MaterialIcon name={tool.icon} size={22} />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="m3-type-title-small block truncate">
+                      <HighlightMatch text={content.name} query={query} />
+                    </span>
+                    <span className="m3-type-body-small mt-1 block line-clamp-2 opacity-80">
+                      <span className="font-medium">{getCategoryName(locale, getPrimaryToolCategory(tool))}</span>
+                      <span aria-hidden="true"> · </span>
+                      {content.description}
+                    </span>
+                  </span>
+                  <MaterialIcon name="chevron_right" size={16} className="shrink-0 opacity-70" />
+                </a>
+              );
+            })}
+          </div>
+          {!isSearching && !searchError && visibleResults.length === 0 && (
             <div className="px-3 py-4">
               <p className="m3-type-body-medium text-[var(--foreground)]" role="status">
                 {t.tools.noResults} « {query.trim()} »
