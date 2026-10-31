@@ -13,6 +13,7 @@ import type { Tool } from "@/lib/tools/types";
 import { normalizeSearchText } from "@/lib/tools/search-utils";
 import { executeToolSearch } from "@/lib/tools/search-request";
 import { OutlinedButton } from "@/components/ui/Button";
+import { Chip } from "@/components/ui/Chip";
 import { FilledIconButton, IconButton } from "@/components/ui/IconButton";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { getSearchResultsPath, getToolPath } from "@/lib/tools/routes";
@@ -408,9 +409,11 @@ export default function ToolSearch({
               <p className="m3-type-body-small mt-1 text-[var(--muted)]">{t.tools.noResultsHelp}</p>
               <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label={t.tools.tryThese}>
                 {t.tools.noResultsSuggestions.map((suggestion) => (
-                  <button
+                  <Chip
                     key={suggestion}
-                    type="button"
+                    variant="suggestion"
+                    label={suggestion}
+                    className="min-h-10"
                     onMouseDown={(event) => event.preventDefault()}
                     onClick={() => {
                       searchRequest.current += 1;
@@ -421,10 +424,7 @@ export default function ToolSearch({
                       setIsSearching(true);
                       inputRef.current?.focus();
                     }}
-                    className="m3-type-label-medium min-h-10 rounded-full border border-[var(--outline-variant)] bg-[var(--surface-soft)] px-4 py-2 text-[var(--foreground)] transition-colors hover:border-[var(--primary)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-                  >
-                    {suggestion}
-                  </button>
+                  />
                 ))}
               </div>
             </div>
