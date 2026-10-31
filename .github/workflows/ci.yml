@@ -127,7 +127,7 @@ jobs:
           retention-days: 7
 
       - name: Exercise CI tooling tests
-        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: |
           node --test .github/scripts/*.test.mjs
           python3 .github/scripts/test_inspect_material3_android_aar.py
