@@ -20,6 +20,7 @@ const collectionsView = readFileSync(new URL("../../components/collections/Colle
 const favoritesView = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
 const adminUsers = readFileSync(new URL("../../app/[locale]/admin/utilisateurs/page.tsx", import.meta.url), "utf8");
 const timezoneConverter = readFileSync(new URL("../../components/tools/timezone-converter/TimezoneConverter.tsx", import.meta.url), "utf8");
+const signInPage = readFileSync(new URL("../../app/[locale]/compte/connexion/page.tsx", import.meta.url), "utf8");
 const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
 const recentTools = readFileSync(new URL("../../components/home/RecentTools.tsx", import.meta.url), "utf8");
 
@@ -307,6 +308,12 @@ test("admin destructive actions use semantic error roles without shrinking Mater
   assert.doesNotMatch(adminUsers, /className="text-\[var\(--danger\)\] hover:text-\[var\(--danger\)\]"/);
 });
 
+
+test("resend confirmation selects the shared OutlinedButton variant instead of local visual overrides", () => {
+  assert.ok(signInPage.includes('<SubmitButton pendingLabel={t.account.resendConfirmation} variant="outlined">'));
+  assert.ok(!signInPage.includes('className="border border-[var(--border)] bg-transparent text-[var(--foreground)] hover:bg-[var(--surface-soft)]"'));
+  assert.ok(signInPage.includes('<SubmitButton pendingLabel={t.account.submitSignIn} className="w-full">'), "layout-only className remains supported");
+});
 
 test("timezone destination removal keeps the shared Material 3 TextButton touch target", () => {
   const buttonStart = timezoneConverter.indexOf('<TextButton type="button" aria-label={t.removeDestination + " " + zone}');
