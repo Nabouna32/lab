@@ -369,8 +369,9 @@ async function main() {
     await setViewport({ width: 390, height: 844, mobile: true });
     const reducedMotion = await cdp.evaluate("matchMedia('(prefers-reduced-motion: reduce)').matches");
     assert(reducedMotion, "Le navigateur n'émule pas prefers-reduced-motion: reduce.");
-    const transition = await cdp.evaluate("getComputedStyle(document.querySelector('[data-testid=\"long-label-button\"]')).transitionDuration");
-    assert(transition === "0s", "Le bouton conserve une transition sous réduction des animations : " + transition);
+    const transition = await cdp.evaluate("(() => { const style = getComputedStyle(document.querySelector('[data-testid=long-label-button]')); return { property: style.transitionProperty, durations: style.transitionDuration.split(',').map((value) => { const item = value.trim(); const amount = Number.parseFloat(item); return item.endsWith('ms') ? amount / 1000 : amount; }) }; })()");
+    assert(transition.property === "none" || (transition.durations.length > 0 && transition.durations.every((value) => Number.isFinite(value) && value <= 0.001)),
+      "Le bouton conserve une transition sous réduction des animations : " + JSON.stringify(transition));
     console.log("Réduction des animations OK.");
 
     await testSearchKeyboard();
