@@ -96,7 +96,7 @@ jobs:
 
       - name: Upload Compose submodule publication audit
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: compose-publications-1.12.1
           path: |
@@ -119,7 +119,7 @@ jobs:
 
       - name: Upload verified Material 3 1.4.0 publication artifacts
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: material3-1.4.0-published-artifacts
           path: |
@@ -161,7 +161,7 @@ jobs:
 
       - name: Upload Compose 1.12.1 source alignment report
         if: always() && github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: compose-source-alignment-1.12.1
           path: /tmp/compose-source-alignment-1.12.1.json
@@ -170,7 +170,7 @@ jobs:
 
       - name: Upload Compose 1.12.1 release API provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: compose-release-api-provenance-1.12.1
           path: /tmp/compose-release-api-provenance/
@@ -261,6 +261,22 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: "http://127.0.0.1:54321"
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_local_placeholder"
         run: npm run build
+
+      - name: Local Chromium and axe-core regression
+        run: node .github/scripts/material3-browser-smoke.mjs
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+          NEXT_PUBLIC_SUPABASE_URL: "http://127.0.0.1:54321"
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_local_placeholder"
+
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: material3-browser-evidence
+          path: artifacts/browser/
+          if-no-files-found: ignore
+          retention-days: 7
 
   supabase:
     name: Vérification Supabase

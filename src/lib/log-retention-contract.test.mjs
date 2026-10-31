@@ -46,12 +46,16 @@ test("pgTAP retention suite is transactional and its plan matches its assertions
   assert.match(sqlTest, /incomplete cron runs are preserved regardless of age/);
 });
 
-test("internal privacy documentation describes the active twelve-month policy", () => {
-  assert.match(databaseDocs, /Politique (?:indiquée comme )?active en production depuis le 30 octobre 2026/i);
+test("internal privacy documentation describes the verified twelve-month policy", () => {
+  assert.match(databaseDocs, /Vérification en production — 31 octobre 2026, après le premier passage/i);
+  assert.match(databaseDocs, /job `loculary-log-retention-12m` \(ID 3\) est actif/i);
+  assert.match(databaseDocs, /statut `succeeded`/i);
+  assert.match(databaseDocs, /aucun nombre de lignes supprimées n'est donc déduit/i);
   assert.match(databaseDocs, /douze mois glissants/i);
   assert.match(databaseDocs, /Aucun archivage ni sauvegarde externe/i);
-  assert.match(privacyDocs, /Politique applicative (?:indiquée comme )?active en production depuis le 30 octobre 2026/i);
+  assert.match(privacyDocs, /Politique applicative vérifiée en production le 31 octobre 2026/i);
+  assert.match(privacyDocs, /son premier passage a réussi le 31 octobre à 03:00 UTC/i);
   assert.match(privacyDocs, /Aucune sauvegarde Google Drive ou archive externe/i);
-  assert.match(privacyDocs, /24 heures/i);
+  assert.match(privacyDocs, /un jour/i);
   assert.match(privacyDocs, /une heure/i);
 });
