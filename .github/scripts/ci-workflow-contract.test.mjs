@@ -75,3 +75,13 @@ test("CodeQL scans main pushes and its weekly schedule without running on pull r
   assert.match(triggers, /^  schedule:/m);
   assert.doesNotMatch(triggers, /^  pull_request:/m);
 });
+
+test("CodeQL pins actions and uses only the permissions required by this public repository", () => {
+  assert.match(codeql, /uses: actions\\/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7\\.0\\.1/);
+  assert.match(codeql, /uses: github\\/codeql-action\\/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4\\.39\\.1/);
+  assert.match(codeql, /uses: github\\/codeql-action\\/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4\\.39\\.1/);
+  const permissions = codeql.slice(codeql.indexOf("    permissions:"), codeql.indexOf("\\n    strategy:"));
+  assert.match(permissions, /contents: read/);
+  assert.match(permissions, /security-events: write/);
+  assert.doesNotMatch(permissions, /actions:|packages:/);
+});
