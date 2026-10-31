@@ -51,7 +51,7 @@ export function Snackbar({
         {actionLabel && onAction ? (
           <TextButton
             type="button"
-            className="min-h-11"
+            className="min-h-11 min-w-[44px] text-[var(--lab-inverse-primary,var(--inverse-primary))]"
             colors={{ contentColor: "var(--lab-inverse-primary,var(--inverse-primary))" }}
             onClick={() => {
               onAction();
