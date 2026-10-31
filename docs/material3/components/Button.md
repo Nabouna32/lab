@@ -81,7 +81,6 @@ Audit des usages directs et des wrappers partagés au 31 octobre 2026. Les conso
 | Administration | `AdminUsers` | `TextButton`, `OutlinedButton` | Le rôle `error` n'est appliqué qu'aux actions destructives ; aucune réduction locale de cible tactile. |
 | Fuseaux horaires | `TimezoneConverter` | `TextButton` | Le retrait d'une destination conserve la hauteur minimale et le padding partagés ; seul `shrink-0` reste local. |
 | Liens | `AppLink`, Footer et pages compte/favoris | Ancre inline ou styles de variantes Button | Les liens restent des ancres. La variante `navigation` non consommée a été supprimée ; la navigation principale est portée par `AdaptiveAppNavigation` et `DesktopHeaderMenu`. |
-| Primitive non consommée | `Snackbar` | `TextButton` pour son action | Le composant existe dans le système UI mais aucun consommateur de production n'a été trouvé ; il est exclu de l'inventaire des usages actifs. |
 
 L'audit des consommateurs et des surcharges locales de couleur/géométrie est terminé. Les écarts démontrés ont été migrés vers les API partagées ; les classes restantes sur les consommateurs actifs ne servent qu'au layout. `ElevatedButton` reste disponible pour la complétude de l'API AndroidX et les spécimens du Design Lab, sans usage de production identifié.
 
