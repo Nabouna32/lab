@@ -15,13 +15,15 @@ Un ListItem est une rangée d’une liste continue, pour présenter un titre ave
 
 ## Contrat visuel de référence
 
-Les mesures Android sont exprimées en dp/sp dans la source. L’adaptation Web utilise les valeurs numériques équivalentes en CSS px comme convention de portage, sans prétendre que dp et px sont universellement interchangeables.
+Les mesures Android sont exprimées en dp/sp dans la source. L’adaptation Web les expose via des tokens CSS rem partagés : les valeurs de référence numériques ne prétendent pas convertir physiquement dp en px, et rem conserve le zoom ainsi que les préférences de taille du navigateur.
 
 - Une ligne : hauteur minimale de 56.
 - Deux lignes : hauteur minimale de 72.
 - Trois lignes : hauteur minimale de 88 ; le padding vertical nominal est de 12, contre 8 pour les variantes une/deux lignes.
 - Padding horizontal : 16 de chaque côté.
-- Écart entre le contenu principal et les contenus de bord : 16.
+- Écart entre le contenu principal et les contenus de bord : 16, via le token d'espacement partagé `--m3-space-4`.
+- Padding horizontal : tokenisé par `--m3-space-4` ; padding vertical des lignes une/deux par `--m3-space-2` et des trois lignes par `--m3-space-3`.
+- Alignement : les lignes une/deux centrent verticalement les slots de tête et de queue ; la variante trois lignes aligne ces slots en haut, comme le contrat AndroidX.
 - Headline : rôle typographique Body Large, couleur `on-surface`.
 - Supporting : Body Medium, couleur `on-surface-variant`.
 - Overline : Label Small, couleur `on-surface-variant`.
