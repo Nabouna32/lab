@@ -90,6 +90,7 @@ test("button-styled links preserve anchors and share the ripple interaction", ()
   assert.match(appLink, /materialButtonVariantStyles\[variant\]/);
   assert.match(button, /getMaterialButtonLayoutClasses\(variant, \{ leadingIcon, multiline \}\)/);
   assert.match(appLink, /getMaterialButtonLayoutClasses\(variant, \{ leadingIcon \}\)/);
+  assert.doesNotMatch(timezoneConverter, /className="[^"]*px-2/);
   assert.match(buttonLayout, /min-h-10/);
   assert.match(buttonLayout, /min-w-\[58px\]/);
   assert.match(buttonLayout, /ps-3 pe-4/);
@@ -286,7 +287,7 @@ test("admin destructive actions use semantic error roles without shrinking Mater
 
 
 test("timezone destination removal keeps the shared Material 3 TextButton touch target", () => {
-  assert.match(timezoneConverter, /<TextButton[^>]*className="shrink-0 px-2"/);
+  assert.match(timezoneConverter, /<TextButton[^>]*className="shrink-0"/);
   assert.doesNotMatch(timezoneConverter, /className="min-h-9 shrink-0 px-2"/);
   assert.match(buttonLayout, /min-h-10/);
 });
