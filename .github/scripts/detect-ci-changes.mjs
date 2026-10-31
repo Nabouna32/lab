@@ -85,6 +85,7 @@ async function main() {
     governance_changed: false,
     androidx_provenance_changed: false,
     supabase_changed: false,
+    supabase_database_changed: false,
     dependency_manifests_only: false,
   };
 
