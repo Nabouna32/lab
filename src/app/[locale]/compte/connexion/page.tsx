@@ -53,7 +53,7 @@ export default async function SignInPage({
           <Column verticalArrangement={Arrangement.spacedBy("var(--space-3)")}>
                 <input type="hidden" name="locale" value={locale} />
                 <TextField label={t.account.email} inputId="confirmation-email" name="email" type="email" autoComplete="email" required />
-                <SubmitButton pendingLabel={t.account.resendConfirmation} className="border border-[var(--border)] bg-transparent text-[var(--foreground)] hover:bg-[var(--surface-soft)]">
+                <SubmitButton pendingLabel={t.account.resendConfirmation} variant="outlined">
                   {t.account.resendConfirmation}
                 </SubmitButton>
                         </Column>
