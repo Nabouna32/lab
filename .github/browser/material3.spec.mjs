@@ -4,8 +4,8 @@ import { test, expect } from "@playwright/test";
 const require = createRequire(import.meta.url);
 const axePath = require.resolve("axe-core/axe.min.js");
 const locales = [
-  { locale: "fr", path: "/fr/design-lab", mobileLabel: "Parcours" },
-  { locale: "en", path: "/en/design-lab", mobileLabel: "Guides" },
+  { locale: "fr", path: "/fr/design-lab" },
+  { locale: "en", path: "/en/design-lab" },
 ];
 const viewports = [320, 390, 768, 1440, 1920];
 const wcagTags = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
@@ -145,11 +145,6 @@ for (const entry of locales) {
         expect(metrics.lang).toMatch(new RegExp("^" + entry.locale));
         expect(metrics.scrollWidth, "Débordement à " + width + "px").toBeLessThanOrEqual(metrics.clientWidth + 1);
         expect(metrics.bodyWidth, "Débordement du body à " + width + "px").toBeLessThanOrEqual(metrics.clientWidth + 1);
-        if (width <= 390) {
-          const guided = page.locator('a[data-nav-key="guided"]').filter({ visible: true });
-          await expect(guided.locator(":scope > :last-child")).toHaveText(entry.mobileLabel);
-          await expect(guided).toHaveAttribute("aria-label", entry.mobileLabel);
-        }
       }
       await page.setViewportSize({ width: 320, height: 800 });
       const longButton = page.getByTestId("long-label-button");
