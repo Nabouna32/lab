@@ -1,6 +1,9 @@
 name: Surveillance quotidienne
 
 on:
+  push:
+    branches:
+      - test/verify-surveillance-main-20261031
   schedule:
     - cron: "30 3 * * *"
   workflow_dispatch:
