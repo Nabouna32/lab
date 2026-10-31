@@ -20,7 +20,7 @@ const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", impo
 const buttonVariantStylesSource = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
 const iconButtonSource = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
-const headerMenuSource = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
+const headerMenuSource = readFileSync(new URL("../../components/layout/HeaderPreferences.tsx", import.meta.url), "utf8");
 const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.url), "utf8");
 const typographyComponentStyles = {
   buttonGroup: readFileSync(new URL("../../components/ui/ButtonGroup.module.css", import.meta.url), "utf8"),
@@ -193,7 +193,7 @@ test("common navigation and identity icons use the shared Material Symbols compo
   const starSource = readFileSync(new URL("../../components/ui/StarIcon.tsx", import.meta.url), "utf8");
   const collectionSource = readFileSync(new URL("../../components/ui/CollectionIcon.tsx", import.meta.url), "utf8");
   const searchSource = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
-  const headerSource = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
+  const headerSource = readFileSync(new URL("../../components/layout/HeaderPreferences.tsx", import.meta.url), "utf8");
   assert.match(starSource, /MaterialIcon name=\{filled \? "star_fill" : "star"\}/);
   assert.match(collectionSource, /MaterialIcon name="collections_bookmark"/);
   assert.match(searchSource, /MaterialIcon name="search"/);
@@ -221,7 +221,7 @@ test("standard functional UI surfaces do not reintroduce one-off inline SVG icon
   const sharedFunctionalIconCallSites = [
     "../../app/[locale]/compte/page.tsx",
     "../../app/[locale]/design-lab/VisualLab.tsx",
-    "../../components/layout/DesktopHeaderMenu.tsx",
+    "../../components/layout/HeaderPreferences.tsx",
     "../../components/layout/LanguageFlag.tsx",
     "../../components/layout/HeaderSearch.tsx",
     "../../components/tools/ToolSearch.tsx",
@@ -662,7 +662,7 @@ test("application navigation preserves accessible links and localized destinatio
   assert.match(navigation, /icon: "search"/);
   assert.doesNotMatch(navigation, /mobileMore|moreOpen|mobile-secondary-navigation/);
 
-  const headerPreferences = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
+  const headerPreferences = readFileSync(new URL("../../components/layout/HeaderPreferences.tsx", import.meta.url), "utf8");
   assert.match(headerPreferences, /getGuidedWorkflowsPath\(locale\)/);
   assert.match(headerPreferences, /aria-label=\{t\.nav\.more\}/);
   assert.match(headerPreferences, /pointerdown/);
