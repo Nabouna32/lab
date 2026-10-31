@@ -292,13 +292,15 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
               </ul>
               {active && (
                 <section><Card className="p-5">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div className="min-w-0"><h2 className="m3-type-title-large break-words">{active.name}</h2><p className="m3-type-body-medium mt-1 text-[var(--muted)]">{active.user_collection_items.length} {fr ? "outils" : "tools"}</p></div>
                     {editingCollectionId === active.id ? (
-                      <form className="flex w-full min-w-0 basis-full flex-1 flex-wrap items-center gap-2 sm:w-auto sm:basis-0 sm:justify-end" onSubmit={(event) => { event.preventDefault(); void rename(); }}>
-                        <div className="w-full min-w-0 basis-full sm:w-auto sm:basis-0 sm:flex-1"><OutlinedTextField id="collection-rename-name" label={copy.renamePlaceholder} value={editingCollectionName} onChange={setEditingCollectionName} maxLength={80} required autoFocus error={editingCollectionError || undefined} /></div>
-                        <Button type="submit" disabled={renaming || !editingCollectionName.trim()}>{renaming ? (fr ? "Enregistrement…" : "Saving…") : copy.saveRename}</Button>
-                        <TextButton type="button" disabled={renaming} onClick={() => { setEditingCollectionId(null); setEditingCollectionName(""); setEditingCollectionError(""); }}>{copy.cancelRename}</TextButton>
+                      <form className="flex w-full min-w-0 flex-col gap-2 sm:w-auto sm:flex-1 sm:flex-row sm:items-center sm:justify-end" onSubmit={(event) => { event.preventDefault(); void rename(); }}>
+                        <div className="min-w-0 flex-1"><OutlinedTextField id="collection-rename-name" label={copy.renamePlaceholder} value={editingCollectionName} onChange={setEditingCollectionName} maxLength={80} required autoFocus error={editingCollectionError || undefined} /></div>
+                        <div className="flex shrink-0 items-center gap-2">
+                          <Button type="submit" disabled={renaming || !editingCollectionName.trim()}>{renaming ? (fr ? "Enregistrement…" : "Saving…") : copy.saveRename}</Button>
+                          <TextButton type="button" disabled={renaming} onClick={() => { setEditingCollectionId(null); setEditingCollectionName(""); setEditingCollectionError(""); }}>{copy.cancelRename}</TextButton>
+                        </div>
                       </form>
                     ) : (
                       <TextButton type="button" onClick={() => { setEditingCollectionId(active.id); setEditingCollectionName(active.name); setEditingCollectionError(""); }}>{copy.rename}</TextButton>
