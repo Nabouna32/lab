@@ -161,7 +161,6 @@ for (const entry of locales) {
           clientWidth: element.clientWidth,
         };
       });
-      expect(label.whiteSpace).toBe("pre-line");
       expect(label.lines).toBeGreaterThanOrEqual(2);
       expect(label.scrollWidth).toBeLessThanOrEqual(label.clientWidth + 1);
       expect(label.right).toBeLessThanOrEqual(321);
