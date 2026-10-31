@@ -211,6 +211,7 @@ Si la session risque de s'interrompre, enregistrer avant la fin un état concis 
 - Examiner le diff et les résultats des contrôles sur le dernier commit. Diagnostiquer les échecs, corriger dans le périmètre autorisé et relancer les vérifications utiles.
 - Lorsque le changement est prêt et que les contrôles et protections le permettent, conduire la livraison jusqu'à la fusion et, si approprié, jusqu'à la mise en production.
 - Vérifier l'état après fusion et le résultat en production lorsque cela est techniquement possible. Distinguer les vérifications réalisées de celles qui restent impossibles.
+- Vérifier également l'état réel des issues liées après fusion : ne pas supposer que le mot-clé Closes a produit une clôture automatique. Si l'issue reste ouverte et que tous ses critères sont satisfaits, la clôturer manuellement ; sinon la laisser ouverte.
 - Ne jamais contourner une protection obligatoire pour accélérer la livraison. Si une protection ou une permission bloque l'opération, chercher une solution conforme et documenter précisément le blocage.
 
 ### Stratégie de tests et évolution autonome de la CI
