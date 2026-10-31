@@ -254,9 +254,10 @@ test("recherche mobile : navigation clavier des suggestions", async ({ page }) =
   await page.getByTestId("header-search-trigger").click();
   const input = page.locator("#header-tool-search-input");
   await expect(input).toBeVisible();
-  await input.fill("json");
+  await input.fill("âge");
   await expect(input).toHaveAttribute("aria-expanded", "true");
   const listboxId = await input.getAttribute("aria-controls");
+  expect(listboxId).toBeTruthy();
   const listbox = page.locator("#" + listboxId);
   await expect(listbox).toHaveAttribute("role", "listbox");
   await expect(listbox.getByRole("option").first()).toBeVisible();
