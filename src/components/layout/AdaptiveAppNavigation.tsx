@@ -71,11 +71,11 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <aside className={styles.sidebar} aria-label={t.nav.menu}>
+      <aside className={styles.sidebar}>
         <Link href={`/${locale}`} className={styles.brand} aria-label={`Loculary — ${t.nav.home}`}>
           <LocularyLogo wordmarkClassName="hidden text-base font-bold tracking-[-0.03em] min-[1200px]:inline" />
         </Link>
-        <nav className={styles.desktopNav} aria-label={t.nav.menu}>
+        <nav className={styles.desktopNav} aria-label={t.nav.primaryNavigation}>
           <div className={styles.group}>{destinations.filter((item) => item.group === "main").map((item) => link(item))}</div>
           <div className={styles.separator} />
           <p className={styles.groupLabel}>{t.nav.space}</p>
@@ -85,7 +85,7 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
           <span className={styles.footerHint}>{t.nav.account}</span>
         </div>
       </aside>
-      <nav className={styles.mobileNav} aria-label={t.nav.menu}>
+      <nav className={styles.mobileNav} aria-label={t.nav.primaryNavigation}>
         {compact.map((item) => link(item, true))}
       </nav>
     </>
