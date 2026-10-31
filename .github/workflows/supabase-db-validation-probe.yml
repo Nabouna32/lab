@@ -3,7 +3,7 @@ name: Probe temporaire validation SQL Supabase
 on:
   push:
     branches:
-      - ci/supabase-validation-scope
+      - test/supabase-db-validation
 
 permissions:
   contents: read
