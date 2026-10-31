@@ -309,6 +309,17 @@ test("admin destructive actions use semantic error roles without shrinking Mater
 });
 
 
+test("search retry OutlinedButton inherits shared Material 3 geometry", () => {
+  const retryStart = toolSearch.indexOf('<OutlinedButton\n                type="button"');
+  const retryEnd = toolSearch.indexOf("</OutlinedButton>", retryStart);
+  assert.ok(retryStart >= 0 && retryEnd > retryStart);
+  const retryButton = toolSearch.slice(retryStart, retryEnd);
+  assert.ok(retryButton.includes('className="mt-3"'), "only the external layout margin remains local");
+  assert.ok(!retryButton.includes("min-h-10"), "the shared minimum height remains authoritative");
+  assert.ok(!retryButton.includes("rounded-full"), "the shared shape remains authoritative");
+  assert.ok(!retryButton.includes("px-4"), "the shared 24px horizontal content inset remains authoritative");
+});
+
 test("resend confirmation selects the shared OutlinedButton variant instead of local visual overrides", () => {
   assert.ok(signInPage.includes('<SubmitButton pendingLabel={t.account.resendConfirmation} variant="outlined">'));
   assert.ok(!signInPage.includes('className="border border-[var(--border)] bg-transparent text-[var(--foreground)] hover:bg-[var(--surface-soft)]"'));

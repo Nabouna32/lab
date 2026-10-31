@@ -55,6 +55,7 @@ Adaptations Web déclarées :
 - Le ripple est rendu par événements pointeur/clavier et CSS ; il ne prétend pas reproduire le moteur Compose.
 - Le bouton de retrait des destinations du convertisseur de fuseaux horaires conserve la géométrie partagée de `TextButton` (hauteur minimale 40 px et padding source) ; seule la contrainte de layout `shrink-0` est ajoutée localement.
 - `SubmitButton` transmet la variante sémantique via sa prop `variant` ; `className` reste réservé à la composition (par exemple `w-full`), pas à la recréation locale des styles d'un `OutlinedButton`.
+- Le bouton de nouvelle tentative de recherche conserve uniquement sa marge externe locale ; hauteur 40 px, largeur minimale 58 px, forme et padding horizontal 24 px proviennent du contrat `OutlinedButton` partagé.
 
 ## Choisir une variante
 
