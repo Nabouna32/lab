@@ -312,7 +312,7 @@ jobs:
           version: 2.84.2
 
       - name: Start local PostgreSQL and apply migrations
-        run: supabase db start
+        run: supabase start -x realtime,storage-api,imgproxy,kong,mailpit,postgrest,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
 
       - name: Run pgTAP database tests
         run: supabase test db --local
