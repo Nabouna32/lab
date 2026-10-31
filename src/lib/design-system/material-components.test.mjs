@@ -619,9 +619,14 @@ test("ListItem follows AndroidX baseline metrics and safely wraps long content",
   const spec = readFileSync(new URL("../../../docs/material3/components/ListItem.md", import.meta.url), "utf8");
 
   assert.match(listItem, /lines = overline && supporting \? 3 : supporting \|\| overline \? 2 : 1/);
-  assert.match(listItemCss, /\.lines-1\{min-height:56px\}/);
-  assert.match(listItemCss, /\.lines-2\{min-height:72px\}/);
-  assert.match(listItemCss, /\.lines-3\{min-height:88px;padding-block:12px\}/);
+  assert.match(globalCss, /--m3-size-list-item-one-line-min-height:\s*3\.5rem/);
+  assert.match(globalCss, /--m3-size-list-item-two-line-min-height:\s*4\.5rem/);
+  assert.match(globalCss, /--m3-size-list-item-three-line-min-height:\s*5\.5rem/);
+  assert.match(listItemCss, /gap:var\(--m3-space-4\)/);
+  assert.match(listItemCss, /padding:var\(--m3-space-2\) var\(--m3-space-4\)/);
+  assert.match(listItemCss, /\.lines-1\{min-height:var\(--m3-size-list-item-one-line-min-height\)\}/);
+  assert.match(listItemCss, /\.lines-2\{min-height:var\(--m3-size-list-item-two-line-min-height\)\}/);
+  assert.match(listItemCss, /\.lines-3\{align-items:flex-start;min-height:var\(--m3-size-list-item-three-line-min-height\);padding-block:var\(--m3-space-3\)\}/);
   assert.match(listItemCss, /min-width:0/);
   assert.match(listItemCss, /overflow-wrap:anywhere/);
   assert.match(listItemCss, /m3-type-body-large-size/);
