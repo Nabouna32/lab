@@ -414,6 +414,7 @@ export default function ToolSearch({
                     variant="suggestion"
                     label={suggestion}
                     className="min-h-10"
+                    onMouseDown={(event) => event.preventDefault()}
                     onClick={() => {
                       searchRequest.current += 1;
                       setQuery(suggestion);
