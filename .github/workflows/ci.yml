@@ -23,7 +23,7 @@ jobs:
       lightweight_only: ${{ steps.changes.outputs.lightweight_only }}
       dependencies_changed: ${{ steps.changes.outputs.dependencies_changed }}
       governance_changed: ${{ steps.changes.outputs.governance_changed }}
-      androidx_catalog_changed: ${{ steps.changes.outputs.androidx_catalog_changed }}
+      androidx_provenance_changed: ${{ steps.changes.outputs.androidx_provenance_changed }}
       supabase_changed: ${{ steps.changes.outputs.supabase_changed }}
       dependency_manifests_only: ${{ steps.changes.outputs.dependency_manifests_only }}
       dependency_scope: ${{ steps.dependency_scope.outputs.scope }}
@@ -45,7 +45,7 @@ jobs:
         run: node .github/scripts/detect-ci-changes.mjs
 
       - name: Setup Node.js
-        if: github.event_name != 'pull_request' || steps.changes.outputs.lightweight_only != 'true' || steps.changes.outputs.governance_changed == 'true'
+        if: github.event_name != 'pull_request' || steps.changes.outputs.lightweight_only != 'true' || steps.changes.outputs.governance_changed == 'true' || steps.changes.outputs.androidx_provenance_changed == 'true'
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24.21.0
@@ -78,22 +78,22 @@ jobs:
         run: rm -rf dependency-baseline
 
       - name: Setup Java for binary API inspection
-        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_provenance_changed == 'true'
         uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
         with:
           distribution: temurin
           java-version: '17'
 
       - name: Verify Material 3 source archive provenance
-        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_provenance_changed == 'true'
         run: node .github/scripts/verify-androidx-source-archive.mjs docs/material3/catalog/baselines/material3-1.4.0.json
 
       - name: Audit Compose UI, Foundation, UI Text and Foundation Layout publications
-        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_provenance_changed == 'true'
         run: node .github/scripts/audit-compose-submodule-publications.mjs /tmp/compose-publications-1.12.1.json
 
       - name: Upload Compose submodule publication audit
-        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_provenance_changed == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: compose-publications-1.12.1
@@ -104,19 +104,19 @@ jobs:
           retention-days: 7
 
       - name: Retrieve and verify all four Material 3 1.4.0 publication artifacts
-        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_provenance_changed == 'true'
         run: node .github/scripts/fetch-material3-release-artifacts.mjs /tmp/material3-1.4.0-release-artifacts
 
       - name: Verify published Material 3 sources against the AndroidX release commit
-        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_provenance_changed == 'true'
         run: python3 .github/scripts/verify-material3-source-commit.py /tmp/material3-1.4.0-release-artifacts/material3-android-1.4.0-sources.jar /tmp/material3-1.4.0-release-artifacts/material3-android-1.4.0-source-commit-verification.json
 
       - name: Inspect Material 3 Android AAR against published sources
-        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_provenance_changed == 'true'
         run: python3 .github/scripts/inspect-material3-android-aar.py /tmp/material3-1.4.0-release-artifacts docs/material3/catalog/baselines/material3-android-1.4.0-api-inventory.json
 
       - name: Upload verified Material 3 1.4.0 publication artifacts
-        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_provenance_changed == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: material3-1.4.0-published-artifacts
@@ -135,7 +135,7 @@ jobs:
           python3 .github/scripts/test_verify_compose_source_archive_alignment.py
 
       - name: Discover official AndroidX Compose release refs
-        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_provenance_changed == 'true'
         run: |
           git ls-remote --heads --tags https://android.googlesource.com/platform/frameworks/support \
             'refs/heads/*compose*' \
@@ -145,11 +145,11 @@ jobs:
           cat /tmp/androidx-compose-release-refs.txt
 
       - name: Inspect official Compose 1.12.1 release API provenance
-        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_provenance_changed == 'true'
         run: node .github/scripts/inspect-compose-release-api-provenance.mjs /tmp/compose-release-api-provenance /tmp/androidx-compose-release-refs.txt docs/material3/catalog/baselines/compose-p0-1.12.1-api-provenance.json
 
       - name: Verify Compose 1.12.1 source archives against the release commit
-        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_provenance_changed == 'true'
         run: |
           python3 .github/scripts/verify-compose-source-archive-alignment.py \
             --archives-dir /tmp/compose-source-archives \
@@ -158,7 +158,7 @@ jobs:
             --output /tmp/compose-source-alignment-1.12.1.json
 
       - name: Upload Compose 1.12.1 source alignment report
-        if: always() && github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: always() && github.event_name == 'pull_request' && steps.changes.outputs.androidx_provenance_changed == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: compose-source-alignment-1.12.1
@@ -167,7 +167,7 @@ jobs:
           retention-days: 7
 
       - name: Upload Compose 1.12.1 release API provenance
-        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_provenance_changed == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: compose-release-api-provenance-1.12.1
@@ -176,11 +176,11 @@ jobs:
           retention-days: 7
 
       - name: Verify Material 3 Android source/AAR inventory reproducibility
-        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_provenance_changed == 'true'
         run: git diff --exit-code -- docs/material3/catalog/baselines/material3-android-1.4.0-api-inventory.json
 
       - name: Verify Material Components Views source archive provenance
-        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_catalog_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.androidx_provenance_changed == 'true'
         run: node .github/scripts/inspect-material-components-source-archive.mjs docs/material3/catalog/baselines/material-components-views-1.14.0.json
 
         
