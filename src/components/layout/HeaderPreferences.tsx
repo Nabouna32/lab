@@ -202,7 +202,7 @@ export default function HeaderPreferences({ locale }: { locale: Locale }) {
             (open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0")
           }
         >
-          <nav aria-label={t.nav.primaryNavigation}>
+          <nav aria-label={t.nav.more}>
             <Link
               href={guidedPath}
               aria-current={guidedActive ? "page" : undefined}
