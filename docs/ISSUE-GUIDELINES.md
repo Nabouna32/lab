@@ -157,10 +157,10 @@ En mode AUTONOME, une issue portant `action-humaine` est totalement exclue du po
 
 1. L'exclure de toutes les recherches et revues avec `-label:action-humaine`.
 2. Ne pas lire son corps ni ses commentaires, ne pas la commenter, la modifier, la relancer, vérifier son état ou retirer son label.
-3. Ne pas en parler dans les réponses ou checkpoints et ne jamais attendre une réponse, y compris dans le compte rendu de la session où l'issue vient d'être créée.
+3. Ne pas mentionner spontanément leur existence, leur contenu ou une action attendue dans les réponses ou checkpoints et ne jamais attendre une réponse, y compris dans le compte rendu de la session où l'issue vient d'être créée. Si l'utilisateur pose explicitement une question sur la politique générale ou la signification d'une action humaine, répondre au niveau de la règle sans consulter l'issue ni exposer son contenu.
 4. Ne pas simuler l'action, contourner une protection ou effectuer une opération qui exige l'identité, le consentement, l'accès ou la sauvegarde manquants.
 5. Abandonner le chantier dépendant et poursuivre un travail autonome indépendant. Aucune fermeture, modification de label ou supposition que l'action a été effectuée ne déclenche une reprise.
-6. La reprise n'a lieu qu'après réintroduction explicite du sujet par l'utilisateur hors du mode AUTONOME, ou décision consignée par lui dans un document canonique. À ce moment, traiter la conclusion communiquée comme un nouveau contexte et revalider les faits utiles.
+6. La mention ou réintroduction du sujet ne réintègre jamais l'issue dans le portefeuille AUTONOME. Une demande d'explication peut être traitée sans lecture. Toute reprise opérationnelle doit être explicitement demandée en mode COLLABORATIF et respecter les validations de ce mode ; revalider les faits communiqués sans consulter l'issue exclue.
 
 Les modes COLLABORATIF et PILOTAGE appliquent leurs propres permissions décrites dans `AGENTS.md`. PILOTAGE peut qualifier et documenter une demande d'action humaine ; il ne réalise pas l'action personnelle à la place de l'utilisateur.
 
@@ -174,6 +174,20 @@ Les commentaires sont un historique, pas le seul emplacement du contexte actif.
 - Ne pas neutraliser les décisions motivées, validations, résultats de tests, preuves, incidents, informations de sécurité, interventions humaines ou éléments nécessaires à l'audit.
 - Ne pas réécrire l'historique pour donner une impression artificielle de propreté. Préserver les informations utiles et indiquer où elles ont été consolidées.
 - Ne pas commenter chaque tentative, contrôle ou session ; un commentaire doit apporter un fait nouveau, une décision, un résultat ou un risque utile.
+
+### Synthèse de clôture proportionnée
+
+Le corps de l'issue reste la source de son état opérationnel courant. Pour un chantier significatif — notamment plusieurs étapes, une PR, des contrôles CI, une décision d'architecture, une opération externe ou un risque résiduel — produire une synthèse finale utile dans le corps mis à jour et/ou dans un commentaire final daté, selon l'emplacement qui évite le mieux la duplication.
+
+Lorsque la synthèse est nécessaire, elle couvre selon le contexte :
+- le travail réellement réalisé et le résultat livré ;
+- les décisions prises et les écarts significatifs par rapport au plan ;
+- les critères satisfaits, non satisfaits ou explicitement écartés ;
+- les vérifications réellement exécutées et leurs résultats, avec les liens vers les preuves ;
+- les contrôles non exécutés, les limites de couverture et les éléments non vérifiés ;
+- les risques résiduels, l'état final et les suites distinctes éventuelles.
+
+Le commentaire final apporte une synthèse datée et des preuves d'audit que le corps ne porte pas déjà ; ne pas recopier mécaniquement le corps. Si le corps mis à jour contient déjà l'état final et toutes les preuves utiles, aucun commentaire supplémentaire n'est requis. Pour une correction triviale, une clôture administrative ou une petite tâche sans décision ni contrôle significatif, ne pas produire de commentaire final artificiel. Ne jamais présenter un contrôle non exécuté comme réussi.
 
 ## 8. Références et cohérence
 
