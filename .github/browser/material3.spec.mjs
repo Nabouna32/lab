@@ -35,7 +35,7 @@ async function runAxe(page, label) {
 }
 
 async function buttonMetrics(page) {
-  return page.locator('section[aria-labelledby="actions-title"] button')
+  return page.locator('section[aria-labelledby="actions-title"] button, footer a, a[data-material-button-link="true"]')
     .evaluateAll((elements) => {
       function parseColor(value) {
         const rgb = value.match(/rgba?\(([^)]+)\)/i);
@@ -110,6 +110,7 @@ async function buttonMetrics(page) {
           const isText = /Texte|Text$/.test(element.innerText.trim());
           return {
             label: element.innerText.trim(),
+            kind: element.tagName.toLowerCase(),
             minWidth: style.minWidth,
             minHeight: style.minHeight,
             paddingInlineStart: style.paddingInlineStart,
@@ -178,14 +179,19 @@ for (const entry of locales) {
         await page.goto(entry.path);
         await runAxe(page, entry.locale + " " + colorScheme);
         const results = await buttonMetrics(page);
-        expect(results.length).toBeGreaterThanOrEqual(6);
-        const failures = results.filter((result) =>
+        const buttons = results.filter((result) => result.kind === "button");
+        const links = results.filter((result) => result.kind === "a");
+        expect(buttons.length).toBeGreaterThanOrEqual(6);
+        expect(links.length).toBeGreaterThan(0);
+        const contrastFailures = results.filter((result) =>
           result.textContrast < 4.5 ||
-          (result.borderContrast !== null && result.borderContrast < 3) ||
+          (result.borderContrast !== null && result.borderContrast < 3)
+        );
+        const geometryFailures = buttons.filter((result) =>
           result.minWidth !== "58px" ||
           result.minHeight !== "40px" ||
-          result.paddingInlineStart !== ( /Texte|Text$/.test(result.label) ? "12px" : "24px") ||
-          result.paddingInlineEnd !== ( /Texte|Text$/.test(result.label) ? "12px" : "24px") ||
+          result.paddingInlineStart !== (/Texte|Text$/.test(result.label) ? "12px" : "24px") ||
+          result.paddingInlineEnd !== (/Texte|Text$/.test(result.label) ? "12px" : "24px") ||
           result.paddingBlockStart !== "8px" ||
           result.paddingBlockEnd !== "8px" ||
           result.fontSize !== "14px" ||
@@ -195,8 +201,9 @@ for (const entry of locales) {
           result.gap !== "8px" ||
           Number.parseFloat(result.borderRadius) < 9999
         );
-        console.log("Button " + entry.locale + " " + colorScheme + " : " + JSON.stringify(results));
-        expect(failures, "Contraste ou géométrie Button incorrects").toEqual([]);
+        console.log("Boutons et liens " + entry.locale + " " + colorScheme + " : " + JSON.stringify(results));
+        expect(contrastFailures, "Contraste des boutons, liens ou contours insuffisant").toEqual([]);
+        expect(geometryFailures, "Géométrie Button incorrecte").toEqual([]);
       });
     }
   });
