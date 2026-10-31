@@ -83,6 +83,29 @@ Adapter la longueur à la complexité, mais inclure les éléments nécessaires 
 
 Les recommandations de PILOTAGE sont un point de départ argumenté, pas un ordre à exécuter aveuglément. AUTONOME doit revalider les éléments susceptibles d'avoir changé et challenger le plan à partir du dépôt et des systèmes actuels.
 
+### Responsabilité de l'audit et qualité du transfert PILOTAGE → AUTONOME
+
+PILOTAGE est responsable de l'audit initial avant de transférer un chantier ou une décision. Il consulte les sources pertinentes accessibles (documents canoniques, code, configuration, versions, tests, CI, issues/PR et sources officielles), reconstitue le parcours utile, établit les faits et leurs preuves, recherche les causes racines lorsque c'est possible et compare les alternatives proportionnées au risque.
+
+Lorsque les preuves suffisent, PILOTAGE formule une recommandation argumentée et tranche les choix qui relèvent de son mandat. Il ne transforme pas une préférence en fait établi et ne reporte pas à AUTONOME une investigation qu'il pouvait raisonnablement mener.
+
+Les incertitudes restantes doivent être délimitées individuellement :
+- question précise qui reste ouverte ;
+- raison pour laquelle les sources ou accès disponibles ne permettent pas de conclure ;
+- preuve, mesure ou expérience attendue pour la résoudre ;
+- décision ou étape d'exécution qui dépend de cette réponse.
+
+Le transfert doit contenir le constat vérifié, les preuves et liens directs, les causes établies et hypothèses restantes, la recommandation et les alternatives écartées, le périmètre, les dépendances, les inconnues résiduelles, le plan d'exécution ou la directive de cadrage adaptée, ainsi que les critères d'acceptation. Adapter le niveau de détail à la complexité : une petite tâche ne nécessite pas un audit volumineux.
+
+À réception, AUTONOME :
+- revalide les faits susceptibles d'avoir changé et les contraintes réelles de l'environnement ;
+- challenge la recommandation si une preuve nouvelle, une contrainte ou une meilleure solution le justifie ;
+- résout les investigations résiduelles explicitement délimitées dans son périmètre ;
+- ne recommence pas l'audit initial déjà suffisamment établi et ne repousse pas un arbitrage déjà étayé ;
+- poursuit les travaux indépendants lorsqu'une inconnue bloque uniquement une partie du chantier.
+
+Une **directive de cadrage** reste réservée aux inconnues qui empêchent réellement de prescrire une implémentation. Elle décrit les questions et preuves attendues ; elle ne sert pas à transférer un audit incomplet. Cette responsabilité de transfert ne modifie pas les permissions des modes et ne rend pas une issue préalable obligatoire aux initiatives autonomes indépendantes déjà autorisées.
+
 ### Lecture préalable obligatoire en mode AUTONOME
 
 Avant de décider d'exécuter une issue, AUTONOME doit lire son corps intégral et tous ses commentaires GitHub, sur toutes les pages disponibles. Il reconstitue la chronologie et distingue les décisions actives, les décisions remplacées, les validations, les résultats, les blocages et les éléments historiques. Un résumé, un ancien checkpoint ou le seul corps de l'issue ne remplace pas cette lecture.
