@@ -83,7 +83,6 @@ test("shared typography roles drive component CSS instead of duplicated font met
     ["rangeSlider", "--m3-type-label-large-size", "--m3-type-body-medium-size"],
     ["segmentedButtonGroup", "--m3-type-label-large-size"],
     ["splitButton", "--m3-type-label-large-size"],
-    ["swipeToDismiss", "--m3-type-label-large-size"],
     ["slider", "--m3-type-body-medium-size", "--m3-type-label-large-size", "--m3-type-body-small-size"],
   ];
 
