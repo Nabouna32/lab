@@ -7,7 +7,7 @@ import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
 const root = process.cwd();
-const baseUrl = "http://127.0.0.1:3100";
+let baseUrl = "";
 const artifactDir = join(root, "artifacts", "browser");
 const axePath = join(dirname(require.resolve("axe-core")), "axe.min.js");
 const axeSource = readFileSync(axePath, "utf8");
@@ -62,7 +62,7 @@ async function waitForHttp(url, timeoutMs, processRef, label) {
   const started = Date.now();
   let lastError = "aucune réponse";
   while (Date.now() - started < timeoutMs) {
-    if (processRef?.exitCode !== null && processRef?.exitCode !== undefined) {
+    if (processRef && (processRef.exitCode !== null || processRef.signalCode !== null)) {
       throw new Error(label + " s'est arrêté avant d'être prêt (code " + processRef.exitCode + ").");
     }
     try {
@@ -173,6 +173,8 @@ async function stopProcess(processRef) {
 async function main() {
   mkdirSync(artifactDir, { recursive: true });
   const chromeBin = findChrome();
+  const appPort = await reservePort();
+  baseUrl = "http://127.0.0.1:" + appPort;
   const chromePort = await reservePort();
   const profileDir = mkdtempSync(join(tmpdir(), "loculary-chrome-"));
   const nextBin = join(root, "node_modules", "next", "dist", "bin", "next");
@@ -183,7 +185,7 @@ async function main() {
   let socket;
 
   try {
-    server = spawn(process.execPath, [nextBin, "start", "--hostname", "127.0.0.1", "--port", "3100"], {
+    server = spawn(process.execPath, [nextBin, "start", "--hostname", "127.0.0.1", "--port", String(appPort)], {
       cwd: root,
       env: process.env,
       stdio: ["ignore", "ignore", "pipe"],
