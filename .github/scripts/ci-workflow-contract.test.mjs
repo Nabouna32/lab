@@ -5,9 +5,11 @@ import test from "node:test";
 const workflowPath = new URL("../workflows/ci.yml", import.meta.url);
 const surveillancePath = new URL("../workflows/surveillance.yml", import.meta.url);
 const codeqlPath = new URL("../workflows/codeql.yml", import.meta.url);
+const navigationCssPath = new URL("../../src/components/layout/AdaptiveAppNavigation.module.css", import.meta.url);
 const workflow = readFileSync(workflowPath, "utf8");
 const surveillance = readFileSync(surveillancePath, "utf8");
 const codeql = readFileSync(codeqlPath, "utf8");
+const navigationCss = readFileSync(navigationCssPath, "utf8");
 
 function sectionFor(source, jobName) {
   const lines = source.split(/\r?\n/);
@@ -84,4 +86,40 @@ test("CodeQL pins actions and uses only the permissions required by this public 
   assert.match(permissions, /contents: read/);
   assert.match(permissions, /security-events: write/);
   assert.doesNotMatch(permissions, /actions:|packages:/);
+});
+
+function ruleFor(source, selector) {
+  const start = source.indexOf(selector);
+  assert.notEqual(start, -1, "Missing CSS selector: " + selector);
+  const end = source.indexOf("}", start);
+  assert.notEqual(end, -1, "Unclosed CSS rule: " + selector);
+  return source.slice(start, end + 1);
+}
+
+test("adaptive navigation follows Material 3 indicator, typography and color roles", () => {
+  const mobileItem = ruleFor(navigationCss, ".mobileItem {");
+  const mobileIcon = ruleFor(navigationCss, ".mobileIcon {");
+  const mobileSelected = ruleFor(navigationCss, '.mobileItem[data-selected="true"] {');
+  const mobileLabel = ruleFor(navigationCss, ".mobileLabel {");
+  assert.match(mobileItem, /min-height: 64px/);
+  assert.match(mobileIcon, /width: 56px/);
+  assert.match(mobileIcon, /height: 32px/);
+  assert.match(mobileSelected, /color: var\(--secondary\)/);
+  assert.match(mobileLabel, /m3-type-label-medium/);
+
+  const railStart = navigationCss.indexOf("@media (min-width: 768px) and (max-width: 1199.98px)");
+  const drawerStart = navigationCss.indexOf("@media (min-width: 1200px)");
+  assert.ok(railStart >= 0 && drawerStart > railStart);
+  const rail = navigationCss.slice(railStart, drawerStart);
+  const railSelected = ruleFor(rail, '.desktopItem[data-selected="true"] {');
+  const railIcon = ruleFor(rail, ".desktopIcon {");
+  assert.match(railSelected, /color: var\(--secondary\)/);
+  assert.match(railSelected, /background: transparent/);
+  assert.match(railIcon, /width: 56px/);
+  assert.match(railIcon, /height: 32px/);
+  assert.match(rail, /m3-type-label-medium/);
+
+  const drawer = navigationCss.slice(drawerStart);
+  assert.match(ruleFor(drawer, ".desktopItem {"), /min-height: 56px/);
+  assert.match(ruleFor(drawer, ".desktopLabel {"), /m3-type-label-large/);
 });
