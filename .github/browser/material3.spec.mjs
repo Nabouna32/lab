@@ -34,8 +34,8 @@ async function runAxe(page, label) {
   expect(result.violations, "Violations WCAG " + label).toEqual([]);
 }
 
-async function interactiveMetrics(page) {
-  return page.locator('section[aria-labelledby="actions-title"] button, footer a, a[data-material-button-link="true"]')
+async function interactiveMetrics(page, selector = 'section[aria-labelledby="actions-title"] button, footer a, a[data-material-button-link="true"]') {
+  return page.locator(selector)
     .evaluateAll((elements) => {
       function parseColor(value) {
         const rgb = value.match(/rgba?\(([^)]+)\)/i);
@@ -409,42 +409,53 @@ test("recherche mobile : navigation clavier des suggestions", async ({ page }) =
 
 
 for (const entry of locales) {
-  test("FilterChip et InputChip : sélection, retrait, clavier et désactivation (" + entry.locale + ")", async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto(entry.path);
+  for (const colorScheme of ["light", "dark"]) {
+    test("FilterChip et InputChip : interaction et contraste " + colorScheme + " (" + entry.locale + ")", async ({ page }) => {
+      await page.emulateMedia({ colorScheme });
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(entry.path);
 
-    const specimens = page.getByTestId("chip-specimens");
-    const filter = specimens.getByRole("button", { name: entry.locale === "fr" ? "Filtre actif" : "Active filter" });
-    await expect(filter).toHaveAttribute("aria-pressed", "false");
-    await filter.focus();
-    await page.keyboard.press("Enter");
-    await expect(filter).toHaveAttribute("aria-pressed", "true");
+      const specimens = page.getByTestId("chip-specimens");
+      const chipSelector = '[data-testid="chip-specimens"] button';
+      const filter = specimens.getByRole("button", { name: entry.locale === "fr" ? "Filtre actif" : "Active filter" });
+      await expect(filter).toHaveAttribute("aria-pressed", "false");
 
-    const inputLabel = entry.locale === "fr" ? "Cuisine" : "Cooking";
-    const dismissLabel = entry.locale === "fr" ? "Retirer Cuisine" : "Remove Cooking";
-    const inputChip = page.getByTestId("input-chip").locator("..");
-    const chipButton = inputChip.getByRole("button", { name: inputLabel, exact: true });
-    const dismissButton = inputChip.getByRole("button", { name: dismissLabel, exact: true });
-    await expect(chipButton).toHaveAttribute("aria-pressed", "true");
-    await expect(dismissButton).toBeVisible();
-    await expect(dismissButton).toHaveAccessibleName(dismissLabel);
+      const unselectedMetrics = await interactiveMetrics(page, chipSelector);
+      expect(unselectedMetrics.length).toBeGreaterThanOrEqual(2);
+      expect(unselectedMetrics.filter((metric) => metric.textContrast < 4.5), "Contraste du FilterChip non sélectionné et des InputChip").toEqual([]);
 
-    await dismissButton.focus();
-    await expect(dismissButton).toBeFocused();
-    await page.keyboard.press("Enter");
-    await expect(inputChip).toHaveCount(0);
-    await expect(filter).toHaveAttribute("aria-pressed", "true");
+      await filter.focus();
+      await page.keyboard.press("Enter");
+      await expect(filter).toHaveAttribute("aria-pressed", "true");
+      const selectedMetrics = await interactiveMetrics(page, chipSelector);
+      expect(selectedMetrics.filter((metric) => metric.textContrast < 4.5), "Contraste du FilterChip sélectionné et des InputChip").toEqual([]);
 
-    const disabledChip = page.getByTestId("disabled-input-chip").locator("..");
-    const disabledLabel = entry.locale === "fr" ? "Désactivé" : "Disabled";
-    const disabledDismissLabel = entry.locale === "fr" ? "Retirer Désactivé" : "Remove Disabled";
-    const disabledChipButton = disabledChip.getByRole("button", { name: disabledLabel, exact: true });
-    const disabledDismissButton = disabledChip.getByRole("button", { name: disabledDismissLabel, exact: true });
-    await expect(disabledChipButton).toBeDisabled();
-    await expect(disabledDismissButton).toBeDisabled();
-    await disabledDismissButton.evaluate((element) => element.click());
-    await expect(disabledChip).toBeVisible();
+      const inputLabel = entry.locale === "fr" ? "Cuisine" : "Cooking";
+      const dismissLabel = entry.locale === "fr" ? "Retirer Cuisine" : "Remove Cooking";
+      const inputChip = page.getByTestId("input-chip").locator("..");
+      const chipButton = inputChip.getByRole("button", { name: inputLabel, exact: true });
+      const dismissButton = inputChip.getByRole("button", { name: dismissLabel, exact: true });
+      await expect(chipButton).toHaveAttribute("aria-pressed", "true");
+      await expect(dismissButton).toBeVisible();
+      await expect(dismissButton).toHaveAccessibleName(dismissLabel);
 
-    await runAxe(page, entry.locale + " Design Lab Chips");
-  });
+      await dismissButton.focus();
+      await expect(dismissButton).toBeFocused();
+      await page.keyboard.press("Enter");
+      await expect(inputChip).toHaveCount(0);
+      await expect(filter).toHaveAttribute("aria-pressed", "true");
+
+      const disabledChip = page.getByTestId("disabled-input-chip").locator("..");
+      const disabledLabel = entry.locale === "fr" ? "Désactivé" : "Disabled";
+      const disabledDismissLabel = entry.locale === "fr" ? "Retirer Désactivé" : "Remove Disabled";
+      const disabledChipButton = disabledChip.getByRole("button", { name: disabledLabel, exact: true });
+      const disabledDismissButton = disabledChip.getByRole("button", { name: disabledDismissLabel, exact: true });
+      await expect(disabledChipButton).toBeDisabled();
+      await expect(disabledDismissButton).toBeDisabled();
+      await disabledDismissButton.evaluate((element) => element.click());
+      await expect(disabledChip).toBeVisible();
+
+      await runAxe(page, entry.locale + " Design Lab Chips " + colorScheme);
+    });
+  }
 }
