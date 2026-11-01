@@ -52,6 +52,26 @@ test("the metadata validator accepts a valid local published tool", () => {
   assert.doesNotThrow(() => validateToolCatalog([tool]));
 });
 
+test("the metadata validator rejects published tools without an effective authorization guard", () => {
+  assert.throws(
+    () => validateToolCatalog([{ ...tool, access: "account" }]),
+    /cannot require "account" access until an authorization guard is implemented/,
+  );
+  assert.throws(
+    () => validateToolCatalog([{ ...tool, access: "premium" }]),
+    /cannot require "premium" access until an authorization guard is implemented/,
+  );
+});
+
+test("the metadata validator allows account and premium access metadata on unpublished tools", () => {
+  assert.doesNotThrow(() =>
+    validateToolCatalog([{ ...tool, lifecycle: "draft", access: "account" }]),
+  );
+  assert.doesNotThrow(() =>
+    validateToolCatalog([{ ...tool, lifecycle: "draft", access: "premium" }]),
+  );
+});
+
 test("the metadata validator rejects duplicate ids", () => {
   assert.throws(
     () => validateToolCatalog([tool, { ...tool }]),
