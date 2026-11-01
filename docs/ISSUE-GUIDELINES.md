@@ -133,6 +133,19 @@ Lorsqu'un chantier est réparti sur plusieurs issues qui doivent être exécuté
 - Ne pas renuméroter les issues sans lien avec la séquence. Ne pas utiliser les numéros d'issues GitHub comme substitut à l'ordre d'exécution : les identifiants GitHub restent immuables et ne représentent pas une séquence.
 - Avant de créer les issues, établir la séquence à partir des dépendances réelles ; éviter de découper artificiellement un chantier simplement pour afficher des numéros.
 
+### Références et relations entre issues et pull requests
+
+Toute PR qui contribue à une issue doit distinguer deux mécanismes complémentaires :
+
+1. **Référence dans le corps de la PR** : écrire `Refs #123` pour une contribution partielle ou une étape intermédiaire ; écrire `Closes #123` uniquement lorsque la PR satisfait tous les critères de l'issue. Les références `Fixes` et `Resolves` ont également un effet de fermeture automatique et ne doivent pas être utilisées pour obtenir un simple lien visuel.
+2. **Relation GitHub Development** : ajouter explicitement l'issue dans la section **Development** de la PR via **Link an issue**, sauf si GitHub a déjà créé cette relation. C'est cette relation qui matérialise l'association PR ↔ issue dans les panneaux de développement des deux éléments.
+
+Une mention `#123`, `Refs #123` ou un lien Markdown rend l'issue navigable, mais ne doit jamais être considéré comme une preuve que la relation **Development** existe. Vérifier visuellement la relation après l'avoir créée. Ne pas employer un mot-clé de fermeture pour contourner l'absence de liaison manuelle.
+
+Après fusion, une issue reste ouverte tant que ses critères ne sont pas satisfaits ; la fusion d'une contribution partielle n'est pas un critère de clôture. Vérifier l'état réel de l'issue et la relation dans GitHub plutôt que de déduire l'un de l'autre.
+
+Si l'outil GitHub utilisé ne permet pas de créer la relation Development, ne pas prétendre l'avoir fait : conserver la référence textuelle, signaler la limite et effectuer la liaison manuellement dans l'interface lorsque nécessaire.
+
 - À la création, choisir une catégorie principale et ajouter seulement les qualifications transversales justifiées.
 - Pour une issue existante, vérifier que le problème est toujours présent, que les critères restent valides et que les dépendances n'ont pas changé.
 - Lorsqu'un travail doit attendre une date, un cycle planifié, une publication upstream ou un événement externe, conserver l'issue ouverte et rendre l'attente immédiatement visible dans le titre avec l'un des préfixes définis en section 3. Ne pas utiliser `[Action humaine]` ni le label `action-humaine` sauf si une intervention personnelle réelle est indispensable.
