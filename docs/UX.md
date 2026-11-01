@@ -8,7 +8,7 @@ Loculary est une boîte à outils numérique orientée vers l'accomplissement de
 
 L'expérience doit être directe, précise, agréable et centrée sur le besoin de l'utilisateur. Loculary ne doit pas être traité comme une page marketing SaaS conventionnelle, un tableau de bord générique ou un simple catalogue de liens.
 
-Les interfaces existantes, leurs compositions, leurs composants et leurs conventions peuvent être remplacés lorsqu'ils ne servent plus la direction produit ou qu'une solution plus fidèle aux modèles éprouvés existe.
+Les interfaces existantes, leurs compositions, leurs composants et leurs conventions peuvent être remplacés lorsqu'ils ne servent plus la direction produit ou qu'une solution plus fidèle aux modèles éprouvés existe. Cette liberté suppose de distinguer les **ports AndroidX déjà réalisés**, qui restent dans le catalogue partagé même sans consommateur et doivent être corrigés ou reconstruits s'ils sont incomplets, des **compositions et wrappers propres à Loculary**, qui peuvent être remplacés après migration et vérification de leurs consommateurs. L'absence d'usage ne suffit jamais à justifier la suppression d'un port AndroidX ; cette règle n'oblige pas à implémenter les API qui ne sont pas encore portées.
 
 ## Intentions des utilisateurs
 
