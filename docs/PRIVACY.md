@@ -173,7 +173,8 @@ L'implémentation doit éviter les données personnelles orphelines.
 
 ### Comportement de suppression du compte implémenté
 
-L'implémentation actuelle du compte supprime définitivement l'utilisateur Supabase Auth au lieu d'utiliser une suppression logique. La ligne `public.profiles` et les associations de rôles administratifs référencent `auth.users` avec une suppression en cascade. Les enregistrements du journal d'audit administratif sont des données de sécurité et ne sont pas supprimés avec le compte : un trigger `BEFORE DELETE ON auth.users` efface dans la même transaction les références polymorphes aux utilisateurs ciblés, tandis que la clé étrangère `actor_user_id` remplace les références à l'acteur par `NULL`. L'événement lui-même est conservé afin que l'historique d'audit reste exploitable. Si la suppression est refusée, le nettoyage du journal d'audit est annulé avec elle. Cette conservation est limitée à l'enregistrement d'audit et à ses métadonnées non identifiantes ; elle ne constitue pas une règle générale de conservation pour de futures données appartenant aux utilisateurs.
+La suppression est définitive et les données liées au compte sont supprimées en cascade lorsque cela est approprié. Les seules exceptions de conservation actuellement décrites concernent les métadonnées non identifiantes nécessaires au journal d'audit de sécurité. Les mécanismes techniques, les règles de transaction et les preuves de test sont détaillés dans [`DATABASE.md`](DATABASE.md), qui en est la source propriétaire.
+
 
 ## Export des données
 
@@ -323,11 +324,10 @@ L'inventaire des prestataires distingue les journaux applicatifs des journaux g�
 - **Vercel Hobby** : les logs runtime sont conservés une heure. Les logs de build restent associés aux déploiements tant que ceux-ci existent ; ils ne constituent pas une archive durable. La rétention Hobby est de 30 jours par défaut ; Vercel protège les trois derniers déploiements de production et les trois derniers déploiements tous types, ainsi que le déploiement de production courant, les déploiements aliasés et ceux des branches actives. Le plafond de 10 Go de stockage peut entraîner la suppression anticipée d'autres déploiements. Les réglages de rétention propres au projet Loculary n'ont pas été exposés par l'API consultée ; aucune politique personnalisée n'est affirmée ici. Voir la [documentation des logs runtime](https://vercel.com/docs/logs/runtime) et l'[annonce de rétention Hobby](https://vercel.com/changelog/hobby-projects-now-retain-fewer-deployments-to-free-up-storage).
 - Ces journaux fournisseurs ne sont pas purgés par Loculary. Aucun Log Drain, export tiers ou archivage externe de ces journaux n'est activé.
 
-**Politique applicative vérifiée en production le 31 octobre 2026 :** douze mois glissants pour le journal administratif Loculary et les exécutions terminées de `pg_cron`, avec purge automatique quotidienne à 03:00 UTC. Les exécutions cron incomplètes restent préservées. Aucun mécanisme d'exception de conservation ni archive des journaux applicatifs n'est conservé. Aucune sauvegarde Google Drive ou archive externe de ces journaux n'est créée.
+**Politique de conservation applicative :** douze mois glissants pour le journal administratif Loculary et les exécutions terminées de `pg_cron`, avec purge automatique quotidienne. Les exécutions cron incomplètes sont préservées. Cette durée concerne uniquement les journaux applicatifs gérés par Loculary ; elle ne s'applique pas aux journaux des prestataires et ne constitue pas une durée maximale universelle fixée par le RGPD.
 
-La migration `20261030160000_extend_log_retention_to_12_months.sql` est enregistrée en production. Le job `loculary-log-retention-12m` (ID 3) est actif et son premier passage a réussi le 31 octobre à 03:00 UTC. Après ce passage, 1 entrée administrative et 807 exécutions cron sont présentes ; aucune n'est expirée et aucune exécution cron n'est inachevée. Les 19 assertions pgTAP ont réussi dans une transaction annulée et n'ont laissé aucune donnée de test en base.
+Les détails de mise en œuvre, les migrations, la configuration du job de purge et les preuves de vérification en production sont maintenus dans [`DATABASE.md`](DATABASE.md), source propriétaire de ces informations techniques.
 
-La durée de douze mois est un choix de conservation documenté selon les finalités de Loculary ; elle ne constitue pas une durée maximale universelle fixée par le RGPD. Les journaux gérés par les prestataires restent soumis à leurs conditions effectives.
 
 ## Travaux juridiques et conformité à venir
 
