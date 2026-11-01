@@ -90,7 +90,7 @@ function FabButton({
   onClick,
   type = "button",
   containerColor = FloatingActionButtonDefaults.containerColor,
-  contentColor = FloatingActionButtonDefaults.contentColor,
+  contentColor,
   shape,
   elevation = FloatingActionButtonDefaults.elevation(),
   className = "",
@@ -98,6 +98,12 @@ function FabButton({
   children,
   ...buttonProps
 }: InternalFabProps) {
+  const resolvedContentColor =
+    contentColor ??
+    (containerColor === FloatingActionButtonDefaults.containerColor
+      ? FloatingActionButtonDefaults.contentColor
+      : "currentColor");
+
   const resolvedShape =
     shape ??
     (variant === "small"
@@ -108,7 +114,7 @@ function FabButton({
 
   const buttonStyle = {
     backgroundColor: containerColor,
-    color: contentColor,
+    color: resolvedContentColor,
     borderRadius: resolvedShape,
     boxShadow: elevationShadow(elevation.defaultElevation),
     "--fab-shadow-hover": elevationShadow(elevation.hoveredElevation),
