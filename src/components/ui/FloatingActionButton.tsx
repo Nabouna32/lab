@@ -114,9 +114,9 @@ function FabButton({
 
   const buttonStyle = {
     "--fab-container-color": containerColor,
+    "--fab-shadow-default": elevationShadow(elevation.defaultElevation),
     "--fab-content-color": resolvedContentColor,
     borderRadius: resolvedShape,
-    boxShadow: elevationShadow(elevation.defaultElevation),
     "--fab-shadow-hover": elevationShadow(elevation.hoveredElevation),
     "--fab-shadow-focus": elevationShadow(elevation.focusedElevation),
     "--fab-shadow-pressed": elevationShadow(elevation.pressedElevation),
