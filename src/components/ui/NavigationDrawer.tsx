@@ -16,7 +16,7 @@ type NavigationDrawerProps<Key extends string> = {
   content?: ReactNode; dismissLabel?: string;
 };
 
-/** Source-informed Web adaptation of AndroidX Material 3 NavigationDrawer. */
+/** Partial family adapter for AndroidX Material 3 modal, dismissible and permanent navigation drawers. This is not a one-to-one single NavigationDrawer API. adaptation of AndroidX Material 3 NavigationDrawer. */
 export function NavigationDrawer<Key extends string>({
   open, onOpenChange, items, selectedKey, onSelect, label, title,
   mode = "modal", className, content, dismissLabel,
