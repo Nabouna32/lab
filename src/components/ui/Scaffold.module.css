@@ -4,7 +4,6 @@
   box-sizing: border-box;
   width: 100%;
   min-height: 100%;
-  overflow: clip;
   color: var(--lab-text, var(--on-surface, currentColor));
   background: var(--lab-bg, var(--background, transparent));
   --scaffold-inset-start: var(--scaffold-inset-left);
@@ -27,7 +26,6 @@
 .bottomBar {
   position: absolute;
   inset-inline: 0;
-  z-index: 1;
   min-width: 0;
 }
 
@@ -37,11 +35,12 @@
 
 .bottomBar {
   inset-block-end: 0;
+  z-index: 3;
 }
 
 .fab {
   position: absolute;
-  z-index: 3;
+  z-index: 4;
   display: flex;
   justify-content: center;
   align-items: center;
