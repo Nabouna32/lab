@@ -54,6 +54,17 @@ test("the production build restores the Next.js build cache with bounded keys", 
   assert.match(build, /nextjs-node-24\.21\.0-\$\{\{ hashFiles\('package-lock\.json'\) \}\}-/);
 });
 
+test("the scheduled browser build can seed the shared main-branch Next.js cache", () => {
+  const browser = sectionFor(surveillance, "tests-navigateur");
+  assert.match(
+    browser,
+    /uses: actions\\/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6\\.1\\.0/,
+  );
+  assert.match(browser, /path: \.next\\/cache/);
+  assert.match(browser, /restore-keys:/);
+  assert.match(browser, /run: npm run build/);
+});
+
 test("the npm audit job runs from the lockfile without installing node_modules", () => {
   const audit = sectionFor(surveillance, "audit-dependances");
   assert.match(audit, /uses: actions\/setup-node@/);
