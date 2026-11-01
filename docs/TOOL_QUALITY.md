@@ -19,7 +19,7 @@ Chaque outil doit disposer des éléments suivants :
 - un état de cycle de vie explicite ;
 - l'accessibilité déclarée comme exigence.
 
-Les outils publiés doivent également être disponibles et disposer de tests.
+Les outils publiés doivent également être disponibles et disposer de tests. Tant qu'aucun garde d'autorisation effectif n'existe, ils doivent déclarer `access: "anonymous"` ; le validateur interdit la publication des niveaux `account` et `premium`.
 
 ## Cohérence du traitement
 

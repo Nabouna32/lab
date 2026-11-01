@@ -16,19 +16,23 @@ Les composants d'interface doivent réutiliser les composants AndroidX et leurs 
 
 ## Capacités
 
-Les capacités peuvent inclure le traitement local, l'accès aux fichiers, au presse-papiers, à la caméra, au microphone, à la géolocalisation, au réseau externe, aux données de compte et au serveur ou à la base de données. Leur accès doit être explicite et contrôlable.
+Les outils déclarent les capacités nécessaires à leur fonctionnement : traitement local, fichiers, presse-papiers, caméra, microphone, géolocalisation, réseau externe, données de compte ou accès serveur/base de données. Cette déclaration décrit le contrat attendu ; elle ne constitue pas, à elle seule, une permission du navigateur ni une frontière de sécurité.
 
-Les capacités sont des autorisations d'exécution, et non de simples métadonnées descriptives. `ToolPage` fournit un environnement d'exécution limité à l'outil, qui contient exactement les capacités déclarées par l'outil résolu. Les API de la plateforme sont exposées par cet environnement plutôt que d'être appelées directement par les implémentations des outils.
+### Application effective des capacités
 
-L'environnement d'exécution applique actuellement la capacité presse-papiers. Les autres capacités navigateur, stockage et réseau doivent suivre le même modèle à mesure que leurs abstractions de plateforme sont introduites.
+Le runtime actuel fournit un contexte React aux outils. Ce contexte facilite l'accès aux helpers contrôlés, mais ne constitue ni une sandbox JavaScript ni un environnement isolé : il ne bloque pas les imports ou appels directs aux API du navigateur et de la plateforme.
+
+À ce jour, le helper contrôlé `clipboard.writeText` vérifie la capacité `clipboard` déclarée. Les autres capacités déclarées ne sont pas encore appliquées par des points d'accès dédiés. Elles ne doivent donc pas être présentées comme des restrictions effectives. Toute nouvelle capacité ne pourra être qualifiée de contrôlée qu'après implémentation et test de son point d'accès.
 
 ### Accès
 
-L'accès est un axe distinct du traitement :
+L'accès est un axe distinct du traitement et possède les valeurs de métadonnées suivantes :
 
 - `anonymous` — utilisable sans compte ;
-- `account` — nécessite un compte authentifié ;
-- `premium` — nécessite le droit d'accès payant correspondant.
+- `account` — cible nécessitant un compte authentifié ;
+- `premium` — cible nécessitant le droit d'accès payant correspondant.
+
+Les niveaux `account` et `premium` ne disposent pas actuellement d'un garde d'autorisation effectif. Le validateur interdit donc leur publication : seuls les outils publiés avec `access: "anonymous"` sont acceptés tant qu'un contrôle d'autorisation n'est pas implémenté et vérifié. Ces valeurs peuvent décrire une intention pour un outil non publié, mais ne doivent jamais être interprétées comme une protection déjà active.
 
 Un outil reposant sur un serveur ou un service externe n'est pas automatiquement premium. Le lieu du traitement et la politique d'accès restent des décisions indépendantes.
 

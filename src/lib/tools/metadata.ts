@@ -45,6 +45,11 @@ function validateToolQuality(tool: Tool): void {
     if (tool.quality.tests !== "required") {
       throw new Error(`Published tool "${tool.id}" must require tests.`);
     }
+    if (tool.access !== "anonymous") {
+      throw new Error(
+        `Published tool "${tool.id}" cannot require "${tool.access}" access until an authorization guard is implemented.`,
+      );
+    }
   }
 
   const expected = expectedProcessingCapabilities(tool.processing.mode);
