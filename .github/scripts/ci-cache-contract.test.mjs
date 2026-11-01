@@ -26,7 +26,7 @@ function sectionFor(source, jobName) {
 test("the preparation job sets up Node without restoring an unused npm cache", () => {
   const prepare = sectionFor(workflow, "prepare");
   assert.ok(prepare.includes("uses: actions/setup-node@"));
-  assert.ok(prepare.includes("node-version: 24.21.0"));
+  assert.ok(prepare.includes("node-version-file: .nvmrc"));
   assert.ok(!prepare.includes("cache: npm"));
   assert.ok(!prepare.includes("cache-dependency-path:"));
 });
@@ -45,11 +45,11 @@ test("the production build restores the Next.js build cache with bounded keys", 
   assert.ok(build.includes("uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0"));
   assert.ok(build.includes("path: .next/cache"));
   assert.ok(build.includes("runner.os"));
-  assert.ok(build.includes("node-24.21.0"));
+  assert.ok(build.includes("node-26.13.0"));
   assert.ok(build.includes("hashFiles('package-lock.json')"));
   assert.ok(build.includes("hashFiles('src/**/*.js'"));
   assert.ok(build.includes("restore-keys:"));
-  assert.ok(build.includes("nextjs-node-24.21.0-${{ hashFiles('package-lock.json') }}-"));
+  assert.ok(build.includes("nextjs-node-26.13.0-${{ hashFiles('package-lock.json') }}-"));
 });
 
 test("the scheduled browser build can seed the shared main-branch Next.js cache", () => {
@@ -63,7 +63,7 @@ test("the scheduled browser build can seed the shared main-branch Next.js cache"
 test("the npm audit job runs from the lockfile without installing node_modules", () => {
   const audit = sectionFor(surveillance, "audit-dependances");
   assert.ok(audit.includes("uses: actions/setup-node@"));
-  assert.ok(audit.includes("node-version: 24.21.0"));
+  assert.ok(audit.includes("node-version-file: .nvmrc"));
   assert.ok(audit.includes("run: node .github/scripts/run-npm-audit.mjs"));
   assert.ok(!audit.includes("cache: npm"));
   assert.ok(!audit.includes("cache-dependency-path:"));
