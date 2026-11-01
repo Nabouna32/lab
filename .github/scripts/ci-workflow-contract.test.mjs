@@ -98,6 +98,7 @@ test("CodeQL pins actions and uses only the permissions required by this public 
   assert.doesNotMatch(permissions, /actions:|packages:/);
 });
 
+
 test("Playwright Chromium is owned only by daily/manual surveillance, not a duplicate PR workflow", () => {
   const browserPath = new URL("../workflows/browser-validation.yml", import.meta.url);
   assert.equal(existsSync(browserPath), false, "The duplicate pull-request browser workflow must stay removed");
