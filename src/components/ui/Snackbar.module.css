@@ -14,9 +14,6 @@
   box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 6px 10px rgb(0 0 0 / 14%);
   animation: snackbar-enter 180ms cubic-bezier(.2, 0, 0, 1) both;
 }
-.snackbar[data-variant="expressive"] {
-  /* AndroidX currently exposes no separate default Snackbar appearance for Expressive. */
-}
 .message {
   min-width: 0;
   padding-block: .5rem;
