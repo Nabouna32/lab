@@ -5,6 +5,15 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      scope:
+        description: "Portée des validations à exécuter"
+        required: true
+        default: full
+        type: choice
+        options:
+          - full
+          - build-only
 
 permissions:
   contents: read
@@ -190,7 +199,8 @@ jobs:
     if: >-
       ${{ always() &&
           (needs.prepare.result == 'success' || github.event_name == 'pull_request') &&
-          (github.event_name != 'pull_request' || needs.prepare.outputs.lightweight_only != 'true') }}
+          (github.event_name != 'pull_request' || needs.prepare.outputs.lightweight_only != 'true') &&
+          (github.event_name != 'workflow_dispatch' || inputs.scope == 'full') }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -270,7 +280,8 @@ jobs:
     needs: prepare
     if: >-
       ${{ needs.prepare.result == 'success' &&
-          (github.event_name == 'workflow_dispatch' || needs.prepare.outputs.supabase_functions_changed == 'true') }}
+          ((github.event_name == 'workflow_dispatch' && inputs.scope == 'full') ||
+           (github.event_name != 'workflow_dispatch' && needs.prepare.outputs.supabase_functions_changed == 'true')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -305,7 +316,8 @@ jobs:
     needs: prepare
     if: >-
       ${{ needs.prepare.result == 'success' &&
-          (github.event_name == 'workflow_dispatch' || needs.prepare.outputs.supabase_database_changed == 'true') }}
+          ((github.event_name == 'workflow_dispatch' && inputs.scope == 'full') ||
+           (github.event_name != 'workflow_dispatch' && needs.prepare.outputs.supabase_database_changed == 'true')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
