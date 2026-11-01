@@ -133,6 +133,21 @@ Lorsqu'un chantier est réparti sur plusieurs issues qui doivent être exécuté
 - Ne pas renuméroter les issues sans lien avec la séquence. Ne pas utiliser les numéros d'issues GitHub comme substitut à l'ordre d'exécution : les identifiants GitHub restent immuables et ne représentent pas une séquence.
 - Avant de créer les issues, établir la séquence à partir des dépendances réelles ; éviter de découper artificiellement un chantier simplement pour afficher des numéros.
 
+### Références et relations entre issues et pull requests
+
+Toute PR qui contribue à une issue doit référencer explicitement cette issue dans son corps, dans la section « Issues liées » :
+
+- **`Refs #123`** pour une contribution partielle, une étape intermédiaire ou une PR qui ne termine pas l'issue. C'est la convention de suivi Loculary et elle n'entraîne pas la fermeture de l'issue.
+- **`Closes #123`** uniquement lorsque la PR satisfait tous les critères d'acceptation et termine l'issue. `Fixes` et `Resolves` ont également un effet de fermeture et ne doivent pas être employés pour un simple suivi.
+- Pour plusieurs issues, ajouter une référence distincte par issue et choisir individuellement le mot-clé adapté. Ne pas rattacher une issue simplement parce qu'elle est proche du sujet.
+- Pour un travail autonome indépendant, aucune issue préalable n'est requise : ne pas créer d'issue artificielle. Indiquer « Aucune issue liée » ou supprimer la section si elle n'apporte rien.
+
+**La référence dans le corps de la PR est le mécanisme de suivi attendu par Loculary. Aucune liaison supplémentaire via la section GitHub Development ni aucune manipulation manuelle dans l'interface n'est requise.** Ne pas chercher à obtenir une pastille visuelle au moyen d'un mot-clé de fermeture.
+
+Avant d'utiliser un mot-clé de fermeture, vérifier le corps actuel de l'issue, tous ses critères, les validations obligatoires et les éventuelles étapes restantes. Une PR ouverte, fusionnée ou techniquement réussie ne suffit pas si l'issue demande encore une preuve complémentaire. En cas de doute, utiliser `Refs` et conserver l'issue ouverte.
+
+Après la fusion, vérifier l'état réel de l'issue : ne jamais présumer que GitHub l'a clôturée. Le paramètre d'auto-clôture peut être désactivé dans les réglages du dépôt ; voir la [documentation GitHub sur l'auto-clôture](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/managing-auto-closing-issues). Si l'issue reste ouverte alors que tous ses critères sont satisfaits, la clôturer manuellement avec la raison appropriée. Si une preuve ou une étape manque, la laisser ouverte. Ne jamais annoncer une clôture automatique sans l'avoir observée.
+
 - À la création, choisir une catégorie principale et ajouter seulement les qualifications transversales justifiées.
 - Pour une issue existante, vérifier que le problème est toujours présent, que les critères restent valides et que les dépendances n'ont pas changé.
 - Lorsqu'un travail doit attendre une date, un cycle planifié, une publication upstream ou un événement externe, conserver l'issue ouverte et rendre l'attente immédiatement visible dans le titre avec l'un des préfixes définis en section 3. Ne pas utiliser `[Action humaine]` ni le label `action-humaine` sauf si une intervention personnelle réelle est indispensable.

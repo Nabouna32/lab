@@ -50,7 +50,7 @@ L'inventaire mécanique compte 2 343 déclarations : 1 389 candidates API source
 
 ## Audit ciblé des adaptations Loculary
 
-L'audit d'import exact ne trouve aucun consommateur produit ni spécimen Design Lab pour les wrappers Web `Carousel`, `ModalBottomSheet`, `BottomSheetScaffold`, `PullToRefreshBox`, `SwipeToDismissBox`, `Scaffold`, `NavigationSuiteScaffold`, `NavigationDrawer`, `NavigationRail` et `WideNavigationRail`. Leurs implémentations et feuilles CSS ont donc été supprimées plutôt que maintenues comme ports anticipés. Leurs contrats restent présents dans l'inventaire AndroidX 1.4.0 / Compose 1.12.1 ; ils seront adaptés à React/Web lorsqu'un parcours produit réel le justifiera.
+L'audit d'import exact n'a trouvé aucun consommateur produit ni spécimen Design Lab pour les wrappers Web `Carousel`, `ModalBottomSheet`, `BottomSheetScaffold`, `PullToRefreshBox`, `SwipeToDismissBox`, `Scaffold`, `NavigationSuiteScaffold`, `NavigationDrawer`, `NavigationRail` et `WideNavigationRail`. Cette absence de consommateur ne justifie toutefois pas la suppression d'un port AndroidX déjà implémenté : selon la gouvernance établie dans `docs/DECISIONS.md`, les véritables ports Web de contrats AndroidX déjà réalisés doivent rester dans le catalogue partagé, même sans consommateur, et être corrigés ou reconstruits si nécessaire. Les suppressions historiques de ces composants sont donc à réauditer individuellement dans l'issue [#1172](https://github.com/Nabouna32/lab/issues/1172). Distinguer les ports AndroidX des compositions/wrappers propres à Loculary ; ces derniers peuvent être remplacés après migration et vérification de leurs consommateurs. Ne pas créer préventivement de ports pour des API qui n'ont jamais été implémentées.
 
 `NavigationBar` est conservée uniquement comme spécimen interactif du Design Lab ; elle n'est pas branchée à la navigation produit. Les anciennes entrées des migrations de catalogue sont historiques : les tables `design_audit_*` correspondantes ont déjà été retirées en production.
 
@@ -59,7 +59,7 @@ Les composants de scroll encore utilisés doivent conserver les mécanismes DOM 
 ## Décisions et travaux restants
 
 1. Conserver le scroll DOM natif pour les parcours effectivement utilisés ; tester les conteneurs imbriqués, le clavier, le focus et le scroll sur mobile/tablette.
-2. Ne pas recréer les wrappers supprimés avant qu'un besoin produit concret et son consommateur soient identifiés.
+2. Réauditer les suppressions historiques dans l'issue [#1172](https://github.com/Nabouna32/lab/issues/1172) selon la distinction entre ports AndroidX déjà réalisés et compositions Loculary ; ne pas créer préventivement de ports pour des API jamais implémentées.
 3. La tranche complémentaire [collections, texte et focus](compose-foundation-collections-text-1.12.1.md) examine les contrats Lazy lists/grids, Pager/snapping, sélection, saisie, focus/relocation et drag-and-drop ; elle conclut à ne pas porter préventivement les primitives sans usage Loculary démontré. La revue sémantique globale Foundation reste partielle.
 
-**Statut final de cette tranche :** inventaire source et contrats pertinents examinés ; ports Web sans consommateur supprimés ; conformité navigateur des composants conservés non revendiquée ; inventaire sémantique global Foundation toujours `in-progress`.
+**Statut de cette tranche :** inventaire source et contrats pertinents examinés ; suppressions historiques de ports Web sans consommateur à réauditer dans [#1172](https://github.com/Nabouna32/lab/issues/1172) ; conformité navigateur des composants conservés non revendiquée ; inventaire sémantique global Foundation toujours `in-progress`.
