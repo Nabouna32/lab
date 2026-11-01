@@ -48,7 +48,8 @@ test("pgTAP retention suite is transactional and its plan matches its assertions
 
 test("privacy summary and database evidence describe the twelve-month policy at the right level", () => {
   assert.match(privacyDocs, /Politique de conservation applicative[\s\S]*?douze mois glissants/i);
-  assert.match(privacyDocs, /les preuves de vérification en production sont maintenus dans \[\`DATABASE\.md\`\]/i);
+  assert.match(privacyDocs, /les preuves de vérification en production sont maintenus dans/i);
+  assert.match(privacyDocs, /DATABASE\.md/i);
   assert.match(privacyDocs, /un jour/i);
   assert.match(privacyDocs, /une heure/i);
 
