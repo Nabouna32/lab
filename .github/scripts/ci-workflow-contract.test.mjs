@@ -106,7 +106,7 @@ test("axe-core is excluded from automatic browser validation and available throu
   assert.doesNotMatch(browserSpec, /axe-core|runAxe|axePath|window\.axe/);
   assert.match(axeAuditSpec, /axe-core/);
   assert.match(axeAuditSpec, /wcag22aa/);
-  const triggers = axeAudit.slice(0, axeAudit.indexOf("\\njobs:"));
+  const triggers = axeAudit.slice(0, axeAudit.indexOf("\njobs:"));
   assert.match(triggers, /^  workflow_dispatch:/m);
   assert.doesNotMatch(triggers, /^  (pull_request|push|schedule):/m);
   assert.match(axeAudit, /npx playwright test \.github\/browser\/material3-axe-audit\.spec\.mjs/);
