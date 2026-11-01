@@ -135,7 +135,6 @@ test("Scaffold passes measured top/bottom bar sizes and positions FAB and snackb
     setSize(container.querySelector('[data-slot="top-bar"]'), 360, 64);
     setSize(container.querySelector('[data-slot="bottom-bar"]'), 360, 72);
     setSize(container.querySelector('[data-slot="floating-action-button"]'), 56, 56);
-    setSize(container.querySelector('[data-slot="snackbar-host"]'), 320, 48);
   });
 
   assert.equal(receivedPadding.top, "64px");
@@ -193,7 +192,6 @@ test("Scaffold places a snackbar above the bottom bar when no visible FAB exists
 
   await act(async () => {
     setSize(container.querySelector('[data-slot="bottom-bar"]'), 360, 72);
-    setSize(container.querySelector('[data-slot="snackbar-host"]'), 320, 48);
   });
 
   assert.equal(
