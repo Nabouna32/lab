@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
+import { readFileSync } from "node:fs";
 import { after, afterEach, test } from "node:test";
 import { Window } from "happy-dom";
 import { act, createElement } from "react";
@@ -13,6 +14,7 @@ require.extensions[".css"] = (module) => {
 };
 
 const browser = new Window({ url: "http://localhost" });
+const componentCss = readFileSync(new URL("./FloatingActionButton.module.css", import.meta.url), "utf8");
 for (const key of [
   "window",
   "document",
@@ -187,4 +189,13 @@ test("FAB elevation presets match the pinned Material 3 1.4.0 tokens", () => {
     focusedElevation: 0,
     hoveredElevation: 0,
   });
+});
+
+test("FAB CSS uses AndroidX minimum geometry and shared LabelLarge typography", () => {
+  assert.match(componentCss, /\.fab\s*\{[^}]*min-width:\s*56px;[^}]*min-height:\s*56px;/s);
+  assert.match(componentCss, /\.small\s*\{[^}]*min-width:\s*40px;[^}]*min-height:\s*40px;/s);
+  assert.match(componentCss, /\.large\s*\{[^}]*min-width:\s*96px;[^}]*min-height:\s*96px;/s);
+  assert.match(componentCss, /\.extended,\s*\.extendedContent\s*\{[^}]*min-width:\s*80px;[^}]*min-height:\s*56px;/s);
+  assert.match(componentCss, /font-size:\s*var\(--m3-type-label-large-size/);
+  assert.match(componentCss, /\.fab:disabled\s*\{[^}]*box-shadow:\s*none;[^}]*background:/s);
 });
