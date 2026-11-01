@@ -135,16 +135,18 @@ Lorsqu'un chantier est réparti sur plusieurs issues qui doivent être exécuté
 
 ### Références et relations entre issues et pull requests
 
-Toute PR qui contribue à une issue doit distinguer deux mécanismes complémentaires :
+Toute PR qui contribue à une issue doit référencer explicitement cette issue dans son corps, dans la section « Issues liées » :
 
-1. **Référence dans le corps de la PR** : écrire `Refs #123` pour une contribution partielle ou une étape intermédiaire ; écrire `Closes #123` uniquement lorsque la PR satisfait tous les critères de l'issue. Les références `Fixes` et `Resolves` ont également un effet de fermeture automatique et ne doivent pas être utilisées pour obtenir un simple lien visuel.
-2. **Relation GitHub Development** : ajouter explicitement l'issue dans la section **Development** de la PR via **Link an issue**, sauf si GitHub a déjà créé cette relation. C'est cette relation qui matérialise l'association PR ↔ issue dans les panneaux de développement des deux éléments.
+- **`Refs #123`** pour une contribution partielle, une étape intermédiaire ou une PR qui ne termine pas l'issue. C'est la convention de suivi Loculary et elle n'entraîne pas la fermeture de l'issue.
+- **`Closes #123`** uniquement lorsque la PR satisfait tous les critères d'acceptation et termine l'issue. `Fixes` et `Resolves` ont également un effet de fermeture et ne doivent pas être employés pour un simple suivi.
+- Pour plusieurs issues, ajouter une référence distincte par issue et choisir individuellement le mot-clé adapté. Ne pas rattacher une issue simplement parce qu'elle est proche du sujet.
+- Pour un travail autonome indépendant, aucune issue préalable n'est requise : ne pas créer d'issue artificielle. Indiquer « Aucune issue liée » ou supprimer la section si elle n'apporte rien.
 
-Une mention `#123`, `Refs #123` ou un lien Markdown rend l'issue navigable, mais ne doit jamais être considéré comme une preuve que la relation **Development** existe. Vérifier visuellement la relation après l'avoir créée. Ne pas employer un mot-clé de fermeture pour contourner l'absence de liaison manuelle.
+**La référence dans le corps de la PR est le mécanisme de suivi attendu par Loculary. Aucune liaison supplémentaire via la section GitHub Development ni aucune manipulation manuelle dans l'interface n'est requise.** Ne pas chercher à obtenir une pastille visuelle au moyen d'un mot-clé de fermeture.
 
-Après fusion, une issue reste ouverte tant que ses critères ne sont pas satisfaits ; la fusion d'une contribution partielle n'est pas un critère de clôture. Vérifier l'état réel de l'issue et la relation dans GitHub plutôt que de déduire l'un de l'autre.
+Avant d'utiliser un mot-clé de fermeture, vérifier le corps actuel de l'issue, tous ses critères, les validations obligatoires et les éventuelles étapes restantes. Une PR ouverte, fusionnée ou techniquement réussie ne suffit pas si l'issue demande encore une preuve complémentaire. En cas de doute, utiliser `Refs` et conserver l'issue ouverte.
 
-Si l'outil GitHub utilisé ne permet pas de créer la relation Development, ne pas prétendre l'avoir fait : conserver la référence textuelle, signaler la limite et effectuer la liaison manuellement dans l'interface lorsque nécessaire.
+Après la fusion, vérifier l'état réel de l'issue : ne jamais présumer que GitHub l'a clôturée. Le paramètre d'auto-clôture peut être désactivé dans les réglages du dépôt ; voir la [documentation GitHub sur l'auto-clôture](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/managing-auto-closing-issues). Si l'issue reste ouverte alors que tous ses critères sont satisfaits, la clôturer manuellement avec la raison appropriée. Si une preuve ou une étape manque, la laisser ouverte. Ne jamais annoncer une clôture automatique sans l'avoir observée.
 
 - À la création, choisir une catégorie principale et ajouter seulement les qualifications transversales justifiées.
 - Pour une issue existante, vérifier que le problème est toujours présent, que les critères restent valides et que les dépendances n'ont pas changé.
