@@ -5,9 +5,9 @@ const fr: PrivacyPolicyContent = {
   metaDescription: "Données personnelles, comptes, stockage local, prestataires et droits des utilisateurs de Loculary.",
   title: "Politique de confidentialité",
   updatedLabel: "Dernière mise à jour",
-  updatedAt: "30 octobre 2026",
+  updatedAt: "1er novembre 2026",
   temporaryNoticeTitle: "Points de conformité encore à vérifier",
-  temporaryNotice: "Les coordonnées de contact sont renseignées. Les durées de conservation de certains journaux, les paramètres de conservation des prestataires et les garanties contractuelles applicables aux transferts doivent encore être vérifiés et formalisés.",
+  temporaryNotice: "Le journal d’audit administratif géré par Loculary est conservé pendant 12 mois glissants. Les durées et réglages de certains journaux gérés par les prestataires, ainsi que les garanties contractuelles applicables aux transferts internationaux, doivent encore être vérifiés et formalisés.",
   intro: "Loculary cherche à limiter la collecte de données et à privilégier le traitement dans votre navigateur. Cette politique décrit les traitements actuellement identifiés dans le code et la configuration examinés. Les pratiques peuvent évoluer ; consultez les informations propres à chaque outil avant de lui transmettre des données.",
   sections: [
     { title: "1. Responsable du traitement", paragraphs: [
@@ -45,13 +45,13 @@ const fr: PrivacyPolicyContent = {
       "Les accords contractuels exacts et les garanties applicables au compte Loculary doivent encore être vérifiés. La localisation de la base de données ne suffit pas à conclure que tous les flux sont couverts."
     ]},
     { title: "7. Conservation et suppression", paragraphs: [
-      "Les données sont conservées aussi longtemps que nécessaire à la fonctionnalité concernée, sous réserve des obligations légales et des besoins de sécurité. La durée exacte de certains journaux n’est pas encore documentée ; aucune durée chiffrée n’est inventée ici."
+      "Les données sont conservées aussi longtemps que nécessaire à la fonctionnalité concernée, sous réserve des obligations légales et des besoins de sécurité. Le journal d’audit administratif géré par Loculary est conservé pendant 12 mois glissants. Cette durée concerne ce journal applicatif et ne s’applique pas aux journaux gérés par les prestataires."
     ], bullets: [
       "Compte et profil : jusqu’à la suppression du compte, sous réserve des données à conserver ou neutraliser pour des raisons légales ou de sécurité.",
       "Favoris et collections liés au compte : jusqu’à leur suppression ou à celle du compte. Le partage prend fin lorsque le lien est désactivé ou la collection supprimée.",
       "Données du navigateur : jusqu’à leur suppression par l’utilisateur ou à l’effacement du stockage du navigateur.",
-      "Journal d’audit administratif : certains événements peuvent rester après la suppression d’un compte ; les références directes au compte sont neutralisées. La durée maximale reste à formaliser.",
-      "Journaux d’infrastructure : leur durée dépend des réglages et politiques des prestataires, à confirmer pour la configuration déployée."
+      "Journal d’audit administratif Loculary : certains événements peuvent rester après la suppression d’un compte ; les références directes au compte sont neutralisées. Les entrées sont conservées pendant 12 mois glissants.",
+      "Journaux d’infrastructure gérés par les prestataires : leur durée dépend de leurs réglages et politiques effectifs. Certains paramètres propres au compte Loculary restent à confirmer."
     ]},
     { title: "8. Cookies et stockage", paragraphs: [
       "L’authentification peut utiliser des cookies ou mécanismes de session nécessaires au compte. Le navigateur peut également conserver des préférences, favoris et collections anonymes. Les identifiants des outils ouverts récemment restent uniquement en mémoire dans l’onglet courant ; ils ne sont pas enregistrés dans le stockage persistant du navigateur et disparaissent au rechargement ou à la fermeture de l’onglet.",

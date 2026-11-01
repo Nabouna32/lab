@@ -12,6 +12,16 @@ test("privacy policy provides contact and temporary-status disclosures in French
     assert.ok(policy.contactWarning.trim().length > 0);
     assert.ok(policy.sections.some((section) => /retention|conservation/i.test(section.title)));
     assert.ok(policy.sections.some((section) => /rights|droits/i.test(section.title)));
+
+    const retentionSection = policy.sections.find((section) => /retention|conservation/i.test(section.title));
+    assert.ok(retentionSection, `Missing retention section for ${locale}.`);
+    const retentionText = [ ...retentionSection.paragraphs, ...(retentionSection.bullets ?? []) ].join(" ");
+    assert.match(retentionText, locale === "fr" ? /12 mois glissants/ : /12 months/);
+    assert.match(policy.temporaryNotice, locale === "fr" ? /prestataires/ : /provider-managed logs/);
+    assert.doesNotMatch(
+      retentionText,
+      /durée maximale reste à formaliser|maximum retention period still needs to be formalised|exact periods for some logs are not yet documented/i,
+    );
   }
 });
 
