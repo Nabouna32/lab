@@ -68,7 +68,7 @@ Le challenge est obligatoire pour les fondations, les contrats partagés, les ou
 - Les paramètres propres à un composant restent locaux lorsqu'ils correspondent à une personnalisation prévue par son API. Une différence produit ou Web doit être nommée, justifiée et testée.
 - Ne pas créer un token pour chaque nombre : centraliser les décisions récurrentes qui doivent évoluer ensemble.
 - La migration d'un consommateur ne consiste pas à remplacer quelques classes. Évaluer son comportement, sa hiérarchie, ses états, son accessibilité et ses dépendances au contrat partagé.
-- Supprimer les anciens alias, classes, composants et dépendances après inventaire des références et vérification des remplacements.
+- Supprimer les anciens alias, classes, compositions Loculary et dépendances après inventaire des références et vérification des remplacements. Ne pas supprimer un port Web d'une API AndroidX déjà implémentée au seul motif qu'il n'a pas de consommateur : le conserver dans le catalogue partagé et le corriger/reconstruire si nécessaire. Ne pas confondre cette règle avec une obligation de porter les API AndroidX jamais implémentées.
 - La validation statique et la CI ne prouvent pas la fidélité visuelle. La validation navigateur doit préciser le thème, la langue, les largeurs et les états vérifiés.
 
 ## Première migration de pages — favoris et collection partagée
