@@ -75,7 +75,7 @@
   min-width: 48px;
   min-height: 48px;
   padding: 4px;
-  border-radius: var(--shape-corner-medium, 12px);
+  border-radius: var(--fab-shape, var(--shape-corner-medium, 12px));
 }
 
 .small::before {
@@ -86,14 +86,14 @@
 .large {
   min-width: 96px;
   min-height: 96px;
-  border-radius: var(--shape-corner-extra-large, 28px);
+  border-radius: var(--fab-shape, var(--shape-corner-extra-large, 28px));
 }
 
 .extended,
 .extendedContent {
   min-width: 80px;
   min-height: 56px;
-  border-radius: var(--shape-corner-large, 16px);
+  border-radius: var(--fab-shape, var(--shape-corner-large, 16px));
   padding-inline: 20px;
 }
 
