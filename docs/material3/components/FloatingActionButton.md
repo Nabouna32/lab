@@ -31,12 +31,12 @@ Convention du projet : 1 dp Android = 1 px CSS logique.
 | Variante | Largeur minimale | Hauteur minimale | Forme |
 |---|---:|---:|---|
 | FAB | 56 dp | 56 dp | `CornerLarge` (16 px) |
-| Small FAB | 40 dp | 40 dp | `CornerMedium` (12 px) |
+| Small FAB | 48 dp (zone interactive) | 40 dp (surface) | `CornerMedium` (12 px) |
 | Large FAB | 96 dp | 96 dp | `CornerExtraLarge` (28 px) |
 | Extended FAB | 80 dp | 56 dp | `CornerLarge` (16 px) |
 | Extended FAB replié (icône/texte) | 56 dp | 56 dp | `CornerLarge` (16 px) |
 
-Les contraintes sont minimales, pas des dimensions fixes : un contenu plus grand peut agrandir le bouton. `FloatingActionButtonDefaults.LargeIconSize` vaut 36 dp ; les tokens d'icône du petit et du grand FAB ne doivent pas être confondus avec cette propriété publique recommandée.
+Le Small FAB conserve une surface de 40 dp, centrée dans une cible interactive de 48 dp (comportement vérifié par `smallFabHasMinTouchTarget` dans AndroidX). Les autres contraintes sont minimales, pas des dimensions fixes : un contenu plus grand peut agrandir le bouton. `FloatingActionButtonDefaults.LargeIconSize` vaut 36 dp ; les tokens d'icône du petit et du grand FAB ne doivent pas être confondus avec cette propriété publique recommandée.
 
 Pour l'Extended FAB icône/texte : padding de début 16 dp, espacement icône/texte 12 dp et padding de fin 20 dp à l'état développé. À l'état replié, la largeur minimale revient à 56 dp, les paddings disparaissent et l'icône est centrée. L'autre surcharge Extended FAB réserve 20 dp de padding horizontal et une largeur minimale de 80 dp.
 
