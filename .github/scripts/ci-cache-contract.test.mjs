@@ -49,7 +49,7 @@ test("the production build restores the Next.js build cache with bounded keys", 
   assert.match(build, /runner\.os/);
   assert.match(build, /node-24\.21\.0/);
   assert.match(build, /hashFiles\('package-lock\.json'\)/);
-  assert.match(build, /hashFiles\('src\/\*\*\/\.js'/);
+  assert.ok(build.includes("hashFiles('src/**/*.js'"));
   assert.match(build, /restore-keys:/);
   assert.match(build, /nextjs-node-24\.21\.0-\$\{\{ hashFiles\('package-lock\.json'\) \}\}-/);
 });
