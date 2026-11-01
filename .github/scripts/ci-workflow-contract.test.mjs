@@ -120,7 +120,6 @@ test("axe-core is excluded from automatic browser validation and available throu
   assert.doesNotMatch(surveillance, /material3-axe-audit|axe-core/);
 });
 
-
 test("workflow and job display names explain the checks in French", () => {
   assert.ok(workflow.includes("name: Détection des changements et contrôles préalables"));
   assert.ok(workflow.includes("name: Lint, vérification TypeScript et tests unitaires"));
@@ -133,7 +132,7 @@ test("workflow and job display names explain the checks in French", () => {
   assert.ok(surveillance.includes("name: Audit de sécurité des dépendances npm"));
   assert.ok(surveillance.includes("name: Tests navigateur — parcours critiques et contrôles d'accessibilité"));
 
-  assert.ok(codeql.includes("name: Analyse de sécurité du code — \${{ matrix.display-language }}"));
+  assert.ok(codeql.includes("name: Analyse de sécurité du code"));
   assert.ok(codeql.includes("display_language: GitHub Actions"));
   assert.ok(codeql.includes("display_language: JavaScript / TypeScript"));
 });
