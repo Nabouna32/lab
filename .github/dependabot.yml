@@ -9,6 +9,14 @@ updates:
       - dependencies
       - npm
     groups:
+      npm-production-major:
+        dependency-type: production
+        update-types:
+          - major
+      npm-development-major:
+        dependency-type: development
+        update-types:
+          - major
       npm-production-minor-patch:
         dependency-type: production
         update-types:
@@ -29,6 +37,9 @@ updates:
       - dependencies
       - github-actions
     groups:
+      github-actions-major:
+        update-types:
+          - major
       github-actions-minor-patch:
         update-types:
           - minor
