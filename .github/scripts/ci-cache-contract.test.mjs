@@ -10,6 +10,13 @@ const surveillance = readFileSync(
   new URL("../workflows/surveillance.yml", import.meta.url),
   "utf8",
 );
+const accessibility = readFileSync(
+  new URL("../workflows/audit-accessibilite.yml", import.meta.url),
+  "utf8",
+);
+const nodeVersion = readFileSync(new URL("../../.nvmrc", import.meta.url), "utf8").trim();
+const packageManifest = JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8"));
+const packageLock = JSON.parse(readFileSync(new URL("../../package-lock.json", import.meta.url), "utf8"));
 
 function sectionFor(source, jobName) {
   const lines = source.split("\n");
@@ -26,7 +33,7 @@ function sectionFor(source, jobName) {
 test("the preparation job sets up Node without restoring an unused npm cache", () => {
   const prepare = sectionFor(workflow, "prepare");
   assert.ok(prepare.includes("uses: actions/setup-node@"));
-  assert.ok(prepare.includes("node-version: 24.21.0"));
+  assert.ok(prepare.includes("node-version-file: .nvmrc"));
   assert.ok(!prepare.includes("cache: npm"));
   assert.ok(!prepare.includes("cache-dependency-path:"));
 });
@@ -34,6 +41,7 @@ test("the preparation job sets up Node without restoring an unused npm cache", (
 test("quality and production build retain their npm dependency caches", () => {
   for (const jobName of ["quality", "build"]) {
     const job = sectionFor(workflow, jobName);
+    assert.ok(job.includes("node-version-file: .nvmrc"));
     assert.ok(job.includes("cache: npm"));
     assert.ok(job.includes("cache-dependency-path: package-lock.json"));
     assert.ok(job.includes("run: npm ci"));
@@ -45,11 +53,11 @@ test("the production build restores the Next.js build cache with bounded keys", 
   assert.ok(build.includes("uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0"));
   assert.ok(build.includes("path: .next/cache"));
   assert.ok(build.includes("runner.os"));
-  assert.ok(build.includes("node-24.21.0"));
+  assert.ok(build.includes("node-26.13.0"));
   assert.ok(build.includes("hashFiles('package-lock.json')"));
   assert.ok(build.includes("hashFiles('src/**/*.js'"));
   assert.ok(build.includes("restore-keys:"));
-  assert.ok(build.includes("nextjs-node-24.21.0-${{ hashFiles('package-lock.json') }}-"));
+  assert.ok(build.includes("nextjs-node-26.13.0-${{ hashFiles('package-lock.json') }}-"));
 });
 
 test("the scheduled browser build can seed the shared main-branch Next.js cache", () => {
@@ -63,7 +71,7 @@ test("the scheduled browser build can seed the shared main-branch Next.js cache"
 test("the npm audit job runs from the lockfile without installing node_modules", () => {
   const audit = sectionFor(surveillance, "audit-dependances");
   assert.ok(audit.includes("uses: actions/setup-node@"));
-  assert.ok(audit.includes("node-version: 24.21.0"));
+  assert.ok(audit.includes("node-version-file: .nvmrc"));
   assert.ok(audit.includes("run: node .github/scripts/run-npm-audit.mjs"));
   assert.ok(!audit.includes("cache: npm"));
   assert.ok(!audit.includes("cache-dependency-path:"));
@@ -105,4 +113,26 @@ test("pull request validation remains independent of the manual dispatch scope",
   assert.ok(quality.includes("github.event_name != 'pull_request'"));
   assert.ok(functions.includes("github.event_name != 'workflow_dispatch' && needs.prepare.outputs.supabase_functions_changed == 'true'"));
   assert.ok(database.includes("github.event_name != 'workflow_dispatch' && needs.prepare.outputs.supabase_database_changed == 'true'"));
+});
+
+test("the project Node runtime version is pinned consistently", () => {
+  assert.equal(nodeVersion, "26.13.0");
+  assert.equal(packageManifest.engines.node, "26.x");
+  assert.equal(packageLock.packages[""].engines.node, "26.x");
+});
+
+test("all project workflows consume the shared Node version without legacy pins", () => {
+  for (const source of [workflow, surveillance, accessibility]) {
+    const setupNodeSteps = source.split("uses: actions/setup-node@").length - 1;
+    const versionFileSteps = source.match(/node-version-file: \.nvmrc/g) ?? [];
+    assert.equal(versionFileSteps.length, setupNodeSteps);
+    assert.ok(!source.includes("node-version:"));
+  }
+});
+
+test("the optional accessibility audit consumes the shared Node version", () => {
+  const audit = sectionFor(accessibility, "audit");
+  assert.ok(audit.includes("uses: actions/setup-node@"));
+  assert.ok(audit.includes("node-version-file: .nvmrc"));
+  assert.ok(!audit.includes("node-version: 24.21.0"));
 });
