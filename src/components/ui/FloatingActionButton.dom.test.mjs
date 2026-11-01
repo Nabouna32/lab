@@ -164,10 +164,12 @@ test("extended icon/text FAB exposes expanded and collapsed states accessibly", 
 
   const [expanded, collapsed] = container.querySelectorAll("button");
   assert.equal(expanded.getAttribute("data-expanded"), "true");
-  assert.equal(expanded.querySelector('[aria-hidden="false"]')?.textContent, "Create");
+  assert.equal(expanded.querySelector(".extendedText")?.getAttribute("aria-hidden"), "false");
+  assert.equal(expanded.querySelector(".extendedText")?.textContent, "Create");
   assert.equal(collapsed.getAttribute("data-expanded"), "false");
   assert.equal(collapsed.getAttribute("aria-label"), "Create");
-  assert.equal(collapsed.querySelector('[aria-hidden="true"]')?.textContent, "Create");
+  assert.equal(collapsed.querySelector(".extendedText")?.getAttribute("aria-hidden"), "true");
+  assert.equal(collapsed.querySelector(".extendedText")?.textContent, "Create");
 });
 
 test("FAB elevation presets match the pinned Material 3 1.4.0 tokens", () => {
@@ -198,5 +200,5 @@ test("FAB CSS uses AndroidX minimum geometry and shared LabelLarge typography", 
   assert.match(componentCss, /\.large\s*\{[^}]*min-width:\s*96px;[^}]*min-height:\s*96px;/s);
   assert.match(componentCss, /\.extended,\s*\.extendedContent\s*\{[^}]*min-width:\s*80px;[^}]*min-height:\s*56px;/s);
   assert.match(componentCss, /font-size:\s*var\(--m3-type-label-large-size/);
-  assert.match(componentCss, /\.fab:disabled\s*\{[^}]*box-shadow:\s*none;[^}]*background:/s);
+  assert.match(componentCss, /\.fab:disabled::before\s*\{[^}]*box-shadow:\s*none;[^}]*background:/s);
 });
