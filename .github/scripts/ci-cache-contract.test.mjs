@@ -76,3 +76,33 @@ test("the browser surveillance job keeps its npm cache and dependency installati
   assert.ok(browser.includes("cache-dependency-path: package-lock.json"));
   assert.ok(browser.includes("run: npm ci"));
 });
+
+test("manual dispatch defaults to full validation and offers an explicit build-only scope", () => {
+  assert.ok(workflow.includes("  workflow_dispatch:\n    inputs:\n      scope:"));
+  assert.ok(workflow.includes("        default: full"));
+  assert.ok(workflow.includes("          - full\n          - build-only"));
+});
+
+test("build-only dispatch skips quality and Supabase while keeping production build enabled", () => {
+  const quality = sectionFor(workflow, "quality");
+  const build = sectionFor(workflow, "build");
+  const functions = sectionFor(workflow, "supabase-functions");
+  const database = sectionFor(workflow, "supabase-database");
+
+  assert.ok(quality.includes("github.event_name != 'workflow_dispatch' || inputs.scope == 'full'"));
+  assert.ok(functions.includes("github.event_name == 'workflow_dispatch' && inputs.scope == 'full'"));
+  assert.ok(database.includes("github.event_name == 'workflow_dispatch' && inputs.scope == 'full'"));
+
+  assert.ok(build.includes("github.event_name != 'pull_request'"));
+  assert.ok(!build.includes("inputs.scope"));
+});
+
+test("pull request validation remains independent of the manual dispatch scope", () => {
+  const quality = sectionFor(workflow, "quality");
+  const functions = sectionFor(workflow, "supabase-functions");
+  const database = sectionFor(workflow, "supabase-database");
+
+  assert.ok(quality.includes("github.event_name != 'pull_request'"));
+  assert.ok(functions.includes("github.event_name != 'workflow_dispatch' && needs.prepare.outputs.supabase_functions_changed == 'true'"));
+  assert.ok(database.includes("github.event_name != 'workflow_dispatch' && needs.prepare.outputs.supabase_database_changed == 'true'"));
+});
