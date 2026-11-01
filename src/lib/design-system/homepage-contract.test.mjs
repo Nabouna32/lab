@@ -64,7 +64,17 @@ test("header menu disclosure exposes ARIA state, hides inactive content and rest
   assert.ok(headerPreferencesSource.includes("inert={!open}"));
   assert.ok(headerPreferencesSource.includes('event.key !== "Escape"'));
   assert.ok(headerPreferencesSource.includes("triggerRef.current?.focus()"));
-});test("guided workflow cards retain Material 3 semantics and reduced-motion support", () => {
+});
+
+test("mobile preferences close on locale change without persisting open state", () => {
+  assert.match(
+    headerPreferencesSource,
+    /function handleLanguageClick[\s\S]*?setOpenPath\(null\)/,
+  );
+  assert.doesNotMatch(headerPreferencesSource, /sessionStorage/);
+});
+
+test("guided workflow cards retain Material 3 semantics and reduced-motion support", () => {
   assert.ok(guidedWorkflowsSource.includes('import { CardLink } from "@/components/ui/Card";'));
   assert.ok(guidedWorkflowsSource.includes("bg-[var(--primary-container)] text-[var(--on-primary-container)]"));
   assert.ok(guidedWorkflowsSource.includes("text-[var(--on-surface)]"));
