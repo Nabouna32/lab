@@ -25,7 +25,7 @@ concurrency:
 
 jobs:
   prepare:
-    name: Préparation CI
+    name: Détection des changements et contrôles préalables
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
@@ -194,7 +194,7 @@ jobs:
         
 
   quality:
-    name: Qualité du code
+    name: Lint, vérification TypeScript et tests unitaires
     needs: prepare
     if: >-
       ${{ always() &&
@@ -233,7 +233,7 @@ jobs:
             run: npm test
 
   build:
-    name: Compilation de production
+    name: Construction de l'application de production
     needs: prepare
     if: >-
       ${{ always() &&
@@ -276,7 +276,7 @@ jobs:
         run: npm run build
 
   supabase-functions:
-    name: Vérification des fonctions Edge Supabase
+    name: Vérification des fonctions Edge Supabase (Deno)
     needs: prepare
     if: >-
       ${{ needs.prepare.result == 'success' &&
@@ -312,7 +312,7 @@ jobs:
           done
 
   supabase-database:
-    name: Validation PostgreSQL Supabase — migrations, pgTAP et lint
+    name: Validation de la base Supabase — migrations, tests pgTAP et analyse SQL
     needs: prepare
     if: >-
       ${{ needs.prepare.result == 'success' &&
@@ -350,7 +350,7 @@ jobs:
 
 
   ci:
-    name: Synthèse des validations
+    name: Vérification finale des contrôles applicables
     needs: [prepare, quality, build, supabase-functions, supabase-database]
     if: always()
     runs-on: ubuntu-latest
