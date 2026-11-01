@@ -118,7 +118,6 @@ export function Scaffold({
 
   const [topBarRef, topBarSize] = useElementSize<HTMLDivElement>(hasTopBar);
   const [bottomBarRef, bottomBarSize] = useElementSize<HTMLDivElement>(hasBottomBar);
-  const [snackbarRef, snackbarSize] = useElementSize<HTMLDivElement>(hasSnackbar);
   const [fabRef, fabSize] = useElementSize<HTMLDivElement>(hasFab);
 
   const insets = {
@@ -139,14 +138,15 @@ export function Scaffold({
     hasBottomBar && bottomBarSize.height > 0 && floatingActionButtonPosition !== "end-overlay"
       ? `${bottomBarSize.height}px`
       : insets.bottom;
-  const fabBottom = `calc(${fabSize.height}px + 16px + ${fabAnchor})`;
+  const fabBottom = `calc(16px + ${fabAnchor})`;
+  const fabTopOffset = `calc(${fabSize.height}px + 16px + ${fabAnchor})`;
   const hasMeasuredFab = hasFab && fabSize.width > 0 && fabSize.height > 0;
   const snackbarAnchor = hasMeasuredFab
-    ? fabBottom
+    ? fabTopOffset
     : hasBottomBar && bottomBarSize.height > 0
       ? `${bottomBarSize.height}px`
       : insets.bottom;
-  const snackbarBottom = `calc(${snackbarSize.height}px + ${snackbarAnchor})`;
+  const snackbarBottom = snackbarAnchor;
 
   const fabPositionStyle: CSSProperties =
     floatingActionButtonPosition === "start"
@@ -186,7 +186,6 @@ export function Scaffold({
       )}
       {hasSnackbar && (
         <div
-          ref={snackbarRef}
           className={styles.snackbar}
           data-slot="snackbar-host"
           style={{ insetBlockEnd: snackbarBottom }}
