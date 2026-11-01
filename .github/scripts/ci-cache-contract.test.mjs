@@ -123,9 +123,9 @@ test("the project Node runtime version is pinned consistently", () => {
 
 test("all project workflows consume the shared Node version without legacy pins", () => {
   for (const source of [workflow, surveillance, accessibility]) {
-    const setupNodeSteps = source.match(/uses: actions\\/setup-node@/g) ?? [];
+    const setupNodeSteps = source.split("uses: actions/setup-node@").length - 1;
     const versionFileSteps = source.match(/node-version-file: \.nvmrc/g) ?? [];
-    assert.equal(versionFileSteps.length, setupNodeSteps.length);
+    assert.equal(versionFileSteps.length, setupNodeSteps);
     assert.ok(!source.includes("node-version:"));
   }
 });
