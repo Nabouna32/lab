@@ -22,7 +22,12 @@ export type FloatingActionButtonMenuProps = {
   addLabel: string;
 };
 
-/** Web adaptation of AndroidX FloatingActionButtonMenu / MenuItem. */
+/**
+ * Experimental candidate port of AndroidX Material 3 1.5.0-beta02 FloatingActionButtonMenu.
+ * Keep isolated from Fidelity 1.4.0 and do not consume in production until the
+ * Expressive baseline is qualified and promoted through issues #1175/#1173.
+ * This current Web adaptation remains partial; it does not claim Compose parity.
+ */
 export function FloatingActionButtonMenu({
   expanded,
   onExpandedChange,
