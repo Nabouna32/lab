@@ -94,10 +94,9 @@ test("Scaffold exposes the AndroidX slots without inventing a navigation-rail sl
       bottomBar: createElement("footer", null, "Bottom"),
       snackbarHost: createElement("div", null, "Snackbar"),
       floatingActionButton: createElement("button", null, "Create"),
-      children: (padding) => {
-        receivedPadding = padding;
-        return createElement("div", { "data-testid": "body" }, "Content");
-      },
+    }, (padding) => {
+      receivedPadding = padding;
+      return createElement("div", { "data-testid": "body" }, "Content");
     }),
   );
 
@@ -124,10 +123,9 @@ test("Scaffold passes measured top/bottom bar sizes and positions FAB and snackb
       bottomBar: createElement("footer", null, "Bottom"),
       snackbarHost: createElement("div", null, "Snackbar"),
       floatingActionButton: createElement("button", null, "Create"),
-      children: (padding) => {
-        receivedPadding = padding;
-        return createElement("div", null, "Content");
-      },
+    }, (padding) => {
+      receivedPadding = padding;
+      return createElement("div", null, "Content");
     }),
   );
 
@@ -159,18 +157,15 @@ test("Scaffold EndOverlay overlaps the bottom bar while Start and Center use the
         floatingActionButton: createElement("button", null, "Overlay"),
         floatingActionButtonPosition: FabPosition.EndOverlay,
         contentWindowInsets: { bottom: 10, left: 12, right: 20 },
-        children: () => createElement("div", null, "Overlay content"),
-      }),
+      }, () => createElement("div", null, "Overlay content")),
       createElement(Scaffold, {
         floatingActionButton: createElement("button", null, "Start"),
         floatingActionButtonPosition: FabPosition.Start,
-        children: () => null,
-      }),
+      }, () => null),
       createElement(Scaffold, {
         floatingActionButton: createElement("button", null, "Center"),
         floatingActionButtonPosition: FabPosition.Center,
-        children: () => null,
-      }),
+      }, () => null),
     ),
   );
 
@@ -186,8 +181,7 @@ test("Scaffold places a snackbar above the bottom bar when no visible FAB exists
     createElement(Scaffold, {
       bottomBar: createElement("footer", null, "Bottom"),
       snackbarHost: createElement("div", null, "Snackbar"),
-      children: () => null,
-    }),
+    }, () => null),
   );
 
   await act(async () => {
