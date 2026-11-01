@@ -5,9 +5,9 @@ const en: PrivacyPolicyContent = {
   metaDescription: "Personal data, accounts, local storage, providers and user rights on Loculary.",
   title: "Privacy policy",
   updatedLabel: "Last updated",
-  updatedAt: "30 October 2026",
+  updatedAt: "1 November 2026",
   temporaryNoticeTitle: "Compliance items still to be verified",
-  temporaryNotice: "Contact details have been provided. Retention periods for some logs, provider retention settings and the contractual safeguards applicable to transfers still need to be verified and documented.",
+  temporaryNotice: "Loculary’s administrative audit log is retained for a rolling period of 12 months. Retention periods and settings for some provider-managed logs, as well as contractual safeguards for international transfers, still need to be verified and documented.",
   intro: "Loculary aims to minimise data collection and favour processing in your browser. This policy describes processing identified in the code and configuration reviewed. Practices may change; check each tool’s processing information before submitting data to it.",
   sections: [
     { title: "1. Data controller", paragraphs: [
@@ -45,13 +45,13 @@ const en: PrivacyPolicyContent = {
       "The exact contractual arrangements and safeguards applicable to the Loculary account still need to be checked. The database location alone is not enough to conclude that every data flow is covered."
     ]},
     { title: "7. Retention and deletion", paragraphs: [
-      "Data is retained only as long as needed for the relevant feature, subject to legal obligations and security needs. Exact periods for some logs are not yet documented; no unsupported numerical period is stated here."
+      "Data is retained only as long as needed for the relevant feature, subject to legal obligations and security needs. Loculary’s administrative audit log is retained for a rolling period of 12 months. This period applies to that application-managed log and not to logs managed by service providers."
     ], bullets: [
       "Account and profile: until account deletion, subject to data that must be retained or neutralised for legal or security reasons.",
       "Account-linked favourites and collections: until you delete them or delete the account. Sharing ends when the link is disabled or the collection is deleted.",
       "Browser data: until you delete it or clear browser storage.",
-      "Administrative audit log: some events may remain after account deletion; direct account references are neutralised. The maximum retention period still needs to be formalised.",
-      "Infrastructure logs: retention depends on provider settings and policies, which need confirmation for the deployed configuration."
+      "Loculary administrative audit log: some events may remain after account deletion; direct account references are neutralised. Entries are retained for a rolling period of 12 months.",
+      "Provider-managed infrastructure logs: retention depends on the providers’ effective settings and policies. Some settings specific to the Loculary account still need to be confirmed."
     ]},
     { title: "8. Cookies and browser storage", paragraphs: [
       "Authentication may use cookies or session mechanisms needed for account functionality. The browser may also retain preferences, favourites and anonymous collections. Recently opened tool IDs remain only in memory in the current tab; they are not written to persistent browser storage and disappear when the page is reloaded or the tab is closed.",
