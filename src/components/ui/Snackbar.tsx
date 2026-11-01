@@ -4,12 +4,9 @@ import { useEffect } from "react";
 import styles from "./Snackbar.module.css";
 import { TextButton } from "@/components/ui/Button";
 
-export type SnackbarVariant = "fidelity" | "expressive";
-
 type SnackbarProps = {
   open: boolean;
   message: string;
-  variant?: SnackbarVariant;
   actionLabel?: string;
   onAction?: () => void;
   dismissLabel?: string;
@@ -18,16 +15,13 @@ type SnackbarProps = {
 };
 
 /**
- * Loculary Web adaptation of the AndroidX Material 3 Snackbar.
- *
- * This component reproduces the documented message/action/dismiss lifecycle
- * for the Web. It is not AndroidX Compose and does not provide SnackbarHostState,
- * Scaffold insets, queueing, swipe dismissal, or native Compose motion.
+ * Partial Web port of the AndroidX Material 3 1.4.0 Snackbar contract.
+ * It is not a verified parity implementation: SnackbarHostState, queueing,
+ * Scaffold insets, swipe dismissal and native Compose motion remain unimplemented.
  */
 export function Snackbar({
   open,
   message,
-  variant = "fidelity",
   actionLabel,
   onAction,
   dismissLabel = "Dismiss",
@@ -45,7 +39,7 @@ export function Snackbar({
   if (!open) return null;
 
   return (
-    <div className={styles.snackbar} data-variant={variant} role="status" aria-live="polite" aria-atomic="true">
+    <div className={styles.snackbar} role="status" aria-live="polite" aria-atomic="true">
       <span className={styles.message}>{message}</span>
       <div className={styles.actions}>
         {actionLabel && onAction ? (
