@@ -46,10 +46,7 @@ function useElementSize<T extends HTMLElement>(
 
   useLayoutEffect(() => {
     const element = ref.current;
-    if (!enabled || !element) {
-      setSize({ width: 0, height: 0 });
-      return;
-    }
+    if (!enabled || !element) return;
 
     const update = () => {
       const rect = element.getBoundingClientRect();
