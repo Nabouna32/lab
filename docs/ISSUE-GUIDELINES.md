@@ -121,6 +121,18 @@ Recouper ensuite les affirmations et liens importants avec le dépôt et les sys
 ## 5. Création, classement et cycle de vie
 
 - Rechercher les issues existantes avant d'en créer une ; éviter les doublons et relier les sujets réellement dépendants.
+
+### Numérotation des chantiers dépendants
+
+Lorsqu'un chantier est réparti sur plusieurs issues qui doivent être exécutées dans un ordre déterminé, rendre cet ordre explicite dans les **titres** et dans les **dépendances du corps**. Utiliser le format `[Lot 1/N]`, `[Lot 2/N]`, etc. (`N` étant le nombre total de lots ordonnés), placé au début du titre après un éventuel préfixe de cycle de vie. Le numéro indique l'ordre d'exécution et non une priorité générale du backlog.
+
+- Numéroter uniquement les issues qui appartiennent réellement à une même séquence dépendante ; ne pas imposer de numérotation aux tâches indépendantes ou parallélisables.
+- Donner à chaque lot un périmètre et des critères de sortie propres. Le corps de chaque issue indique le lot précédent, le lot suivant et les dépendances concrètes ; l'issue de coordination présente la séquence complète et sert de point d'entrée.
+- Conserver le même dénominateur pour toute la séquence. Si une étape comporte des sous-phases qui doivent elles-mêmes être ordonnées, utiliser une lettre (`[Lot 4a/N]`, `[Lot 4b/N]`) plutôt que de créer une numérotation ambiguë ou de modifier artificiellement le nombre de lots.
+- Si le périmètre ou l'ordre change, mettre à jour ensemble les titres, les liens et les sections de dépendances de toutes les issues affectées ; vérifier qu'aucun ancien numéro ou ordre contradictoire ne subsiste.
+- Ne pas renuméroter les issues sans lien avec la séquence. Ne pas utiliser les numéros d'issues GitHub comme substitut à l'ordre d'exécution : les identifiants GitHub restent immuables et ne représentent pas une séquence.
+- Avant de créer les issues, établir la séquence à partir des dépendances réelles ; éviter de découper artificiellement un chantier simplement pour afficher des numéros.
+
 - À la création, choisir une catégorie principale et ajouter seulement les qualifications transversales justifiées.
 - Pour une issue existante, vérifier que le problème est toujours présent, que les critères restent valides et que les dépendances n'ont pas changé.
 - Lorsqu'un travail doit attendre une date, un cycle planifié, une publication upstream ou un événement externe, conserver l'issue ouverte et rendre l'attente immédiatement visible dans le titre avec l'un des préfixes définis en section 3. Ne pas utiliser `[Action humaine]` ni le label `action-humaine` sauf si une intervention personnelle réelle est indispensable.
