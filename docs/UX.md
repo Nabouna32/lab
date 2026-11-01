@@ -222,7 +222,7 @@ La marque reste distincte de l'iconographie fonctionnelle ; utiliser `LocularyLo
 
 Le panneau actuel de l'en-tête contient à la fois la navigation et les réglages. Il utilise donc un comportement de divulgation ou de popover, plutôt que de revendiquer la sémantique ARIA `menu` sans implémenter le modèle clavier correspondant.
 
-- Les choix de thème et le sélecteur de langue ne ferment pas le panneau. Un changement de locale peut recréer le layout racine ; l'état ouvert est donc transmis une seule fois au moyen d'un état de session limité à l'onglet. Il ne s'agit pas d'une préférence durable et cet état est effacé lors de la prochaine interaction avec le menu. Le panneau est ensuite actualisé dans la langue sélectionnée.
+- Les choix de thème ne ferment pas le panneau. Le changement de langue le ferme au début de la navigation ; l'ouverture n'est pas restaurée après le changement de locale et aucun état n'est conservé dans `sessionStorage`.
 - Les liens de destination ordinaires ferment le panneau au début de la navigation.
 - Une interaction pointeur à l'extérieur du panneau et la touche Escape le ferment.
 - Escape restaure le focus sur le déclencheur. Une fermeture par clic extérieur ne doit pas déplacer le focus hors de l'élément que l'utilisateur vient de sélectionner.
