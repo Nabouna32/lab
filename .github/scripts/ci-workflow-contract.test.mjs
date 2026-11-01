@@ -119,3 +119,20 @@ test("axe-core is excluded from automatic browser validation and available throu
   assert.match(axeAudit, /cancel-in-progress: true/);
   assert.doesNotMatch(surveillance, /material3-axe-audit|axe-core/);
 });
+
+test("workflow and job display names explain the checks in French", () => {
+  assert.ok(workflow.includes("name: Détection des changements et contrôles préalables"));
+  assert.ok(workflow.includes("name: Lint, vérification TypeScript et tests unitaires"));
+  assert.ok(workflow.includes("name: Construction de l'application de production"));
+  assert.ok(workflow.includes("name: Vérification des fonctions Edge Supabase (Deno)"));
+  assert.ok(workflow.includes("name: Validation de la base Supabase — migrations, tests pgTAP et analyse SQL"));
+  assert.ok(workflow.includes("name: Vérification finale des contrôles applicables"));
+
+  assert.ok(surveillance.includes("name: Surveillance du projet"));
+  assert.ok(surveillance.includes("name: Audit de sécurité des dépendances npm"));
+  assert.ok(surveillance.includes("name: Tests navigateur — parcours critiques et contrôles d'accessibilité"));
+
+  assert.ok(codeql.includes("name: Analyse de sécurité du code"));
+  assert.ok(codeql.includes("display_language: GitHub Actions"));
+  assert.ok(codeql.includes("display_language: JavaScript / TypeScript"));
+});

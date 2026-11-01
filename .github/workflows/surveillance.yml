@@ -1,4 +1,4 @@
-name: Surveillance quotidienne
+name: Surveillance du projet
 
 on:
   schedule:
@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   audit-dependances:
-    name: Audit complet des dépendances npm
+    name: Audit de sécurité des dépendances npm
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -39,7 +39,7 @@ jobs:
         run: node .github/scripts/run-npm-audit.mjs
 
   tests-navigateur:
-    name: Tests des parcours critiques — Playwright Chromium
+    name: Tests navigateur — parcours critiques et contrôles d'accessibilité
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
