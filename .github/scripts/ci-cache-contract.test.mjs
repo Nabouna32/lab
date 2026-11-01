@@ -12,9 +12,9 @@ const surveillance = readFileSync(
 );
 
 function sectionFor(source, jobName) {
-  const lines = source.split(/\r?\n/);
-  const start = lines.findIndex((line) => line === `  ${jobName}:`);
-  assert.notEqual(start, -1, `Missing workflow job: ${jobName}`);
+  const lines = source.split("\n");
+  const start = lines.findIndex((line) => line === \`  \${jobName}:\`);
+  assert.notEqual(start, -1, \`Missing workflow job: \${jobName}\`);
 
   const next = lines.findIndex(
     (line, index) => index > start && /^  [a-zA-Z0-9_-]+:$/.test(line),
@@ -25,57 +25,54 @@ function sectionFor(source, jobName) {
 
 test("the preparation job sets up Node without restoring an unused npm cache", () => {
   const prepare = sectionFor(workflow, "prepare");
-  assert.match(prepare, /uses: actions\/setup-node@/);
-  assert.match(prepare, /node-version: 24\.21\.0/);
-  assert.doesNotMatch(prepare, /cache: npm|cache-dependency-path:/);
+  assert.ok(prepare.includes("uses: actions/setup-node@"));
+  assert.ok(prepare.includes("node-version: 24.21.0"));
+  assert.ok(!prepare.includes("cache: npm"));
+  assert.ok(!prepare.includes("cache-dependency-path:"));
 });
 
 test("quality and production build retain their npm dependency caches", () => {
   for (const jobName of ["quality", "build"]) {
     const job = sectionFor(workflow, jobName);
-    assert.match(job, /cache: npm/);
-    assert.match(job, /cache-dependency-path: package-lock\.json/);
-    assert.match(job, /run: npm ci/);
+    assert.ok(job.includes("cache: npm"));
+    assert.ok(job.includes("cache-dependency-path: package-lock.json"));
+    assert.ok(job.includes("run: npm ci"));
   }
 });
 
 test("the production build restores the Next.js build cache with bounded keys", () => {
   const build = sectionFor(workflow, "build");
-  assert.match(
-    build,
-    /uses: actions\/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6\.1\.0/,
-  );
-  assert.match(build, /path: \.next\/cache/);
-  assert.match(build, /runner\.os/);
-  assert.match(build, /node-24\.21\.0/);
-  assert.match(build, /hashFiles\('package-lock\.json'\)/);
+  assert.ok(build.includes("uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0"));
+  assert.ok(build.includes("path: .next/cache"));
+  assert.ok(build.includes("runner.os"));
+  assert.ok(build.includes("node-24.21.0"));
+  assert.ok(build.includes("hashFiles('package-lock.json')"));
   assert.ok(build.includes("hashFiles('src/**/*.js'"));
-  assert.match(build, /restore-keys:/);
-  assert.match(build, /nextjs-node-24\.21\.0-\$\{\{ hashFiles\('package-lock\.json'\) \}\}-/);
+  assert.ok(build.includes("restore-keys:"));
+  assert.ok(build.includes("nextjs-node-24.21.0-\${{ hashFiles('package-lock.json') }}-"));
 });
 
 test("the scheduled browser build can seed the shared main-branch Next.js cache", () => {
   const browser = sectionFor(surveillance, "tests-navigateur");
-  assert.match(
-    browser,
-    /uses: actions\\/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6\\.1\\.0/,
-  );
-  assert.match(browser, /path: \.next\\/cache/);
-  assert.match(browser, /restore-keys:/);
-  assert.match(browser, /run: npm run build/);
+  assert.ok(browser.includes("uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0"));
+  assert.ok(browser.includes("path: .next/cache"));
+  assert.ok(browser.includes("restore-keys:"));
+  assert.ok(browser.includes("run: npm run build"));
 });
 
 test("the npm audit job runs from the lockfile without installing node_modules", () => {
   const audit = sectionFor(surveillance, "audit-dependances");
-  assert.match(audit, /uses: actions\/setup-node@/);
-  assert.match(audit, /node-version: 24\.21\.0/);
-  assert.match(audit, /run: node \.github\/scripts\/run-npm-audit\.mjs/);
-  assert.doesNotMatch(audit, /cache: npm|cache-dependency-path:|run: npm ci/);
+  assert.ok(audit.includes("uses: actions/setup-node@"));
+  assert.ok(audit.includes("node-version: 24.21.0"));
+  assert.ok(audit.includes("run: node .github/scripts/run-npm-audit.mjs"));
+  assert.ok(!audit.includes("cache: npm"));
+  assert.ok(!audit.includes("cache-dependency-path:"));
+  assert.ok(!audit.includes("run: npm ci"));
 });
 
 test("the browser surveillance job keeps its npm cache and dependency installation", () => {
   const browser = sectionFor(surveillance, "tests-navigateur");
-  assert.match(browser, /cache: npm/);
-  assert.match(browser, /cache-dependency-path: package-lock\.json/);
-  assert.match(browser, /run: npm ci/);
+  assert.ok(browser.includes("cache: npm"));
+  assert.ok(browser.includes("cache-dependency-path: package-lock.json"));
+  assert.ok(browser.includes("run: npm ci"));
 });
