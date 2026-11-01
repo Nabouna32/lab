@@ -29,6 +29,6 @@
 - [ ] Comparer le rendu et les états aux références AndroidX épinglées.
 - [ ] Exécuter tests, lint, vérification TypeScript et build.
 
-L'audit axe-core n'est pas exécuté par la suite Playwright automatique. Il est disponible sur demande via [le workflow dédié](../../.github/workflows/audit-accessibilite.yml) et [sa spec](../../.github/browser/material3-axe-audit.spec.mjs).
+L'audit axe-core n'est pas exécuté par la suite Playwright automatique. Il est disponible sur demande via [le workflow dédié](../../../.github/workflows/audit-accessibilite.yml) et [sa spec](../../../.github/browser/material3-axe-audit.spec.mjs).
 
 Les tests statiques et la présence de tokens partagés ne prouvent pas la fidélité visuelle.
