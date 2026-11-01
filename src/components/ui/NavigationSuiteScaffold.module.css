@@ -1,0 +1,66 @@
+.root {
+  display: flex;
+  position: relative;
+  width: 100%;
+  min-height: 360px;
+  overflow: hidden;
+  border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  border-radius: 16px;
+  background: var(--lab-surface, var(--md-sys-color-surface, Canvas));
+  color: var(--lab-on-surface, var(--md-sys-color-on-surface, CanvasText));
+}
+
+.mobileNavigation {
+  display: block;
+  position: absolute;
+  z-index: 3;
+  inset-inline: 0;
+  bottom: 0;
+}
+
+.mediumNavigation,
+.expandedNavigation {
+  display: none;
+}
+
+.content {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 16px 16px 88px;
+}
+
+@media (min-width: 600px) {
+  .root {
+    min-height: 420px;
+  }
+
+  .mobileNavigation {
+    display: none;
+  }
+
+  .mediumNavigation {
+    display: block;
+    flex: 0 0 auto;
+    padding: 8px;
+  }
+
+  .content {
+    padding: 24px;
+  }
+}
+
+@media (min-width: 840px) {
+  .mediumNavigation {
+    display: none;
+  }
+
+  .expandedNavigation {
+    display: block;
+    flex: 0 0 auto;
+    max-width: 280px;
+  }
+
+  .content {
+    padding: 32px;
+  }
+}
