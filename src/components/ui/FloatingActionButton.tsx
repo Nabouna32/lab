@@ -95,6 +95,7 @@ function FabButton({
   elevation = FloatingActionButtonDefaults.elevation(),
   className = "",
   style,
+  disabled = false,
   children,
   ...buttonProps
 }: InternalFabProps) {
@@ -113,8 +114,8 @@ function FabButton({
         : FloatingActionButtonDefaults.shape);
 
   const buttonStyle = {
-    backgroundColor: containerColor,
-    color: resolvedContentColor,
+    "--fab-container-color": containerColor,
+    "--fab-content-color": resolvedContentColor,
     borderRadius: resolvedShape,
     boxShadow: elevationShadow(elevation.defaultElevation),
     "--fab-shadow-hover": elevationShadow(elevation.hoveredElevation),
@@ -128,6 +129,7 @@ function FabButton({
       {...buttonProps}
       type={type}
       onClick={onClick}
+      disabled={disabled}
       className={[styles.fab, styles[variant], className].filter(Boolean).join(" ")}
       style={buttonStyle}
       data-variant={variant}
