@@ -21,7 +21,7 @@ const preservedPorts = [
   "FloatingActionButtonMenu",
 ];
 
-test("previously implemented AndroidX Material 3 ports remain in the shared catalogue", () => {
+test("previously started AndroidX Material 3 port adaptations remain in the shared catalogue", () => {
   for (const name of preservedPorts) {
     const sourcePath = new URL(`${name}.tsx`, root);
     const stylePath = new URL(`${name}.module.css`, root);
