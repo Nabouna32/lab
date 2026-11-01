@@ -11,7 +11,7 @@
   border: 0;
   color: var(--fab-content-color, var(--on-primary-container, #041e49));
   background: var(--fab-container-color, var(--primary-container, #d3e3fd));
-  box-shadow: var(--button-elevation-2, 0 1px 2px rgb(0 0 0 / 0.12), 0 2px 6px rgb(0 0 0 / 0.12));
+  box-shadow: var(--fab-shadow-default, var(--button-elevation-2, 0 1px 2px rgb(0 0 0 / 0.12), 0 2px 6px rgb(0 0 0 / 0.12)));
   cursor: pointer;
   font-family: inherit;
   font-size: var(--m3-type-label-large-size, 14px);
