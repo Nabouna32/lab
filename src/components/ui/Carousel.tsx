@@ -18,7 +18,11 @@ type CarouselProps = {
   className?: string;
 };
 
-/** Source-informed Web adaptation of AndroidX HorizontalMultiBrowseCarousel / HorizontalUncontainedCarousel. */
+/**
+ * Partial family adapter for AndroidX Material 3 1.4.0 experimental
+ * HorizontalMultiBrowseCarousel / HorizontalUncontainedCarousel APIs.
+ * This unified Web API is not a one-to-one Compose signature or parity claim.
+ */
 export function Carousel({
   items, label, layout = "uncontained", itemWidth = 224, gap = 8, className = "",
 }: CarouselProps) {
