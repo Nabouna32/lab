@@ -17,10 +17,10 @@ export type SearchBarProps = {
 };
 
 /**
- * Shared Web adaptation of AndroidX Material 3 SearchBar / expanded search
- * patterns. It is not native Compose. Expansion, suggestions, keyboard choice,
- * and query submission are implemented; exact AndroidX window/inset/motion
- * behavior and newer SearchBarState APIs remain version-sensitive.
+ * Partial Web port of AndroidX Material 3 1.4.0 SearchBar/docked search APIs.
+ * It is not native Compose. Expansion, suggestions, keyboard choice and query
+ * submission are implemented; SearchBarState, window/inset/motion contracts and
+ * exact API-family separation remain incomplete. The API is experimental in 1.4.0.
  */
 export function SearchBar({
   label,
