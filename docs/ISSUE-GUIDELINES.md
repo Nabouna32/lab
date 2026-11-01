@@ -60,7 +60,13 @@ Conserver exactement les identifiants configurés dans [`.github/dependabot.yml`
 
 Ces labels sont appliqués par Dependabot. Ne pas les renommer, les remplacer par la taxonomie de travail ou modifier leur usage sans mettre à jour la configuration. Une PR Dependabot n'est pas une issue de travail : ne pas lui imposer artificiellement un label principal de catégorie. Si une issue de suivi distincte est nécessaire, lui attribuer sa propre catégorie et, le cas échéant, `securite`.
 
-Les couleurs des labels ne constituent pas un contrat de classification : les identifiants exacts et les règles d'attribution ci-dessus font foi. Ne pas créer de variantes synonymes, de labels de priorité ou d'état (`en-cours`, `bloque`, etc.) sans besoin opérationnel durable démontré. La priorité est réévaluée selon la valeur et le risque ; l'état est porté par GitHub et le contenu à jour de l'issue.
+Les couleurs des labels ne constituent pas un contrat de classification : les identifiants exacts et les règles d'attribution ci-dessus font foi. N'appliquer que des labels déjà présents dans le dépôt et définis dans ce contrat ; ne jamais inventer un identifiant ou supposer qu'un label existe. Ne pas créer de variantes synonymes ni de labels de priorité ou d'état par défaut. La priorité est réévaluée selon la valeur et le risque ; l'état est porté par GitHub, le titre et le contenu à jour de l'issue.
+
+L'attente technique ou externe est signalée dans le **titre**, pas par un label implicite :
+- `[En attente — reprise après YYYY-MM-DD HH:mm UTC]` lorsqu'une date/heure ou un déclencheur planifié connu conditionne la reprise ;
+- `[En attente amont — revue le YYYY-MM-DD]` lorsqu'une évolution externe est attendue sans date de publication fiable ; la date indiquée est alors la prochaine revue, pas une promesse de disponibilité.
+
+Ces préfixes sont des marqueurs de cycle de vie, pas des labels GitHub. Ne pas utiliser `action-humaine` pour une attente technique ou upstream. Si un label d'attente devient utile ultérieurement, il doit d'abord être créé dans le dépôt et ajouté à la taxonomie de ce document ; aucune issue ne peut l'utiliser avant ces deux étapes.
 
 ## 4. Structure d'une issue exploitable
 
@@ -117,6 +123,10 @@ Recouper ensuite les affirmations et liens importants avec le dépôt et les sys
 - Rechercher les issues existantes avant d'en créer une ; éviter les doublons et relier les sujets réellement dépendants.
 - À la création, choisir une catégorie principale et ajouter seulement les qualifications transversales justifiées.
 - Pour une issue existante, vérifier que le problème est toujours présent, que les critères restent valides et que les dépendances n'ont pas changé.
+- Lorsqu'un travail doit attendre une date, un cycle planifié, une publication upstream ou un événement externe, conserver l'issue ouverte et rendre l'attente immédiatement visible dans le titre avec l'un des préfixes définis en section 3. Ne pas utiliser `[Action humaine]` ni le label `action-humaine` sauf si une intervention personnelle réelle est indispensable.
+- Ajouter au corps une section **« Attente et prochaine reprise »** indiquant : la raison de l'attente, le déclencheur exact, la date/heure de la prochaine vérification (UTC lorsque pertinent), la preuve attendue et la conduite à tenir si le déclencheur ne s'est pas produit. Pour une attente upstream sans date fiable, fixer une date de revue raisonnable et la réévaluer à chaque passage.
+- Une échéance de revue est un rappel de réexamen, pas une affirmation que la dépendance ou le service externe sera prêt à cette date. Ne jamais présenter un cron configuré comme une exécution prouvée.
+- À la reprise, vérifier les faits et les sources actuelles, actualiser le corps et retirer le préfixe d'attente du titre dès que l'issue n'est plus en attente. Si l'attente continue, déplacer explicitement la prochaine revue et conserver la raison.
 - Mettre à jour le corps de l'issue lorsque l'objectif, le périmètre, les décisions, l'état, les critères ou la prochaine action changent durablement. Le corps doit rester la source actuelle de reprise.
 - Utiliser les commentaires pour les transitions utiles : décision, découverte, résultat significatif, validation, incident ou changement d'état. Ne pas commenter chaque commande, tentative ou vérification.
 - Fermer uniquement lorsque les critères d'acceptation sont vérifiés. Une PR fusionnée ne suffit pas si des contrôles de production ou d'autres critères restent requis.
