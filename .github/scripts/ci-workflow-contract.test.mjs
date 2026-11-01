@@ -5,9 +5,15 @@ import test from "node:test";
 const workflowPath = new URL("../workflows/ci.yml", import.meta.url);
 const surveillancePath = new URL("../workflows/surveillance.yml", import.meta.url);
 const codeqlPath = new URL("../workflows/codeql.yml", import.meta.url);
+const axeAuditPath = new URL("../workflows/audit-accessibilite.yml", import.meta.url);
+const browserSpecPath = new URL("../browser/material3.spec.mjs", import.meta.url);
+const axeAuditSpecPath = new URL("../browser/material3-axe-audit.spec.mjs", import.meta.url);
 const workflow = readFileSync(workflowPath, "utf8");
 const surveillance = readFileSync(surveillancePath, "utf8");
 const codeql = readFileSync(codeqlPath, "utf8");
+const axeAudit = readFileSync(axeAuditPath, "utf8");
+const browserSpec = readFileSync(browserSpecPath, "utf8");
+const axeAuditSpec = readFileSync(axeAuditSpecPath, "utf8");
 
 function sectionFor(source, jobName) {
   const lines = source.split(/\r?\n/);
@@ -94,4 +100,16 @@ test("Playwright Chromium is owned only by daily/manual surveillance, not a dupl
   assert.match(surveillance, /npx playwright test/);
   assert.match(surveillance, /^  schedule:/m);
   assert.match(surveillance, /^  workflow_dispatch:/m);
+});
+
+test("axe-core is excluded from automatic browser validation and available through a manual audit", () => {
+  assert.doesNotMatch(browserSpec, /axe-core|runAxe|axePath|window\.axe/);
+  assert.match(axeAuditSpec, /axe-core/);
+  assert.match(axeAuditSpec, /wcag22aa/);
+  const triggers = axeAudit.slice(0, axeAudit.indexOf("\njobs:"));
+  assert.match(triggers, /^  workflow_dispatch:/m);
+  assert.doesNotMatch(triggers, /^  (pull_request|push|schedule):/m);
+  assert.match(axeAudit, /npx playwright test \.github\/browser\/material3-axe-audit\.spec\.mjs/);
+  assert.match(axeAudit, /cancel-in-progress: true/);
+  assert.doesNotMatch(surveillance, /material3-axe-audit|axe-core/);
 });

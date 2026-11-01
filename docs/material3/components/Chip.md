@@ -24,8 +24,11 @@
 
 - [x] Automatiser dans Chromium l'activation clavier, la sélection, le retrait, la désactivation et l'indépendance des actions (preuve CI à obtenir sur cette PR).
 - [ ] Vérifier le nom accessible de l'action de retrait avec un lecteur d'écran.
+- [ ] Exécuter, si utile, l'audit axe-core facultatif ; ses résultats `incomplete` nécessitent une revue manuelle et ne certifient pas la conformité WCAG.
 - [ ] Comparer les couleurs calculées, le contraste, clair/sombre, FR/EN, zoom et tailles d'écran réelles.
 - [ ] Comparer le rendu et les états aux références AndroidX épinglées.
 - [ ] Exécuter tests, lint, vérification TypeScript et build.
+
+L'audit axe-core n'est pas exécuté par la suite Playwright automatique. Il est disponible sur demande via [le workflow dédié](../../../.github/workflows/audit-accessibilite.yml) et [sa spec](../../../.github/browser/material3-axe-audit.spec.mjs).
 
 Les tests statiques et la présence de tokens partagés ne prouvent pas la fidélité visuelle.
