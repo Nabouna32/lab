@@ -22,9 +22,11 @@ export type NavigationSuiteScaffoldProps = {
 };
 
 /**
- * Web adaptation of AndroidX adaptive NavigationSuiteScaffold. CSS viewport
- * breakpoints choose bottom navigation, rail or permanent drawer. These are
- * CSS-pixel approximations, not Android WindowSizeClass/dp measurements.
+ * Partial Web adaptation of AndroidX material3-adaptive-navigation-suite
+ * NavigationSuiteScaffold. Its artifact version/source commit is not yet pinned.
+ * CSS viewport breakpoints currently choose bottom navigation, rail or drawer;
+ * this is not parity with NavigationSuiteType/WindowAdaptiveInfo and must not
+ * impose a product-wide navigation choice. Rebuild with an explicit layout type.
  */
 export function NavigationSuiteScaffold({
   items,
