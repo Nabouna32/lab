@@ -13,8 +13,8 @@ const surveillance = readFileSync(
 
 function sectionFor(source, jobName) {
   const lines = source.split("\n");
-  const start = lines.findIndex((line) => line === \`  \${jobName}:\`);
-  assert.notEqual(start, -1, \`Missing workflow job: \${jobName}\`);
+  const start = lines.findIndex((line) => line === "  " + jobName + ":");
+  assert.notEqual(start, -1, "Missing workflow job: " + jobName);
 
   const next = lines.findIndex(
     (line, index) => index > start && /^  [a-zA-Z0-9_-]+:$/.test(line),
@@ -49,7 +49,7 @@ test("the production build restores the Next.js build cache with bounded keys", 
   assert.ok(build.includes("hashFiles('package-lock.json')"));
   assert.ok(build.includes("hashFiles('src/**/*.js'"));
   assert.ok(build.includes("restore-keys:"));
-  assert.ok(build.includes("nextjs-node-24.21.0-\${{ hashFiles('package-lock.json') }}-"));
+  assert.ok(build.includes("nextjs-node-24.21.0-${{ hashFiles('package-lock.json') }}-"));
 });
 
 test("the scheduled browser build can seed the shared main-branch Next.js cache", () => {
