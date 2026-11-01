@@ -82,6 +82,12 @@ test("CodeQL scans main pushes and its weekly schedule without running on pull r
   assert.doesNotMatch(triggers, /^  pull_request:/m);
 });
 
+test("CodeQL cancels obsolete push scans without coupling them to scheduled scans", () => {
+  const concurrency = codeql.slice(codeql.indexOf("\nconcurrency:"), codeql.indexOf("\njobs:"));
+  assert.match(concurrency, /group: codeql-\$\{\{ github\.workflow \}\}-\$\{\{ github\.ref \}\}-\$\{\{ github\.event_name \}\}/);
+  assert.match(concurrency, /cancel-in-progress: true/);
+});
+
 test("CodeQL pins actions and uses only the permissions required by this public repository", () => {
   assert.ok(codeql.includes("uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1"));
   assert.ok(codeql.includes("uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1"));
@@ -91,7 +97,6 @@ test("CodeQL pins actions and uses only the permissions required by this public 
   assert.match(permissions, /security-events: write/);
   assert.doesNotMatch(permissions, /actions:|packages:/);
 });
-
 
 test("Playwright Chromium is owned only by daily/manual surveillance, not a duplicate PR workflow", () => {
   const browserPath = new URL("../workflows/browser-validation.yml", import.meta.url);
