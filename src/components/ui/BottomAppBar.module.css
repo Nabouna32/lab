@@ -1,0 +1,11 @@
+.root {
+  position: relative; display: flex; align-items: center; gap: 12px; box-sizing: border-box;
+  min-height: 80px; width: 100%; padding: 12px 16px max(12px, env(safe-area-inset-bottom));
+  color: var(--lab-text, var(--on-surface, currentColor));
+  background: var(--lab-surface-container, var(--surface-container, var(--lab-surface, transparent)));
+}
+.actions { display: flex; align-items: center; gap: 4px; min-width: 0; }
+.customContent { display: flex; align-items: center; flex: 1; min-width: 0; }
+.fab { display: flex; align-items: center; justify-content: center; margin-inline-start: auto; }
+.root[data-has-fab="true"] .actions { margin-inline-end: auto; }
+@media (prefers-reduced-motion: reduce) { .root { scroll-behavior: auto; } }
