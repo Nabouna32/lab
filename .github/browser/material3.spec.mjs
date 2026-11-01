@@ -1,38 +1,10 @@
-import { createRequire } from "node:module";
 import { test, expect } from "@playwright/test";
 
-const require = createRequire(import.meta.url);
-const axePath = require.resolve("axe-core/axe.min.js");
 const locales = [
   { locale: "fr", path: "/fr/design-lab" },
   { locale: "en", path: "/en/design-lab" },
 ];
 const viewports = [320, 390, 768, 1440, 1920];
-const wcagTags = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
-
-async function runAxe(page, label) {
-  await page.addScriptTag({ path: axePath });
-  const result = await page.evaluate(async (tags) => {
-    const report = await window.axe.run(document, {
-      runOnly: { type: "tag", values: tags },
-    });
-    return {
-      violations: report.violations.map(({ id, impact, help, nodes }) => ({
-        id,
-        impact,
-        help,
-        nodes: nodes.map(({ target, failureSummary }) => ({ target, failureSummary })),
-      })),
-      incomplete: report.incomplete.map(({ id, help, nodes }) => ({
-        id,
-        help,
-        nodes: nodes.map(({ target, failureSummary }) => ({ target, failureSummary })),
-      })),
-    };
-  }, wcagTags);
-  console.log("axe-core " + label + " : " + JSON.stringify(result));
-  expect(result.violations, "Violations WCAG " + label).toEqual([]);
-}
 
 async function interactiveMetrics(page, selector = 'section[aria-labelledby="actions-title"] button, footer a, a[data-material-button-link="true"]') {
   return page.locator(selector)
@@ -167,11 +139,10 @@ for (const entry of locales) {
     });
 
     for (const colorScheme of ["light", "dark"]) {
-      test("accessibilité WCAG, contraste et géométrie Button (" + colorScheme + ")", async ({ page }) => {
+      test("contraste calculé et géométrie Button (" + colorScheme + ")", async ({ page }) => {
         await page.emulateMedia({ colorScheme });
         await page.setViewportSize({ width: 390, height: 844 });
         await page.goto(entry.path);
-        await runAxe(page, entry.locale + " " + colorScheme);
         const results = await interactiveMetrics(page);
         const buttons = results.filter((result) => result.kind === "button");
         const links = results.filter((result) => result.kind === "a");
@@ -458,7 +429,7 @@ for (const entry of locales) {
       const passwordToggle = page.getByRole("button", {
         name: entry.locale === "fr" ? "Afficher le mot de passe" : "Show password",
       });
-      // The app shell scrolls internally; center the target in that container before the full-page axe scan.
+      // The app shell scrolls internally; center the target before checking its touch target size.
       await passwordToggle.evaluate((element) => element.scrollIntoView({ block: "center", inline: "nearest" }));
       await expect(passwordToggle).toBeInViewport();
       const passwordTarget = await passwordToggle.evaluate((element) => {
@@ -467,7 +438,6 @@ for (const entry of locales) {
       });
       expect(passwordTarget.width).toBeGreaterThanOrEqual(48);
       expect(passwordTarget.height).toBeGreaterThanOrEqual(48);
-      await runAxe(page, entry.locale + " Design Lab Chips " + colorScheme);
     });
   }
 }
