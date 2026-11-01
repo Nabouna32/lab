@@ -142,11 +142,11 @@ test("Scaffold passes measured top/bottom bar sizes and positions FAB and snackb
   assert.equal(receivedPadding.bottom, "72px");
   assert.equal(
     container.querySelector('[data-slot="floating-action-button"]').style.insetBlockEnd,
-    "calc(56px + 16px + 72px)",
+    "calc(16px + 72px)",
   );
   assert.equal(
     container.querySelector('[data-slot="snackbar-host"]').style.insetBlockEnd,
-    "calc(48px + calc(56px + 16px + 72px))",
+    "calc(56px + 16px + 72px)",
   );
 });
 
@@ -176,7 +176,7 @@ test("Scaffold EndOverlay overlaps the bottom bar while Start and Center use the
   );
 
   const [overlay, start, center] = container.querySelectorAll('[data-slot="floating-action-button"]');
-  assert.equal(overlay.style.insetBlockEnd, "calc(0px + 16px + 10px)");
+  assert.equal(overlay.style.insetBlockEnd, "calc(16px + 10px)");
   assert.equal(start.style.insetInlineStart, "calc(var(--scaffold-inset-start) + 16px)");
   assert.equal(center.style.left, "calc((100% - var(--scaffold-fab-width) + var(--scaffold-inset-left) - var(--scaffold-inset-right)) / 2)");
   assert.equal(container.querySelector('[data-component="scaffold"]').style.getPropertyValue("--scaffold-inset-left"), "12px");
@@ -198,6 +198,6 @@ test("Scaffold places a snackbar above the bottom bar when no visible FAB exists
 
   assert.equal(
     container.querySelector('[data-slot="snackbar-host"]').style.insetBlockEnd,
-    "calc(48px + 72px)",
+    "72px",
   );
 });
