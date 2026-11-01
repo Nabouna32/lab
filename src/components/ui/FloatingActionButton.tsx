@@ -23,7 +23,6 @@ export const FloatingActionButtonDefaults = {
   largeShape: "var(--shape-corner-extra-large, 28px)",
   extendedFabShape: "var(--shape-corner-large, 16px)",
   containerColor: "var(--primary-container, #d3e3fd)",
-  contentColor: "var(--on-primary-container, #041e49)",
   elevation: (overrides: ElevationOverrides = {}) =>
     createElevation(
       { defaultElevation: 6, pressedElevation: 6, focusedElevation: 6, hoveredElevation: 8 },
@@ -102,7 +101,7 @@ function FabButton({
   const resolvedContentColor =
     contentColor ??
     (containerColor === FloatingActionButtonDefaults.containerColor
-      ? FloatingActionButtonDefaults.contentColor
+      ? "var(--on-primary-container, #041e49)"
       : "currentColor");
 
   const resolvedShape =
