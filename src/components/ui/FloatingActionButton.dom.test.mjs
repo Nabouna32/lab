@@ -124,6 +124,7 @@ test("native disabled state is preserved while theme colors remain CSS-overridab
   assert.equal(button.disabled, true);
   assert.equal(button.style.getPropertyValue("--fab-container-color"), "#abcdef");
   assert.equal(button.style.getPropertyValue("--fab-content-color"), "#123456");
+  assert.equal(button.style.boxShadow, "");
 });
 
 test("extended FAB content overload keeps the AndroidX minimum width and semantic label", async () => {
