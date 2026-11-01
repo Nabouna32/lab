@@ -131,8 +131,7 @@ test("extended FAB content overload keeps the AndroidX minimum width and semanti
     createElement(ExtendedFloatingActionButton, {
       onClick: () => {},
       "aria-label": "Create document",
-      children: createElement("span", null, "Create document"),
-    }),
+    }, createElement("span", null, "Create document")),
   );
 
   const button = container.querySelector("button");
