@@ -33,7 +33,7 @@ jobs:
       - name: Installer Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24.21.0
+          node-version-file: .nvmrc
 
       - name: Auditer le graphe npm verrouillé
         run: node .github/scripts/run-npm-audit.mjs
@@ -52,7 +52,7 @@ jobs:
       - name: Installer Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24.21.0
+          node-version-file: .nvmrc
           cache: npm
           cache-dependency-path: package-lock.json
 
@@ -63,9 +63,9 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .next/cache
-          key: ${{ runner.os }}-nextjs-node-24.21.0-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.js', 'src/**/*.jsx', 'src/**/*.ts', 'src/**/*.tsx', 'next.config.*', 'tsconfig.json', 'postcss.config.*') }}
+          key: ${{ runner.os }}-nextjs-node-26.13.0-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.js', 'src/**/*.jsx', 'src/**/*.ts', 'src/**/*.tsx', 'next.config.*', 'tsconfig.json', 'postcss.config.*') }}
           restore-keys: |
-            ${{ runner.os }}-nextjs-node-24.21.0-${{ hashFiles('package-lock.json') }}-
+            ${{ runner.os }}-nextjs-node-26.13.0-${{ hashFiles('package-lock.json') }}-
 
       - name: Installer Playwright Test (version stable épinglée)
         run: npm install --no-save --package-lock=false @playwright/test@1.64.1
