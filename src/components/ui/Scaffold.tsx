@@ -4,7 +4,23 @@ import { useLayoutEffect, useRef, useState } from "react";
 import type { CSSProperties, ReactNode, RefObject } from "react";
 import styles from "./Scaffold.module.css";
 
-export type ScaffoldFabPosition = "start" | "center" | "end" | "end-overlay";
+export const FabPosition = {
+  Start: "start",
+  Center: "center",
+  End: "end",
+  EndOverlay: "end-overlay",
+} as const;
+
+export type ScaffoldFabPosition = (typeof FabPosition)[keyof typeof FabPosition];
+
+export const ScaffoldDefaults = {
+  contentWindowInsets: {
+    top: "env(safe-area-inset-top, 0px)",
+    right: "env(safe-area-inset-right, 0px)",
+    bottom: "env(safe-area-inset-bottom, 0px)",
+    left: "env(safe-area-inset-left, 0px)",
+  },
+} as const;
 
 export type ScaffoldInsets = {
   top: string | number;
@@ -106,15 +122,15 @@ export function Scaffold({
   const [fabRef, fabSize] = useElementSize<HTMLDivElement>(hasFab);
 
   const insets = {
-    top: cssLength(contentWindowInsets?.top ?? "env(safe-area-inset-top, 0px)"),
-    right: cssLength(contentWindowInsets?.right ?? "env(safe-area-inset-right, 0px)"),
-    bottom: cssLength(contentWindowInsets?.bottom ?? "env(safe-area-inset-bottom, 0px)"),
-    left: cssLength(contentWindowInsets?.left ?? "env(safe-area-inset-left, 0px)"),
+    top: cssLength(contentWindowInsets?.top ?? ScaffoldDefaults.contentWindowInsets.top),
+    right: cssLength(contentWindowInsets?.right ?? ScaffoldDefaults.contentWindowInsets.right),
+    bottom: cssLength(contentWindowInsets?.bottom ?? ScaffoldDefaults.contentWindowInsets.bottom),
+    left: cssLength(contentWindowInsets?.left ?? ScaffoldDefaults.contentWindowInsets.left),
   };
 
   const padding: ScaffoldPaddingValues = {
-    top: hasTopBar && topBarSize.height > 0 ? `${topBarSize.height}px` : insets.top,
-    bottom: hasBottomBar && bottomBarSize.height > 0 ? `${bottomBarSize.height}px` : insets.bottom,
+    top: hasTopBar && (topBarSize.width > 0 || topBarSize.height > 0) ? `${topBarSize.height}px` : insets.top,
+    bottom: hasBottomBar && (bottomBarSize.width > 0 || bottomBarSize.height > 0) ? `${bottomBarSize.height}px` : insets.bottom,
     start: "var(--scaffold-inset-start)",
     end: "var(--scaffold-inset-end)",
   };
@@ -124,7 +140,8 @@ export function Scaffold({
       ? `${bottomBarSize.height}px`
       : insets.bottom;
   const fabBottom = `calc(${fabSize.height}px + 16px + ${fabAnchor})`;
-  const snackbarAnchor = hasFab
+  const hasMeasuredFab = hasFab && fabSize.width > 0 && fabSize.height > 0;
+  const snackbarAnchor = hasMeasuredFab
     ? fabBottom
     : hasBottomBar && bottomBarSize.height > 0
       ? `${bottomBarSize.height}px`
