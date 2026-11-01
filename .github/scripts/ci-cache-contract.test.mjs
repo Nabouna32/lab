@@ -72,7 +72,6 @@ test("the npm audit job runs from the lockfile without installing node_modules",
   const audit = sectionFor(surveillance, "audit-dependances");
   assert.ok(audit.includes("uses: actions/setup-node@"));
   assert.ok(audit.includes("node-version-file: .nvmrc"));
-  assert.ok(audit.includes("node-version-file: .nvmrc"));
   assert.ok(audit.includes("run: node .github/scripts/run-npm-audit.mjs"));
   assert.ok(!audit.includes("cache: npm"));
   assert.ok(!audit.includes("cache-dependency-path:"));
@@ -120,6 +119,15 @@ test("the project Node runtime version is pinned consistently", () => {
   assert.equal(nodeVersion, "26.13.0");
   assert.equal(packageManifest.engines.node, "26.x");
   assert.equal(packageLock.packages[""].engines.node, "26.x");
+});
+
+test("all project workflows consume the shared Node version without legacy pins", () => {
+  for (const source of [workflow, surveillance, accessibility]) {
+    const setupNodeSteps = source.match(/uses: actions\\/setup-node@/g) ?? [];
+    const versionFileSteps = source.match(/node-version-file: \.nvmrc/g) ?? [];
+    assert.equal(versionFileSteps.length, setupNodeSteps.length);
+    assert.ok(!source.includes("node-version:"));
+  }
 });
 
 test("the optional accessibility audit consumes the shared Node version", () => {
