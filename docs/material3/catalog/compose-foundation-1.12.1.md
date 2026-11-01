@@ -59,7 +59,7 @@ Les composants de scroll encore utilisés doivent conserver les mécanismes DOM 
 ## Décisions et travaux restants
 
 1. Conserver le scroll DOM natif pour les parcours effectivement utilisés ; tester les conteneurs imbriqués, le clavier, le focus et le scroll sur mobile/tablette.
-2. Ne pas recréer les wrappers supprimés avant qu'un besoin produit concret et son consommateur soient identifiés.
+2. Réauditer les suppressions historiques dans l'issue [#1172](https://github.com/Nabouna32/lab/issues/1172) selon la distinction entre ports AndroidX déjà réalisés et compositions Loculary ; ne pas créer préventivement de ports pour des API jamais implémentées.
 3. La tranche complémentaire [collections, texte et focus](compose-foundation-collections-text-1.12.1.md) examine les contrats Lazy lists/grids, Pager/snapping, sélection, saisie, focus/relocation et drag-and-drop ; elle conclut à ne pas porter préventivement les primitives sans usage Loculary démontré. La revue sémantique globale Foundation reste partielle.
 
 **Statut final de cette tranche :** inventaire source et contrats pertinents examinés ; ports Web sans consommateur supprimés ; conformité navigateur des composants conservés non revendiquée ; inventaire sémantique global Foundation toujours `in-progress`.
