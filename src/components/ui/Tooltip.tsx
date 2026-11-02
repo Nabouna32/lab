@@ -116,7 +116,8 @@ export function Tooltip({
   }, [open]);
 
   return <div ref={rootRef} className={[styles.root, className].filter(Boolean).join(" ")}
-    onMouseEnter={showAfterDelay} onMouseLeave={hide}
+    onPointerEnter={(event) => { if (event.pointerType !== "touch") showAfterDelay(); }}
+    onPointerLeave={(event) => { if (event.pointerType !== "touch") hide(); }}
     onClick={(event) => {
       if (!openOnClick) return;
       const anchorElement = rootRef.current?.querySelector("[data-tooltip-anchor]");
