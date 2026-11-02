@@ -26,3 +26,15 @@ test("persistent instructions preserve the AndroidX-first contract", () => {
     assert.doesNotMatch(content, /point de départ, pas une contrainte absolue/i, file);
   }
 });
+
+test("persistent instructions preserve semantic response markers and the Web accessibility objective", () => {
+  const requiredMarkers = ["🔍 constats", "⚠️ risques", "❌ problèmes", "💡 propositions/recommandations", "✅ validations/résultats", "🛠️ actions", "🧪 tests/vérifications", "📌 décisions"];
+  for (const file of promptFiles) {
+    const content = readFileSync(new URL(`../../docs/chatgpt-instructions/${file}`, import.meta.url), "utf8");
+    for (const marker of requiredMarkers) {
+      assert.ok(content.includes(marker), `${file} is missing the semantic response marker: ${marker}`);
+    }
+    assert.match(content, /WCAG 2\.2 AA/, `${file} must state the Web accessibility objective`);
+    assert.match(content, /ton chaleureux, naturel et clair/i, `${file} must preserve the response tone`);
+  }
+});
