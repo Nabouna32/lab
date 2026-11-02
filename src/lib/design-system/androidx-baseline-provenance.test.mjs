@@ -63,6 +63,7 @@ test("NavigationSuiteScaffold pins the stable artifact, immutable source commit 
   assert.equal(adaptiveNavigationSuiteBaseline.release.apiAddedIn, "1.4.0");
   assert.equal(adaptiveNavigationSuiteBaseline.versioning.releaseCommitVersion, "1.4.0");
   assert.equal(adaptiveNavigationSuiteBaseline.versioning.moduleVersionAtReleaseCommit, "1.4.0-alpha18");
+  assert.equal(adaptiveNavigationSuiteBaseline.versioning.artifactDeclarationKey, "COMPOSE_MATERIAL3_ADAPTIVE_NAVIGATION_SUITE");
   assert.ok(adaptiveNavigationSuiteBaseline.versioning.publicationRule.includes("atomicGroupVersion versions.COMPOSE_MATERIAL3"));
   assert.equal(adaptiveNavigationSuiteBaseline.source.repository, "androidx/androidx");
   assert.equal(adaptiveNavigationSuiteBaseline.source.releaseBranch, "androidx-compose-material3-release");
