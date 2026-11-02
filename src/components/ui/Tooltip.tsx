@@ -136,7 +136,7 @@ export function Tooltip({
       wasOpenBeforePointer.current = open;
       if (event.pointerType === "touch" && !open) showAfterDelay();
     }}
-    onPointerUp={(event) => { if (event.pointerType === "touch" && !open) clearTimer(); }}
+    onPointerUp={(event) => { if (event.pointerType === "touch") clearTimer(); }}
     onPointerCancel={hide}
     onKeyDown={(event) => { if (event.key === "Escape") hide(); }}>
     <span className={styles.anchor} data-tooltip-anchor>{anchor ? cloneElement(anchor, { "aria-describedby": [anchor.props["aria-describedby"], open ? id : undefined].filter(Boolean).join(" ") || undefined }) : children}</span>
