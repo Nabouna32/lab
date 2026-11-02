@@ -25,7 +25,7 @@ const locales = [
 const colorSchemes = ["light", "dark"];
 const wcagTags = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 
-async function runAxe(page, label) {
+async function runAxe(page) {
   await page.addScriptTag({ path: axePath });
   return page.evaluate(async (tags) => {
     const report = await window.axe.run(document, {
@@ -62,7 +62,7 @@ for (const entry of locales) {
         await page.setViewportSize({ width: 390, height: 844 });
         await page.goto(path);
 
-        const result = await runAxe(page, entry.locale + " " + path + " " + colorScheme);
+        const result = await runAxe(page);
         const report = {
           toolPath: path,
           locale: entry.locale,
