@@ -143,6 +143,14 @@ for (const locale of locales) {
 
       await page.locator("main header h1").click();
       await expect(tooltip).toHaveCount(0);
+
+      await trigger.hover();
+      await expect(tooltip).toBeVisible();
+      await tooltip.hover();
+      await expect(tooltip).toBeVisible();
+
+      await page.locator("main header h1").hover();
+      await expect(tooltip).toHaveCount(0);
     });
 
     test(`page ${tool.id} — ${locale.locale}: RichTooltip tactile, second tap et persistance`, async ({ browser }, testInfo) => {
@@ -172,9 +180,6 @@ for (const locale of locales) {
             contentType: "image/png",
           });
         }
-
-        await tooltip.tap();
-        await expect(tooltip).toBeVisible();
 
         await trigger.tap();
         await expect(tooltip).toHaveCount(0);
