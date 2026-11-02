@@ -23,7 +23,9 @@ export type NavigationSuiteScaffoldProps = {
 
 /**
  * Partial Web adaptation of AndroidX material3-adaptive-navigation-suite
- * NavigationSuiteScaffold. Its artifact version/source commit is not yet pinned.
+ * NavigationSuiteScaffold. Stable artifact 1.4.0, immutable source commit and
+ * exact API dump are pinned in docs/material3/catalog/baselines/.
+ * Published sources JAR byte-for-byte alignment remains unverified.
  * CSS viewport breakpoints currently choose bottom navigation, rail or drawer;
  * this is not parity with NavigationSuiteType/WindowAdaptiveInfo and must not
  * impose a product-wide navigation choice. Rebuild with an explicit layout type.
