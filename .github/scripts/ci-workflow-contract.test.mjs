@@ -40,6 +40,7 @@ test("the PR workflow keeps the fast validation path separate from surveillance"
 
 test("daily surveillance audits npm and runs pinned Playwright Chromium on the selected ref", () => {
   const triggers = surveillance.slice(0, surveillance.indexOf("\njobs:"));
+  assert.match(triggers, /^  pull_request:/m);
   assert.match(triggers, /^  schedule:/m);
   assert.match(triggers, /cron: "30 3 \* \* \*"/);
   assert.match(triggers, /^  workflow_dispatch:/m);
@@ -55,8 +56,8 @@ test("daily surveillance audits npm and runs pinned Playwright Chromium on the s
   assert.match(browser, /npx playwright install --with-deps chromium/);
   assert.match(browser, /npx playwright test/);
   assert.doesNotMatch(surveillance, /material3-browser-smoke/);
-  assert.match(browser, /if: failure\(\)/);
-  assert.doesNotMatch(browser, /if: always\(\)/);
+  assert.match(browser, /if: always\(\)/);
+  assert.doesNotMatch(browser, /if: failure\(\)/);
   assert.doesNotMatch(surveillance, /vercel deploy|supabase db push|deploy --prod/i);
 });
 
