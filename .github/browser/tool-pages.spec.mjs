@@ -178,6 +178,10 @@ for (const locale of locales) {
 
         await trigger.tap();
         await expect(tooltip).toHaveCount(0);
+        if (tool.id === "percentage" && locale.locale === "fr") {
+          await page.waitForTimeout(600);
+          await expect(tooltip).toHaveCount(0);
+        }
 
         await trigger.tap();
         await expect(tooltip).toBeVisible();
