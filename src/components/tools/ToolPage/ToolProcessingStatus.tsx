@@ -45,7 +45,7 @@ export default function ToolProcessingStatus({
         <span className="m3-type-label-medium">{presentation.label}</span>
       </span>
       <Tooltip content={details} title={t.more} variant="rich" placement="bottom" openOnClick>
-        <IconButton label={t.more} title={t.more}>
+        <IconButton label={t.more}>
           <MaterialIcon name="info" size={20} />
         </IconButton>
       </Tooltip>
