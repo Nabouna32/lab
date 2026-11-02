@@ -9,6 +9,7 @@ import { ToolRuntimeProvider } from "./ToolRuntimeProvider";
 import RecentToolTracker from "./RecentToolTracker";
 import { Column } from "@/components/layout/compose/Column";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { ElevatedCard, OutlinedCard } from "@/components/ui/Card";
 
 export default function ToolPage({
   tool,
@@ -41,15 +42,17 @@ export default function ToolPage({
           />
         </div>
 
-        <ToolPageHeader
-          icon={tool.icon}
-          title={localizedContent.name}
-          description={localizedContent.description}
-          contentFallback={isContentFallback}
-          processing={tool.processing}
-          locale={locale}
-          toolId={tool.id}
-        />
+        <ElevatedCard className="p-5 sm:p-7 lg:p-8">
+          <ToolPageHeader
+            icon={tool.icon}
+            title={localizedContent.name}
+            description={localizedContent.description}
+            contentFallback={isContentFallback}
+            processing={tool.processing}
+            locale={locale}
+            toolId={tool.id}
+          />
+        </ElevatedCard>
 
         <section aria-labelledby="tool-page-title" className="mt-6 sm:mt-8 motion-reveal">
           <ToolRuntimeProvider access={tool.access} capabilities={tool.capabilities}>
@@ -60,9 +63,9 @@ export default function ToolPage({
         {children && <div className="mt-8">{children}</div>}
 
         {content && (
-          <div className="mt-10 border-t border-[var(--border)] pt-8 sm:mt-12 sm:pt-10">
+          <OutlinedCard className="mt-10 p-5 sm:mt-12 sm:p-7">
             <Column className="tool-page-editorial-stack" verticalArrangement={Arrangement.spacedBy("var(--tool-page-content-gap)")}>{content}</Column>
-          </div>
+          </OutlinedCard>
         )}
       </div>
     </main>
