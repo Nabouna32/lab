@@ -18,6 +18,9 @@ test("tool page separates the runtime, next actions and editorial content", () =
   assert.ok(page.includes("{runtime}"));
   assert.doesNotMatch(page, /data-tool-surface|<ToolProcessingStatus/);
   assert.ok(page.includes('aria-labelledby="tool-page-title"'));
+  assert.match(page, /<ElevatedCard className="p-5 sm:p-7 lg:p-8">\s*<ToolPageHeader/);
+  assert.match(page, /<OutlinedCard className="mt-10 p-5 sm:mt-12 sm:p-7">/);
+  assert.doesNotMatch(page, /data-tool-surface/);
   assert.ok(route.includes('runtime={<ToolRenderer toolId={entry.tool.id} />}'));
   assert.ok(route.includes('<NextActions toolId={entry.tool.id} locale={locale} />'));
 });
