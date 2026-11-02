@@ -32,7 +32,7 @@ export default function ToolPage({
     <main className="min-h-full">
       <div className="mx-auto w-full max-w-[var(--layout-content-default)] px-[var(--layout-page-gutter)] py-[var(--space-5)] sm:py-[var(--space-7)] lg:py-[var(--space-9)]">
       <RecentToolTracker toolId={tool.id} />
-      <header className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] px-5 py-6 shadow-[var(--shadow-lg)] sm:px-8 sm:py-8 lg:px-10">
+      <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] px-5 py-6 shadow-[var(--shadow-lg)] sm:px-8 sm:py-8 lg:px-10">
         <div className="mb-5 px-1">
           <Breadcrumbs
             locale={locale}
@@ -54,7 +54,7 @@ export default function ToolPage({
             toolId={tool.id}
           />
         </div>
-      </header>
+      </div>
 
       <ToolRuntimeProvider access={tool.access} capabilities={tool.capabilities}>
         <div data-tool-surface className="mt-4 overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-lg)]">
