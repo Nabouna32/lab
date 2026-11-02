@@ -36,6 +36,15 @@ Ordre d’autorité :
 
 Chaque spécification doit référencer les sources exactes et la version examinée. Une branche amont mutable ne suffit pas. Si l’alignement entre l’archive publiée, le code source et le dump d’API n’est pas démontré, le signaler plutôt que prétendre que la référence est verrouillée.
 
+
+### Baseline distincte — NavigationSuiteScaffold
+
+`NavigationSuiteScaffold` appartient à l'artefact distinct `androidx.compose.material3:material3-adaptive-navigation-suite:1.4.0`. Sa release stable suit le train Material 3 1.4.0 ; la référence officielle indique que l'API est disponible depuis 1.4.0. Le commit AndroidX immuable `5113b82a4ed6416d6344efa50e41db8cb65928ff` et le dump exact `api/current.txt` (Git blob SHA-1 `7e853e8ffcad4ab0e796c38599711e20447b6854`, format 4.0) sont épinglés et le dump est versionné localement. Voir le [manifeste dédié](catalog/baselines/material3-adaptive-navigation-suite-1.4.0.json).
+
+Attention au versionnement interne : dans ce commit, `COMPOSE_MATERIAL3_ADAPTIVE_NAV_SUITE` vaut `1.4.0-alpha18`, mais la déclaration de publication de ce module utilise `atomicGroupVersion = versions.COMPOSE_MATERIAL3` et `overrideInclude` ; la coordonnée publiée suit donc bien la release stable 1.4.0. Ne pas confondre cette variable interne avec la version publiée.
+
+**Limite de provenance explicite :** l'archive `sources.jar` publiée sur Google Maven n'a pas encore été comparée octet par octet à l'arbre du commit. Le manifeste conserve `sourceArchiveAlignment: UNVERIFIED` ; la provenance commit/API est épinglée, mais l'alignement complet de l'archive n'est pas revendiqué. Cela ne valide pas non plus la fidélité du port React/Web.
+
 Documents de référence :
 
 - [Sources et versions](sources.md)
