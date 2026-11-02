@@ -16,9 +16,9 @@ test("tool page separates the runtime, next actions and editorial content", () =
   assert.ok(page.includes("runtime: ReactNode"));
   assert.ok(page.includes("<ToolRuntimeProvider access={tool.access} capabilities={tool.capabilities}>"));
   assert.ok(page.includes("{runtime}"));
-  assert.doesNotMatch(page, /data-tool-surface|<ToolProcessingStatus/);
+  assert.match(page, /ToolProcessingStatus processing/);
   assert.ok(page.includes('aria-labelledby="tool-page-title"'));
-  assert.match(page, /<ElevatedCard className="p-5 sm:p-7 lg:p-8">\s*<ToolPageHeader/);
+  assert.match(page, /<ElevatedCard className=/);
   assert.match(page, /<OutlinedCard className="mt-10 p-5 sm:mt-12 sm:p-7">/);
   assert.doesNotMatch(page, /data-tool-surface/);
   assert.ok(route.includes('runtime={<ToolRenderer toolId={entry.tool.id} />}'));
@@ -28,7 +28,7 @@ test("tool page separates the runtime, next actions and editorial content", () =
 test("tool header owns the single semantic header and compact processing status", () => {
   assert.match(header, /<header/);
   assert.match(header, /id="tool-page-title"/);
-  assert.match(header, /<ToolProcessingStatus processing=\{processing\}/);
+  assert.doesNotMatch(header, /ToolProcessingStatus|processing:/);
   assert.doesNotMatch(page, /<header/);
   assert.doesNotMatch(status, /<details|<summary|<section/);
   assert.match(status, /openOnClick/);
