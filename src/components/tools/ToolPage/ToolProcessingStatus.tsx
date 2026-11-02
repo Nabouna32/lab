@@ -42,16 +42,16 @@ export default function ToolProcessingStatus({
       <span className="inline-flex min-h-9 min-w-0 max-w-full items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-1.5 text-xs font-semibold text-[var(--foreground)] sm:text-sm">
         <MaterialIcon name={presentation.icon} size={18} className="shrink-0 text-[var(--success)] drop-shadow-[0_0_3px_var(--success)]" />
         <span>{presentation.label}</span>
+        <Tooltip content={details} title={t.more} variant="rich" placement="bottom" openOnClick>
+          <button
+            type="button"
+            aria-label={t.more}
+            className="inline-flex h-5 w-5 shrink-0 cursor-pointer items-center justify-center border-0 bg-transparent p-0 text-[var(--muted)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+          >
+            <MaterialIcon name="info" size={16} />
+          </button>
+        </Tooltip>
       </span>
-      <Tooltip content={details} title={t.more} variant="rich" placement="bottom" openOnClick>
-        <button
-          type="button"
-          aria-label={t.more}
-          className="inline-flex h-5 w-5 shrink-0 items-center justify-center border-0 bg-transparent p-0 text-[var(--muted)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-        >
-          <MaterialIcon name="info" size={16} />
-        </button>
-      </Tooltip>
     </div>
   );
 }
