@@ -167,17 +167,29 @@ Après la fusion, vérifier l'état réel de l'issue : ne jamais présumer que G
 
 ## 6. Actions réellement réservées à l'utilisateur
 
-Cette section définit la qualification et la rédaction d'une demande d'action humaine. Elle ne donne pas à un mode le droit de traiter une issue hors de ses permissions.
+Cette section définit la qualification et la rédaction des actions ou décisions réservées à l'utilisateur. Le label `action-humaine` couvre aussi un arbitrage produit explicite lorsque l'utilisateur doit choisir entre des options documentées ; il ne permet pas à un mode de dépasser ses permissions.
 
 ### Qualifier avant de transférer
 
 Distinguer :
 - **Difficulté technique** : poursuivre le diagnostic et résoudre ; ne pas la transformer en action humaine.
 - **Limitation d'un outil ou connecteur** : chercher une autre voie technique prise en charge, sûre et conforme.
-- **Action personnelle indispensable** : identité, présence, session personnelle, consentement, décision ou confirmation réservée à l'utilisateur.
+- **Action personnelle ou décision réservée** : identité, présence, session personnelle, consentement, confirmation, ou arbitrage produit/technique qui doit être décidé explicitement par l'utilisateur.
 - **Absence de voie conforme** : établir les faits et les alternatives explorées avant de conclure.
 
 Ne pas interrompre l'utilisateur pour une validation intermédiaire ordinaire. Isoler le travail autonome d'une étape personnelle lorsqu'ils peuvent avancer indépendamment.
+
+### Arbitrage d'un conflit AndroidX / accessibilité
+
+Lorsqu'un audit établit un conflit réel, reproductible et documenté entre une exigence d'accessibilité Web (WCAG/axe-core ou équivalent) et le contrat d'une source AndroidX épinglée, et qu'aucune adaptation de plateforme/sémantique ne résout le problème sans déformer ce contrat :
+
+- préserver le port AndroidX exact ; ne modifier ni ses valeurs, ni sa typographie, ni sa géométrie, ni ses états, ni ses comportements pour faire disparaître l'écart ;
+- créer une issue avec le label existant `action-humaine` (ou réutiliser une issue déjà introduite par l'utilisateur pour ce sujet) et demander une décision explicite ;
+- inclure la version et le lien de la source AndroidX, le composant et le contrat concernés, le constat reproductible, le critère WCAG ou le résultat d'audit exact, les conséquences, les solutions non déformantes déjà explorées et les alternatives avec leurs compromis ;
+- signaler clairement à l'utilisateur que le port reste fidèle et que l'écart de conformité demeure ouvert ;
+- ne réaliser aucun ajustement du port avant l'arbitrage. La création de l'issue n'est pas une autorisation d'appliquer l'une des options.
+
+Ne pas créer d'issue pour un avertissement hypothétique, un résultat d'outil non confirmé ou un problème qui peut être résolu par l'adaptation Web sans altérer AndroidX. Cette exception est applicable aux trois modes pour les nouveaux conflits qu'ils établissent ; elle ne donne pas le droit de reprendre d'autres issues `action-humaine` préexistantes sans que l'utilisateur introduise leur sujet.
 
 ### Rédiger une issue destinée à l'utilisateur
 
@@ -194,16 +206,16 @@ Ne pas interrompre l'utilisateur pour une validation intermédiaire ordinaire. I
 
 ### Étanchéité du mode AUTONOME
 
-En mode AUTONOME, une issue portant `action-humaine` est totalement exclue du portefeuille de lecture et d'action :
+En mode AUTONOME, les issues `action-humaine` préexistantes restent exclues du portefeuille de lecture et d'action, avec une exception étroite pour un conflit AndroidX/accessibilité établi par le travail courant :
 
-1. L'exclure de toutes les recherches et revues avec `-label:action-humaine`.
-2. Ne pas lire son corps ni ses commentaires, ne pas la commenter, la modifier, la relancer, vérifier son état ou retirer son label.
-3. Ne pas mentionner spontanément leur existence, leur contenu ou une action attendue dans les réponses ou checkpoints et ne jamais attendre une réponse, y compris dans le compte rendu de la session où l'issue vient d'être créée. Si l'utilisateur pose explicitement une question sur la politique générale ou la signification d'une action humaine, répondre au niveau de la règle sans consulter l'issue ni exposer son contenu.
-4. Ne pas simuler l'action, contourner une protection ou effectuer une opération qui exige l'identité, le consentement, l'accès ou la sauvegarde manquants.
-5. Abandonner le chantier dépendant et poursuivre un travail autonome indépendant. Aucune fermeture, modification de label ou supposition que l'action a été effectuée ne déclenche une reprise.
-6. La mention ou réintroduction du sujet ne réintègre jamais l'issue dans le portefeuille AUTONOME. Une demande d'explication peut être traitée sans lecture. Toute reprise opérationnelle doit être explicitement demandée en mode COLLABORATIF et respecter les validations de ce mode ; revalider les faits communiqués sans consulter l'issue exclue.
+1. Exclure les issues `action-humaine` préexistantes de toutes les recherches et revues avec `-label:action-humaine`.
+2. Ne pas lire leur corps ni leurs commentaires, ne pas les commenter, les modifier, les relancer, vérifier leur état ou retirer leur label, sauf si l'utilisateur introduit explicitement leur sujet.
+3. Si le travail courant établit un conflit AndroidX/accessibilité réel et reproductible selon la sous-section précédente, créer une nouvelle issue `action-humaine` avec les preuves et alternatives, puis la signaler à l'utilisateur pour arbitrage. Cette issue précise peut être mentionnée dans le compte rendu ; aucune autre issue `action-humaine` ne peut l'être spontanément.
+4. Ne pas simuler une action personnelle, contourner une protection ou effectuer une opération qui exige l'identité, le consentement, l'accès ou la sauvegarde manquants.
+5. Préserver le port AndroidX et suspendre uniquement les changements dépendant de l'arbitrage ; poursuivre le travail autonome indépendant.
+6. La création de l'issue ne vaut pas décision. Après l'arbitrage, la reprise des changements concernés se fait en mode COLLABORATIF à la demande de l'utilisateur, ou en mode AUTONOME uniquement si celui-ci est explicitement réactivé et autorisé.
 
-Les modes COLLABORATIF et PILOTAGE appliquent leurs propres permissions décrites dans `AGENTS.md`. PILOTAGE peut qualifier et documenter une demande d'action humaine ; il ne réalise pas l'action personnelle à la place de l'utilisateur. En COLLABORATIF, une issue `action-humaine` peut présenter un conflit réel entre une référence AndroidX et un écart d'accessibilité impossible à résoudre sans déformer le port. Elle contient la source AndroidX exacte, la valeur ou le comportement de référence, le constat reproductible, les résultats d'audit pertinents, les conséquences, les solutions non déformantes explorées et les alternatives avec leurs compromis. L'issue sert à discuter et décider avec l'utilisateur ; le label n'autorise aucune modification unilatérale du contrat. Ne pas créer d'issue pour un avertissement isolé ou hypothétique : l'écart doit être réel et étayé.
+Les trois modes peuvent créer une issue `action-humaine` lorsqu'ils établissent un conflit AndroidX/accessibilité réel et reproductible selon la procédure ci-dessus. PILOTAGE peut également qualifier les autres actions personnelles, mais ne les réalise pas à la place de l'utilisateur. Pour un conflit AndroidX, l'issue sert à discuter et décider avec l'utilisateur ; le label n'autorise aucune modification unilatérale du contrat. Ne pas créer d'issue pour un avertissement isolé ou hypothétique : l'écart doit être réel et étayé.
 
 ## 7. Hygiène des commentaires GitHub
 
