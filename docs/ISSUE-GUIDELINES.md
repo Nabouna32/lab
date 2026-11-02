@@ -25,6 +25,10 @@ Les permissions détaillées sont définies dans [AGENTS.md](../AGENTS.md) :
 
 Les modes peuvent être utilisés dans des conversations distinctes. Ne pas dépendre d'une mémoire conversationnelle privée pour transmettre le travail : une issue de transfert doit contenir les informations nécessaires à sa compréhension et à son exécution.
 
+### Contrat commun de lecture avant intervention
+
+Cette règle s'applique aux trois modes et à toute opération sur une issue : consulter pour agir, qualifier, classer, relier, commenter, modifier ou clôturer. Avant toute intervention, lire le titre, le corps intégral et tous les commentaires, toutes pages disponibles. Reconstituer la chronologie et distinguer consignes actives, décisions remplacées, validations, résultats, blocages et éléments historiques ; vérifier les faits importants dans le dépôt et les sources pertinentes. Si une partie est inaccessible, chercher une autre méthode d'accès raisonnable, signaler la limite et ne pas prétendre avoir effectué une lecture complète. Les anciens commentaires ne deviennent pas automatiquement des consignes actives.
+
 ## 3. Taxonomie des labels
 
 Attribuer **exactement un label principal de catégorie** à chaque issue de travail. Les labels transversaux et spéciaux peuvent s'ajouter sans remplacer la catégorie.
@@ -112,9 +116,9 @@ Le transfert doit contenir le constat vérifié, les preuves et liens directs, l
 
 Une **directive de cadrage** reste réservée aux inconnues qui empêchent réellement de prescrire une implémentation. Elle décrit les questions et preuves attendues ; elle ne sert pas à transférer un audit incomplet. Cette responsabilité de transfert ne modifie pas les permissions des modes et ne rend pas une issue préalable obligatoire aux initiatives autonomes indépendantes déjà autorisées.
 
-### Lecture préalable obligatoire en mode AUTONOME
+### Lecture préalable obligatoire dans les trois modes
 
-Avant de décider d'exécuter une issue, AUTONOME doit lire son corps intégral et tous ses commentaires GitHub, sur toutes les pages disponibles. Il reconstitue la chronologie et distingue les décisions actives, les décisions remplacées, les validations, les résultats, les blocages et les éléments historiques. Un résumé, un ancien checkpoint ou le seul corps de l'issue ne remplace pas cette lecture.
+Avant toute intervention sur une issue, COLLABORATIF, PILOTAGE et AUTONOME lisent son corps intégral et tous ses commentaires GitHub, sur toutes les pages disponibles. Ils reconstituent la chronologie et distinguent les décisions actives, les décisions remplacées, les validations, les résultats, les blocages et les éléments historiques. Un résumé, un ancien checkpoint ou le seul corps de l'issue ne remplace cette lecture.
 
 Recouper ensuite les affirmations et liens importants avec le dépôt et les systèmes actuels. Si une partie de l'issue ou des commentaires est inaccessible, le signaler, chercher une méthode d'accès alternative raisonnable et ne pas prétendre avoir effectué une lecture complète. Cette lecture préparatoire ne signifie pas que chaque ancien commentaire reste une consigne active : appliquer les règles d'hygiène ci-dessous.
 
@@ -140,7 +144,7 @@ Toute PR qui contribue à une issue doit référencer explicitement cette issue 
 - **`Refs #123`** pour une contribution partielle, une étape intermédiaire ou une PR qui ne termine pas l'issue. C'est la convention de suivi Loculary et elle n'entraîne pas la fermeture de l'issue.
 - **`Closes #123`** uniquement lorsque la PR satisfait tous les critères d'acceptation et termine l'issue. `Fixes` et `Resolves` ont également un effet de fermeture et ne doivent pas être employés pour un simple suivi.
 - Pour plusieurs issues, ajouter une référence distincte par issue et choisir individuellement le mot-clé adapté. Ne pas rattacher une issue simplement parce qu'elle est proche du sujet.
-- Pour un travail autonome indépendant, aucune issue préalable n'est requise : ne pas créer d'issue artificielle. Indiquer « Aucune issue liée » ou supprimer la section si elle n'apporte rien.
+- Toute PR créée par l'un des trois modes pour livrer un changement du projet doit être reliée à au moins une issue de travail pertinente, même si l'idée initiale était indépendante. Rechercher une issue existante ou créer l'issue adaptée dans le cadre du même travail, sans validation séparée lorsque le travail a déjà été autorisé. Les PR automatisées de bots (notamment Dependabot) font exception : ne pas leur créer d'issue artificielle ; ouvrir une issue de suivi uniquement si un besoin réel le justifie.
 
 **La référence dans le corps de la PR est le mécanisme de suivi attendu par Loculary. Aucune liaison supplémentaire via la section GitHub Development ni aucune manipulation manuelle dans l'interface n'est requise.** Ne pas chercher à obtenir une pastille visuelle au moyen d'un mot-clé de fermeture.
 
@@ -199,7 +203,7 @@ En mode AUTONOME, une issue portant `action-humaine` est totalement exclue du po
 5. Abandonner le chantier dépendant et poursuivre un travail autonome indépendant. Aucune fermeture, modification de label ou supposition que l'action a été effectuée ne déclenche une reprise.
 6. La mention ou réintroduction du sujet ne réintègre jamais l'issue dans le portefeuille AUTONOME. Une demande d'explication peut être traitée sans lecture. Toute reprise opérationnelle doit être explicitement demandée en mode COLLABORATIF et respecter les validations de ce mode ; revalider les faits communiqués sans consulter l'issue exclue.
 
-Les modes COLLABORATIF et PILOTAGE appliquent leurs propres permissions décrites dans `AGENTS.md`. PILOTAGE peut qualifier et documenter une demande d'action humaine ; il ne réalise pas l'action personnelle à la place de l'utilisateur.
+Les modes COLLABORATIF et PILOTAGE appliquent leurs propres permissions décrites dans `AGENTS.md`. PILOTAGE peut qualifier et documenter une demande d'action humaine ; il ne réalise pas l'action personnelle à la place de l'utilisateur. En COLLABORATIF, une issue `action-humaine` peut présenter un conflit réel entre une référence AndroidX et un écart d'accessibilité impossible à résoudre sans déformer le port. Elle contient la source AndroidX exacte, la valeur ou le comportement de référence, le constat reproductible, les résultats d'audit pertinents, les conséquences, les solutions non déformantes explorées et les alternatives avec leurs compromis. L'issue sert à discuter et décider avec l'utilisateur ; le label n'autorise aucune modification unilatérale du contrat. Ne pas créer d'issue pour un avertissement isolé ou hypothétique : l'écart doit être réel et étayé.
 
 ## 7. Hygiène des commentaires GitHub
 
