@@ -129,7 +129,7 @@ test("axe-core produit un rapport informatif après mise à jour de main ou sur 
   assert.doesNotMatch(axeAuditSpec, /expect\(result\.violations/);
   const triggers = axeAudit.slice(0, axeAudit.indexOf("\njobs:"));
   assert.match(triggers, /^  push:/m);
-  assert.match(triggers, /branches:\\n      - main/);
+  assert.match(triggers, /branches:[\\s\\S]*?      - main/);
   assert.match(triggers, /^  workflow_dispatch:/m);
   assert.doesNotMatch(triggers, /^  (pull_request|schedule):/m);
   assert.match(axeAudit, /npx playwright test \.github\/browser\/material3-axe-audit\.spec\.mjs/);
