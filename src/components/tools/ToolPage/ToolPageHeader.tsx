@@ -22,33 +22,31 @@ export default function ToolPageHeader({
   toolId,
 }: ToolPageHeaderProps) {
   return (
-    <header className="flex flex-wrap items-start gap-x-6 gap-y-4 py-1 sm:py-2">
-      <div className="flex min-w-0 flex-1 basis-[18rem] flex-col">
-        <div className="flex min-w-0 items-start gap-3 sm:gap-4">
-          <div
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-large)] bg-[var(--primary-container)] text-[var(--on-primary-container)] sm:h-12 sm:w-12"
-            aria-hidden="true"
-          >
-            <MaterialIcon name={icon} size={24} />
-          </div>
-          <div className="min-w-0 flex-1">
-            <h1 id="tool-page-title" className="m3-type-headline-medium mt-0.5">
-              {title}
-            </h1>
-            <p className="m3-type-body-medium mt-1.5 max-w-3xl text-[var(--muted)]">
-              {description}
-            </p>
-            {contentFallback && (
-              <p className="m3-type-body-small mt-2 text-[var(--muted)]" role="status">
-                {getMessages(locale).processing.fallbackNotice}
-              </p>
-            )}
-          </div>
+    <header className="py-1 sm:py-2">
+      <div className="flex flex-wrap items-start gap-3 sm:gap-4">
+        <div
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-large)] bg-[var(--primary-container)] text-[var(--on-primary-container)] sm:h-12 sm:w-12"
+          aria-hidden="true"
+        >
+          <MaterialIcon name={icon} size={24} />
         </div>
-      </div>
-      <div className="ml-auto flex shrink-0 items-center gap-1">
-        <ShareToolButton title={title} description={description} locale={locale} />
-        <FavoriteButton toolId={toolId} locale={locale} compact />
+        <div className="min-w-0 flex-1">
+          <h1 className="m3-type-headline-medium mt-0.5">
+            {title}
+          </h1>
+          <p className="m3-type-body-medium mt-1.5 max-w-3xl text-[var(--muted)]">
+            {description}
+          </p>
+          {contentFallback && (
+            <p className="m3-type-body-small mt-2 text-[var(--muted)]" role="status">
+              {getMessages(locale).processing.fallbackNotice}
+            </p>
+          )}
+        </div>
+        <div className="flex w-full shrink-0 items-center justify-end gap-2 pt-0.5 sm:w-auto">
+          <ShareToolButton title={title} description={description} locale={locale} />
+          <FavoriteButton toolId={toolId} locale={locale} compact />
+        </div>
       </div>
     </header>
   );
