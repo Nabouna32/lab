@@ -1,6 +1,9 @@
 name: Audit WCAG facultatif — rapport axe-core informatif
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       ref:
