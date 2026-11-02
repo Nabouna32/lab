@@ -63,7 +63,7 @@ test("NavigationSuiteScaffold pins the stable artifact, immutable source commit 
   assert.equal(adaptiveNavigationSuiteBaseline.release.apiAddedIn, "1.4.0");
   assert.equal(adaptiveNavigationSuiteBaseline.versioning.releaseCommitVersion, "1.4.0");
   assert.equal(adaptiveNavigationSuiteBaseline.versioning.moduleVersionAtReleaseCommit, "1.4.0-alpha18");
-  assert.match(adaptiveNavigationSuiteBaseline.versioning.publicationRule, /atomicGroupVersion versions\\.COMPOSE_MATERIAL3/);
+  assert.ok(adaptiveNavigationSuiteBaseline.versioning.publicationRule.includes("atomicGroupVersion versions.COMPOSE_MATERIAL3"));
   assert.equal(adaptiveNavigationSuiteBaseline.source.repository, "androidx/androidx");
   assert.equal(adaptiveNavigationSuiteBaseline.source.releaseBranch, "androidx-compose-material3-release");
   assert.equal(adaptiveNavigationSuiteBaseline.source.commit, "5113b82a4ed6416d6344efa50e41db8cb65928ff");
@@ -77,14 +77,14 @@ test("NavigationSuiteScaffold pins the stable artifact, immutable source commit 
     import.meta.url,
   ));
   const apiBlobSha1 = createHash("sha1")
-    .update(Buffer.from("blob " + apiDump.length + "\\0"))
+    .update(Buffer.from("blob " + apiDump.length)).update(Buffer.from([0]))
     .update(apiDump)
     .digest("hex");
   assert.equal(apiBlobSha1, adaptiveNavigationSuiteBaseline.apiDump.gitBlobSha1);
   const apiText = apiDump.toString("utf8");
-  assert.match(apiText, /package androidx\\.compose\\.material3\\.adaptive\\.navigationsuite/);
-  assert.match(apiText, /NavigationSuiteScaffoldState/);
-  assert.match(apiText, /NavigationSuiteScaffoldLayout/);
+  assert.ok(apiText.includes("package androidx.compose.material3.adaptive.navigationsuite"));
+  assert.ok(apiText.includes("NavigationSuiteScaffoldState"));
+  assert.ok(apiText.includes("NavigationSuiteScaffoldLayout"));
 });
 
 const material3AndroidInventory = JSON.parse(readFileSync(
