@@ -129,13 +129,13 @@ for (const locale of locales) {
 
       await page.keyboard.press("Escape");
       await expect(tooltip).toHaveCount(0);
+      await expect(trigger).toBeFocused();
 
       await trigger.click();
       await expect(tooltip).toBeVisible();
 
       await page.locator("main header h1").click();
       await expect(tooltip).toHaveCount(0);
-      await expect(trigger).toBeFocused();
     });
   }
 }
