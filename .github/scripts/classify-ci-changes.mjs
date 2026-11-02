@@ -13,7 +13,9 @@ const LIGHTWEIGHT_PATHS = [
 
 const GOVERNANCE_PATHS = [
   /^AGENTS\.md$/,
-  /^docs\/(?:DECISIONS|PRODUCT)\.md$/,
+  /^docs\/(?:DECISIONS|PRODUCT|ISSUE-GUIDELINES|MANDAT-[A-Z-]+|DESIGN-SYSTEM|UX)\.md$/,
+  /^docs\/material3\/README\.md$/,
+  /^docs\/chatgpt-instructions\/[\s\S]*$/,
   /^\.github\/workflows\/[\s\S]*$/,
   /^\.github\/scripts\/[\s\S]*$/,
 ];
