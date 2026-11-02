@@ -1,6 +1,6 @@
 "use client";
 
-import { cloneElement, isValidElement, useEffect, useId, useRef, useState, type ReactElement, type ReactNode } from "react";
+import { cloneElement, isValidElement, useEffect, useId, useLayoutEffect, useRef, useState, type CSSProperties, type ReactElement, type ReactNode } from "react";
 import styles from "./Tooltip.module.css";
 
 type TooltipProps = {
@@ -20,6 +20,8 @@ export function Tooltip({
 }: TooltipProps) {
   const id = useId();
   const rootRef = useRef<HTMLSpanElement>(null);
+  const tooltipRef = useRef<HTMLSpanElement>(null);
+  const [position, setPosition] = useState<{ top: number; left: number } | null>(null);
   const openedByFocus = useRef(false);
   const [open, setOpen] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -37,6 +39,60 @@ export function Tooltip({
   const anchor = isValidElement(children) ? children as ReactElement<{ "aria-describedby"?: string }> : null;
 
   useEffect(() => () => clearTimer(), []);
+
+  useLayoutEffect(() => {
+    if (!open) {
+      setPosition(null);
+      return;
+    }
+
+    const updatePosition = () => {
+      const anchorElement = rootRef.current?.querySelector<HTMLElement>("[data-tooltip-anchor]");
+      const tooltipElement = tooltipRef.current;
+      if (!anchorElement || !tooltipElement) return;
+
+      const anchorRect = anchorElement.getBoundingClientRect();
+      const tooltipRect = tooltipElement.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const spacing = 4;
+      let top = 0;
+      let left = 0;
+
+      if (placement === "start" || placement === "end") {
+        top = anchorRect.top + (anchorRect.height - tooltipRect.height) / 2;
+        left = placement === "start"
+          ? anchorRect.left - tooltipRect.width - spacing
+          : anchorRect.right + spacing;
+        if (left < 0) left = anchorRect.right + spacing;
+        if (left + tooltipRect.width > viewportWidth) left = anchorRect.left - tooltipRect.width - spacing;
+      } else {
+        const aboveSpace = anchorRect.top - spacing;
+        const belowSpace = viewportHeight - anchorRect.bottom - spacing;
+        const canFitAbove = aboveSpace >= tooltipRect.height;
+        const canFitBelow = belowSpace >= tooltipRect.height;
+        const placeAbove = placement === "top"
+          ? canFitAbove || !canFitBelow
+          : !canFitBelow && canFitAbove;
+        top = placeAbove
+          ? anchorRect.top - tooltipRect.height - spacing
+          : anchorRect.bottom + spacing;
+        left = anchorRect.left + (anchorRect.width - tooltipRect.width) / 2;
+      }
+
+      left = Math.min(Math.max(0, left), Math.max(0, viewportWidth - tooltipRect.width));
+      top = Math.min(Math.max(0, top), Math.max(0, viewportHeight - tooltipRect.height));
+      setPosition((current) => current?.top === top && current.left === left ? current : { top, left });
+    };
+
+    updatePosition();
+    window.addEventListener("resize", updatePosition);
+    window.addEventListener("scroll", updatePosition, true);
+    return () => {
+      window.removeEventListener("resize", updatePosition);
+      window.removeEventListener("scroll", updatePosition, true);
+    };
+  }, [open, placement]);
 
   useEffect(() => {
     if (!open) return;
@@ -86,8 +142,8 @@ export function Tooltip({
     onPointerUp={(event) => { if (event.pointerType === "touch" && !open) clearTimer(); }}
     onPointerCancel={hide}
     onKeyDown={(event) => { if (event.key === "Escape") hide(); }}>
-    <span className={styles.anchor}>{anchor ? cloneElement(anchor, { "aria-describedby": [anchor.props["aria-describedby"], open ? id : undefined].filter(Boolean).join(" ") || undefined }) : children}</span>
-    {open && <span id={id} role="tooltip" className={[styles.tooltip, styles[variant], styles[placement]].join(" ")} data-open="true">
+    <span className={styles.anchor} data-tooltip-anchor>{anchor ? cloneElement(anchor, { "aria-describedby": [anchor.props["aria-describedby"], open ? id : undefined].filter(Boolean).join(" ") || undefined }) : children}</span>
+    {open && <span ref={tooltipRef} id={id} role="tooltip" className={[styles.tooltip, styles[variant], styles[placement]].join(" ")} data-open="true" style={(position ? { position: "fixed", inset: "auto", top: position.top, left: position.left, transform: "none" } : { visibility: "hidden" }) as CSSProperties}>
       {title && <strong className={styles.title}>{title}</strong>}
       <span>{content}</span>
     </span>}
