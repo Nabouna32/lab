@@ -5,6 +5,7 @@ import { getMessages } from "@/lib/i18n/messages";
 import { getToolsPath } from "@/lib/tools/routes";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import ToolPageHeader from "./ToolPageHeader";
+import ToolProcessingStatus from "./ToolProcessingStatus";
 import { ToolRuntimeProvider } from "./ToolRuntimeProvider";
 import RecentToolTracker from "./RecentToolTracker";
 import { Column } from "@/components/layout/compose/Column";
@@ -42,19 +43,22 @@ export default function ToolPage({
           />
         </div>
 
-        <ElevatedCard className="p-5 sm:p-7 lg:p-8">
+        <ElevatedCard className="bg-[radial-gradient(ellipse_at_88%_12%,var(--primary-container),var(--surface-container-low)_58%)] p-5 sm:p-7 lg:p-8">
           <ToolPageHeader
             icon={tool.icon}
             title={localizedContent.name}
             description={localizedContent.description}
             contentFallback={isContentFallback}
-            processing={tool.processing}
             locale={locale}
             toolId={tool.id}
           />
         </ElevatedCard>
 
-        <section aria-labelledby="tool-page-title" className="mt-6 sm:mt-8 motion-reveal">
+        <div className="mt-4 mb-5">
+          <ToolProcessingStatus processing={tool.processing} locale={locale} />
+        </div>
+
+        <section aria-labelledby="tool-page-title" className="mt-0 motion-reveal">
           <ToolRuntimeProvider access={tool.access} capabilities={tool.capabilities}>
             {runtime}
           </ToolRuntimeProvider>
