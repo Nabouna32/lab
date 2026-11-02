@@ -240,7 +240,7 @@ Choisir le mot-clé selon le résultat réellement livré :
 - **`Closes #123`**, ou `Fixes #123` / `Resolves #123`, uniquement lorsque la PR satisfait tous les critères d'acceptation et termine l'issue. GitHub associe la PR à l'issue et peut la fermer à la fusion dans la branche par défaut si le paramètre du dépôt « Auto-close issues with merged linked pull requests » est activé.
 - **`Refs #123`** pour une contribution partielle, une étape intermédiaire ou une PR qui ne termine pas l'issue. Cette référence crée le lien sans demander sa clôture.
 - Pour plusieurs issues, ajouter une référence distincte par issue et choisir individuellement le mot-clé adapté. Ne pas rattacher une issue simplement parce qu'elle est proche du sujet.
-- Pour un travail autonome indépendant, aucune issue préalable n'est requise : ne pas créer d'issue artificielle. Indiquer « Aucune issue liée » ou supprimer la section si elle n'apporte rien.
+- Toute PR créée par l'un des trois modes pour livrer un changement du projet doit être reliée à au moins une issue pertinente, même si le travail était initialement indépendant. Rechercher une issue existante ou créer l'issue nécessaire dans le même travail. Les PR de bots font exception : aucune issue artificielle.
 
 Avant d'utiliser un mot-clé de fermeture, vérifier le corps actuel de l'issue, tous ses critères, les validations obligatoires et les éventuelles étapes restantes. Une PR ouverte, fusionnée ou techniquement réussie ne suffit pas si l'issue demande encore une preuve complémentaire. En cas de doute, utiliser `Refs` et conserver l'issue ouverte.
 
