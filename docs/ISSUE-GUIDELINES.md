@@ -25,6 +25,10 @@ Les permissions détaillées sont définies dans [AGENTS.md](../AGENTS.md) :
 
 Les modes peuvent être utilisés dans des conversations distinctes. Ne pas dépendre d'une mémoire conversationnelle privée pour transmettre le travail : une issue de transfert doit contenir les informations nécessaires à sa compréhension et à son exécution.
 
+### Contrat commun de lecture avant intervention
+
+Cette règle s'applique aux trois modes et à toute opération sur une issue : consulter pour agir, qualifier, classer, relier, commenter, modifier ou clôturer. Avant toute intervention, lire le titre, le corps intégral et tous les commentaires, toutes pages disponibles. Reconstituer la chronologie et distinguer consignes actives, décisions remplacées, validations, résultats, blocages et éléments historiques ; vérifier les faits importants dans le dépôt et les sources pertinentes. Si une partie est inaccessible, chercher une autre méthode d'accès raisonnable, signaler la limite et ne pas prétendre avoir effectué une lecture complète. Les anciens commentaires ne deviennent pas automatiquement des consignes actives.
+
 ## 3. Taxonomie des labels
 
 Attribuer **exactement un label principal de catégorie** à chaque issue de travail. Les labels transversaux et spéciaux peuvent s'ajouter sans remplacer la catégorie.
@@ -46,7 +50,7 @@ Choisir la catégorie selon le résultat principal, pas selon chaque sous-tâche
 | Label | Usage |
 |---|---|
 | `securite` | Risque réel de sécurité, confidentialité, permissions ou protection des données. S'ajoute à la catégorie lorsque pertinent. |
-| `action-humaine` | Action, décision, identité, consentement ou confirmation qui doit réellement être effectuée par l'utilisateur. Réservé aux issues explicitement destinées à l'utilisateur. |
+| `action-humaine` | Intervention, décision ou confirmation qui doit réellement être effectuée par l'utilisateur ou une personne humaine habilitée, parce que ChatGPT ne peut pas la réaliser avec les outils et accès disponibles. Réservé aux issues explicitement destinées à l'humain qui doit agir. |
 
 Une issue `action-humaine` conserve aussi une catégorie principale et son titre commence par **[Action humaine]**. Ne jamais utiliser ce label pour signaler une difficulté technique, une tâche lente, un outil limité ou une investigation incomplète.
 
@@ -112,9 +116,9 @@ Le transfert doit contenir le constat vérifié, les preuves et liens directs, l
 
 Une **directive de cadrage** reste réservée aux inconnues qui empêchent réellement de prescrire une implémentation. Elle décrit les questions et preuves attendues ; elle ne sert pas à transférer un audit incomplet. Cette responsabilité de transfert ne modifie pas les permissions des modes et ne rend pas une issue préalable obligatoire aux initiatives autonomes indépendantes déjà autorisées.
 
-### Lecture préalable obligatoire en mode AUTONOME
+### Lecture préalable obligatoire dans les trois modes
 
-Avant de décider d'exécuter une issue, AUTONOME doit lire son corps intégral et tous ses commentaires GitHub, sur toutes les pages disponibles. Il reconstitue la chronologie et distingue les décisions actives, les décisions remplacées, les validations, les résultats, les blocages et les éléments historiques. Un résumé, un ancien checkpoint ou le seul corps de l'issue ne remplace pas cette lecture.
+Avant toute intervention sur une issue, COLLABORATIF, PILOTAGE et AUTONOME lisent son corps intégral et tous ses commentaires GitHub, sur toutes les pages disponibles. Ils reconstituent la chronologie et distinguent les décisions actives, les décisions remplacées, les validations, les résultats, les blocages et les éléments historiques. Un résumé, un ancien checkpoint ou le seul corps de l'issue ne remplace cette lecture.
 
 Recouper ensuite les affirmations et liens importants avec le dépôt et les systèmes actuels. Si une partie de l'issue ou des commentaires est inaccessible, le signaler, chercher une méthode d'accès alternative raisonnable et ne pas prétendre avoir effectué une lecture complète. Cette lecture préparatoire ne signifie pas que chaque ancien commentaire reste une consigne active : appliquer les règles d'hygiène ci-dessous.
 
@@ -140,7 +144,7 @@ Toute PR qui contribue à une issue doit référencer explicitement cette issue 
 - **`Refs #123`** pour une contribution partielle, une étape intermédiaire ou une PR qui ne termine pas l'issue. C'est la convention de suivi Loculary et elle n'entraîne pas la fermeture de l'issue.
 - **`Closes #123`** uniquement lorsque la PR satisfait tous les critères d'acceptation et termine l'issue. `Fixes` et `Resolves` ont également un effet de fermeture et ne doivent pas être employés pour un simple suivi.
 - Pour plusieurs issues, ajouter une référence distincte par issue et choisir individuellement le mot-clé adapté. Ne pas rattacher une issue simplement parce qu'elle est proche du sujet.
-- Pour un travail autonome indépendant, aucune issue préalable n'est requise : ne pas créer d'issue artificielle. Indiquer « Aucune issue liée » ou supprimer la section si elle n'apporte rien.
+- Toute PR créée par l'un des trois modes pour livrer un changement du projet doit être reliée à au moins une issue de travail pertinente, même si l'idée initiale était indépendante. Rechercher une issue existante ou créer l'issue adaptée dans le cadre du même travail, sans validation séparée lorsque le travail a déjà été autorisé. Les PR automatisées de bots (notamment Dependabot) font exception : ne pas leur créer d'issue artificielle ; ouvrir une issue de suivi uniquement si un besoin réel le justifie.
 
 **La référence dans le corps de la PR est le mécanisme de suivi attendu par Loculary. Aucune liaison supplémentaire via la section GitHub Development ni aucune manipulation manuelle dans l'interface n'est requise.** Ne pas chercher à obtenir une pastille visuelle au moyen d'un mot-clé de fermeture.
 
@@ -163,17 +167,29 @@ Après la fusion, vérifier l'état réel de l'issue : ne jamais présumer que G
 
 ## 6. Actions réellement réservées à l'utilisateur
 
-Cette section définit la qualification et la rédaction d'une demande d'action humaine. Elle ne donne pas à un mode le droit de traiter une issue hors de ses permissions.
+Cette section s'applique aux trois modes. Ils doivent créer une issue `action-humaine` (ou réutiliser une issue décrivant exactement la même intervention) dès qu'une tâche autorisée nécessite une action, une décision ou une confirmation qu'aucun outil ou accès disponible ne permet à ChatGPT d'effectuer lui-même. Le label couvre aussi les arbitrages explicites entre options documentées ; il ne permet jamais à un mode de dépasser ses permissions.
 
 ### Qualifier avant de transférer
 
 Distinguer :
 - **Difficulté technique** : poursuivre le diagnostic et résoudre ; ne pas la transformer en action humaine.
 - **Limitation d'un outil ou connecteur** : chercher une autre voie technique prise en charge, sûre et conforme.
-- **Action personnelle indispensable** : identité, présence, session personnelle, consentement, décision ou confirmation réservée à l'utilisateur.
+- **Action humaine réellement nécessaire** : identité, présence ou manipulation d'un appareil, session personnelle, consentement, signature, confirmation, accès physique, opération externe ou arbitrage qui doit être effectué par l'utilisateur ou une personne habilitée et que ChatGPT ne peut pas réaliser avec les outils et accès disponibles.
 - **Absence de voie conforme** : établir les faits et les alternatives explorées avant de conclure.
 
-Ne pas interrompre l'utilisateur pour une validation intermédiaire ordinaire. Isoler le travail autonome d'une étape personnelle lorsqu'ils peuvent avancer indépendamment.
+Avant de transférer l'action, rechercher une voie technique sûre, prise en charge et conforme. Une limitation d'outil ou de connecteur n'est pas à elle seule un motif : si une autre voie raisonnable permet à ChatGPT d'agir, l'utiliser. Lorsqu'aucune voie ne permet à ChatGPT d'effectuer l'action humaine indispensable, créer ou réutiliser l'issue et la signaler sans attendre une demande supplémentaire. Ne pas transformer une validation intermédiaire ordinaire en action humaine. Isoler l'étape humaine des travaux indépendants et les poursuivre.
+
+### Arbitrage d'un conflit AndroidX / accessibilité
+
+Lorsqu'un audit établit un conflit réel, reproductible et documenté entre une exigence d'accessibilité Web (WCAG/axe-core ou équivalent) et le contrat d'une source AndroidX épinglée, et qu'aucune adaptation de plateforme/sémantique ne résout le problème sans déformer ce contrat :
+
+- préserver le port AndroidX exact ; ne modifier ni ses valeurs, ni sa typographie, ni sa géométrie, ni ses états, ni ses comportements pour faire disparaître l'écart ;
+- créer une issue avec le label existant `action-humaine` (ou réutiliser une issue déjà introduite par l'utilisateur pour ce sujet) et demander une décision explicite ;
+- inclure la version et le lien de la source AndroidX, le composant et le contrat concernés, le constat reproductible, le critère WCAG ou le résultat d'audit exact, les conséquences, les solutions non déformantes déjà explorées et les alternatives avec leurs compromis ;
+- signaler clairement à l'utilisateur que le port reste fidèle et que l'écart de conformité demeure ouvert ;
+- ne réaliser aucun ajustement du port avant l'arbitrage. La création de l'issue n'est pas une autorisation d'appliquer l'une des options.
+
+Ne pas créer d'issue pour un avertissement hypothétique, un résultat d'outil non confirmé ou un problème qui peut être résolu par l'adaptation Web sans altérer AndroidX. Cette exception est applicable aux trois modes pour les nouveaux conflits qu'ils établissent ; elle ne donne pas le droit de reprendre d'autres issues `action-humaine` préexistantes sans que l'utilisateur introduise leur sujet.
 
 ### Rédiger une issue destinée à l'utilisateur
 
@@ -190,16 +206,16 @@ Ne pas interrompre l'utilisateur pour une validation intermédiaire ordinaire. I
 
 ### Étanchéité du mode AUTONOME
 
-En mode AUTONOME, une issue portant `action-humaine` est totalement exclue du portefeuille de lecture et d'action :
+En mode AUTONOME, les issues `action-humaine` préexistantes restent exclues du portefeuille de lecture et d'action :
 
-1. L'exclure de toutes les recherches et revues avec `-label:action-humaine`.
-2. Ne pas lire son corps ni ses commentaires, ne pas la commenter, la modifier, la relancer, vérifier son état ou retirer son label.
-3. Ne pas mentionner spontanément leur existence, leur contenu ou une action attendue dans les réponses ou checkpoints et ne jamais attendre une réponse, y compris dans le compte rendu de la session où l'issue vient d'être créée. Si l'utilisateur pose explicitement une question sur la politique générale ou la signification d'une action humaine, répondre au niveau de la règle sans consulter l'issue ni exposer son contenu.
-4. Ne pas simuler l'action, contourner une protection ou effectuer une opération qui exige l'identité, le consentement, l'accès ou la sauvegarde manquants.
-5. Abandonner le chantier dépendant et poursuivre un travail autonome indépendant. Aucune fermeture, modification de label ou supposition que l'action a été effectuée ne déclenche une reprise.
-6. La mention ou réintroduction du sujet ne réintègre jamais l'issue dans le portefeuille AUTONOME. Une demande d'explication peut être traitée sans lecture. Toute reprise opérationnelle doit être explicitement demandée en mode COLLABORATIF et respecter les validations de ce mode ; revalider les faits communiqués sans consulter l'issue exclue.
+1. Exclure les issues préexistantes de toutes les recherches et revues avec `-label:action-humaine`.
+2. Ne pas lire leur corps ni leurs commentaires, ne pas les commenter, les modifier, les relancer, vérifier leur état ou retirer leur label, sauf si l'utilisateur introduit explicitement leur sujet.
+3. Lorsqu'une action humaine indispensable est identifiée dans le travail courant, créer une nouvelle issue `action-humaine` (ou réutiliser une issue explicitement introduite par l'utilisateur pour cette même action), la signaler à l'utilisateur et suivre uniquement cette issue dans le cadre du travail courant. Cette règle générale inclut le cas particulier AndroidX/accessibilité décrit ci-dessus.
+4. Ne pas simuler une action humaine, contourner une protection ou effectuer une opération qui exige l'identité, le consentement, l'accès ou la confirmation d'une personne.
+5. Suspendre uniquement les changements qui dépendent de l'action ou de l'arbitrage humain ; poursuivre les travaux indépendants.
+6. La création de l'issue ne vaut pas décision ni exécution de l'action. Reprendre les changements dépendants uniquement lorsque l'action ou l'arbitrage attendu a été confirmé, dans le respect du mode actif.
 
-Les modes COLLABORATIF et PILOTAGE appliquent leurs propres permissions décrites dans `AGENTS.md`. PILOTAGE peut qualifier et documenter une demande d'action humaine ; il ne réalise pas l'action personnelle à la place de l'utilisateur.
+Les trois modes doivent signaler par une issue `action-humaine` toute intervention humaine réellement indispensable qu'ils ne peuvent pas effectuer eux-mêmes. Pour le cas particulier d'un conflit AndroidX/accessibilité réel, reproductible et impossible à résoudre sans déformer la source, préserver le port fidèle, documenter la source, les preuves, les conséquences et les alternatives, puis attendre l'arbitrage explicite avant tout changement du port. Ne pas créer d'issue pour un avertissement isolé ou hypothétique.
 
 ## 7. Hygiène des commentaires GitHub
 
@@ -236,7 +252,7 @@ Choisir le mot-clé selon le résultat réellement livré :
 - **`Closes #123`**, ou `Fixes #123` / `Resolves #123`, uniquement lorsque la PR satisfait tous les critères d'acceptation et termine l'issue. GitHub associe la PR à l'issue et peut la fermer à la fusion dans la branche par défaut si le paramètre du dépôt « Auto-close issues with merged linked pull requests » est activé.
 - **`Refs #123`** pour une contribution partielle, une étape intermédiaire ou une PR qui ne termine pas l'issue. Cette référence crée le lien sans demander sa clôture.
 - Pour plusieurs issues, ajouter une référence distincte par issue et choisir individuellement le mot-clé adapté. Ne pas rattacher une issue simplement parce qu'elle est proche du sujet.
-- Pour un travail autonome indépendant, aucune issue préalable n'est requise : ne pas créer d'issue artificielle. Indiquer « Aucune issue liée » ou supprimer la section si elle n'apporte rien.
+- Toute PR créée par l'un des trois modes pour livrer un changement du projet doit être reliée à au moins une issue pertinente, même si le travail était initialement indépendant. Rechercher une issue existante ou créer l'issue nécessaire dans le même travail. Les PR de bots font exception : aucune issue artificielle.
 
 Avant d'utiliser un mot-clé de fermeture, vérifier le corps actuel de l'issue, tous ses critères, les validations obligatoires et les éventuelles étapes restantes. Une PR ouverte, fusionnée ou techniquement réussie ne suffit pas si l'issue demande encore une preuve complémentaire. En cas de doute, utiliser `Refs` et conserver l'issue ouverte.
 
@@ -246,6 +262,8 @@ Placer les références dans le corps descriptif de la PR, dans la section « Is
 
 
 - [AGENTS.md](../AGENTS.md) : sélection du mode et permissions.
+- [Mandat collaboratif](MANDAT-COLLABORATIF.md) : partenariat technique, validation préalable et exécution dans le périmètre approuvé.
+- [Mandat pilotage](MANDAT-PILOTAGE.md) : audit, arbitrage, gestion du backlog et transfert vers AUTONOME.
 - [Mandat autonome](MANDAT-AUTONOME.md) : autonomie, priorités, exclusions et livraison.
 - [Dependabot](../.github/dependabot.yml) : labels et cadence des mises à jour.
 - Les documents spécialisés du dépôt peuvent préciser un domaine, mais ne doivent pas contredire cette taxonomie ni le cycle de vie des issues.
