@@ -50,7 +50,7 @@ Choisir la catégorie selon le résultat principal, pas selon chaque sous-tâche
 | Label | Usage |
 |---|---|
 | `securite` | Risque réel de sécurité, confidentialité, permissions ou protection des données. S'ajoute à la catégorie lorsque pertinent. |
-| `action-humaine` | Action, décision, identité, consentement ou confirmation qui doit réellement être effectuée par l'utilisateur. Réservé aux issues explicitement destinées à l'utilisateur. |
+| `action-humaine` | Intervention, décision ou confirmation qui doit réellement être effectuée par l'utilisateur ou une personne humaine habilitée, parce que ChatGPT ne peut pas la réaliser avec les outils et accès disponibles. Réservé aux issues explicitement destinées à l'humain qui doit agir. |
 
 Une issue `action-humaine` conserve aussi une catégorie principale et son titre commence par **[Action humaine]**. Ne jamais utiliser ce label pour signaler une difficulté technique, une tâche lente, un outil limité ou une investigation incomplète.
 
@@ -167,17 +167,17 @@ Après la fusion, vérifier l'état réel de l'issue : ne jamais présumer que G
 
 ## 6. Actions réellement réservées à l'utilisateur
 
-Cette section définit la qualification et la rédaction des actions ou décisions réservées à l'utilisateur. Le label `action-humaine` couvre aussi un arbitrage produit explicite lorsque l'utilisateur doit choisir entre des options documentées ; il ne permet pas à un mode de dépasser ses permissions.
+Cette section s'applique aux trois modes. Ils doivent créer une issue `action-humaine` (ou réutiliser une issue décrivant exactement la même intervention) dès qu'une tâche autorisée nécessite une action, une décision ou une confirmation qu'aucun outil ou accès disponible ne permet à ChatGPT d'effectuer lui-même. Le label couvre aussi les arbitrages explicites entre options documentées ; il ne permet jamais à un mode de dépasser ses permissions.
 
 ### Qualifier avant de transférer
 
 Distinguer :
 - **Difficulté technique** : poursuivre le diagnostic et résoudre ; ne pas la transformer en action humaine.
 - **Limitation d'un outil ou connecteur** : chercher une autre voie technique prise en charge, sûre et conforme.
-- **Action personnelle ou décision réservée** : identité, présence, session personnelle, consentement, confirmation, ou arbitrage produit/technique qui doit être décidé explicitement par l'utilisateur.
+- **Action humaine réellement nécessaire** : identité, présence ou manipulation d'un appareil, session personnelle, consentement, signature, confirmation, accès physique, opération externe ou arbitrage qui doit être effectué par l'utilisateur ou une personne habilitée et que ChatGPT ne peut pas réaliser avec les outils et accès disponibles.
 - **Absence de voie conforme** : établir les faits et les alternatives explorées avant de conclure.
 
-Ne pas interrompre l'utilisateur pour une validation intermédiaire ordinaire. Isoler le travail autonome d'une étape personnelle lorsqu'ils peuvent avancer indépendamment.
+Avant de transférer l'action, rechercher une voie technique sûre, prise en charge et conforme. Une limitation d'outil ou de connecteur n'est pas à elle seule un motif : si une autre voie raisonnable permet à ChatGPT d'agir, l'utiliser. Lorsqu'aucune voie ne permet à ChatGPT d'effectuer l'action humaine indispensable, créer ou réutiliser l'issue et la signaler sans attendre une demande supplémentaire. Ne pas transformer une validation intermédiaire ordinaire en action humaine. Isoler l'étape humaine des travaux indépendants et les poursuivre.
 
 ### Arbitrage d'un conflit AndroidX / accessibilité
 
@@ -206,16 +206,16 @@ Ne pas créer d'issue pour un avertissement hypothétique, un résultat d'outil 
 
 ### Étanchéité du mode AUTONOME
 
-En mode AUTONOME, les issues `action-humaine` préexistantes restent exclues du portefeuille de lecture et d'action, avec une exception étroite pour un conflit AndroidX/accessibilité établi par le travail courant :
+En mode AUTONOME, les issues `action-humaine` préexistantes restent exclues du portefeuille de lecture et d'action :
 
-1. Exclure les issues `action-humaine` préexistantes de toutes les recherches et revues avec `-label:action-humaine`.
+1. Exclure les issues préexistantes de toutes les recherches et revues avec `-label:action-humaine`.
 2. Ne pas lire leur corps ni leurs commentaires, ne pas les commenter, les modifier, les relancer, vérifier leur état ou retirer leur label, sauf si l'utilisateur introduit explicitement leur sujet.
-3. Si le travail courant établit un conflit AndroidX/accessibilité réel et reproductible selon la sous-section précédente, créer une nouvelle issue `action-humaine` avec les preuves et alternatives, puis la signaler à l'utilisateur pour arbitrage. Cette issue précise peut être mentionnée dans le compte rendu ; aucune autre issue `action-humaine` ne peut l'être spontanément.
-4. Ne pas simuler une action personnelle, contourner une protection ou effectuer une opération qui exige l'identité, le consentement, l'accès ou la sauvegarde manquants.
-5. Préserver le port AndroidX et suspendre uniquement les changements dépendant de l'arbitrage ; poursuivre le travail autonome indépendant.
-6. La création de l'issue ne vaut pas décision. Après l'arbitrage, la reprise des changements concernés se fait en mode COLLABORATIF à la demande de l'utilisateur, ou en mode AUTONOME uniquement si celui-ci est explicitement réactivé et autorisé.
+3. Lorsqu'une action humaine indispensable est identifiée dans le travail courant, créer une nouvelle issue `action-humaine` (ou réutiliser une issue explicitement introduite par l'utilisateur pour cette même action), la signaler à l'utilisateur et suivre uniquement cette issue dans le cadre du travail courant. Cette règle générale inclut le cas particulier AndroidX/accessibilité décrit ci-dessus.
+4. Ne pas simuler une action humaine, contourner une protection ou effectuer une opération qui exige l'identité, le consentement, l'accès ou la confirmation d'une personne.
+5. Suspendre uniquement les changements qui dépendent de l'action ou de l'arbitrage humain ; poursuivre les travaux indépendants.
+6. La création de l'issue ne vaut pas décision ni exécution de l'action. Reprendre les changements dépendants uniquement lorsque l'action ou l'arbitrage attendu a été confirmé, dans le respect du mode actif.
 
-Les trois modes peuvent créer une issue `action-humaine` lorsqu'ils établissent un conflit AndroidX/accessibilité réel et reproductible selon la procédure ci-dessus. PILOTAGE peut également qualifier les autres actions personnelles, mais ne les réalise pas à la place de l'utilisateur. Pour un conflit AndroidX, l'issue sert à discuter et décider avec l'utilisateur ; le label n'autorise aucune modification unilatérale du contrat. Ne pas créer d'issue pour un avertissement isolé ou hypothétique : l'écart doit être réel et étayé.
+Les trois modes doivent signaler par une issue `action-humaine` toute intervention humaine réellement indispensable qu'ils ne peuvent pas effectuer eux-mêmes. Pour le cas particulier d'un conflit AndroidX/accessibilité réel, reproductible et impossible à résoudre sans déformer la source, préserver le port fidèle, documenter la source, les preuves, les conséquences et les alternatives, puis attendre l'arbitrage explicite avant tout changement du port. Ne pas créer d'issue pour un avertissement isolé ou hypothétique.
 
 ## 7. Hygiène des commentaires GitHub
 
