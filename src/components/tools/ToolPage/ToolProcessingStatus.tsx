@@ -40,12 +40,14 @@ export default function ToolProcessingStatus({
 
   return (
     <div className="flex min-w-0 flex-wrap items-center gap-2">
-      <span className="inline-flex min-h-12 min-w-0 max-w-full items-center gap-1 rounded-full border border-[var(--outline-variant)] bg-[var(--surface-container)] px-3 text-[var(--on-surface-variant)]">
-        <MaterialIcon name={presentation.icon} size={18} />
-        <span className="m3-type-label-medium">{presentation.label}</span>
+      <span className="inline-flex min-h-9 min-w-0 max-w-full items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-1.5 text-xs font-semibold text-[var(--foreground)] sm:text-sm">
+        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--success-soft)] text-[var(--success)] shadow-[0_0_0_2px_color-mix(in_srgb,var(--success)_12%,transparent)]" aria-hidden="true">
+          <MaterialIcon name={presentation.icon} size={14} />
+        </span>
+        <span>{presentation.label}</span>
         <Tooltip content={details} title={t.more} variant="rich" placement="bottom" openOnClick>
           <IconButton label={t.more}>
-            <MaterialIcon name="info" size={20} />
+            <MaterialIcon name="info" size={18} />
           </IconButton>
         </Tooltip>
       </span>
