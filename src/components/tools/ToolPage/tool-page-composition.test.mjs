@@ -71,7 +71,7 @@ test("share action uses the official share symbol and Tooltip supports explicit 
 
 test("processing info action is inside the compact badge without using IconButton", () => {
   const badgeStart = status.indexOf('className="inline-flex min-h-9 min-w-0 max-w-full items-center gap-2');
-  const badgeEnd = status.indexOf("</span>", badgeStart);
+  const badgeEnd = status.indexOf("</Tooltip>\n      </span>", badgeStart);
   const tooltipIndex = status.indexOf("<Tooltip", badgeStart);
   const infoButtonIndex = status.indexOf("<button", tooltipIndex);
   assert.ok(badgeStart >= 0);
