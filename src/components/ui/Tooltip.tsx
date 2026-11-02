@@ -19,8 +19,8 @@ export function Tooltip({
   children, content, title, variant = "plain", placement = "top", delayMs = 500, className = "", openOnClick = false,
 }: TooltipProps) {
   const id = useId();
-  const rootRef = useRef<HTMLSpanElement>(null);
-  const tooltipRef = useRef<HTMLSpanElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState<{ top: number; left: number } | null>(null);
   const openedByFocus = useRef(false);
   const [open, setOpen] = useState(false);
@@ -115,7 +115,7 @@ export function Tooltip({
     };
   }, [open]);
 
-  return <span ref={rootRef} className={[styles.root, className].filter(Boolean).join(" ")}
+  return <div ref={rootRef} className={[styles.root, className].filter(Boolean).join(" ")}
     onMouseEnter={showAfterDelay} onMouseLeave={hide}
     onClick={openOnClick ? () => {
       if (openedByFocus.current) {
@@ -140,9 +140,9 @@ export function Tooltip({
     onPointerCancel={hide}
     onKeyDown={(event) => { if (event.key === "Escape") hide(); }}>
     <span className={styles.anchor} data-tooltip-anchor>{anchor ? cloneElement(anchor, { "aria-describedby": [anchor.props["aria-describedby"], open ? id : undefined].filter(Boolean).join(" ") || undefined }) : children}</span>
-    {open && <span ref={tooltipRef} id={id} role="tooltip" className={[styles.tooltip, styles[variant], styles[placement]].join(" ")} data-open="true" style={(position ? { position: "fixed", inset: "auto", top: position.top, left: position.left, transform: "none" } : { visibility: "hidden" }) as CSSProperties}>
+    {open && <div ref={tooltipRef} id={id} role="tooltip" className={[styles.tooltip, styles[variant], styles[placement]].join(" ")} data-open="true" style={(position ? { position: "fixed", inset: "auto", top: position.top, left: position.left, transform: "none" } : { visibility: "hidden" }) as CSSProperties}>
       {title && <strong className={styles.title}>{title}</strong>}
-      <span>{content}</span>
-    </span>}
-  </span>;
+      <div>{content}</div>
+    </div>}
+  </div>;
 }
