@@ -51,11 +51,10 @@ export default function ShareToolButton({ title, description, locale }: ShareToo
     <div className="flex flex-col items-end gap-1">
       <div className="flex items-center gap-1">
         <Tooltip content={messages.shareTool}>
-          <IconButton label={messages.shareTool} title={messages.shareTool} onClick={handleShare}>
+          <IconButton label={messages.shareTool} onClick={handleShare}>
             <MaterialIcon name="share" size={24} />
           </IconButton>
         </Tooltip>
-        <span className="m3-type-label-medium text-[var(--on-surface-variant)]">{messages.shareTool}</span>
       </div>
       {status !== "idle" && (
         <span role="status" aria-live="polite" className="max-w-48 text-right text-xs text-[var(--muted)]">
