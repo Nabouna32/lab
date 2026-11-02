@@ -16,7 +16,7 @@ test("tool sharing uses the official Material share symbol and the shared IconBu
   assert.match(shareToolButton, /import \{ IconButton \} from "@\/components\/ui\/IconButton"/);
   assert.match(shareToolButton, /<IconButton label=\{messages\.shareTool\} onClick=\{handleShare\}>/);
   assert.doesNotMatch(shareToolButton, /title=\{messages\.shareTool\}/);
-  assert.doesNotMatch(shareToolButton, /<span[^>]*>\\{messages\\.shareTool\\}<\\/span>/);
+  assert.ok(!shareToolButton.includes("{messages.shareTool}</span>"));
   assert.match(shareToolButton, /MaterialIcon name="share"/);
   assert.doesNotMatch(shareToolButton, /arrow_outward/);
 });
