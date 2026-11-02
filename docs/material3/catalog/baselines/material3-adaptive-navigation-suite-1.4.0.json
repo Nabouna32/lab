@@ -16,7 +16,8 @@
     "moduleVersionAtReleaseCommit": "1.4.0-alpha18",
     "publicationRule": "The artifact declaration maps the material3 group to atomicGroupVersion versions.COMPOSE_MATERIAL3 and explicitly includes this module; the published artifact coordinate therefore follows the stable 1.4.0 release train, not the internal module version key.",
     "artifactDeclarationPath": "libraryversions.toml",
-    "artifactDeclarationGitBlobSha1": "0e9f1a507806fd0735f737c78e5763bf01d837b0"
+    "artifactDeclarationGitBlobSha1": "0e9f1a507806fd0735f737c78e5763bf01d837b0",
+    "artifactDeclarationKey": "COMPOSE_MATERIAL3_ADAPTIVE_NAVIGATION_SUITE"
   },
   "source": {
     "repository": "androidx/androidx",
