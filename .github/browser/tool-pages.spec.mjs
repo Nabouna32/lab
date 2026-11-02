@@ -134,8 +134,59 @@ for (const locale of locales) {
       await trigger.click();
       await expect(tooltip).toBeVisible();
 
+      await trigger.click();
+      await expect(tooltip).toHaveCount(0);
+      await expect(trigger).toBeFocused();
+
+      await trigger.click();
+      await expect(tooltip).toBeVisible();
+
       await page.locator("main header h1").click();
       await expect(tooltip).toHaveCount(0);
+    });
+
+    test(`page ${tool.id} — ${locale.locale}: RichTooltip tactile, second tap et persistance`, async ({ browser }, testInfo) => {
+      const context = await browser.newContext({
+        baseURL: "http://127.0.0.1:4173",
+        viewport: { width: 390, height: 844 },
+        isMobile: true,
+        hasTouch: true,
+        locale: locale.locale === "fr" ? "fr-FR" : "en-US",
+        colorScheme: "light",
+      });
+
+      try {
+        const page = await context.newPage();
+        await page.goto(tool.paths[locale.locale]);
+
+        const trigger = page.getByRole("button", { name: locale.processingLabel });
+        const tooltip = page.getByRole("tooltip");
+
+        await trigger.tap();
+        await expect(tooltip).toBeVisible();
+        await expect(trigger).toBeFocused();
+
+        if (tool.id === "percentage") {
+          await testInfo.attach(`tooltip-${locale.locale}-mobile-open`, {
+            body: await page.screenshot(),
+            contentType: "image/png",
+          });
+        }
+
+        await tooltip.click();
+        await expect(tooltip).toBeVisible();
+
+        await trigger.tap();
+        await expect(tooltip).toHaveCount(0);
+
+        await trigger.tap();
+        await expect(tooltip).toBeVisible();
+
+        await page.locator("main header h1").tap();
+        await expect(tooltip).toHaveCount(0);
+      } finally {
+        await context.close();
+      }
     });
   }
 }
