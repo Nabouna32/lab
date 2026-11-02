@@ -1,4 +1,4 @@
-name: Audit WCAG facultatif — axe-core
+name: Audit WCAG facultatif — rapport axe-core informatif
 
 on:
   workflow_dispatch:
@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   audit:
-    name: Audit axe-core — Chromium
+    name: Rapport axe-core informatif — Chromium
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -59,16 +59,16 @@ jobs:
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_local_placeholder"
         run: npm run build
 
-      - name: Exécuter l'audit axe-core facultatif
+      - name: Produire les rapports axe-core (sans seuil bloquant)
         run: npx playwright test .github/browser/material3-axe-audit.spec.mjs
         env:
           CI: "true"
 
-      - name: Publier les preuves en cas d'échec
-        if: failure()
+      - name: Publier les rapports et preuves, même si des constats sont présents
+        if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: axe-audit-evidence-${{ github.run_id }}
-          path: artifacts/browser/
+          name: axe-audit-report-${{ github.run_id }}
+          path: artifacts/browser/axe-reports/
           if-no-files-found: ignore
           retention-days: 7
