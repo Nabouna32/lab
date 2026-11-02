@@ -58,3 +58,19 @@ test("share action uses the official share symbol and Tooltip supports explicit 
   assert.match(tooltip, /viewportWidth/);
   assert.match(tooltip, /window\.addEventListener\("scroll", updatePosition, true\)/);
 });
+
+
+test("processing information action is visually contained inside the processing badge", () => {
+  const badgeStart = status.indexOf('className="inline-flex min-w-0 max-w-full items-center gap-1');
+  const badgeEnd = status.indexOf("</span>", badgeStart);
+  const tooltipIndex = status.indexOf("<Tooltip", badgeStart);
+  const iconButtonIndex = status.indexOf("<IconButton label={t.more}>", badgeStart);
+  assert.ok(badgeStart >= 0);
+  assert.ok(tooltipIndex > badgeStart && tooltipIndex < badgeEnd);
+  assert.ok(iconButtonIndex > tooltipIndex && iconButtonIndex < badgeEnd);
+});
+
+test("related-tool icons use the foreground role paired with their primary container", () => {
+  assert.match(related, /bg-\[var\(--primary-container\)\] text-\[var\(--on-primary-container\)\]/);
+  assert.doesNotMatch(related, /bg-\[var\(--accent-soft\)\] text-\[var\(--on-surface-variant\)\]/);
+});
