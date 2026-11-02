@@ -24,10 +24,15 @@ test("the new disclosure follows the pinned ListItem visual roles without invent
   assert.match(listItemStyles, /--m3-space-4/);
 });
 
-test("the preferred legacy accordion is retained below an identical-content comparison", () => {
+test("the new disclosure uses a continuous two-column explanation while the legacy card remains unchanged for comparison", () => {
   assert.match(editorial, /const differenceExplanation =/);
-  assert.equal((editorial.match(/\{differenceExplanation\}/g) ?? []).length, 2);
-  assert.match(editorial, /rounded-2xl border border-\[var\(--border\)\] bg-\[var\(--surface\)\]/);
+  assert.match(editorial, /const newDifferenceExplanation =/);
+  assert.match(editorial, /<ToolEditorialAccordion title={t.difference.title}>\s*\{newDifferenceExplanation\}/);
+  assert.match(editorial, /<details className="group rounded-2xl/);
+  assert.match(editorial, /\{differenceExplanation\}/);
   assert.match(editorial, /text-xl font-bold sm:text-2xl/);
+  assert.match(editorial, /lg:border-l lg:border-\[var\(--outline-variant\)\] lg:pl-8/);
   assert.ok(editorial.indexOf("<ToolEditorialAccordion title={t.difference.title}>") < editorial.indexOf('<details className="group rounded-2xl'));
+  const newDisclosure = editorial.slice(editorial.indexOf("const newDifferenceExplanation ="), editorial.indexOf("\n\n  return ("));
+  assert.doesNotMatch(newDisclosure, /rounded-2xl border border-\[var\(--border\)\] bg-\[var\(--background\)\]/);
 });
