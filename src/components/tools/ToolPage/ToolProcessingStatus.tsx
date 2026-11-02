@@ -1,3 +1,5 @@
+"use client";
+
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { isToolProcessingDescriptionFallback, type ToolProcessingMetadata } from "@/lib/tools/types";
@@ -38,7 +40,7 @@ export default function ToolProcessingStatus({
 
   return (
     <div className="flex min-w-0 flex-wrap items-center gap-2">
-      <span className="inline-flex min-w-0 max-w-full items-center gap-2 rounded-full bg-[var(--surface-container)] px-3 py-1.5 text-[var(--on-surface-variant)]">
+      <span className="inline-flex min-w-0 max-w-full items-center gap-2 rounded-[var(--shape-corner-large)] bg-[var(--surface-container)] px-3 py-1.5 text-[var(--on-surface-variant)]">
         <MaterialIcon name={presentation.icon} size={18} />
         <span className="m3-type-label-medium">{presentation.label}</span>
       </span>
