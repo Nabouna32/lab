@@ -50,6 +50,43 @@ test("Material 3 stable release API and published sources share one immutable co
   assert.match(stableApiDump.toString("utf8").slice(0, 40), /Signature format: 4\.0/);
 });
 
+const adaptiveNavigationSuiteBaseline = JSON.parse(readFileSync(
+  new URL("../../../docs/material3/catalog/baselines/material3-adaptive-navigation-suite-1.4.0.json", import.meta.url),
+  "utf8",
+));
+
+test("NavigationSuiteScaffold pins the stable artifact, immutable source commit and exact API dump", () => {
+  assert.equal(adaptiveNavigationSuiteBaseline.schemaVersion, 1);
+  assert.equal(adaptiveNavigationSuiteBaseline.artifact, "androidx.compose.material3:material3-adaptive-navigation-suite");
+  assert.equal(adaptiveNavigationSuiteBaseline.referenceVersion, "1.4.0");
+  assert.equal(adaptiveNavigationSuiteBaseline.release.status, "stable");
+  assert.equal(adaptiveNavigationSuiteBaseline.release.apiAddedIn, "1.4.0");
+  assert.equal(adaptiveNavigationSuiteBaseline.versioning.releaseCommitVersion, "1.4.0");
+  assert.equal(adaptiveNavigationSuiteBaseline.versioning.moduleVersionAtReleaseCommit, "1.4.0-alpha18");
+  assert.match(adaptiveNavigationSuiteBaseline.versioning.publicationRule, /atomicGroupVersion versions\\.COMPOSE_MATERIAL3/);
+  assert.equal(adaptiveNavigationSuiteBaseline.source.repository, "androidx/androidx");
+  assert.equal(adaptiveNavigationSuiteBaseline.source.releaseBranch, "androidx-compose-material3-release");
+  assert.equal(adaptiveNavigationSuiteBaseline.source.commit, "5113b82a4ed6416d6344efa50e41db8cb65928ff");
+  assert.equal(adaptiveNavigationSuiteBaseline.apiDump.status, "PINNED_TO_IMMUTABLE_RELEASE_COMMIT");
+  assert.equal(adaptiveNavigationSuiteBaseline.apiDump.gitBlobSha1, "7e853e8ffcad4ab0e796c38599711e20447b6854");
+  assert.equal(adaptiveNavigationSuiteBaseline.apiDump.signatureFormat, "4.0");
+  assert.equal(adaptiveNavigationSuiteBaseline.sourceArchiveAlignment.status, "UNVERIFIED");
+
+  const apiDump = readFileSync(new URL(
+    "../../../docs/material3/catalog/baselines/material3-adaptive-navigation-suite-1.4.0-api.txt",
+    import.meta.url,
+  ));
+  const apiBlobSha1 = createHash("sha1")
+    .update(Buffer.from("blob " + apiDump.length + "\\0"))
+    .update(apiDump)
+    .digest("hex");
+  assert.equal(apiBlobSha1, adaptiveNavigationSuiteBaseline.apiDump.gitBlobSha1);
+  const apiText = apiDump.toString("utf8");
+  assert.match(apiText, /package androidx\\.compose\\.material3\\.adaptive\\.navigationsuite/);
+  assert.match(apiText, /NavigationSuiteScaffoldState/);
+  assert.match(apiText, /NavigationSuiteScaffoldLayout/);
+});
+
 const material3AndroidInventory = JSON.parse(readFileSync(
   new URL("../../../docs/material3/catalog/baselines/material3-android-1.4.0-api-inventory.json", import.meta.url),
   "utf8",
