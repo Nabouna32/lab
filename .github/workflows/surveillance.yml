@@ -1,6 +1,9 @@
 name: Surveillance du projet
 
 on:
+  pull_request:
+    branches:
+      - main
   schedule:
     - cron: "30 3 * * *"
   workflow_dispatch:
@@ -20,6 +23,7 @@ concurrency:
 
 jobs:
   audit-dependances:
+    if: github.event_name != 'pull_request'
     name: Audit de sécurité des dépendances npm
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -86,7 +90,7 @@ jobs:
           CI: "true"
 
       - name: Publier les preuves en cas d'échec
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: playwright-evidence-${{ github.run_id }}
