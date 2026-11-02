@@ -250,6 +250,8 @@ Placer les références dans le corps descriptif de la PR, dans la section « Is
 
 
 - [AGENTS.md](../AGENTS.md) : sélection du mode et permissions.
+- [Mandat collaboratif](MANDAT-COLLABORATIF.md) : partenariat technique, validation préalable et exécution dans le périmètre approuvé.
+- [Mandat pilotage](MANDAT-PILOTAGE.md) : audit, arbitrage, gestion du backlog et transfert vers AUTONOME.
 - [Mandat autonome](MANDAT-AUTONOME.md) : autonomie, priorités, exclusions et livraison.
 - [Dependabot](../.github/dependabot.yml) : labels et cadence des mises à jour.
 - Les documents spécialisés du dépôt peuvent préciser un domaine, mais ne doivent pas contredire cette taxonomie ni le cycle de vie des issues.
