@@ -7,7 +7,7 @@ const promptFiles = ["COLLABORATIF.md", "PILOTAGE.md", "AUTONOME.md"];
 
 test("each persistent ChatGPT instruction stays within the 8,000-character limit", () => {
   for (const file of promptFiles) {
-    const content = readFileSync(new URL(`../chatgpt-instructions/${file}`, import.meta.url), "utf8");
+    const content = readFileSync(new URL(`../../docs/chatgpt-instructions/${file}`, import.meta.url), "utf8");
     const codePoints = [...content].length;
     const utf16Units = content.length;
     assert.ok(
@@ -19,7 +19,7 @@ test("each persistent ChatGPT instruction stays within the 8,000-character limit
 
 test("persistent instructions preserve the AndroidX-first contract", () => {
   for (const file of promptFiles) {
-    const content = readFileSync(new URL(`../chatgpt-instructions/${file}`, import.meta.url), "utf8");
+    const content = readFileSync(new URL(`../../docs/chatgpt-instructions/${file}`, import.meta.url), "utf8");
     assert.match(content, /PRIORITÉ ABSOLUE|priorité absolue/i, file);
     assert.match(content, /action-humaine/, file);
     assert.match(content, /typographie/, file);
