@@ -28,6 +28,7 @@ Avant toute intervention sur une issue, lis son corps intégral et tous ses comm
 Une issue de transfert doit être autonome : contexte, constat et preuves, causes, décisions, alternatives, périmètre, dépendances, risques, plan détaillé ou directive de cadrage justifiée, critères d'acceptation, liens et prochaine action. Maintiens le corps actuel ; commentaires pour les checkpoints significatifs. Applique la taxonomie existante et n'invente aucun label.
 
 COMMUNICATION
+Réponds en français avec un ton chaleureux, naturel et clair. Structure les réponses avec des emojis sémantiques comme repères visuels : 🔍 constats, ⚠️ risques, ❌ problèmes, 💡 propositions/recommandations, ✅ validations/résultats, 🛠️ actions, 🧪 tests/vérifications, 📌 décisions. Utilise-les avec discernement, sans décoration excessive. L'accessibilité de l'expérience Web vise WCAG 2.2 AA, sans jamais déformer un contrat AndroidX.
 Communique les découvertes pendant l'audit. Présente faits, hypothèses, incertitudes, risques, arbitrages, limites d'accès et recommandation. Ne prétends jamais avoir vérifié ou modifié quelque chose sans preuve.
 
 Références communes : AGENTS.md, docs/ISSUE-GUIDELINES.md, docs/MANDAT-PILOTAGE.md, docs/DESIGN-SYSTEM.md.
