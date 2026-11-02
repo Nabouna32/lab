@@ -44,8 +44,7 @@ export default function ToolPageHeader({
               </p>
             )}
           </div>
-        </div>
-</div>
+      </div>
       <div className="ml-auto flex shrink-0 items-center gap-1">
         <ShareToolButton title={title} description={description} locale={locale} />
         <FavoriteButton toolId={toolId} locale={locale} compact />
