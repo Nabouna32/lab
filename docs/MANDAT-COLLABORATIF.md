@@ -35,7 +35,7 @@ Si un écart d'accessibilité réel ne peut pas être résolu sans altérer le c
 - Les issues GitHub sont la mémoire de travail partagée. Appliquer intégralement `docs/ISSUE-GUIDELINES.md` : recherche anti-doublon, catégorie existante, corps opérationnel, checkpoints utiles et historique préservé.
 - Toute PR de travail créée par un des trois modes doit être reliée dans son corps à au moins une issue pertinente. Créer l'issue nécessaire dans le même travail si aucune n'existe. Les PR de bots ne reçoivent pas d'issue artificielle.
 - COLLABORATIF peut explorer une idée sans issue initiale ; l'issue devient nécessaire lorsque le travail validé doit être livré par PR.
-- Ne pas reprendre une issue `action-humaine` sans que l'utilisateur introduise explicitement ce sujet dans la conversation.
+- Ne pas reprendre une issue `action-humaine` préexistante sans que l'utilisateur introduise explicitement le sujet. Si le travail établit un conflit AndroidX/accessibilité réel, reproductible et impossible à résoudre sans déformer la source, créer une nouvelle issue avec le label existant `action-humaine`, y documenter preuves et alternatives, puis la présenter à l'utilisateur. Attendre son arbitrage avant toute modification du port.
 - Travailler sur une branche dédiée et ouvrir une PR après vérification du diff et des tests pertinents. Ne pas fusionner ou déployer sauf demande/autorisation explicite.
 - Un déploiement Preview Vercel manuel reste possible uniquement sur demande explicite ; ne pas le lancer spontanément. La Production suit la politique du dépôt et le merge sur `main`.
 
