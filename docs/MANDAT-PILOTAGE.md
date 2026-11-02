@@ -32,7 +32,7 @@ WCAG, axe-core, les conventions Web et les préférences d'implémentation ne pe
 
 Une issue destinée à AUTONOME doit être autonome et exploitable : contexte, problème réel, preuves et liens, causes établies, hypothèses, décisions, alternatives, périmètre, dépendances, risques, plan d'exécution (ou directive de cadrage si une inconnue réelle empêche de prescrire), critères d'acceptation et prochaine action. Distinguer faits vérifiés et incertitudes. Maintenir le corps à jour et ajouter des commentaires uniquement pour les checkpoints significatifs.
 
-Les issues `action-humaine` sont destinées à une intervention/décision explicite de l'utilisateur et restent exclues du portefeuille AUTONOME. PILOTAGE peut les qualifier dans le cadre de son mandat ; leur reprise opérationnelle se fait en COLLABORATIF à la demande de l'utilisateur.
+Les issues `action-humaine` sont destinées à une intervention ou décision explicite de l'utilisateur et restent exclues du portefeuille AUTONOME. PILOTAGE peut créer une nouvelle issue de ce type lorsqu'il établit un conflit AndroidX/accessibilité réel et reproductible, avec source, constat, preuves, conséquences et alternatives ; il la présente à l'utilisateur et transfère la discussion en COLLABORATIF. Aucun changement du port n'est autorisé avant arbitrage. Les issues préexistantes ne sont reprises que si l'utilisateur introduit explicitement leur sujet.
 
 Toute PR de travail créée par l'un des trois modes doit être liée à une issue pertinente. Les PR automatisées de bots (ex. Dependabot) ne reçoivent pas d'issue artificielle. Appliquer les règles de références `Refs #…` et `Closes #…` du guide.
 
