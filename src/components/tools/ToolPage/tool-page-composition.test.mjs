@@ -64,9 +64,9 @@ test("share action uses the official share symbol and Tooltip supports explicit 
 
 
 test("processing information action is visually contained inside the processing badge", () => {
-  const badgeStart = status.indexOf('className="inline-flex min-w-0 max-w-full items-center gap-1');
-  const badgeEnd = status.indexOf("</span>", badgeStart);
+  const badgeStart = status.indexOf('className="inline-flex min-h-12 min-w-0 max-w-full items-center gap-1');
   const tooltipIndex = status.indexOf("<Tooltip", badgeStart);
+  const badgeEnd = status.indexOf("</span>", tooltipIndex);
   const iconButtonIndex = status.indexOf("<IconButton label={t.more}>", badgeStart);
   assert.ok(badgeStart >= 0);
   assert.ok(tooltipIndex > badgeStart && tooltipIndex < badgeEnd);
