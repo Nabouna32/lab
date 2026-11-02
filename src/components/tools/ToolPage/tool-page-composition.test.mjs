@@ -26,9 +26,11 @@ test("tool page separates the runtime, next actions and editorial content", () =
   assert.match(page, /ToolProcessingStatus processing/);
   assert.ok(route.includes('runtime={<ToolRenderer toolId={entry.tool.id} />}'));
   assert.ok(route.includes('<NextActions toolId={entry.tool.id} locale={locale} />'));
+  assert.ok(page.indexOf("{children}") < page.indexOf("{content}"));
+  assert.ok(page.includes("border-t border-[var(--border)] bg-[var(--surface-soft)]/35"));
 });
 
-test("tool header and processing badge occupy separate visual surfaces", () => {
+test("tool header stays separate while workspace surface wraps runtime, next actions and editorial", () => {
   assert.match(header, /<header/);
   assert.match(header, /id="tool-page-title"/);
   assert.doesNotMatch(header, /ToolProcessingStatus|processing:/);
@@ -37,8 +39,8 @@ test("tool header and processing badge occupy separate visual surfaces", () => {
   assert.doesNotMatch(page, /<header/);
   assert.doesNotMatch(status, /<details|<summary|<section/);
   assert.match(status, /openOnClick/);
-  assert.match(status, /<IconButton label=\{t\.more\}>/);
-  assert.doesNotMatch(status, /<IconButton label=\{t\.more\} title=/);
+  assert.match(status, /<button[\s\S]*aria-label=\{t\.more\}/);
+  assert.doesNotMatch(status, /<IconButton/);
   assert.ok(header.includes("flex-wrap items-start gap-3 sm:gap-4"));
 });
 
@@ -72,7 +74,6 @@ test("processing info action stays outside the compact badge surface", () => {
   const tooltipIndex = status.indexOf("<Tooltip", badgeStart);
   const badgeEnd = status.indexOf("</span>", badgeStart);
   const infoButtonIndex = status.indexOf("<button", tooltipIndex);
-  assert.ok(badgeStart >= 0);
   assert.ok(badgeStart >= 0);
   assert.ok(badgeEnd > badgeStart);
   assert.ok(tooltipIndex > badgeEnd);
