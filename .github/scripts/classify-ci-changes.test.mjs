@@ -24,6 +24,18 @@ test('classifies governance documentation as lightweight and governance-touched'
   });
 });
 
+test('all canonical mode and issue governance documents trigger governance checks', () => {
+  for (const path of [
+    'docs/ISSUE-GUIDELINES.md', 'docs/MANDAT-AUTONOME.md', 'docs/MANDAT-COLLABORATIF.md',
+    'docs/MANDAT-PILOTAGE.md', 'docs/DESIGN-SYSTEM.md', 'docs/UX.md', 'docs/material3/README.md',
+    'docs/chatgpt-instructions/COLLABORATIF.md', 'docs/chatgpt-instructions/PILOTAGE.md',
+    'docs/chatgpt-instructions/AUTONOME.md', 'docs/chatgpt-instructions/README.md',
+  ]) {
+    assert.equal(classifyCiChanges([path], 1).governance_changed, true, path);
+    assert.equal(classifyCiChanges([path], 1).lightweight_only, true, path);
+  }
+});
+
 test('workflow changes require full CI while still exercising classifier tests', () => {
   assert.deepEqual(classifyCiChanges(['.github/workflows/ci.yml'], 1), {
     lightweight_only: false,
