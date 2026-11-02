@@ -134,7 +134,7 @@ export function Tooltip({
       const anchorElement = rootRef.current?.querySelector("[data-tooltip-anchor]");
       if (!anchorElement?.contains(event.target as Node)) return;
       wasOpenBeforePointer.current = open;
-      if (event.pointerType === "touch") showAfterDelay();
+      if (event.pointerType === "touch" && !open) showAfterDelay();
     }}
     onPointerUp={(event) => { if (event.pointerType === "touch" && !open) clearTimer(); }}
     onPointerCancel={hide}
