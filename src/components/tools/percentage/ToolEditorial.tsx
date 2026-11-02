@@ -54,6 +54,30 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
     </>
   );
 
+  // Le nouveau disclosure privilégie une hiérarchie éditoriale continue :
+  // les deux notions sont des colonnes de contenu, pas deux cartes imbriquées.
+  const newDifferenceExplanation = (
+    <>
+      <p>{t.difference.intro}</p>
+      <div className="mt-6 grid gap-6 lg:grid-cols-2 lg:gap-8">
+        <section className="min-w-0">
+          <h3 className="font-semibold text-[var(--on-surface)]">{t.difference.changeTitle}</h3>
+          <p className="mt-3">{t.difference.changeText}</p>
+          <Formula>
+            <p className="font-mono text-sm text-[var(--on-surface)]">(120 − 100) ÷ 100 × 100 = 20 %</p>
+          </Formula>
+        </section>
+        <section className="min-w-0 lg:border-l lg:border-[var(--outline-variant)] lg:pl-8">
+          <h3 className="font-semibold text-[var(--on-surface)]">{t.difference.differenceTitle}</h3>
+          <p className="mt-3">{t.difference.differenceText}</p>
+          <Formula>
+            <p className="font-mono text-sm text-[var(--on-surface)]">|120 − 100| ÷ ((120 + 100) ÷ 2) × 100 ≈ 18.18 %</p>
+          </Formula>
+        </section>
+      </div>
+    </>
+  );
+
   return (
     <>
       <ToolEditorialAccordion title={t.first.title}>
@@ -83,7 +107,7 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
       </ToolEditorialAccordion>
 
       <ToolEditorialAccordion title={t.difference.title}>
-        {differenceExplanation}
+        {newDifferenceExplanation}
       </ToolEditorialAccordion>
 
       <details className="group rounded-2xl border border-[var(--border)] bg-[var(--surface)]">
