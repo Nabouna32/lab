@@ -73,6 +73,7 @@ Dans les trois modes, le challenge critique est continu : repartir du besoin ré
 
 - Privilégie la solution la plus simple qui répond durablement au besoin, sans sacrifier la qualité. Évite les abstractions, duplications et contraintes destinées à des besoins hypothétiques.
 - Selon la tâche, vérifie les cas limites, les états d'interface, le responsive, le clavier et les technologies d'assistance, les animations réduites, les performances et les traductions françaises et anglaises.
+- Pour tout port AndroidX, applique strictement la hiérarchie du [contrat du système de design](docs/DESIGN-SYSTEM.md) : WCAG, axe-core, conventions Web ou préférences d'implémentation ne peuvent jamais remplacer ni déformer une valeur visuelle ou un comportement défini par la source AndroidX. Traite l'accessibilité dans l'adaptation sémantique Web ; tout conflit réel non résolu doit être documenté et soumis à arbitrage, jamais corrigé par une valeur maison unilatérale.
 - Privilégie le traitement local quand il convient. Rends explicites les transferts vers un serveur ou un service externe et limite les données et autorisations au nécessaire.
 - Mets à jour les spécifications ou décisions canoniques uniquement lorsqu'un changement durable le justifie. Avant une suppression, vérifie les références et préserve ailleurs toute règle encore utile.
 
