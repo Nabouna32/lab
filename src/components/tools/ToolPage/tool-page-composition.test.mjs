@@ -42,6 +42,8 @@ test("next actions render their registered Material icon instead of the raw iden
 
 test("tool favorites use the official outlined and filled heart symbols", () => {
   assert.match(favorite, /name=\{active \? "favorite_fill" : "favorite"\}/);
+  assert.match(favorite, /<Tooltip content=\{label\}>/);
+  assert.doesNotMatch(favorite, /<IconToggleButton[\\s\\S]*?title=\{label\}/);
 });
 
 test("share action uses the official share symbol and Tooltip supports explicit touch activation", () => {
