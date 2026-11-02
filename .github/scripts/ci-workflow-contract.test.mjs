@@ -39,9 +39,9 @@ test("the PR workflow keeps the fast validation path separate from surveillance"
 });
 
 test("post-merge and daily surveillance audit npm and run pinned Playwright Chromium on main", () => {
-  const triggers = surveillance.slice(0, surveillance.indexOf("\njobs:"));
+  assert.doesNotMatch(surveillance.slice(0, surveillance.indexOf("\njobs:")), /^  pull_request:/m);
   assert.match(triggers, /^  push:/m);
-  assert.match(triggers, /branches:\n      - main/);
+  assert.match(triggers, /branches:[\s\S]*?      - main/);
   assert.doesNotMatch(triggers, /^  pull_request:/m);
   assert.match(triggers, /^  schedule:/m);
   assert.match(triggers, /cron: "30 3 \* \* \*"/);
@@ -117,7 +117,7 @@ test("Playwright Chromium runs after main updates and daily/manual, never on pul
   assert.match(surveillance, /^  push:/m);
   assert.match(surveillance, /^  schedule:/m);
   assert.match(surveillance, /^  workflow_dispatch:/m);
-  assert.doesNotMatch(surveillance.slice(0, surveillance.indexOf("\\njobs:")), /^  pull_request:/m);
+  assert.doesNotMatch(surveillance.slice(0, surveillance.indexOf("\njobs:")), /^  pull_request:/m);
 });
 
 test("axe-core produit un rapport informatif après mise à jour de main ou sur demande", () => {
@@ -129,7 +129,7 @@ test("axe-core produit un rapport informatif après mise à jour de main ou sur 
   assert.doesNotMatch(axeAuditSpec, /expect\(result\.violations/);
   const triggers = axeAudit.slice(0, axeAudit.indexOf("\njobs:"));
   assert.match(triggers, /^  push:/m);
-  assert.match(triggers, /branches:[\\s\\S]*?      - main/);
+  assert.match(triggers, /branches:[\s\S]*?      - main/);
   assert.match(triggers, /^  workflow_dispatch:/m);
   assert.doesNotMatch(triggers, /^  (pull_request|schedule):/m);
   assert.match(axeAudit, /npx playwright test \.github\/browser\/material3-axe-audit\.spec\.mjs/);
