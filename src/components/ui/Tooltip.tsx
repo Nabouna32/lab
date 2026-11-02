@@ -22,7 +22,7 @@ export function Tooltip({
   const rootRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState<{ top: number; left: number } | null>(null);
-  const openedByFocus = useRef(false);
+  const wasOpenBeforePointer = useRef(false);
   const [open, setOpen] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -117,24 +117,24 @@ export function Tooltip({
 
   return <div ref={rootRef} className={[styles.root, className].filter(Boolean).join(" ")}
     onMouseEnter={showAfterDelay} onMouseLeave={hide}
-    onClick={openOnClick ? () => {
-      if (openedByFocus.current) {
-        openedByFocus.current = false;
+    onClick={(event) => {
+      if (!openOnClick) return;
+      const anchorElement = rootRef.current?.querySelector("[data-tooltip-anchor]");
+      if (!anchorElement?.contains(event.target as Node)) return;
+      if (event.detail === 0) {
         setOpen(true);
-      } else {
-        setOpen((current) => !current);
+        return;
       }
-    } : undefined}
-    onFocusCapture={() => { openedByFocus.current = true; setOpen(true); }} onBlurCapture={(event) => {
-      if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-        openedByFocus.current = false;
-        hide();
-      }
+      setOpen(wasOpenBeforePointer.current ? false : true);
+    }}
+    onFocusCapture={() => setOpen(true)} onBlurCapture={(event) => {
+      if (!event.currentTarget.contains(event.relatedTarget as Node | null)) hide();
     }}
     onPointerDown={(event) => {
-      if (event.pointerType === "touch") {
-        showAfterDelay();
-      }
+      const anchorElement = rootRef.current?.querySelector("[data-tooltip-anchor]");
+      if (!anchorElement?.contains(event.target as Node)) return;
+      wasOpenBeforePointer.current = open;
+      if (event.pointerType === "touch") showAfterDelay();
     }}
     onPointerUp={(event) => { if (event.pointerType === "touch" && !open) clearTimer(); }}
     onPointerCancel={hide}
