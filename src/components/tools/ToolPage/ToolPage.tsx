@@ -14,11 +14,13 @@ import { Arrangement } from "@/components/layout/compose/Arrangement";
 export default function ToolPage({
   tool,
   locale = defaultLocale,
+  runtime,
   children,
   content,
 }: {
   tool: Tool;
   locale?: Locale;
+  runtime: ReactNode;
   children?: ReactNode;
   content?: ReactNode;
 }) {
