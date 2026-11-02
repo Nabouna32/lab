@@ -53,10 +53,8 @@ export default function ToolPage({
               toolId={tool.id}
             />
           </div>
-        </div>
 
-        <div data-tool-surface className="mt-4 overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-lg)]">
-          <div className="p-5 sm:p-8 lg:p-10">
+          <div className="-mx-5 mt-6 border-t border-[var(--border)] px-5 pt-5 sm:-mx-8 sm:px-8 sm:pt-7 lg:-mx-10 lg:px-10">
             <ToolProcessingStatus processing={tool.processing} locale={locale} />
             <ToolRuntimeProvider access={tool.access} capabilities={tool.capabilities}>
               <section aria-labelledby="tool-page-title" className="mt-5 sm:mt-7 motion-reveal">
@@ -71,7 +69,7 @@ export default function ToolPage({
           </div>
 
           {content && (
-            <div className="border-t border-[var(--border)] bg-[var(--surface-soft)]/35 p-5 sm:p-8 lg:p-10">
+            <div className="-mx-5 mt-6 border-t border-[var(--border)] bg-[var(--surface-soft)]/35 px-5 py-5 sm:-mx-8 sm:px-8 sm:py-8 lg:-mx-10 lg:px-10">
               <Column className="tool-page-editorial-stack" verticalArrangement={Arrangement.spacedBy("var(--tool-page-content-gap)")}>{content}</Column>
             </div>
           )}
