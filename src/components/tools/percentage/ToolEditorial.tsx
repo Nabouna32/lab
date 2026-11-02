@@ -37,14 +37,14 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
       <p>{t.difference.intro}</p>
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <div className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-5">
-          <h3 className="m3-type-title-medium text-[var(--foreground)]">{t.difference.changeTitle}</h3>
+          <h3 className="font-semibold text-[var(--foreground)]">{t.difference.changeTitle}</h3>
           <p className="mt-3">{t.difference.changeText}</p>
           <Formula>
             <p className="font-mono text-sm text-[var(--foreground)]">(120 − 100) ÷ 100 × 100 = 20 %</p>
           </Formula>
         </div>
         <div className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-5">
-          <h3 className="m3-type-title-medium text-[var(--foreground)]">{t.difference.differenceTitle}</h3>
+          <h3 className="font-semibold text-[var(--foreground)]">{t.difference.differenceTitle}</h3>
           <p className="mt-3">{t.difference.differenceText}</p>
           <Formula>
             <p className="font-mono text-sm text-[var(--foreground)]">|120 − 100| ÷ ((120 + 100) ÷ 2) × 100 ≈ 18.18 %</p>
