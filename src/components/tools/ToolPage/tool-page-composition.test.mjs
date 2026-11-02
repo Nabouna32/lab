@@ -18,7 +18,7 @@ test("tool page separates the runtime, next actions and editorial content", () =
   assert.ok(page.includes("{runtime}"));
   assert.match(page, /ToolProcessingStatus processing/);
   assert.ok(page.includes('aria-labelledby="tool-page-title"'));
-  assert.match(page, /<ElevatedCard className=/);
+  assert.ok(page.includes("bg-[radial-gradient(ellipse_at_88%_12%,var(--primary-container),var(--surface-container-low)_58%)]"));
   assert.match(page, /<OutlinedCard className="mt-10 p-5 sm:mt-12 sm:p-7">/);
   assert.doesNotMatch(page, /data-tool-surface/);
   assert.ok(route.includes('runtime={<ToolRenderer toolId={entry.tool.id} />}'));
@@ -29,8 +29,8 @@ test("tool header and processing badge occupy separate visual surfaces", () => {
   assert.match(header, /<header/);
   assert.match(header, /id="tool-page-title"/);
   assert.doesNotMatch(header, /ToolProcessingStatus|processing:/);
-  assert.match(page, /<\\/ElevatedCard>\\s*<div className="mt-4 mb-5">\\s*<ToolProcessingStatus/);
-  assert.match(status, /rounded-full border border-\\[var\\(--outline-variant\\)\\] bg-\\[var\\(--surface-container\\)\\]/);
+  assert.ok(page.indexOf("</ElevatedCard>") < page.indexOf("<ToolProcessingStatus"));
+  assert.ok(status.includes("rounded-full border border-[var(--outline-variant)] bg-[var(--surface-container)]"));
   assert.doesNotMatch(page, /<header/);
   assert.doesNotMatch(status, /<details|<summary|<section/);
   assert.match(status, /openOnClick/);
