@@ -25,16 +25,17 @@ test("tool page separates the runtime, next actions and editorial content", () =
   assert.ok(route.includes('<NextActions toolId={entry.tool.id} locale={locale} />'));
 });
 
-test("tool header owns the single semantic header and compact processing status", () => {
+test("tool header and processing badge occupy separate visual surfaces", () => {
   assert.match(header, /<header/);
   assert.match(header, /id="tool-page-title"/);
   assert.doesNotMatch(header, /ToolProcessingStatus|processing:/);
+  assert.match(page, /<\\/ElevatedCard>\\s*<div className="mt-4 mb-5">\\s*<ToolProcessingStatus/);
+  assert.match(status, /rounded-full border border-\\[var\\(--outline-variant\\)\\] bg-\\[var\\(--surface-container\\)\\]/);
   assert.doesNotMatch(page, /<header/);
   assert.doesNotMatch(status, /<details|<summary|<section/);
   assert.match(status, /openOnClick/);
   assert.match(status, /<IconButton label=\{t\.more\}>/);
   assert.doesNotMatch(status, /<IconButton label=\{t\.more\} title=/);
-  assert.ok(header.includes('className="mt-3">'));
   assert.ok(header.includes("basis-[18rem] flex-col"));
 });
 
