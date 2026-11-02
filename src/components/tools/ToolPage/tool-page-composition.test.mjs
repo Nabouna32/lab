@@ -20,6 +20,9 @@ test("tool page separates the runtime, next actions and editorial content", () =
   assert.ok(page.includes('aria-labelledby="tool-page-title"'));
   assert.ok(page.includes("data-tool-surface"));
   assert.ok(page.includes("rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)]"));
+  assert.ok(page.indexOf("{children}") < page.indexOf("</div>\n      </div>"));
+  assert.ok(page.indexOf("{content}") > page.indexOf("{children}"));
+  assert.ok(page.includes("border-t border-[var(--border)] bg-[var(--surface-soft)]/35"));
   assert.match(page, /ToolProcessingStatus processing/);
   assert.ok(route.includes('runtime={<ToolRenderer toolId={entry.tool.id} />}'));
   assert.ok(route.includes('<NextActions toolId={entry.tool.id} locale={locale} />'));
@@ -64,14 +67,18 @@ test("share action uses the official share symbol and Tooltip supports explicit 
 });
 
 
-test("processing information action is visually contained inside the processing badge", () => {
+test("processing info action stays outside the compact badge surface", () => {
   const badgeStart = status.indexOf('className="inline-flex min-h-9 min-w-0 max-w-full items-center gap-2');
   const tooltipIndex = status.indexOf("<Tooltip", badgeStart);
-  const badgeEnd = status.lastIndexOf("</span>");
-  const iconButtonIndex = status.indexOf("<IconButton label={t.more}>", badgeStart);
+  const badgeEnd = status.indexOf("</span>", badgeStart);
+  const infoButtonIndex = status.indexOf("<button", tooltipIndex);
   assert.ok(badgeStart >= 0);
-  assert.ok(tooltipIndex > badgeStart && tooltipIndex < badgeEnd);
-  assert.ok(iconButtonIndex > tooltipIndex && iconButtonIndex < badgeEnd);
+  assert.ok(badgeStart >= 0);
+  assert.ok(badgeEnd > badgeStart);
+  assert.ok(tooltipIndex > badgeEnd);
+  assert.ok(infoButtonIndex > tooltipIndex);
+  assert.match(status, /className="inline-flex h-5 w-5 shrink-0 items-center justify-center border-0 bg-transparent p-0/);
+  assert.doesNotMatch(status, /<IconButton/);
 });
 
 test("related-tool icons use the foreground role paired with their primary container", () => {
