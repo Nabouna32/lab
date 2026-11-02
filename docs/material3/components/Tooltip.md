@@ -31,7 +31,7 @@
 
 - Le CSS reprend les rôles de couleur, la forme moyenne, la typographie et les largeurs du RichTooltip 1.4.0.
 - `--shadow-sm` et le fade CSS sont des adaptations Web, pas une preuve de parité avec `Level2` et le MotionScheme AndroidX.
-- Le placement reste absolu dans le contexte du déclencheur ; aucune détection/évitement de collision viewport ni échappement de clipping n'est revendiqué.
-- Le portage reste partiel jusqu'à comparaison navigateur avec la baseline AndroidX, inspection des styles calculés et vérification des interactions sur mobile, clavier, souris, zoom et thèmes clair/sombre.
+- Le placement Web mesure le déclencheur et le contenu, préfère le dessus puis bascule dessous selon l'espace disponible, aligne horizontalement et borne le contenu dans le viewport. L'écart de 4 px adapte le spacing AndroidX de 4 dp. Le tooltip utilise une position fixe une fois ouvert pour éviter le clipping des ancêtres ; le résultat reste une adaptation Web à comparer visuellement au Popup AndroidX.
+- Le portage reste partiel jusqu'à comparaison navigateur avec la baseline AndroidX, inspection des styles calculés et vérification des interactions sur mobile, clavier, souris, zoom et thèmes clair/sombre. Le mapping CSS de l'élévation et du mouvement demeure explicitement non vérifié.
 
 Ne pas modifier les valeurs AndroidX pour faire disparaître un avertissement WCAG. Si un conflit réel et reproductible ne peut être résolu dans l'adaptation Web, conserver le port fidèle et suivre le processus d'arbitrage `action-humaine`.
