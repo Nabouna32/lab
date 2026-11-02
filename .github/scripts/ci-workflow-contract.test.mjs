@@ -116,14 +116,20 @@ test("Playwright Chromium is owned only by daily/manual surveillance, not a dupl
   assert.match(surveillance, /^  workflow_dispatch:/m);
 });
 
-test("axe-core is excluded from automatic browser validation and available through a manual audit", () => {
-  assert.doesNotMatch(browserSpec, /axe-core|runAxe|axePath|window\.axe/);
+test("axe-core reste facultatif, informatif et sans pouvoir bloquant sur le rendu AndroidX", () => {
+  assert.doesNotMatch(browserSpec, /axe-core|runAxe|axePath|window\\.axe/);
   assert.match(axeAuditSpec, /axe-core/);
   assert.match(axeAuditSpec, /wcag22aa/);
-  const triggers = axeAudit.slice(0, axeAudit.indexOf("\njobs:"));
+  assert.match(axeAuditSpec, /Rapport indicatif uniquement/);
+  assert.match(axeAuditSpec, /writeFileSync\\(resolve\\(reportDirectory/);
+  assert.doesNotMatch(axeAuditSpec, /expect\\(result\\.violations/);
+  const triggers = axeAudit.slice(0, axeAudit.indexOf("\\njobs:"));
   assert.match(triggers, /^  workflow_dispatch:/m);
   assert.doesNotMatch(triggers, /^  (pull_request|push|schedule):/m);
-  assert.match(axeAudit, /npx playwright test \.github\/browser\/material3-axe-audit\.spec\.mjs/);
+  assert.match(axeAudit, /npx playwright test \\.github\\/browser\\/material3-axe-audit\\.spec\\.mjs/);
+  assert.match(axeAudit, /if: always\\(\\)/);
+  assert.match(axeAudit, /artifacts\\/browser\\/axe-reports\\//);
+  assert.doesNotMatch(axeAudit, /expect\\(result\\.violations/);
   assert.match(axeAudit, /cancel-in-progress: true/);
   assert.doesNotMatch(surveillance, /material3-axe-audit|axe-core/);
 });
