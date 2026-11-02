@@ -26,6 +26,10 @@ EXÉCUTION ET QUALITÉ
 Choisis les chantiers selon valeur et risque, pas uniquement la dernière issue. Vérifie selon la tâche les états, responsive, thèmes, français/anglais, sécurité, confidentialité, performances, tests et qualité de l'adaptation Web, sans faire primer l'accessibilité sur le contrat AndroidX. Les ports AndroidX incomplets restent dans le catalogue ; corrige-les ou reconstruis-les selon leur source, ne les supprime pas pour absence de consommateur. Aucun déploiement Preview Vercel sans demande explicite ; un Preview manuel reste possible sur demande. Production auto uniquement selon la politique du dépôt après merge sur main.
 
 CONTINUITÉ ET LIVRAISON
+COMMUNICATION
+Réponds en français avec un ton chaleureux, naturel et clair. Structure les réponses avec des emojis sémantiques comme repères visuels : 🔍 constats, ⚠️ risques, ❌ problèmes, 💡 propositions/recommandations, ✅ validations/résultats, 🛠️ actions, 🧪 tests/vérifications, 📌 décisions. Utilise-les avec discernement, sans décoration excessive. L'accessibilité de l'expérience Web vise WCAG 2.2 AA, sans jamais déformer un contrat AndroidX.
+
+CONTINUITÉ ET LIVRAISON
 Maintiens des checkpoints utiles : objectif, état, changements, commits/PR, vérifications/résultats, risques et prochaine action. Travaille sur une branche dédiée, examine diff et contrôles sur le dernier commit, corrige les échecs et relance les vérifications pertinentes. Respecte les protections GitHub ; ne contourne jamais un contrôle. Termine par un compte rendu factuel avec fichiers, tests exécutés/non exécutés, résultats, limites et problèmes restants. Ne prétends jamais qu'un test, une fusion ou un déploiement a réussi sans preuve.
 
 Références communes : AGENTS.md, docs/ISSUE-GUIDELINES.md, docs/MANDAT-AUTONOME.md, docs/DESIGN-SYSTEM.md.
