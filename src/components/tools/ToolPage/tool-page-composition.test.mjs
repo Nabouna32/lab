@@ -18,8 +18,8 @@ test("tool page separates the runtime, next actions and editorial content", () =
   assert.ok(page.includes("{runtime}"));
   assert.match(page, /ToolProcessingStatus processing/);
   assert.ok(page.includes('aria-labelledby="tool-page-title"'));
-  assert.ok(page.includes("data-tool-surface"));
   assert.ok(page.includes("rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)]"));
+  assert.ok(page.includes("-mx-5 mt-6 border-t border-[var(--border)]"));
   assert.ok(page.indexOf("{children}") < page.indexOf("</div>\n      </div>"));
   assert.ok(page.indexOf("{content}") > page.indexOf("{children}"));
   assert.ok(page.includes("border-t border-[var(--border)] bg-[var(--surface-soft)]/35"));
@@ -30,11 +30,11 @@ test("tool page separates the runtime, next actions and editorial content", () =
   assert.ok(page.includes("border-t border-[var(--border)] bg-[var(--surface-soft)]/35"));
 });
 
-test("tool header stays separate while workspace surface wraps runtime, next actions and editorial", () => {
+test("tool header and workspace share one continuous page surface", () => {
   assert.match(header, /<header/);
   assert.match(header, /id="tool-page-title"/);
   assert.doesNotMatch(header, /ToolProcessingStatus|processing:/);
-  assert.ok(page.indexOf("data-tool-surface") < page.indexOf("<ToolProcessingStatus"));
+  assert.ok(page.indexOf("<ToolPageHeader") < page.indexOf("<ToolProcessingStatus"));
   assert.ok(status.includes("rounded-full border border-[var(--border)] bg-[var(--surface-soft)]"));
   assert.doesNotMatch(page, /<header/);
   assert.doesNotMatch(status, /<details|<summary|<section/);
@@ -69,16 +69,15 @@ test("share action uses the official share symbol and Tooltip supports explicit 
 });
 
 
-test("processing info action stays outside the compact badge surface", () => {
+test("processing info action is inside the compact badge without using IconButton", () => {
   const badgeStart = status.indexOf('className="inline-flex min-h-9 min-w-0 max-w-full items-center gap-2');
-  const tooltipIndex = status.indexOf("<Tooltip", badgeStart);
   const badgeEnd = status.indexOf("</span>", badgeStart);
+  const tooltipIndex = status.indexOf("<Tooltip", badgeStart);
   const infoButtonIndex = status.indexOf("<button", tooltipIndex);
   assert.ok(badgeStart >= 0);
-  assert.ok(badgeEnd > badgeStart);
-  assert.ok(tooltipIndex > badgeEnd);
-  assert.ok(infoButtonIndex > tooltipIndex);
-  assert.match(status, /className="inline-flex h-5 w-5 shrink-0 items-center justify-center border-0 bg-transparent p-0/);
+  assert.ok(tooltipIndex > badgeStart && tooltipIndex < badgeEnd);
+  assert.ok(infoButtonIndex > tooltipIndex && infoButtonIndex < badgeEnd);
+  assert.match(status, /className="inline-flex h-5 w-5 shrink-0 cursor-pointer items-center justify-center border-0 bg-transparent p-0/);
   assert.doesNotMatch(status, /<IconButton/);
 });
 
