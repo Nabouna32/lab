@@ -83,6 +83,12 @@ node --test .github/scripts/verify-androidx-source-archive.test.mjs
 
 La vérification nécessite un accès réseau aux URL consignées dans le manifeste. Un résultat réussi prouve l'intégrité des octets téléchargés par rapport aux empreintes déclarées ; il ne prouve pas à lui seul que le dump d'API correspond à cette archive ni que le code source est sémantiquement équivalent à une version publiée. Les statuts de provenance doivent rester distincts.
 
+### Provenance distincte — Material 3 Adaptive Navigation Suite 1.4.0
+
+L'artefact `androidx.compose.material3:material3-adaptive-navigation-suite:1.4.0` suit le train stable Material 3 1.4.0, mais conserve un dump API et une frontière de module propres. Le commit AndroidX immuable est `5113b82a4ed6416d6344efa50e41db8cb65928ff` ; le dump `api/current.txt` (format 4.0, Git blob SHA-1 `7e853e8ffcad4ab0e796c38599711e20447b6854`) est versionné dans [le baseline exact](baselines/material3-adaptive-navigation-suite-1.4.0-api.txt), avec sa provenance dans [le manifeste dédié](baselines/material3-adaptive-navigation-suite-1.4.0.json).
+
+La version interne `COMPOSE_MATERIAL3_ADAPTIVE_NAV_SUITE=1.4.0-alpha18` ne détermine pas la coordonnée publiée : le registre AndroidX rattache explicitement cet artefact à `versions.COMPOSE_MATERIAL3=1.4.0` par version atomique et inclusion du module. **L'alignement byte-for-byte de l'archive sources JAR Google Maven avec ce commit reste `UNVERIFIED`** ; ne pas confondre l'épinglage du commit et du dump avec une provenance complète de l'archive ou avec la fidélité du port React/Web.
+
 ## Première revue sémantique Compose P0
 
 La deuxième tranche [Foundation — collections, texte et focus 1.12.1](compose-foundation-collections-text-1.12.1.md) examine les contrats Lazy list/grid, Pager/snapping, sélection, saisie, focus/relocation et drag-and-drop. L'audit des usages ne justifie pas de portage préventif des API sans consommateur ; les éléments HTML natifs et le scroll DOM restent les choix par défaut. La revue ne vaut pas validation navigateur.

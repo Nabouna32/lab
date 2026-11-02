@@ -1,0 +1,40 @@
+.root {
+  display: flex;
+  align-items: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: calc(80px + env(safe-area-inset-bottom, 0px));
+  padding-block-start: var(--bottom-app-bar-padding-top, 4px);
+  padding-block-end: env(safe-area-inset-bottom, 0px);
+  padding-inline-start: calc(var(--bottom-app-bar-padding-start, 4px) + env(safe-area-inset-left, 0px));
+  padding-inline-end: calc(var(--bottom-app-bar-padding-end, 4px) + env(safe-area-inset-right, 0px));
+  color: var(--bottom-app-bar-content-color, var(--on-surface, currentColor));
+  background: var(--bottom-app-bar-container-color, var(--lab-surface-container, var(--surface-container, transparent)));
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.actions {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 0;
+  min-width: 0;
+}
+
+.fab {
+  display: flex;
+  flex: 0 0 auto;
+  align-self: stretch;
+  align-items: flex-start;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  padding-block-start: 8px;
+  padding-inline-end: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    scroll-behavior: auto;
+  }
+}

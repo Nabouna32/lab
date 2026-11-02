@@ -36,6 +36,15 @@ Ordre d’autorité :
 
 Chaque spécification doit référencer les sources exactes et la version examinée. Une branche amont mutable ne suffit pas. Si l’alignement entre l’archive publiée, le code source et le dump d’API n’est pas démontré, le signaler plutôt que prétendre que la référence est verrouillée.
 
+
+### Baseline distincte — NavigationSuiteScaffold
+
+`NavigationSuiteScaffold` appartient à l'artefact distinct `androidx.compose.material3:material3-adaptive-navigation-suite:1.4.0`. Sa release stable suit le train Material 3 1.4.0 ; la référence officielle indique que l'API est disponible depuis 1.4.0. Le commit AndroidX immuable `5113b82a4ed6416d6344efa50e41db8cb65928ff` et le dump exact `api/current.txt` (Git blob SHA-1 `7e853e8ffcad4ab0e796c38599711e20447b6854`, format 4.0) sont épinglés et le dump est versionné localement. Voir le [manifeste dédié](catalog/baselines/material3-adaptive-navigation-suite-1.4.0.json).
+
+Attention au versionnement interne : dans ce commit, `COMPOSE_MATERIAL3_ADAPTIVE_NAV_SUITE` vaut `1.4.0-alpha18`, mais la déclaration de publication de ce module utilise `atomicGroupVersion = versions.COMPOSE_MATERIAL3` et `overrideInclude` ; la coordonnée publiée suit donc bien la release stable 1.4.0. Ne pas confondre cette variable interne avec la version publiée.
+
+**Limite de provenance explicite :** l'archive `sources.jar` publiée sur Google Maven n'a pas encore été comparée octet par octet à l'arbre du commit. Le manifeste conserve `sourceArchiveAlignment: UNVERIFIED` ; la provenance commit/API est épinglée, mais l'alignement complet de l'archive n'est pas revendiqué. Cela ne valide pas non plus la fidélité du port React/Web.
+
 Documents de référence :
 
 - [Sources et versions](sources.md)
@@ -92,6 +101,10 @@ La migration reste partielle et la conformité globale n’est pas établie.
 | [Lien Web](components/Link.md) | `AppLink` conserve la sémantique d'ancre, avec variantes inline et Button réellement consommées ; navigation principale gérée par ses composants dédiés | Contraste, focus, zoom et libellés longs à vérifier |
 | [ListItem](components/ListItem.md) | Adaptation standard ; hauteurs 56/72/88 tokenisées en rem, alignement haut des slots leading/trailing sur trois lignes ; trois usages dans les liens du compte | Variantes interactives et parité navigateur non vérifiées |
 | [TopAppBar](components/TopAppBar.md) | Petite variante intégrée au header global ; CSS min-height 64 px, smoke test Production FR/EN (recherche, menu, Escape, landmark nav) | Viewports exacts, hauteur DOM calculée, restitution du focus, lecteur d’écran et parité clair/sombre non vérifiés |
+| [Scaffold](components/Scaffold.md) | Port React/Web partiel restauré ; contrat API 1.4.0 identifié, slots et calculs de padding/insets/FAB reconstruits | Vérification visuelle navigateur, insets consommés et comportement des slots à valider |
+| [Snackbar](components/Snackbar.md) | Visuel partiel aligné 1.4.0 : action, dismiss optionnel, couleurs, forme et action sur nouvelle ligne | SnackbarHostState, queue FIFO, durées Long/Indefinite et motion host à reconstruire |
+| [BottomAppBar](components/BottomAppBar.md) | Contrat stable 1.4.0 documenté et géométrie corrigée : hauteur 80 dp, SurfaceContainer, padding 4 dp, insets safe-area et slot FAB en fin logique | Nested scroll expérimental, overlay tonal et validation visuelle restent non portés |
+| [FloatingActionButton](components/FloatingActionButton.md) | Famille 1.4.0 documentée et corrigée : variantes standard/small/large/extended, géométrie et élévation source, couleur de contenu liée au conteneur | Ombre/élévation tonale et motion étendue restent des adaptations Web à valider visuellement |
 | [IconButton](components/IconButton.md) | Huit API action/toggle ; cibles 48 px, surface 40 px et anneau focus-visible 2 px/offset 2 px liés aux rôles M3 ; disclosures header ARIA testées statiquement | Focus clavier et styles calculés par variante, surcharges, géométrie/couleurs clair/sombre, contraste et inventaire exhaustif des usages |
 | [Card](components/Card.md) | Variantes `Card`, `ElevatedCard`, `OutlinedCard` et composition `CardLink` séparées | Valeurs source et usages de production à vérifier |
 | [Chip](components/Chip.md) | Adaptation Assist/Filter/Input/Suggestion ; `FilterChip` pour les filtres de catégories et `SuggestionChip` pour les suggestions du panneau de recherche | États, couleurs calculées, contraste, géométrie et parité navigateur à vérifier |
