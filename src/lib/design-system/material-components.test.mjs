@@ -169,7 +169,7 @@ test("indeterminate linear progress follows pinned AndroidX segment timing and r
 });
 
 test("functional icons use bundled Material Symbols paths and inherit currentColor", () => {
-  for (const name of ["content_copy", "delete", "restart_alt", "arrow_outward", "lock", "public", "cloud", "warning", "star_fill", "collections_bookmark", "keyboard_arrow_down", "swap_horiz", "apps", "language"]) {
+  for (const name of ["content_copy", "delete", "restart_alt", "arrow_outward", "lock", "public", "cloud", "warning", "favorite_fill", "share", "star_fill", "collections_bookmark", "keyboard_arrow_down", "swap_horiz", "apps", "language"]) {
     assert.ok(iconSource.includes(name), `missing Material Symbol: ${name}`);
   }
   assert.match(iconSource, /fill="currentColor"/);

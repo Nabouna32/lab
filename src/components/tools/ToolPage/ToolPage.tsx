@@ -5,7 +5,6 @@ import { getMessages } from "@/lib/i18n/messages";
 import { getToolsPath } from "@/lib/tools/routes";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import ToolPageHeader from "./ToolPageHeader";
-import ToolProcessingStatus from "./ToolProcessingStatus";
 import { ToolRuntimeProvider } from "./ToolRuntimeProvider";
 import RecentToolTracker from "./RecentToolTracker";
 import { Column } from "@/components/layout/compose/Column";
@@ -14,11 +13,13 @@ import { Arrangement } from "@/components/layout/compose/Arrangement";
 export default function ToolPage({
   tool,
   locale = defaultLocale,
+  runtime,
   children,
   content,
 }: {
   tool: Tool;
   locale?: Locale;
+  runtime: ReactNode;
   children?: ReactNode;
   content?: ReactNode;
 }) {
@@ -29,8 +30,7 @@ export default function ToolPage({
   return (
     <main className="min-h-full">
       <div className="mx-auto w-full max-w-[var(--layout-content-default)] px-[var(--layout-page-gutter)] py-[var(--space-5)] sm:py-[var(--space-7)] lg:py-[var(--space-9)]">
-      <RecentToolTracker toolId={tool.id} />
-      <header className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] px-5 py-6 shadow-[var(--shadow-lg)] sm:px-8 sm:py-8 lg:px-10">
+        <RecentToolTracker toolId={tool.id} />
         <div className="mb-5 px-1">
           <Breadcrumbs
             locale={locale}
@@ -41,37 +41,29 @@ export default function ToolPage({
           />
         </div>
 
-        <div className="pointer-events-none absolute -right-12 -top-16 h-48 w-48 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
-        <div className="relative">
-          <ToolPageHeader
-            icon={tool.icon}
-            title={localizedContent.name}
-            description={localizedContent.description}
-            contentFallback={isContentFallback}
-            locale={locale}
-            toolId={tool.id}
-          />
-        </div>
-      </header>
+        <ToolPageHeader
+          icon={tool.icon}
+          title={localizedContent.name}
+          description={localizedContent.description}
+          contentFallback={isContentFallback}
+          processing={tool.processing}
+          locale={locale}
+          toolId={tool.id}
+        />
 
-      <ToolRuntimeProvider access={tool.access} capabilities={tool.capabilities}>
-        <div data-tool-surface className="mt-4 overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-lg)]">
-          <div className="p-5 sm:p-8 lg:p-10">
-            <ToolProcessingStatus processing={tool.processing} locale={locale} />
-            {children && (
-              <section aria-label={t.nav.tools} className="mt-5 sm:mt-7 motion-reveal">
-                {children}
-              </section>
-            )}
+        <section aria-labelledby="tool-page-title" className="mt-6 sm:mt-8 motion-reveal">
+          <ToolRuntimeProvider access={tool.access} capabilities={tool.capabilities}>
+            {runtime}
+          </ToolRuntimeProvider>
+        </section>
+
+        {children && <div className="mt-8">{children}</div>}
+
+        {content && (
+          <div className="mt-10 border-t border-[var(--border)] pt-8 sm:mt-12 sm:pt-10">
+            <Column className="tool-page-editorial-stack" verticalArrangement={Arrangement.spacedBy("var(--tool-page-content-gap)")}>{content}</Column>
           </div>
-
-          {content && (
-            <div className="border-t border-[var(--border)] bg-[var(--surface-soft)]/35 p-5 sm:p-8 lg:p-10">
-              <Column className="tool-page-editorial-stack" verticalArrangement={Arrangement.spacedBy("var(--tool-page-content-gap)")}>{content}</Column>
-            </div>
-          )}
-        </div>
-      </ToolRuntimeProvider>
+        )}
       </div>
     </main>
   );

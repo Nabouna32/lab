@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { OutlinedButton } from "@/components/ui/Button";
+import { IconButton } from "@/components/ui/IconButton";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
+import { Tooltip } from "@/components/ui/Tooltip";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { createToolShareUrl } from "@/lib/tools/share-url";
@@ -48,15 +49,14 @@ export default function ShareToolButton({ title, description, locale }: ShareToo
 
   return (
     <div className="flex flex-col items-end gap-1">
-      <OutlinedButton
-        leadingIcon
-        type="button"
-        onClick={handleShare}
-        aria-label={messages.shareTool}
-      >
-        <MaterialIcon name="arrow_outward" size={18} />
-        <span>{messages.shareTool}</span>
-      </OutlinedButton>
+      <div className="flex items-center gap-1">
+        <Tooltip content={messages.shareTool}>
+          <IconButton label={messages.shareTool} title={messages.shareTool} onClick={handleShare}>
+            <MaterialIcon name="share" size={24} />
+          </IconButton>
+        </Tooltip>
+        <span className="m3-type-label-medium text-[var(--on-surface-variant)]">{messages.shareTool}</span>
+      </div>
       {status !== "idle" && (
         <span role="status" aria-live="polite" className="max-w-48 text-right text-xs text-[var(--muted)]">
           {status === "copied" ? messages.shareLinkCopied : messages.shareLinkError}
