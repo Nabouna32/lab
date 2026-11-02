@@ -27,6 +27,16 @@ test("persistent instructions preserve the AndroidX-first contract", () => {
   }
 });
 
+test("persistent instructions require general human-action escalation and preserve AndroidX accessibility escalation", () => {
+  for (const file of promptFiles) {
+    const content = readFileSync(new URL(`../../docs/chatgpt-instructions/${file}`, import.meta.url), "utf8");
+    assert.match(content, /action-humaine/i, `${file} must define human-action escalation`);
+    assert.match(content, /action, une décision|action, décision|action humaine/i, `${file} must cover general human intervention`);
+    assert.match(content, /écart d'accessibilité réel|conflit AndroidX\/accessibilité/i, `${file} must preserve the AndroidX accessibility escalation`);
+    assert.match(content, /AndroidX/i, `${file} must retain the AndroidX-first contract`);
+  }
+});
+
 test("persistent instructions preserve semantic response markers and the Web accessibility objective", () => {
   const requiredMarkers = ["🔍 constats", "⚠️ risques", "❌ problèmes", "💡 propositions/recommandations", "✅ validations/résultats", "🛠️ actions", "🧪 tests/vérifications", "📌 décisions"];
   for (const file of promptFiles) {
