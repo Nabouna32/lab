@@ -38,9 +38,11 @@ test("the PR workflow keeps the fast validation path separate from surveillance"
   assert.doesNotMatch(workflow, /NPM_AUDIT_RESULT|needs\.npm-audit/);
 });
 
-test("daily surveillance audits npm and runs pinned Playwright Chromium on the selected ref", () => {
+test("post-merge and daily surveillance audit npm and run pinned Playwright Chromium on main", () => {
   const triggers = surveillance.slice(0, surveillance.indexOf("\njobs:"));
-  assert.match(triggers, /^  pull_request:/m);
+  assert.match(triggers, /^  push:/m);
+  assert.match(triggers, /branches:\n      - main/);
+  assert.doesNotMatch(triggers, /^  pull_request:/m);
   assert.match(triggers, /^  schedule:/m);
   assert.match(triggers, /cron: "30 3 \* \* \*"/);
   assert.match(triggers, /^  workflow_dispatch:/m);
@@ -107,16 +109,18 @@ test("CodeQL pins actions, limits permissions, and hardens its analysis job", ()
   assert.match(codeql, /- language: python\s+display_language: Python\s+build-mode: none/);
 });
 
-test("Playwright Chromium is owned only by daily/manual surveillance, not a duplicate PR workflow", () => {
+test("Playwright Chromium runs after main updates and daily/manual, never on pull requests", () => {
   const browserPath = new URL("../workflows/browser-validation.yml", import.meta.url);
   assert.equal(existsSync(browserPath), false, "The duplicate pull-request browser workflow must stay removed");
   assert.doesNotMatch(workflow, /playwright test|axe-core regression/i);
   assert.match(surveillance, /npx playwright test/);
+  assert.match(surveillance, /^  push:/m);
   assert.match(surveillance, /^  schedule:/m);
   assert.match(surveillance, /^  workflow_dispatch:/m);
+  assert.doesNotMatch(surveillance.slice(0, surveillance.indexOf("\\njobs:")), /^  pull_request:/m);
 });
 
-test("axe-core reste facultatif, informatif et sans pouvoir bloquant sur le rendu AndroidX", () => {
+test("axe-core produit un rapport informatif après mise à jour de main ou sur demande", () => {
   assert.doesNotMatch(browserSpec, /axe-core|runAxe|axePath|window\.axe/);
   assert.match(axeAuditSpec, /axe-core/);
   assert.match(axeAuditSpec, /wcag22aa/);
@@ -124,8 +128,10 @@ test("axe-core reste facultatif, informatif et sans pouvoir bloquant sur le rend
   assert.match(axeAuditSpec, /writeFileSync\(resolve\(reportDirectory/);
   assert.doesNotMatch(axeAuditSpec, /expect\(result\.violations/);
   const triggers = axeAudit.slice(0, axeAudit.indexOf("\njobs:"));
+  assert.match(triggers, /^  push:/m);
+  assert.match(triggers, /branches:\\n      - main/);
   assert.match(triggers, /^  workflow_dispatch:/m);
-  assert.doesNotMatch(triggers, /^  (pull_request|push|schedule):/m);
+  assert.doesNotMatch(triggers, /^  (pull_request|schedule):/m);
   assert.match(axeAudit, /npx playwright test \.github\/browser\/material3-axe-audit\.spec\.mjs/);
   assert.match(axeAudit, /if: always\(\)/);
   assert.match(axeAudit, /artifacts\/browser\/axe-reports\//);
