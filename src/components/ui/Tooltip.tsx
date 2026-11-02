@@ -41,10 +41,7 @@ export function Tooltip({
   useEffect(() => () => clearTimer(), []);
 
   useLayoutEffect(() => {
-    if (!open) {
-      setPosition(null);
-      return;
-    }
+    if (!open) return;
 
     const updatePosition = () => {
       const anchorElement = rootRef.current?.querySelector<HTMLElement>("[data-tooltip-anchor]");
