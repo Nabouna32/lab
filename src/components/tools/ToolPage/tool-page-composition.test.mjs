@@ -46,4 +46,7 @@ test("share action uses the official share symbol and Tooltip supports explicit 
   assert.match(share, /<IconButton label=\{messages\.shareTool\}/);
   assert.match(tooltip, /openOnClick\?: boolean/);
   assert.match(tooltip, /event\.key === "Escape"/);
+  assert.match(tooltip, /useLayoutEffect/);
+  assert.match(tooltip, /viewportWidth/);
+  assert.match(tooltip, /window\.addEventListener\("scroll", updatePosition, true\)/);
 });
