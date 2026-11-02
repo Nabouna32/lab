@@ -1,9 +1,7 @@
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
-import type { ToolProcessingMetadata } from "@/lib/tools/types";
 import FavoriteButton from "@/components/favorites/FavoriteButton";
 import ShareToolButton from "./ShareToolButton";
-import ToolProcessingStatus from "./ToolProcessingStatus";
 import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIcon";
 
 type ToolPageHeaderProps = {
@@ -11,7 +9,6 @@ type ToolPageHeaderProps = {
   title: string;
   description: string;
   contentFallback: boolean;
-  processing: ToolProcessingMetadata;
   locale: Locale;
   toolId: string;
 };
@@ -21,7 +18,6 @@ export default function ToolPageHeader({
   title,
   description,
   contentFallback,
-  processing,
   locale,
   toolId,
 }: ToolPageHeaderProps) {
@@ -49,10 +45,7 @@ export default function ToolPageHeader({
             )}
           </div>
         </div>
-        <div className="mt-3">
-          <ToolProcessingStatus processing={processing} locale={locale} />
-        </div>
-      </div>
+</div>
       <div className="ml-auto flex shrink-0 items-center gap-1">
         <ShareToolButton title={title} description={description} locale={locale} />
         <FavoriteButton toolId={toolId} locale={locale} compact />
