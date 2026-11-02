@@ -1,5 +1,5 @@
 import type { Locale } from "@/lib/i18n/config";
-import ToolSection from "@/components/tools/ToolPage/ToolSection";
+import ToolEditorialAccordion from "@/components/tools/ToolPage/ToolEditorialAccordion";
 import { Card, Formula } from "@/components/tools/ToolPage/EditorialPrimitives";
 
 const content = {
@@ -31,33 +31,60 @@ const content = {
 
 export default function ToolEditorial({ locale }: { locale: Locale }) {
   const t = content[locale];
+
+  const differenceExplanation = (
+    <>
+      <p>{t.difference.intro}</p>
+      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <div className="rounded-[var(--shape-corner-medium)] border border-[var(--outline-variant)] bg-[var(--surface-container-low)] p-4">
+          <h3 className="m3-type-title-medium text-[var(--on-surface)]">{t.difference.changeTitle}</h3>
+          <p className="mt-3">{t.difference.changeText}</p>
+          <Formula>
+            <p className="font-mono text-sm text-[var(--on-surface)]">(120 − 100) ÷ 100 × 100 = 20 %</p>
+          </Formula>
+        </div>
+        <div className="rounded-[var(--shape-corner-medium)] border border-[var(--outline-variant)] bg-[var(--surface-container-low)] p-4">
+          <h3 className="m3-type-title-medium text-[var(--on-surface)]">{t.difference.differenceTitle}</h3>
+          <p className="mt-3">{t.difference.differenceText}</p>
+          <Formula>
+            <p className="font-mono text-sm text-[var(--on-surface)]">|120 − 100| ÷ ((120 + 100) ÷ 2) × 100 ≈ 18.18 %</p>
+          </Formula>
+        </div>
+      </div>
+    </>
+  );
+
   return (
     <>
-      <ToolSection title={t.first.title}>
+      <ToolEditorialAccordion title={t.first.title}>
         <p>{t.first.text}</p>
         <Formula>
-          <p className="font-semibold text-[var(--foreground)]">{t.first.formula}</p>
-          <p className="mt-2 font-mono text-sm text-[var(--foreground)]">value × percentage ÷ 100</p>
+          <p className="font-semibold text-[var(--on-surface)]">{t.first.formula}</p>
+          <p className="mt-2 font-mono text-sm text-[var(--on-surface)]">value × percentage ÷ 100</p>
         </Formula>
         <p className="mt-5">{t.first.example}</p>
         <Card>
-          <p className="font-semibold text-[var(--foreground)]">150 × 20 ÷ 100 = 30</p>
+          <p className="font-semibold text-[var(--on-surface)]">150 × 20 ÷ 100 = 30</p>
           <p className="mt-2 text-sm">{t.first.result}</p>
         </Card>
-      </ToolSection>
+      </ToolEditorialAccordion>
 
-      <ToolSection title={t.change.title} collapsible>
+      <ToolEditorialAccordion title={t.change.title}>
         <p>{t.change.text}</p>
         <Formula>
-          <p className="font-semibold text-[var(--foreground)]">{t.change.formula}</p>
-          <p className="mt-2 font-mono text-sm text-[var(--foreground)]">(new value − starting value) ÷ starting value × 100</p>
+          <p className="font-semibold text-[var(--on-surface)]">{t.change.formula}</p>
+          <p className="mt-2 font-mono text-sm text-[var(--on-surface)]">(new value − starting value) ÷ starting value × 100</p>
         </Formula>
         <p className="mt-5">{t.change.example}</p>
         <Card>
-          <p className="font-semibold text-[var(--foreground)]">(120 − 100) ÷ 100 × 100 = +20 %</p>
+          <p className="font-semibold text-[var(--on-surface)]">(120 − 100) ÷ 100 × 100 = +20 %</p>
           <p className="mt-2 text-sm">{t.change.result}</p>
         </Card>
-      </ToolSection>
+      </ToolEditorialAccordion>
+
+      <ToolEditorialAccordion title={t.difference.title}>
+        {differenceExplanation}
+      </ToolEditorialAccordion>
 
       <details className="group rounded-2xl border border-[var(--border)] bg-[var(--surface)]">
         <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-xl font-bold text-[var(--foreground)] sm:text-2xl">
@@ -65,26 +92,9 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
           <span className="shrink-0 text-xl text-[var(--muted)] transition-transform group-open:rotate-45">+</span>
         </summary>
         <div className="border-t border-[var(--border)] px-5 pb-5 pt-5 sm:px-6">
-          <p>{t.difference.intro}</p>
-          <div className="mt-6 grid gap-4 lg:grid-cols-2">
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-5">
-              <h3 className="font-semibold text-[var(--foreground)]">{t.difference.changeTitle}</h3>
-              <p className="mt-3">{t.difference.changeText}</p>
-              <div className="mt-4 rounded-xl bg-[var(--surface-soft)] p-4">
-                <p className="font-mono text-sm text-[var(--foreground)]">(120 − 100) ÷ 100 × 100 = 20 %</p>
-              </div>
-            </div>
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-5">
-              <h3 className="font-semibold text-[var(--foreground)]">{t.difference.differenceTitle}</h3>
-              <p className="mt-3">{t.difference.differenceText}</p>
-              <div className="mt-4 rounded-xl bg-[var(--surface-soft)] p-4">
-                <p className="font-mono text-sm text-[var(--foreground)]">|120 − 100| ÷ ((120 + 100) ÷ 2) × 100 ≈ 18.18 %</p>
-              </div>
-            </div>
-          </div>
+          {differenceExplanation}
         </div>
       </details>
-
     </>
   );
 }
