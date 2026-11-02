@@ -173,7 +173,7 @@ for (const locale of locales) {
           });
         }
 
-        await tooltip.click();
+        await tooltip.tap();
         await expect(tooltip).toBeVisible();
 
         await trigger.tap();
