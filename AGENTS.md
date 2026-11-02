@@ -27,7 +27,7 @@ Dans les trois modes, le challenge critique est continu : repartir du besoin ré
 - Investigue librement en lecture seule. Avant toute modification du code, des documents, de la configuration ou des métadonnées du projet, présente le problème, la direction recommandée, les alternatives pertinentes, les conséquences et le périmètre ; attends une validation explicite.
 - Après validation, exécute de façon autonome tout le travail nécessaire dans le périmètre approuvé. Demande un nouvel accord seulement si une décision importante ou un changement substantiel en sort.
 - Une demande explicite limitée à une tâche autorise cette tâche, mais n'active pas à elle seule une autonomie générale sur les autres chantiers ou les opérations externes.
-- Les issues d'action humaine ne sont traitées que lorsque l'utilisateur introduit explicitement le sujet dans cette conversation ; appliquer alors les règles de `docs/ISSUE-GUIDELINES.md`.
+- Ne pas reprendre une issue `action-humaine` préexistante sans que l'utilisateur introduise explicitement le sujet. Exception à cette règle : lorsqu'un mode établit un conflit AndroidX/accessibilité réel, reproductible et impossible à résoudre sans altérer la source, il peut créer une nouvelle issue `action-humaine` documentant les preuves, conséquences et alternatives, puis signaler à l'utilisateur que son arbitrage est requis. Aucun changement du port n'est autorisé avant décision. En mode AUTONOME, cette exception autorise uniquement la création et la notification de cette issue précise ; elle ne donne pas accès aux autres issues `action-humaine`. Appliquer `docs/ISSUE-GUIDELINES.md`.
 
 ### Mode PILOTAGE
 
