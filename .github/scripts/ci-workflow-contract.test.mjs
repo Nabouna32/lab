@@ -39,7 +39,8 @@ test("the PR workflow keeps the fast validation path separate from surveillance"
 });
 
 test("post-merge and daily surveillance audit npm and run pinned Playwright Chromium on main", () => {
-  assert.doesNotMatch(surveillance.slice(0, surveillance.indexOf("\njobs:")), /^  pull_request:/m);
+  const triggers = surveillance.slice(0, surveillance.indexOf("\njobs:"));
+  assert.doesNotMatch(triggers, /^  pull_request:/m);
   assert.match(triggers, /^  push:/m);
   assert.match(triggers, /branches:[\s\S]*?      - main/);
   assert.doesNotMatch(triggers, /^  pull_request:/m);
