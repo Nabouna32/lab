@@ -347,7 +347,7 @@ Wear OS, montres connectées, Android TV et autres appareils spécialisés sont 
 
 Pour chaque famille incluse, conserver une seule baseline de release stable : version, commit AndroidX immuable, dump API et sources publiées alignées par des preuves reproductibles. Les anciens snapshots exploratoires ne sont pas des baselines parallèles à maintenir. Lorsqu'une nouvelle release est étudiée, comparer ses API et ses sources à la baseline actuelle, examiner les ajouts, modifications, suppressions et changements de comportement, puis promouvoir la nouvelle référence dans un changement explicite après vérification.
 
-Lire `docs/material3/README.md`, la spécification du composant concerné et les sources officielles versionnées. Vérifier les versions réellement installées ou verrouillées. Distinguer les contrats AndroidX, les adaptations nécessaires au Web et les décisions propres à Loculary. Les fondations Material 3 sont une direction exigeante, mais peuvent elles-mêmes évoluer si les preuves justifient un meilleur choix.
+Lire `docs/material3/README.md`, la spécification du composant concerné et les sources officielles versionnées. Vérifier les versions réellement installées ou verrouillées. Distinguer les contrats AndroidX, les adaptations nécessaires au Web et les décisions propres à Loculary. La direction Material 3 Fidelity et la fidélité aux contrats AndroidX sont des contraintes produit fermes. Les ports, composants, tokens et implémentations peuvent être corrigés, reconstruits ou remplacés pour mieux respecter la source épinglée ; la référence AndroidX ne peut pas être écartée unilatéralement. Toute évolution de la direction elle-même exige une décision explicite de l'utilisateur.
 
 ## 12. Langue et documentation
 
