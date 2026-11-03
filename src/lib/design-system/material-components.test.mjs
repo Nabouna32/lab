@@ -201,9 +201,9 @@ test("common navigation and identity icons use the shared Material Symbols compo
   assert.match(navigationSource, /icon: "search"/);
   assert.match(headerPreferencesSource, /MaterialIcon name="apps"/);
   assert.match(headerPreferencesSource, /t\.guidedWorkflows\.homeTitle/);
-  assert.match(headerPreferencesSource, /t\.nav\.language/);
+  assert.doesNotMatch(headerPreferencesSource, /t\.nav\.language/);
   assert.match(headerPreferencesSource, /t\.theme\.title/);
-  assert.match(headerPreferencesSource, /MaterialIcon name="more_horiz"/);
+  assert.match(headerPreferencesSource, /MaterialIcon name="menu"/);
   const messagesSource = readFileSync(new URL("../../lib/i18n/messages.ts", import.meta.url), "utf8");
   assert.match(messagesSource, /homeTitle: "Parcours guidés"/);
   assert.match(messagesSource, /homeTitle: "Guided workflows"/);

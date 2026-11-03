@@ -1,7 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
+import { isLocale, type Locale } from "@/lib/i18n/config";
 import { NextResponse, type NextRequest } from "next/server";
 
-export async function updateSession(request: NextRequest) {
+export async function updateSession(request: NextRequest, options: { readProfileLocale?: boolean } = {}): Promise<{ response: NextResponse; userId: string | null; preferredLocale: Locale | null }> {
   let supabaseResponse = NextResponse.next({
     request,
   });
@@ -35,9 +36,21 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  await supabase.auth.getClaims();
+  const { data: claimsData } = await supabase.auth.getClaims();
+  const claimSubject = claimsData?.claims?.sub;
+  const userId = typeof claimSubject === "string" ? claimSubject : null;
+  let preferredLocale: Locale | null = null;
 
-  return supabaseResponse;
+  if (options.readProfileLocale && userId) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("locale")
+      .eq("id", userId)
+      .maybeSingle();
+    if (isLocale(profile?.locale)) preferredLocale = profile.locale;
+  }
+
+  return { response: supabaseResponse, userId, preferredLocale };
 }
 
 export function copySessionResponse(

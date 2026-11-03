@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { locales } from "./lib/i18n/config";
-import { getPreferredLocale } from "./lib/i18n/request-locale";
+import { resolvePreferredLocale } from "./lib/i18n/request-locale";
 import { copySessionResponse, updateSession } from "./lib/supabase/proxy";
 
 function withDeploymentCommit(response: NextResponse): NextResponse {
@@ -11,26 +11,31 @@ function withDeploymentCommit(response: NextResponse): NextResponse {
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const needsSupabaseSession = /(^|\/)(compte|auth|admin)(\/|$)/.test(pathname);
-
-  const supabaseResponse = needsSupabaseSession ? await updateSession(request) : null;
-
   const pathnameHasLocale = locales.some(
     (locale) => pathname === "/" + locale || pathname.startsWith("/" + locale + "/"),
   );
+  const needsSupabaseSession = /(^|\/)(compte|auth|admin)(\/|$)/.test(pathname);
+  const hasSupabaseAuthCookie = request.cookies.getAll().some(({ name }) => /^sb-.+-auth-token(?:\.\d+)?$/.test(name));
+  const session = needsSupabaseSession || hasSupabaseAuthCookie
+    ? await updateSession(request, { readProfileLocale: !pathnameHasLocale })
+    : null;
 
   if (pathnameHasLocale) {
-    return withDeploymentCommit(supabaseResponse ?? NextResponse.next());
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.delete("x-loculary-user-id");
+    if (session?.userId) requestHeaders.set("x-loculary-user-id", session.userId);
+    const response = NextResponse.next({ request: { headers: requestHeaders } });
+    return withDeploymentCommit(session ? copySessionResponse(session.response, response) : response);
   }
 
   const url = request.nextUrl.clone();
-  const preferredLocale = getPreferredLocale(request.headers.get("accept-language"));
+  const preferredLocale = resolvePreferredLocale(request.headers.get("accept-language"), session?.preferredLocale ?? null);
   url.pathname = "/" + preferredLocale + pathname;
 
   const redirectResponse = NextResponse.redirect(url);
   return withDeploymentCommit(
-    supabaseResponse
-      ? copySessionResponse(supabaseResponse, redirectResponse)
+    session
+      ? copySessionResponse(session.response, redirectResponse)
       : redirectResponse,
   );
 }
