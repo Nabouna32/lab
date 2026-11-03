@@ -23,6 +23,15 @@ test("the notice only renders for a mismatched account locale and offers the equ
   assert.match(banner, /cache: "no-store"/);
 });
 
+test("the banner delegates session detection to the server instead of inspecting browser cookies", () => {
+  assert.doesNotMatch(banner, /document\\.cookie|hasSupabaseSessionCookie/);
+  assert.match(
+    banner,
+    /void fetch\\("\\/api\\/account\\/locale-preference", \\{[\\s\\S]*?cache: "no-store"/,
+  );
+  assert.match(localeRoute, /supabase\\.auth\\.getClaims\\(\\)/);
+});
+
 test("the preference endpoint verifies the session and returns a private, uncached locale", () => {
   assert.match(localeRoute, /supabase\.auth\.getClaims\(\)/);
   assert.match(localeRoute, /\.select\("locale"\)/);
