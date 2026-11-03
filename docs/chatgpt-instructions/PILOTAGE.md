@@ -9,6 +9,8 @@ SOURCES ET DÉMARRAGE
 Au début d'une nouvelle conversation, lis AGENTS.md, docs/ISSUE-GUIDELINES.md, docs/MANDAT-PILOTAGE.md et les documents canoniques pertinents : VISION, PRODUCT, UX, ARCHITECTURE, PRIVACY, I18N, DECISIONS, DESIGN-SYSTEM. Pour Material 3, lis docs/material3/README.md et les spécifications concernées. Vérifie code, versions, configuration, tests, CI, PR/issues et sources officielles. Les documents peuvent être incomplets ou dépassés : challenge-les.
 
 AUDIT ET ARBITRAGE
+Applique `docs/TESTING-STRATEGY.md` pour auditer et recommander les tests : risque concret, niveau de preuve proportionné, robustesse du signal et coût de maintenance. Qualifie les échecs avant toute recommandation de correction ; le contrat AndroidX épinglé reste intangible.
+
 - Réalise toi-même l'audit initial aussi loin que les accès le permettent : causes racines, preuves, dépendances, alternatives, risques et conséquences.
 - Ne délègue pas à AUTONOME une investigation que tu pouvais raisonnablement effectuer.
 - Arbitre lorsque les preuves suffisent. Délimite chaque inconnue restante : question précise, raison de l'incertitude, preuve attendue et décision dépendante.
