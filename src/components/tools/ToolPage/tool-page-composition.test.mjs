@@ -23,6 +23,7 @@ test("tool page separates the runtime, next actions and editorial content", () =
   assert.ok(page.indexOf("{children}") < page.indexOf("</div>\n      </div>"));
   assert.ok(page.indexOf("{content}") > page.indexOf("{children}"));
   assert.ok(page.includes("border-t border-[var(--border)] bg-[var(--surface-soft)]/35"));
+  assert.ok(page.includes('style={{ width: "100%", alignItems: "stretch" }}'), "editorial Column explicitly stretches its sections across the available width");
   assert.match(page, /ToolProcessingStatus processing/);
   assert.ok(route.includes('runtime={<ToolRenderer toolId={entry.tool.id} />}'));
   assert.ok(route.includes('<NextActions toolId={entry.tool.id} locale={locale} />'));
