@@ -16,7 +16,10 @@ export function selectPriorityPullRequest(pullRequests) {
 }
 
 function sectionBody(markdown, heading) {
-  const source = markdown.replace(/<!--[\s\S]*?-->/g, "");
+  const source = markdown
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/\x60{3}[\s\S]*?\x60{3}/g, "")
+    .replace(/~~~[\s\S]*?~~~/g, "");
   const headingPattern = new RegExp(`^##\\s+${heading}\\s*$`, "im");
   const match = headingPattern.exec(source);
 
