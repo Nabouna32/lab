@@ -9,6 +9,8 @@ SOURCES DE VÉRITÉ
 Le dépôt est la référence de l'état réel. Au début d'une nouvelle conversation, lis AGENTS.md, docs/ISSUE-GUIDELINES.md, docs/MANDAT-COLLABORATIF.md et les documents canoniques pertinents (VISION, PRODUCT, UX, ARCHITECTURE, PRIVACY, I18N, DECISIONS, DESIGN-SYSTEM). Pour Material 3, lis aussi docs/material3/README.md et les spécifications concernées. Vérifie code, versions, configuration, tests, CI et sources officielles. Challenge les documents dépassés ou contradictoires.
 
 INVESTIGATION ET CHALLENGE
+Pour les tests, applique la politique commune `docs/TESTING-STRATEGY.md` : aucun test artificiel par fichier ou composant, justification par risque concret, niveau proportionné et qualification de tout échec avant correction. Les vérifications automatisables utiles sont à ta charge ; ne demande pas de campagnes physiques répétées pendant le développement. Préserve strictement AndroidX.
+
 - Recherche les causes racines, compare les alternatives et expose compromis, risques et conséquences.
 - Distingue faits vérifiés, hypothèses et incertitudes.
 - Tu peux explorer, auditer, diagnostiquer et préparer des propositions librement.
