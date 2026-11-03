@@ -12,7 +12,7 @@ function sourceFiles(directory) {
   return readdirSync(directory).flatMap((entry) => {
     const path = join(directory, entry);
     if (statSync(path).isDirectory()) return sourceFiles(path);
-    if (/\\.(?:css|ts|tsx|mjs)$/.test(path) && !/\\.test\\./.test(path)) return [path];
+    if (/\.(?:css|ts|tsx|mjs)$/.test(path) && !/\.test\./.test(path)) return [path];
     return [];
   });
 }
@@ -27,11 +27,11 @@ test("components consume canonical Material 3 roles, not legacy color namespaces
 
 test("generated Material 3 palette roles have no CSS color fallback", () => {
   const globalCss = readFileSync(join(sourceRoot, "app", "globals.css"), "utf8");
-  assert.doesNotMatch(globalCss, /var\\(--m3-(?:light|dark)-[a-z-]+\\s*,/);
-  assert.match(globalCss, /--shadow: var\\(--m3-light-shadow\\)/);
-  assert.match(globalCss, /--scrim: var\\(--m3-light-scrim\\)/);
-  assert.match(globalCss, /--shadow: var\\(--m3-dark-shadow\\)/);
-  assert.match(globalCss, /--scrim: var\\(--m3-dark-scrim\\)/);
+  assert.doesNotMatch(globalCss, /var\(--m3-(?:light|dark)-[a-z-]+\s*,/);
+  assert.match(globalCss, /--shadow: var\(--m3-light-shadow\)/);
+  assert.match(globalCss, /--scrim: var\(--m3-light-scrim\)/);
+  assert.match(globalCss, /--shadow: var\(--m3-dark-shadow\)/);
+  assert.match(globalCss, /--scrim: var\(--m3-dark-scrim\)/);
 });
 
 test("Material 3 palette generation accepts a configurable seed and validates it", () => {

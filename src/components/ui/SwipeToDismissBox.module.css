@@ -1,8 +1,6 @@
 .root {
   position: relative;
   width: 100%;
-  overflow: hidden;
-  border-radius: 16px;
 }
 
 .background {
