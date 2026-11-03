@@ -49,12 +49,20 @@
   --on-error: var(--m3-light-on-error);
   --error-container: var(--m3-light-error-container);
   --on-error-container: var(--m3-light-on-error-container);
-  --info: #175cd3;
-  --info-soft: #eaf0ff;
-  --success: #087755;
-  --success-soft: #e2f6ec;
-  --warning: #b54708;
-  --warning-soft: #fff0cf;
+
+  /* Semantic status colors (generated via MCU customColor from seed) */
+  --success: var(--m3-light-success);
+  --on-success: var(--m3-light-on-success);
+  --success-container: var(--m3-light-success-container);
+  --on-success-container: var(--m3-light-on-success-container);
+  --warning: var(--m3-light-warning);
+  --on-warning: var(--m3-light-on-warning);
+  --warning-container: var(--m3-light-warning-container);
+  --on-warning-container: var(--m3-light-on-warning-container);
+  --info: var(--m3-light-info);
+  --on-info: var(--m3-light-on-info);
+  --info-container: var(--m3-light-info-container);
+  --on-info-container: var(--m3-light-on-info-container);
 
   /* Category accents are generated through the official MCU Rainbow scheme. */
   --category-calculations: var(--m3-light-category-calculations);
@@ -87,7 +95,6 @@
   --danger: var(--error);
   --danger-soft: var(--error-container);
   --danger-foreground: var(--on-error-container);
-  --success-foreground: var(--success);
   --focus-ring: var(--primary);
 
   --radius-sm: 0.5rem;
@@ -292,12 +299,20 @@
   --on-error: var(--m3-dark-on-error);
   --error-container: var(--m3-dark-error-container);
   --on-error-container: var(--m3-dark-on-error-container);
-  --info: #84adff;
-  --info-soft: #1c2d50;
-  --success: #6ce9a6;
-  --success-soft: #14382b;
-  --warning: #fec84b;
-  --warning-soft: #3d2c12;
+
+  /* Semantic status colors (generated via MCU customColor from seed) */
+  --success: var(--m3-dark-success);
+  --on-success: var(--m3-dark-on-success);
+  --success-container: var(--m3-dark-success-container);
+  --on-success-container: var(--m3-dark-on-success-container);
+  --warning: var(--m3-dark-warning);
+  --on-warning: var(--m3-dark-on-warning);
+  --warning-container: var(--m3-dark-warning-container);
+  --on-warning-container: var(--m3-dark-on-warning-container);
+  --info: var(--m3-dark-info);
+  --on-info: var(--m3-dark-on-info);
+  --info-container: var(--m3-dark-info-container);
+  --on-info-container: var(--m3-dark-on-info-container);
 
   /* Category accents and containers use the official MCU Rainbow scheme for dark mode. */
   --category-calculations: var(--m3-dark-category-calculations);
