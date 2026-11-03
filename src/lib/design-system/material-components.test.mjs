@@ -21,9 +21,9 @@ const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", impo
 const buttonVariantStylesSource = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
 const iconButtonSource = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
+const themeStyle = getLocularyThemeStyle();
 const headerPreferencesSource = readFileSync(new URL("../../components/layout/HeaderPreferences.tsx", import.meta.url), "utf8");
 const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.url), "utf8");
-const themeStyle = getLocularyThemeStyle();
 const typographyComponentStyles = {
   buttonGroup: readFileSync(new URL("../../components/ui/ButtonGroup.module.css", import.meta.url), "utf8"),
   datePicker: readFileSync(new URL("../../components/ui/DatePicker.module.css", import.meta.url), "utf8"),
@@ -51,9 +51,6 @@ function luminance(hex) {
 function contrastRatio(first, second) {
   const values = [luminance(first), luminance(second)].sort((a, b) => b - a);
   return (values[0] + 0.05) / (values[1] + 0.05);
-}
-function themeColor(name) {
-  return themeStyle[`--m3-light-${name}`] || themeStyle[`--m3-dark-${name}`];
 }
 function themeColors(name) {
   return [themeStyle[`--m3-light-${name}`], themeStyle[`--m3-dark-${name}`]].filter(Boolean);
@@ -116,7 +113,7 @@ test("shared production compositions consume named typography and shape roles", 
 
 test("custom status foregrounds meet WCAG AA contrast on their light and dark containers", () => {
   for (const status of ["info", "success", "warning"]) {
-    const foregrounds = themeColors(status);
+    const foregrounds = themeColors(`on-${status}-container`);
     const backgrounds = themeColors(`${status}-container`);
     assert.equal(foregrounds.length, 2, `${status} should define light and dark foregrounds`);
     assert.equal(backgrounds.length, 2, `${status} should define light and dark containers`);
@@ -564,7 +561,7 @@ test("tool compositions use shared shape roles instead of migrated legacy aliase
     "../../components/tools/url-encoder/UrlEncoder.tsx",
     "../../components/tools/regex-tester/RegexTester.tsx",
     "../../components/favorites/FavoritesView.tsx",
-    "../../components/tools/ToolPage/ToolPage.tsx",
+    "../../components/tools/ToolPage/ToolPageHeader.tsx",
   ];
   const extraLargeConsumers = [
     "../../components/tools/uuid/UuidGenerator.tsx",

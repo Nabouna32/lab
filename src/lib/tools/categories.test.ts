@@ -347,7 +347,7 @@ test("category pictograms use the shared Material Symbols component instead of e
   const searchResultsSource = readFileSync(new URL("../../components/tools/SearchResultsClient.tsx", import.meta.url), "utf8");
   const toolSearchSource = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
   const toolCardSource = readFileSync(new URL("../../components/tools/ToolCard.tsx", import.meta.url), "utf8");
-  const toolPageHeaderSource = readFileSync(new URL("../../components/tools/ToolPage/ToolPage.tsx", import.meta.url), "utf8");
+  const toolPageHeaderSource = readFileSync(new URL("../../components/tools/ToolPage/ToolPageHeader.tsx", import.meta.url), "utf8");
   const imageMetadataSource = readFileSync(new URL("../../components/tools/image-metadata/ImageMetadataViewer.tsx", import.meta.url), "utf8");
   const favoritesSource = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
   const collectionsSource = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
