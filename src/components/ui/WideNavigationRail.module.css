@@ -1,20 +1,28 @@
+/**
+ * WideNavigationRail - AndroidX 1.4.0 fidelity.
+ * Collapsed: 80px (80dp), Expanded: 256px (256dp).
+ * Item height: 56dp. Label: M3 labelLarge. Selected: secondaryContainer.
+ */
+
 .rail {
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  min-height: 360px;
+  min-height: 100%;
   padding: 12px;
-  border-radius: 24px;
   background: var(--surface-container);
   color: var(--on-surface);
-  transition: width 220ms cubic-bezier(.2, 0, 0, 1), border-radius 220ms cubic-bezier(.2, 0, 0, 1);
+  transition: width 220ms cubic-bezier(.2, 0, 0, 1);
 }
 
+/* AndroidX 1.4.0: collapsed 80dp, expanded 256dp */
 .collapsed { width: 80px; }
 .expanded { width: 256px; }
+
 .standard { flex: 0 0 auto; }
 .modal { z-index: 1001; }
+
 .modalOpen {
   position: fixed;
   z-index: 1001;
@@ -65,6 +73,7 @@
   gap: 8px;
 }
 
+/* AndroidX 1.4.0: item height 56dp, border-radius 16dp (rounded-corner-medium) */
 .item {
   display: flex;
   align-items: center;
@@ -83,6 +92,7 @@
   letter-spacing: var(--m3-type-label-large-tracking);
   text-align: start;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .collapsed .item {
