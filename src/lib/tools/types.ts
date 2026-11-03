@@ -87,7 +87,6 @@ export type ToolSharingMetadata = { supported: boolean; mode: ToolSharingMode };
 export type ToolQualityMetadata = {
   accessibility: "required";
   performance: "standard" | "heavy";
-  tests: "required" | "partial" | "not-yet";
 };
 
 export type Tool = {
