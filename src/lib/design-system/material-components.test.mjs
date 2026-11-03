@@ -559,7 +559,7 @@ test("tool compositions use shared shape roles instead of migrated legacy aliase
     "../../components/tools/url-encoder/UrlEncoder.tsx",
     "../../components/tools/regex-tester/RegexTester.tsx",
     "../../components/favorites/FavoritesView.tsx",
-    "../../components/tools/ToolPage/ToolPageHeader.tsx",
+    "../../components/tools/ToolPage/ToolPage.tsx",
   ];
   const extraLargeConsumers = [
     "../../components/tools/uuid/UuidGenerator.tsx",
