@@ -270,41 +270,232 @@ for (const entry of locales) {
     await expect(secondary).toHaveAttribute("aria-hidden", "true");
   });
 }
-
-test("navigation adaptative conserve les six destinations et les préférences sur le rail", async ({ page }) => {
-  await page.goto("/fr/design-lab");
-  const desktopViewports = [
+test("navigation rail medium utilise le port NavigationRail (768px–1199px)", async ({ page }) => {
+  await page.goto("/fr");
+  const railViewports = [
     { width: 768, height: 390 },
     { width: 844, height: 390 },
     { width: 1024, height: 600 },
+  ];
+
+  for (const viewport of railViewports) {
+    await page.setViewportSize(viewport);
+    await page.waitForTimeout(100);
+
+    await expect(page.locator('nav[aria-label="Navigation principale"]')).toHaveCount(1);
+
+    const railItems = page.locator('nav[aria-label="Navigation principale"] button[data-nav-key]');
+    await expect(railItems).toHaveCount(7);
+
+    const selected = railItems.filter({ has: page.locator('[aria-pressed="true"]') });
+    await expect(selected).toHaveCount(1);
+
+    const metrics = await page.evaluate(() => ({
+      documentWidth: document.documentElement.scrollWidth,
+      viewportWidth: document.documentElement.clientWidth,
+    }));
+    expect(metrics.documentWidth).toBeLessThanOrEqual(metrics.viewportWidth + 1);
+  }
+});
+
+test("navigation drawer expanded utilise le port NavigationDrawer permanent (>=1200px)", async ({ page }) => {
+  await page.goto("/fr");
+  const expandedViewports = [
     { width: 1200, height: 480 },
     { width: 1440, height: 900 },
     { width: 1920, height: 1080 },
   ];
 
-  for (const viewport of desktopViewports) {
+  for (const viewport of expandedViewports) {
     await page.setViewportSize(viewport);
-    const desktopLinks = page.locator("aside nav a[data-nav-key]:visible");
-    await expect(desktopLinks).toHaveCount(6);
-    await expect(page.locator('nav[aria-label="Langue"]:visible')).toBeVisible();
-    await expect(page.locator('input[name="loculary-theme-desktop"]')).toHaveCount(3);
-    await expect(page.getByRole("button", { name: "Plus" })).toHaveCount(0);
+    await page.waitForTimeout(100);
+
+    await expect(page.locator('nav[aria-label="Navigation permanente"]')).toHaveCount(1);
+
+    const drawerLinks = page.locator('nav[aria-label="Navigation permanente"] a[data-nav-key]');
+    await expect(drawerLinks).toHaveCount(7);
+
+    const selected = drawerLinks.filter({ has: page.locator('[aria-current="page"]') });
+    await expect(selected).toHaveCount(1);
+
     const metrics = await page.evaluate(() => ({
       documentWidth: document.documentElement.scrollWidth,
       viewportWidth: document.documentElement.clientWidth,
-      navOverflow: getComputedStyle(document.querySelector("aside nav")).overflowY,
+    }));
+    expect(metrics.documentWidth).toBeLessThanOrEqual(metrics.viewportWidth + 1);
+  }
+});
+test("responsive transitions: compact → rail → drawer sans régression", async ({ page }) => {
+  await page.goto("/fr");
+
+  // Compact
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('nav a[data-nav-key]')).toHaveCount(5);
+  await expect(page.locator('nav[aria-label="Navigation principale"] button[data-nav-key]')).toHaveCount(0);
+
+  // Medium (rail)
+  await page.setViewportSize({ width: 768, height: 390 });
+  await page.waitForTimeout(100);
+  await expect(page.locator('nav a[data-nav-key]')).toHaveCount(0);
+  await expect(page.locator('nav[aria-label="Navigation principale"] button[data-nav-key]')).toHaveCount(7);
+
+  // Expanded (drawer)
+  await page.setViewportSize({ width: 1200, height: 480 });
+  await page.waitForTimeout(100);
+  await expect(page.locator('nav[aria-label="Navigation permanente"] a[data-nav-key]')).toHaveCount(7);
+});
+
+test("navigation conserve la sélection active à travers les breakpoints", async ({ page }) => {
+  await page.goto("/fr/favoris");
+
+  // Compact
+  await page.setViewportSize({ width: 390, height: 844 });
+  const compactSelected = page.locator('nav a[data-nav-key="favorites"][aria-current="page"]');
+  await expect(compactSelected).toHaveCount(1);
+
+  // Medium
+  await page.setViewportSize({ width: 768, height: 390 });
+  await page.waitForTimeout(100);
+  const railSelected = page.locator('nav[aria-label="Navigation principale"] button[data-nav-key="favorites"][aria-pressed="true"]');
+  await expect(railSelected).toHaveCount(1);
+
+  // Expanded
+  await page.setViewportSize({ width: 1200, height: 480 });
+  await page.waitForTimeout(100);
+  const drawerSelected = page.locator('nav[aria-label="Navigation permanente"] a[data-nav-key="favorites"][aria-current="page"]');
+  await expect(drawerSelected).toHaveCount(1);
+});
+
+test("thèmes clair/sombre: navigation et header conservent les rôles M3", async ({ page }) => {
+  await page.goto("/fr");
+
+  for (const scheme of ["light", "dark"]) {
+    await page.emulateMedia({ colorScheme: scheme });
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    const compactBar = page.locator('nav[role="navigation"]').first();
+    await expect(compactBar).toBeVisible();
+
+    const header = page.locator('header[role="banner"]').first();
+    await expect(header).toBeVisible();
+
+    await page.setViewportSize({ width: 768, height: 390 });
+    await page.waitForTimeout(100);
+    const rail = page.locator('nav[aria-label="Navigation principale"]').first();
+    await expect(rail).toBeVisible();
+  }
+});
+
+test("navigation clavier: Tab, flèches, Escape, focus visible", async ({ page }) => {
+  await page.goto("/fr");
+  await page.setViewportSize({ width: 768, height: 390 });
+  await page.waitForTimeout(100);
+
+  const rail = page.locator('nav[aria-label="Navigation principale"]');
+  const firstItem = rail.locator('button[data-nav-key]').first();
+
+  await firstItem.focus();
+  await expect(firstItem).toBeFocused();
+
+  await page.keyboard.press("Tab");
+  const secondItem = rail.locator('button[data-nav-key]').nth(1);
+  await expect(secondItem).toBeFocused();
+
+  await page.keyboard.press("Shift+Tab");
+  await expect(firstItem).toBeFocused();
+
+  await page.keyboard.press("ArrowDown");
+  await expect(secondItem).toBeFocused();
+
+  await page.keyboard.press("ArrowUp");
+  await expect(firstItem).toBeFocused();
+
+  await page.keyboard.press("End");
+  const lastItem = rail.locator('button[data-nav-key]').last();
+  await expect(lastItem).toBeFocused();
+  await page.keyboard.press("Home");
+  await expect(firstItem).toBeFocused();
+
+  const focusedStyle = await firstItem.evaluate((el) => getComputedStyle(el).outlineWidth);
+  expect(focusedStyle).not.toBe("0px");
+});
+
+test("menu secondaire (header) fonctionne sur tous les breakpoints", async ({ page }) => {
+  await page.goto("/fr");
+
+  for (const width of [390, 768, 1200]) {
+    await page.setViewportSize({ width, height: 390 });
+    await page.waitForTimeout(100);
+
+    const moreLabel = "Plus";
+    const trigger = page.getByRole("button", { name: moreLabel });
+    await expect(trigger).toBeVisible();
+    await trigger.click();
+
+    const secondary = page.locator("#mobile-secondary-navigation");
+    await expect(secondary).toHaveAttribute("aria-hidden", "false");
+
+    await expect(secondary.getByRole("link", { name: "Parcours guidés" })).toHaveCount(1);
+    await expect(secondary.locator('input[type="radio"][name="theme"]')).toHaveCount(3);
+    await expect(secondary.getByRole("link", { name: "English" })).toHaveCount(1);
+
+    await page.keyboard.press("Escape");
+    await expect(secondary).toHaveAttribute("aria-hidden", "true");
+    await expect(trigger).toBeFocused();
+  }
+});
+test("navigation adaptative conserve les 7 destinations et préférences sur rail/drawer", async ({ page }) => {
+  await page.goto("/fr");
+  const railViewports = [
+    { width: 768, height: 390 },
+    { width: 844, height: 390 },
+    { width: 1024, height: 600 },
+  ];
+  const drawerViewports = [
+    { width: 1200, height: 480 },
+    { width: 1440, height: 900 },
+    { width: 1920, height: 1080 },
+  ];
+
+  // Rail (medium)
+  for (const viewport of railViewports) {
+    await page.setViewportSize(viewport);
+    await page.waitForTimeout(100);
+
+    const railItems = page.locator('nav[aria-label="Navigation principale"] button[data-nav-key]');
+    await expect(railItems).toHaveCount(7);
+
+    await expect(page.locator('nav[aria-label="Langue"]:visible')).toBeVisible();
+    await expect(page.locator('input[name="loculary-theme-desktop"]')).toHaveCount(3);
+    await expect(page.getByRole("button", { name: "Plus" })).toHaveCount(0);
+
+    const metrics = await page.evaluate(() => ({
+      documentWidth: document.documentElement.scrollWidth,
+      viewportWidth: document.documentElement.clientWidth,
+      navOverflow: getComputedStyle(document.querySelector('nav[aria-label="Navigation principale"]')).overflowY,
     }));
     expect(metrics.documentWidth).toBeLessThanOrEqual(metrics.viewportWidth + 1);
     expect(metrics.navOverflow).toBe("auto");
   }
 
-  await page.setViewportSize({ width: 768, height: 390 });
-  await page.locator('aside a[data-nav-key="account"]').scrollIntoViewIfNeeded();
-  await expect(page.locator('aside a[data-nav-key="account"]')).toBeVisible();
-  await expect(page.locator('input[name="loculary-theme-desktop"][value="system"]')).toBeChecked();
+  // Drawer permanent (expanded)
+  for (const viewport of drawerViewports) {
+    await page.setViewportSize(viewport);
+    await page.waitForTimeout(100);
 
-  await page.locator('nav[aria-label="Langue"]:visible').getByRole("link", { name: "English" }).click();
-  await expect(page).toHaveURL(/\/en\/design-lab/);
+    const drawerLinks = page.locator('nav[aria-label="Navigation permanente"] a[data-nav-key]');
+    await expect(drawerLinks).toHaveCount(7);
+
+    await expect(page.locator('nav[aria-label="Langue"]:visible')).toBeVisible();
+    await expect(page.locator('input[name="loculary-theme-desktop"]')).toHaveCount(3);
+    await expect(page.getByRole("button", { name: "Plus" })).toHaveCount(0);
+
+    const metrics = await page.evaluate(() => ({
+      documentWidth: document.documentElement.scrollWidth,
+      viewportWidth: document.documentElement.clientWidth,
+    }));
+    expect(metrics.documentWidth).toBeLessThanOrEqual(metrics.viewportWidth + 1);
+  }
 });
 test("focus clavier visible et réduction des animations", async ({ page }) => {
   await page.goto("/fr/design-lab");
