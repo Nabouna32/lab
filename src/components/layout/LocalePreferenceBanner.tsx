@@ -45,7 +45,7 @@ export default function LocalePreferenceBanner({ locale }: { locale: Locale }) {
         const data = await response.json() as { locale?: string | null };
         setNoticeState({
           pathname,
-          preferredLocale: isLocale(data.locale) ? data.locale : null,
+          preferredLocale: isLocale(data.locale ?? undefined) ? data.locale : null,
           dismissed: false,
         });
       })
