@@ -19,10 +19,10 @@ function sourceFiles(directory) {
 
 test("components consume canonical Material 3 roles, not legacy color namespaces", () => {
   const files = sourceFiles(join(sourceRoot, "components"));
-  for (const path of files) {
-    const source = readFileSync(path, "utf8");
-    assert.doesNotMatch(source, /--lab-|--md-sys-color-/, path.replace(repositoryRoot + "/", ""));
-  }
+  const violations = files
+    .filter((path) => /--lab-|--md-sys-color-/.test(readFileSync(path, "utf8")))
+    .map((path) => path.replace(repositoryRoot + "/", ""));
+  assert.deepEqual(violations, [], "legacy color namespaces remain in components");
 });
 
 test("generated Material 3 palette roles have no CSS color fallback", () => {
