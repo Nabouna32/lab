@@ -19,7 +19,7 @@ Chaque outil doit disposer des éléments suivants :
 - un état de cycle de vie explicite ;
 - l'accessibilité déclarée comme exigence.
 
-Les outils publiés doivent également être disponibles et disposer de tests. Tant qu'aucun garde d'autorisation effectif n'existe, ils doivent déclarer `access: "anonymous"` ; le validateur interdit la publication des niveaux `account` et `premium`.
+Les outils publiés doivent être disponibles et respecter les contrats de métadonnées ci-dessus. Un test dédié n'est pas obligatoire par simple existence de l'outil : ajouter ou maintenir des tests lorsque le risque concret, le comportement ou le contrat à protéger le justifie, selon `docs/TESTING-STRATEGY.md`. Tant qu'aucun garde d'autorisation effectif n'existe, les outils doivent déclarer `access: "anonymous"` ; le validateur interdit la publication des niveaux `account` et `premium`.
 
 ## Cohérence du traitement
 
