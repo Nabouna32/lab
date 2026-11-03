@@ -6,6 +6,7 @@ import { RecentToolsProvider } from "@/components/home/RecentToolsProvider";
 import Header from "@/components/layout/Header";
 import AdaptiveAppNavigation from "@/components/layout/AdaptiveAppNavigation";
 import Footer from "@/components/layout/Footer";
+import LocalePreferenceBanner from "@/components/layout/LocalePreferenceBanner";
 import { getMessages } from "@/lib/i18n/messages";
 import { getLanguage, isLocale, locales } from "@/lib/i18n/config";
 import "@/app/globals.css";
@@ -51,14 +52,17 @@ export default async function LocaleLayout({
           <RecentToolsProvider toolIds={toolIds}>
             <FavoritesProvider toolIds={toolIds}>
               <CollectionsProvider toolIds={toolIds}>
-                <div className="flex min-h-dvh">
-                  <AdaptiveAppNavigation locale={locale} />
-                  <div className="flex min-w-0 flex-1 flex-col pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">
-                    <Header locale={locale} />
-                    <div className="min-h-0 flex-1" style={{ viewTransitionName: "loculary-workspace" }}>
-                      {children}
+                <div className="flex min-h-dvh flex-col">
+                  <LocalePreferenceBanner locale={locale} />
+                  <div className="flex min-h-0 flex-1">
+                    <AdaptiveAppNavigation locale={locale} />
+                    <div className="flex min-w-0 flex-1 flex-col pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">
+                      <Header locale={locale} />
+                      <div className="min-h-0 flex-1" style={{ viewTransitionName: "loculary-workspace" }}>
+                        {children}
+                      </div>
+                      <Footer locale={locale} />
                     </div>
-                    <Footer locale={locale} />
                   </div>
                 </div>
               </CollectionsProvider>

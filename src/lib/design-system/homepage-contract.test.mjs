@@ -66,11 +66,10 @@ test("header menu disclosure exposes ARIA state, hides inactive content and rest
   assert.ok(headerPreferencesSource.includes("triggerRef.current?.focus()"));
 });
 
-test("mobile preferences close on locale change without persisting open state", () => {
-  assert.match(
-    headerPreferencesSource,
-    /function handleLanguageClick[\s\S]*?setOpenPath\(null\)/,
-  );
+test("mobile preferences close on route changes without persisting open state", () => {
+  assert.ok(headerPreferencesSource.includes("const open = openPath === pathname;"));
+  assert.match(headerPreferencesSource, /function handlePopState\(\)\s*\{\s*setOpenPath\(null\);/);
+  assert.doesNotMatch(headerPreferencesSource, /function handleLanguageClick/);
   assert.doesNotMatch(headerPreferencesSource, /sessionStorage/);
 });
 

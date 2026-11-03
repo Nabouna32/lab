@@ -169,7 +169,7 @@ test("indeterminate linear progress follows pinned AndroidX segment timing and r
 });
 
 test("functional icons use bundled Material Symbols paths and inherit currentColor", () => {
-  for (const name of ["content_copy", "delete", "restart_alt", "arrow_outward", "lock", "public", "cloud", "warning", "star_fill", "collections_bookmark", "keyboard_arrow_down", "swap_horiz", "apps", "language"]) {
+  for (const name of ["content_copy", "delete", "restart_alt", "arrow_outward", "lock", "public", "cloud", "warning", "favorite_fill", "share", "star_fill", "collections_bookmark", "keyboard_arrow_down", "swap_horiz", "apps", "language"]) {
     assert.ok(iconSource.includes(name), `missing Material Symbol: ${name}`);
   }
   assert.match(iconSource, /fill="currentColor"/);
@@ -201,9 +201,9 @@ test("common navigation and identity icons use the shared Material Symbols compo
   assert.match(navigationSource, /icon: "search"/);
   assert.match(headerPreferencesSource, /MaterialIcon name="apps"/);
   assert.match(headerPreferencesSource, /t\.guidedWorkflows\.homeTitle/);
-  assert.match(headerPreferencesSource, /t\.nav\.language/);
+  assert.doesNotMatch(headerPreferencesSource, /t\.nav\.language/);
   assert.match(headerPreferencesSource, /t\.theme\.title/);
-  assert.match(headerPreferencesSource, /MaterialIcon name="more_horiz"/);
+  assert.match(headerPreferencesSource, /MaterialIcon name="menu"/);
   const messagesSource = readFileSync(new URL("../../lib/i18n/messages.ts", import.meta.url), "utf8");
   assert.match(messagesSource, /homeTitle: "Parcours guidés"/);
   assert.match(messagesSource, /homeTitle: "Guided workflows"/);
@@ -329,6 +329,8 @@ test("segmented control keeps labels single-line and leaves descriptions outside
 test("IconButton variants share a visible keyboard focus ring and the 48px touch target", () => {
   assert.ok(iconButtonSource.includes("focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"));
   assert.ok(iconButtonSource.includes("focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"));
+  assert.match(iconButtonSource, /inline-flex shrink-0 cursor-pointer items-center/);
+  assert.match(iconButtonSource, /disabled:cursor-not-allowed/);
   assert.ok(iconButtonSource.includes('const targetDimensions = "h-12 min-h-12 w-12 min-w-12"'));
   assert.ok(iconButtonSource.includes('const surfaceDimensions = "h-10 min-h-10 w-10 min-w-10"'));
   assert.ok(iconButtonSource.includes("group-focus-visible:bg-"));
@@ -464,7 +466,7 @@ test("M3 web reference tokens document Android dp/sp magnitude without claiming 
 
 test("header preferences use restrained Material 3 semantic colors", () => {
   assert.match(headerPreferencesSource, /bg-\[var\(--surface-container-high\)\]/);
-  assert.match(headerPreferencesSource, /bg-\[var\(--primary-container\)\] text-\[var\(--on-primary-container\)\]/);
+  assert.match(headerPreferencesSource, /peer-checked:bg-\[var\(--primary-container\)\] peer-checked:text-\[var\(--on-primary-container\)\]/);
   assert.match(headerPreferencesSource, /bg-\[var\(--secondary-container\)\] text-\[var\(--on-secondary-container\)\]/);
   assert.match(headerPreferencesSource, /grid grid-cols-3 gap-1/);
   assert.match(headerPreferencesSource, /const selected = themeReady && theme === option\.value/);
@@ -521,6 +523,12 @@ test("AlertDialog actions use shared Material 3 buttons instead of a parallel bu
 });
 
 
+test("tool processing details delegate their surface shape to the shared RichTooltip", () => {
+  const source = readFileSync(new URL("../../components/tools/ToolPage/ToolProcessingStatus.tsx", import.meta.url), "utf8");
+  assert.match(source, /variant="rich"/);
+  assert.match(typographyComponentStyles.tooltip, /\.rich \{[\s\S]*border-radius: var\(--shape-corner-medium/);
+});
+
 test("tool compositions use shared shape roles instead of migrated legacy aliases", () => {
   const mediumConsumers = [
     "../../components/tools/csv-diff-checker/CsvDiffChecker.tsx",
@@ -545,8 +553,7 @@ test("tool compositions use shared shape roles instead of migrated legacy aliase
   ];
   const largeConsumers = [
     "../../components/layout/Header.tsx",
-    "../../components/tools/ToolPage/ToolProcessingStatus.tsx",
-    "../../components/tools/text-counter/TextCounter.tsx",
+        "../../components/tools/text-counter/TextCounter.tsx",
     "../../components/tools/html-previewer/HtmlPreviewer.tsx",
     "../../components/tools/base64/Base64Encoder.tsx",
     "../../components/tools/url-encoder/UrlEncoder.tsx",

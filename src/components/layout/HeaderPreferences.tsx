@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, useSyncExternalStore, type MouseEvent } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { usePathname } from "next/navigation";
 import { useTheme } from "@teispace/next-themes";
-import { getLanguage, isLocale, locales, type Locale } from "@/lib/i18n/config";
-import { getGuidedWorkflowsPath, getLocalizedPath, getSearchResultsPagePath } from "@/lib/tools/routes";
+import type { Locale } from "@/lib/i18n/config";
+import { getGuidedWorkflowsPath } from "@/lib/tools/routes";
 import { getMessages } from "@/lib/i18n/messages";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
@@ -29,7 +29,6 @@ const themeOptions = [
 
 export default function HeaderPreferences({ locale }: { locale: Locale }) {
   const pathname = usePathname();
-  const router = useRouter();
   const { theme, setTheme } = useTheme();
   const themeReady = useSyncExternalStore(
     subscribeHydrationReady,
@@ -40,8 +39,6 @@ export default function HeaderPreferences({ locale }: { locale: Locale }) {
   const open = openPath === pathname;
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const currentLocaleSegment = pathname.split("/")[1];
-  const currentLocale: Locale = isLocale(currentLocaleSegment) ? currentLocaleSegment : locale;
   const t = getMessages(locale);
   const guidedPath = getGuidedWorkflowsPath(locale);
   const guidedActive = pathname === guidedPath || pathname.startsWith(guidedPath + "/");
@@ -83,25 +80,6 @@ export default function HeaderPreferences({ locale }: { locale: Locale }) {
     };
   }, [open]);
 
-  function languageHref(nextLocale: Locale) {
-    return getLocalizedPath(pathname, nextLocale);
-  }
-
-  function handleLanguageClick(event: MouseEvent<HTMLAnchorElement>, nextLocale: Locale) {
-    setOpenPath(null);
-    if (
-      pathname === getSearchResultsPagePath(currentLocale) &&
-      window.location.hash &&
-      event.button === 0 &&
-      !event.metaKey &&
-      !event.ctrlKey &&
-      !event.shiftKey &&
-      !event.altKey
-    ) {
-      event.preventDefault();
-      router.push(languageHref(nextLocale) + window.location.hash);
-    }
-  }
 
   function renderThemeOptions(compact: boolean) {
     return themeOptions.map((option) => {
@@ -147,30 +125,6 @@ export default function HeaderPreferences({ locale }: { locale: Locale }) {
   return (
     <>
       <div className="hidden items-center gap-3 md:flex">
-        <nav aria-label={t.nav.language} className="flex items-center gap-1 rounded-full bg-[var(--surface-container)] p-1">
-          {locales.map((item) => {
-            const language = getLanguage(item);
-            const active = item === currentLocale;
-            return (
-              <Link
-                key={item}
-                href={languageHref(item)}
-                hrefLang={item}
-                aria-label={language.nativeLabel}
-                aria-current={active ? "page" : undefined}
-                onClick={(event) => handleLanguageClick(event, item)}
-                className={
-                  "m3-type-label-medium flex h-8 min-w-9 items-center justify-center rounded-full px-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] " +
-                  (active
-                    ? "bg-[var(--secondary-container)] text-[var(--on-secondary-container)]"
-                    : "text-[var(--on-surface-variant)] hover:bg-[var(--surface-container-high)]")
-                }
-              >
-                {item.toUpperCase()}
-              </Link>
-            );
-          })}
-        </nav>
         <fieldset className="flex items-center gap-1">
           <legend className="sr-only">{t.theme.title}</legend>
           {renderThemeOptions(false)}
@@ -190,7 +144,7 @@ export default function HeaderPreferences({ locale }: { locale: Locale }) {
           aria-controls={open ? "mobile-secondary-navigation" : undefined}
           onClick={() => setOpenPath(open ? null : pathname)}
         >
-          <MaterialIcon name="more_horiz" size={24} />
+          <MaterialIcon name="menu" size={24} />
         </button>
 
         <div
@@ -215,36 +169,6 @@ export default function HeaderPreferences({ locale }: { locale: Locale }) {
               <span className="m3-type-label-large">{t.guidedWorkflows.homeTitle}</span>
             </Link>
           </nav>
-
-          <div className="my-2 h-px bg-[var(--outline-variant)]" />
-
-          <div className="px-2 pb-1 pt-1">
-            <p className="m3-type-label-small px-1 text-[var(--on-surface-variant)]">{t.nav.language}</p>
-            <nav aria-label={t.nav.language} className="mt-1 grid grid-cols-2 gap-1">
-              {locales.map((item) => {
-                const language = getLanguage(item);
-                const active = item === currentLocale;
-                return (
-                  <Link
-                    key={item}
-                    href={languageHref(item)}
-                    hrefLang={item}
-                    aria-current={active ? "page" : undefined}
-                    onClick={(event) => handleLanguageClick(event, item)}
-                    className={
-                      "m3-type-label-large flex min-h-10 items-center gap-2 rounded-xl px-3 py-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
-                      (active
-                        ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
-                        : "text-[var(--on-surface-variant)] hover:bg-[var(--surface-container-high)]")
-                    }
-                  >
-                    <span className="m3-type-label-small uppercase">{item}</span>
-                    <span className="truncate">{language.nativeLabel}</span>
-                  </Link>
-                );
-              })}
-            </nav>
-          </div>
 
           <div className="my-2 h-px bg-[var(--outline-variant)]" />
 

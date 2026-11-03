@@ -31,7 +31,7 @@ export default function ToolPageHeader({
           <MaterialIcon name={icon} size={24} />
         </div>
         <div className="min-w-0 flex-1">
-          <h1 className="m3-type-headline-medium mt-0.5">
+          <h1 id="tool-page-title" className="m3-type-headline-medium mt-0.5">
             {title}
           </h1>
           <p className="m3-type-body-medium mt-1.5 max-w-3xl text-[var(--muted)]">

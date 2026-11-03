@@ -26,3 +26,7 @@ export function getPreferredLocale(acceptLanguage: string | null): Locale {
 
   return defaultLocale;
 }
+
+export function resolvePreferredLocale(acceptLanguage: string | null, accountLocale: Locale | null): Locale {
+  return accountLocale ?? getPreferredLocale(acceptLanguage);
+}

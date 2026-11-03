@@ -128,12 +128,10 @@ export default async function LocalizedToolOrCategoryPage({
       <ToolPage
         locale={locale}
         tool={entry.tool}
+        runtime={<ToolRenderer toolId={entry.tool.id} />}
         content={<div className="space-y-12"><ToolEditorial locale={locale} /></div>}
       >
-        <ToolRenderer toolId={entry.tool.id} />
-        <div className="mt-8">
-          <NextActions toolId={entry.tool.id} locale={locale} />
-        </div>
+        <NextActions toolId={entry.tool.id} locale={locale} />
       </ToolPage>
     );
   }

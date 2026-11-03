@@ -3,7 +3,8 @@
 import type { Locale } from "@/lib/i18n/config";
 import { FilledTonalButton, OutlinedButton } from "@/components/ui/Button";
 import { IconToggleButton } from "@/components/ui/IconButton";
-import { StarIcon } from "@/components/ui/StarIcon";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
+import { Tooltip } from "@/components/ui/Tooltip";
 import { useFavorites } from "./FavoritesProvider";
 
 export default function FavoriteButton({ toolId, locale, compact = false }: { toolId: string; locale: Locale; compact?: boolean }) {
@@ -18,16 +19,17 @@ export default function FavoriteButton({ toolId, locale, compact = false }: { to
 
   if (compact) {
     return (
-      <IconToggleButton
-        label={label}
-        title={label}
-        checked={active}
-        onCheckedChange={() => void favorites.toggleFavorite(toolId)}
-        aria-busy={pending}
-        disabled={disabled}
-      >
-        <StarIcon filled={active} size={24} className="h-6 w-6 shrink-0" />
-      </IconToggleButton>
+      <Tooltip content={label}>
+        <IconToggleButton
+          label={label}
+          checked={active}
+          onCheckedChange={() => void favorites.toggleFavorite(toolId)}
+          aria-busy={pending}
+          disabled={disabled}
+        >
+          <MaterialIcon name={active ? "favorite_fill" : "favorite"} size={24} />
+        </IconToggleButton>
+      </Tooltip>
     );
   }
 
@@ -41,7 +43,7 @@ export default function FavoriteButton({ toolId, locale, compact = false }: { to
       disabled={disabled}
       onClick={() => void favorites.toggleFavorite(toolId)}
     >
-      <StarIcon filled={active} className="h-5 w-5 shrink-0" />
+      <MaterialIcon name={active ? "favorite_fill" : "favorite"} size={20} />
       <span>{label}</span>
     </FavoriteActionButton>
   );

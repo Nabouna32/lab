@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { getPreferredLocale } from "./request-locale.ts";
+import { getPreferredLocale, resolvePreferredLocale } from "./request-locale.ts";
 
 test("uses English when Accept-Language is missing", () => {
   assert.equal(getPreferredLocale(null), "en");
@@ -24,4 +24,14 @@ test("ignores languages explicitly disabled with q=0", () => {
 
 test("falls back to English for unsupported languages", () => {
   assert.equal(getPreferredLocale("de-DE,de;q=0.9"), "en");
+});
+
+test("prefers the signed-in account locale over the browser language", () => {
+  assert.equal(resolvePreferredLocale("fr-FR,fr;q=0.9,en;q=0.8", "en"), "en");
+  assert.equal(resolvePreferredLocale("en-US,en;q=0.9,fr;q=0.8", "fr"), "fr");
+});
+
+test("falls back to Accept-Language when no account locale is available", () => {
+  assert.equal(resolvePreferredLocale("fr-FR,fr;q=0.9,en;q=0.8", null), "fr");
+  assert.equal(resolvePreferredLocale(null, null), "en");
 });
