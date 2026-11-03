@@ -30,7 +30,7 @@ test("the new disclosure uses a continuous two-column explanation while the lega
   assert.match(editorial, /<ToolEditorialAccordion title={t.difference.title}>\s*\{newDifferenceExplanation\}/);
   assert.match(editorial, /<details className="group rounded-2xl/);
   assert.match(editorial, /\{differenceExplanation\}/);
-  assert.match(editorial, /text-xl font-bold sm:text-2xl/);
+  assert.match(editorial, /text-xl font-bold text-\[var\(--foreground\)\] sm:text-2xl/);
   assert.match(editorial, /lg:border-l lg:border-\[var\(--outline-variant\)\] lg:pl-8/);
   assert.ok(editorial.indexOf("<ToolEditorialAccordion title={t.difference.title}>") < editorial.indexOf('<details className="group rounded-2xl'));
   const newDisclosure = editorial.slice(editorial.indexOf("const newDifferenceExplanation ="), editorial.indexOf("\n\n  return ("));
