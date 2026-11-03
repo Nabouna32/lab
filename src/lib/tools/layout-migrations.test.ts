@@ -58,7 +58,7 @@ test("shared Material 3 typography roles are consumed by reusable site component
   const buttonSource = readSource("../../components/ui/Button.tsx");
   const buttonLayoutSource = readSource("../../components/ui/material-button-layout.ts");
   const toolCardSource = readSource("../../components/tools/ToolCard.tsx");
-  const toolHeaderSource = readSource("../../components/tools/ToolPage/ToolPage.tsx");
+  const toolHeaderSource = readSource("../../components/tools/ToolPage/ToolPageHeader.tsx");
 
   for (const role of ["display-large", "headline-large", "title-medium", "body-medium", "label-large"]) {
     assert.ok(globalStyles.includes(`.m3-type-${role}`), `missing shared typography role: ${role}`);
