@@ -11,10 +11,10 @@
   gap: 8px;
   min-height: 40px;
   padding: 0 16px;
-  border: 1px solid var(--lab-outline, var(--md-sys-color-outline, currentColor));
+  border: 1px solid var(--outline);
   border-radius: 20px;
   background: transparent;
-  color: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  color: var(--primary);
   font: inherit;
   font-size: var(--m3-type-label-large-size);
   line-height: var(--m3-type-label-large-line-height);
@@ -29,7 +29,7 @@
 
 .trigger:focus-visible,
 .item:focus-visible {
-  outline: 2px solid var(--lab-primary, currentColor);
+  outline: 2px solid var(--primary);
   outline-offset: -2px;
 }
 
@@ -54,9 +54,9 @@
   overflow-y: auto;
   padding: 4px;
   border-radius: 4px;
-  background: var(--lab-surface-container, var(--md-sys-color-surface-container, Canvas));
-  color: var(--lab-on-surface, var(--md-sys-color-on-surface, CanvasText));
-  box-shadow: 0 2px 6px color-mix(in srgb, var(--lab-shadow, #000) 20%, transparent);
+  background: var(--surface-container);
+  color: var(--on-surface);
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--shadow) 20%, transparent);
 }
 
 .alignStart { left: 0; }
@@ -80,11 +80,11 @@
 
 .item:hover:not(:disabled),
 .item:focus-visible {
-  background: var(--lab-surface-container-high, var(--md-sys-color-surface-container-high, transparent));
+  background: var(--surface-container-high);
 }
 
 .item[aria-checked="true"] {
-  color: var(--lab-primary, currentColor);
+  color: var(--primary);
 }
 
 .item:disabled {
@@ -119,7 +119,7 @@
 }
 
 .supporting {
-  color: var(--lab-on-surface-variant, currentColor);
+  color: var(--on-surface-variant);
   font-size: var(--m3-type-body-small-size);
   line-height: var(--m3-type-body-small-line-height);
   font-weight: var(--m3-type-body-small-weight);
@@ -127,19 +127,19 @@
 }
 
 .selectedMark {
-  color: var(--lab-primary, currentColor);
+  color: var(--primary);
 }
 
 .divider {
   height: 1px;
   margin: 4px 0;
-  background: var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  background: var(--outline-variant);
   opacity: .65;
 }
 
 .groupLabel {
   padding: 8px 12px 4px;
-  color: var(--lab-on-surface-variant, currentColor);
+  color: var(--on-surface-variant);
   font-size: var(--m3-type-label-medium-size);
   font-weight: var(--m3-type-label-medium-weight);
   line-height: var(--m3-type-label-medium-line-height);

@@ -6,8 +6,8 @@
   min-height: 360px;
   padding: 12px;
   border-radius: 24px;
-  background: var(--lab-surface-container, var(--md-sys-color-surface-container, Canvas));
-  color: var(--lab-on-surface, var(--md-sys-color-on-surface, CanvasText));
+  background: var(--surface-container);
+  color: var(--on-surface);
   transition: width 220ms cubic-bezier(.2, 0, 0, 1), border-radius 220ms cubic-bezier(.2, 0, 0, 1);
 }
 
@@ -22,7 +22,7 @@
   inset-inline-start: 16px;
   max-height: calc(100dvh - 32px);
   overflow-y: auto;
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--lab-shadow, #000) 24%, transparent);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--shadow) 24%, transparent);
 }
 
 .scrim {
@@ -30,7 +30,7 @@
   z-index: 1000;
   inset: 0;
   border: 0;
-  background: color-mix(in srgb, var(--lab-scrim, #000) 32%, transparent);
+  background: color-mix(in srgb, var(--scrim) 32%, transparent);
 }
 
 .header {
@@ -75,7 +75,7 @@
   border: 0;
   border-radius: 16px;
   background: transparent;
-  color: var(--lab-on-surface-variant, currentColor);
+  color: var(--on-surface-variant);
   font: inherit;
   font-size: var(--m3-type-label-large-size);
   line-height: var(--m3-type-label-large-line-height);
@@ -91,8 +91,8 @@
 }
 
 .item[data-selected="true"] {
-  background: var(--lab-secondary-container, var(--md-sys-color-secondary-container, transparent));
-  color: var(--lab-on-secondary-container, var(--md-sys-color-on-secondary-container, currentColor));
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
 }
 
 .icon {
@@ -113,7 +113,7 @@
 
 .item:focus-visible,
 .expandButton:focus-visible {
-  outline: 2px solid var(--lab-primary, currentColor);
+  outline: 2px solid var(--primary);
   outline-offset: -2px;
 }
 

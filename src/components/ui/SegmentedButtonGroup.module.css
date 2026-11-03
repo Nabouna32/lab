@@ -2,7 +2,7 @@
   display: inline-flex;
   align-items: stretch;
   max-width: 100%;
-  color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
+  color: var(--on-surface);
 }
 
 .button {
@@ -14,7 +14,7 @@
   min-width: 64px;
   min-height: 40px;
   padding: 0 16px;
-  border: 1px solid var(--lab-outline, var(--md-sys-color-outline, currentColor));
+  border: 1px solid var(--outline);
   border-radius: 0;
   margin-inline-start: -1px;
   background: transparent;
@@ -46,9 +46,9 @@
 
 .button.selected {
   z-index: 1;
-  border-color: var(--lab-outline, var(--md-sys-color-outline, currentColor));
-  background: var(--lab-secondary-container, var(--md-sys-color-secondary-container, transparent));
-  color: var(--lab-on-secondary-container, var(--md-sys-color-on-secondary-container, currentColor));
+  border-color: var(--outline);
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
 }
 
 .button:hover:not(:disabled):not(.selected) {
@@ -56,12 +56,12 @@
 }
 
 .button:active:not(:disabled) {
-  background: color-mix(in srgb, var(--lab-primary, currentColor) 12%, transparent);
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
 }
 
 .button:focus-visible {
   z-index: 2;
-  outline: 2px solid var(--lab-primary, currentColor);
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 

@@ -4,10 +4,10 @@
   width: 100%;
   min-height: 360px;
   overflow: hidden;
-  border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  border: 1px solid var(--outline-variant);
   border-radius: 16px;
-  background: var(--lab-surface, var(--md-sys-color-surface, Canvas));
-  color: var(--lab-on-surface, var(--md-sys-color-on-surface, CanvasText));
+  background: var(--surface);
+  color: var(--on-surface);
 }
 
 .mobileNavigation {
