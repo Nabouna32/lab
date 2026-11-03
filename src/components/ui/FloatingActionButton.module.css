@@ -11,15 +11,15 @@
   gap: 0;
   padding: 0;
   border: 0;
-  border-radius: var(--fab-shape, var(--shape-corner-large, 16px));
-  color: var(--fab-content-color, var(--on-primary-container, #041e49));
+  border-radius: var(--fab-shape);
+  color: var(--fab-content-color);
   background: transparent;
   cursor: pointer;
   font-family: inherit;
-  font-size: var(--m3-type-label-large-size, 14px);
-  line-height: var(--m3-type-label-large-line-height, 20px);
-  font-weight: var(--m3-type-label-large-weight, 500);
-  letter-spacing: var(--m3-type-label-large-tracking, 0.1px);
+  font-size: var(--m3-type-label-large-size);
+  line-height: var(--m3-type-label-large-line-height);
+  font-weight: var(--m3-type-label-large-weight);
+  letter-spacing: var(--m3-type-label-large-tracking);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -28,8 +28,8 @@
   z-index: -1;
   inset: 0;
   border-radius: inherit;
-  background: var(--fab-container-color, var(--primary-container, #d3e3fd));
-  box-shadow: var(--fab-shadow-default, var(--button-elevation-2, 0 1px 2px rgb(0 0 0 / 0.12), 0 2px 6px rgb(0 0 0 / 0.12)));
+  background: var(--fab-container-color);
+  box-shadow: var(--fab-shadow-default);
   content: "";
   pointer-events: none;
   transition:
@@ -43,7 +43,7 @@
 }
 
 .fab:focus-visible {
-  outline: 2px solid var(--focus-ring, currentColor);
+  outline: 2px solid var(--primary);
   outline-offset: 3px;
 }
 
@@ -56,13 +56,13 @@
 }
 
 .fab:disabled {
-  color: color-mix(in srgb, var(--on-surface, currentColor) 38%, transparent);
+  color: color-mix(in srgb, var(--on-surface) 38%, transparent);
   cursor: not-allowed;
 }
 
 .fab:disabled::before {
   box-shadow: none;
-  background: color-mix(in srgb, var(--on-surface, currentColor) 12%, transparent);
+  background: color-mix(in srgb, var(--on-surface) 12%, transparent);
 }
 
 .fab svg {
@@ -75,25 +75,25 @@
   min-width: 48px;
   min-height: 48px;
   padding: 4px;
-  border-radius: var(--fab-shape, var(--shape-corner-medium, 12px));
+  border-radius: var(--fab-shape);
 }
 
 .small::before {
   inset: 4px;
-  border-radius: var(--fab-shape, var(--shape-corner-medium, 12px));
+  border-radius: var(--fab-shape);
 }
 
 .large {
   min-width: 96px;
   min-height: 96px;
-  border-radius: var(--fab-shape, var(--shape-corner-extra-large, 28px));
+  border-radius: var(--fab-shape);
 }
 
 .extended,
 .extendedContent {
   min-width: 80px;
   min-height: 56px;
-  border-radius: var(--fab-shape, var(--shape-corner-large, 16px));
+  border-radius: var(--fab-shape);
   padding-inline: 20px;
 }
 

@@ -149,8 +149,8 @@ test("snackbar keeps a polite atomic live announcement and source visual tokens"
   const snackbar = container.querySelector('[role="status"]');
   assert.equal(snackbar.getAttribute("aria-live"), "polite");
   assert.equal(snackbar.getAttribute("aria-atomic"), "true");
-  assert.match(componentCss, /min-height:\s*var\(--m3-size-snackbar-single-line-height, 3rem\)/);
-  assert.match(componentCss, /max-width:\s*var\(--m3-size-snackbar-max-width, 37\.5rem\)/);
+  assert.match(componentCss, /min-height:\s*var\(--m3-size-snackbar-single-line-height\)/);
+  assert.match(componentCss, /max-width:\s*var\(--m3-size-snackbar-max-width\)/);
   assert.match(componentCss, /box-shadow:/);
   assert.match(componentCss, /border-radius:\s*var\(--snackbar-shape/);
 });

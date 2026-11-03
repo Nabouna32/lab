@@ -3,21 +3,21 @@
 .tooltip {
   position: absolute; z-index: 1200; display: grid; gap: 6px; box-sizing: border-box;
   width: max-content; max-width: min(320px, calc(100vw - 32px)); padding: 8px 12px;
-  border-radius: var(--shape-corner-small, 8px);
-  color: var(--lab-inverse-on-surface, var(--inverse-on-surface, #fff));
-  background: var(--lab-inverse-surface, var(--inverse-surface, #313033));
+  border-radius: var(--shape-corner-small);
+  color: var(--inverse-on-surface);
+  background: var(--inverse-surface);
   box-shadow: var(--shadow-sm);
   font-size: var(--m3-type-body-small-size); line-height: var(--m3-type-body-small-line-height); font-weight: var(--m3-type-body-small-weight); letter-spacing: var(--m3-type-body-small-tracking);
   pointer-events: none; animation: m3-tooltip-in 120ms cubic-bezier(.2, 0, 0, 1) both;
 }
 .plain { padding: 8px 12px; }
 .rich {
-  gap: 8px; padding: 16px; border-radius: var(--shape-corner-medium, 12px);
+  gap: 8px; padding: 16px; border-radius: var(--shape-corner-medium);
   width: max-content; min-width: min(40px, calc(100vw - 32px));
   max-width: min(320px, calc(100vw - 32px));
   white-space: normal; font-size: var(--m3-type-body-medium-size); line-height: var(--m3-type-body-medium-line-height); font-weight: var(--m3-type-body-medium-weight); letter-spacing: var(--m3-type-body-medium-tracking);
-  color: var(--on-surface-variant, currentColor);
-  background: var(--surface-container, Canvas);
+  color: var(--on-surface-variant);
+  background: var(--surface-container);
   box-shadow: var(--shadow-sm);
   pointer-events: auto;
 }

@@ -11,9 +11,6 @@ import { createRainbowCategorySeed, rainbowCategoryHueSeeds } from "./rainbow-pa
 const BRAND_SEED = "#4285F4";
 const SPEC_VERSION = "2025" as const;
 const PLATFORM = "phone" as const;
-const source = Hct.fromInt(argbFromHex(BRAND_SEED));
-const lightFidelity = new SchemeFidelity(source, false, 0, SPEC_VERSION, PLATFORM);
-const darkFidelity = new SchemeFidelity(source, true, 0, SPEC_VERSION, PLATFORM);
 
 const semanticTokens = {
   primary: "primary",
@@ -32,7 +29,6 @@ const semanticTokens = {
   "on-error": "onError",
   "error-container": "errorContainer",
   "on-error-container": "onErrorContainer",
-  foreground: "onBackground",
   background: "background",
   "on-background": "onBackground",
   surface: "surface",
@@ -45,18 +41,15 @@ const semanticTokens = {
   "surface-container-high": "surfaceContainerHigh",
   "surface-container-highest": "surfaceContainerHighest",
   "surface-tint": "surfaceTint",
-  "surface-soft": "surfaceContainerLow",
-  "surface-elevated": "surfaceContainer",
   "surface-variant": "surfaceVariant",
   "on-surface-variant": "onSurfaceVariant",
-  muted: "onSurfaceVariant",
-  border: "outlineVariant",
-  "border-strong": "outline",
   outline: "outline",
   "outline-variant": "outlineVariant",
   "inverse-surface": "inverseSurface",
   "inverse-on-surface": "inverseOnSurface",
   "inverse-primary": "inversePrimary",
+  shadow: "shadow",
+  scrim: "scrim",
 } as const;
 
 function toHex(argb: number): string {
@@ -89,7 +82,13 @@ function addCategoryTokens(style: Record<string, string>, prefix: "light" | "dar
  * category accents. Both light and dark values are emitted together so theme
  * switching remains CSS-only and does not introduce hydration differences.
  */
-export function getLocularyThemeStyle(): CSSProperties {
+export function getLocularyThemeStyle(seed: string = BRAND_SEED): CSSProperties {
+  if (!/^#[0-9a-f]{6}$/i.test(seed)) {
+    throw new TypeError("The Material 3 seed must be a six-digit hexadecimal color.");
+  }
+  const source = Hct.fromInt(argbFromHex(seed));
+  const lightFidelity = new SchemeFidelity(source, false, 0, SPEC_VERSION, PLATFORM);
+  const darkFidelity = new SchemeFidelity(source, true, 0, SPEC_VERSION, PLATFORM);
   const style: Record<string, string> = {};
   addSchemeTokens(style, "light", lightFidelity);
   addSchemeTokens(style, "dark", darkFidelity);

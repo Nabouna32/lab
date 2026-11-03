@@ -8,8 +8,8 @@
   padding-block-end: env(safe-area-inset-bottom, 0px);
   padding-inline-start: calc(var(--bottom-app-bar-padding-start, 4px) + env(safe-area-inset-left, 0px));
   padding-inline-end: calc(var(--bottom-app-bar-padding-end, 4px) + env(safe-area-inset-right, 0px));
-  color: var(--bottom-app-bar-content-color, var(--on-surface, currentColor));
-  background: var(--bottom-app-bar-container-color, var(--lab-surface-container, var(--surface-container, transparent)));
+  color: var(--bottom-app-bar-content-color, var(--on-surface));
+  background: var(--bottom-app-bar-container-color, var(--surface-container));
   border-radius: 0;
   box-shadow: none;
 }

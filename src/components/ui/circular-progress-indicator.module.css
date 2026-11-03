@@ -2,10 +2,10 @@
   display: inline-grid;
   flex: 0 0 auto;
   place-items: center;
-  color: var(--progress-color, var(--lab-primary, var(--primary, currentColor)));
+  color: var(--progress-color, var(--primary));
 }
 .root svg { display: block; overflow: visible; }
-.track { stroke: var(--progress-track, var(--lab-surface-high, var(--surface-variant, currentColor))); }
+.track { stroke: var(--progress-track, var(--surface-high, var(--surface-variant))); }
 .indicator {
   stroke: currentColor;
   transform-origin: center;

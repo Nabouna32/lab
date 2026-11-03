@@ -29,12 +29,8 @@ export default function LocalePreferenceBanner({ locale }: { locale: Locale }) {
   const dismissed = isCurrentPath && noticeState.dismissed;
 
   useEffect(() => {
-    const hasSupabaseSessionCookie = document.cookie.split(";").some((cookie) => {
-      const name = cookie.trim().split("=")[0];
-      return /^sb-.+-auth-token(?:\.\d+)?$/.test(name);
-    });
-    if (!hasSupabaseSessionCookie) return;
-
+    // L'API serveur vérifie elle-même la session ; ne dupliquons pas sa détection
+    // en inspectant les cookies d'authentification depuis le navigateur.
     const controller = new AbortController();
     void fetch("/api/account/locale-preference", {
       cache: "no-store",

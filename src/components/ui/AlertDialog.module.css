@@ -5,7 +5,7 @@
   display: grid;
   place-items: center;
   padding: 1.5rem;
-  background: color-mix(in srgb, var(--on-surface, var(--foreground, #171717)) 32%, transparent);
+  background: color-mix(in srgb, var(--on-surface) 32%, transparent);
   animation: alert-scrim-enter 150ms ease-out both;
 }
 
@@ -14,23 +14,23 @@
   max-height: min(85dvh, 42rem);
   overflow: auto;
   padding: 1.5rem;
-  border-radius: var(--shape-corner-extra-large, 28px);
-  background: var(--surface-container-high, var(--surface, #fff));
-  color: var(--on-surface, var(--foreground, #171717));
-  box-shadow: 0 8px 32px color-mix(in srgb, var(--on-surface, #000) 20%, transparent);
+  border-radius: var(--shape-corner-extra-large);
+  background: var(--surface-container-high);
+  color: var(--on-surface);
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--on-surface) 20%, transparent);
   outline: none;
   animation: alert-dialog-enter 180ms cubic-bezier(.2, 0, 0, 1) both;
 }
 
 .dialog:focus-visible {
-  outline: 2px solid var(--focus-ring, var(--primary));
+  outline: 2px solid var(--primary);
   outline-offset: 3px;
 }
 
 .icon {
   display: flex;
   margin-bottom: 1rem;
-  color: var(--secondary, var(--primary));
+  color: var(--secondary);
 }
 
 .title {
@@ -43,7 +43,7 @@
 
 .description {
   margin: 1rem 0 0;
-  color: var(--on-surface-variant, var(--muted-foreground, #555));
+  color: var(--on-surface-variant);
   font-size: var(--m3-type-body-medium-size);
   font-weight: var(--m3-type-body-medium-weight);
   line-height: var(--m3-type-body-medium-line-height);

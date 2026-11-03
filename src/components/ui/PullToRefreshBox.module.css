@@ -3,10 +3,10 @@
   max-height: 300px;
   overflow-y: auto;
   overscroll-behavior-y: contain;
-  border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  border: 1px solid var(--outline-variant);
   border-radius: 16px;
-  background: var(--lab-surface, var(--md-sys-color-surface, Canvas));
-  color: var(--lab-on-surface, var(--md-sys-color-on-surface, CanvasText));
+  background: var(--surface);
+  color: var(--on-surface);
 }
 
 .indicator {
@@ -19,7 +19,7 @@
   gap: 10px;
   min-height: 48px;
   margin-bottom: -48px;
-  color: var(--lab-primary, currentColor);
+  color: var(--primary);
   font-size: var(--m3-type-body-medium-size);
   line-height: var(--m3-type-body-medium-line-height);
   font-weight: var(--m3-type-body-medium-weight);
