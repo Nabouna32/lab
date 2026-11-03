@@ -648,17 +648,28 @@ test("personal information page owns profile editing and localized feedback", ()
 });
 
 
-test("application navigation preserves accessible links and localized destinations without prescribing a layout", () => {
+test("application navigation composes the shared Material 3 navigation ports and keeps localized destinations", () => {
   const navigation = readFileSync(new URL("../../components/layout/AdaptiveAppNavigation.tsx", import.meta.url), "utf8");
   const navigationCss = readFileSync(new URL("../../components/layout/AdaptiveAppNavigation.module.css", import.meta.url), "utf8");
 
-  assert.match(navigation, /<nav\b/);
-  assert.match(navigation, /<Link[\s\S]*?aria-current=\{selected \? "page" : undefined\}/);
+  assert.match(navigation, /<NavigationBar\b/);
+  assert.match(navigation, /<NavigationRail\b/);
+  assert.match(navigation, /<NavigationDrawer\b/);
+  assert.match(navigation, /href: item\.href/);
   assert.match(navigation, /getToolsPath\(locale\)/);
   assert.match(navigation, /getGuidedWorkflowsPath\(locale\)/);
   assert.match(navigation, /\["home", "tools", "favorites", "collections", "account"\]/);
   assert.match(navigation, /icon: "search"/);
   assert.doesNotMatch(navigation, /mobileMore|moreOpen|mobile-secondary-navigation/);
+  assert.match(navigation, /\$\{locale\}\/compte/);
+
+  // The shell composes shared ports and must not reintroduce bespoke navigation values.
+  assert.doesNotMatch(navigation, /font-weight:\s*600/);
+  assert.doesNotMatch(navigationCss, /font-weight:\s*600/);
+  assert.doesNotMatch(navigationCss, /\b88px\b/);
+  assert.doesNotMatch(navigationCss, /\b264px\b/);
+  assert.match(navigationCss, /:focus-visible/);
+  assert.match(navigationCss, /prefers-reduced-motion: reduce/);
 
   const headerPreferences = readFileSync(new URL("../../components/layout/HeaderPreferences.tsx", import.meta.url), "utf8");
   assert.match(headerPreferences, /getGuidedWorkflowsPath\(locale\)/);
@@ -669,9 +680,6 @@ test("application navigation preserves accessible links and localized destinatio
   assert.match(headerPreferences, /name=\{compact \? "loculary-theme-mobile" : "loculary-theme-desktop"\}/);
   assert.match(headerPreferences, /hidden items-center gap-3 md:flex/);
   assert.match(headerPreferences, /relative md:hidden/);
-  assert.match(navigation, /\$\{locale\}\/compte/);
-  assert.match(navigationCss, /:focus-visible/);
-  assert.match(navigationCss, /prefers-reduced-motion: reduce/);
 });
 
 test("remaining public, admin and account pages consume shared Material 3 typography roles", () => {

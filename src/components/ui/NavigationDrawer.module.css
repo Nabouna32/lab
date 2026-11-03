@@ -15,7 +15,7 @@
 .item {
   display: flex; align-items: center; gap: 12px; min-height: 56px; width: 100%; padding: 0 16px;
   border: 0; border-radius: var(--shape-corner-full, 999px); color: var(--lab-text, var(--on-surface, currentColor));
-  background: transparent; text-align: start; font: inherit; font-size: var(--m3-type-label-large-size); line-height: var(--m3-type-label-large-line-height); font-weight: var(--m3-type-label-large-weight); letter-spacing: var(--m3-type-label-large-tracking); cursor: pointer;
+  background: transparent; text-align: start; font: inherit; text-decoration: none; font-size: var(--m3-type-label-large-size); line-height: var(--m3-type-label-large-line-height); font-weight: var(--m3-type-label-large-weight); letter-spacing: var(--m3-type-label-large-tracking); cursor: pointer;
 }
 .item[data-selected="true"] { color: var(--lab-on-secondary-container, var(--on-secondary-container, currentColor)); background: var(--lab-secondary-container, var(--secondary-container, transparent)); }
 .item:hover { background: color-mix(in srgb, currentColor 8%, transparent); }
