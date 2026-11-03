@@ -71,7 +71,7 @@ test("Supabase Edge Functions and database inputs receive independent, targeted 
   assert.match(workflow, /supabase_database_changed/);
   assert.match(functions, /find supabase\/functions .* -name index\.ts/);
   assert.match(functions, /deno check --frozen index\.ts/);
-  assert.match(database, /supabase\/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359/);
+  assert.match(database, /supabase\/setup-cli@d239d1052f6f024a8d746d7e5aeddead63b9cb53/);
   assert.match(database, /version: 2\.122\.0/);
   assert.match(database, /supabase db start/);
   assert.match(database, /supabase test db --local/);
