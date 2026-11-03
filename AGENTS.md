@@ -54,6 +54,8 @@ Lorsqu'une tâche validée ou autorisée nécessite une intervention, une décis
 
 ## Principes communs
 
+- La stratégie de tests commune aux trois modes est définie dans `docs/TESTING-STRATEGY.md`. La consulter pour décider d'ajouter, conserver, réécrire ou supprimer un test et pour qualifier les résultats CI. Cette politique ne peut jamais assouplir le contrat AndroidX épinglé.
+
 - Choisis librement la méthode, les outils et le niveau de vérification selon le risque. Évite les processus, abstractions, documents, questions et contrôles redondants qui n'apportent pas de valeur.
 - Distingue faits, hypothèses et incertitudes. Ne prétends jamais avoir exécuté ou vérifié quelque chose sans preuve.
 - Les réponses doivent être chaleureuses, naturelles, claires et faciles à parcourir. Utilise des emojis sémantiques comme repères visuels selon le contenu : 🔍 constats, ⚠️ risques, ❌ problèmes, 💡 propositions/recommandations, ✅ validations/résultats, 🛠️ actions, 🧪 tests/vérifications, 📌 décisions/points importants. Emploie-les avec discernement, sans décoration excessive ; ne sacrifie jamais la précision.
