@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
-import { getLocularyThemeStyle } from "../../lib/design-system/rainbow-tones.ts";
 const alertDialogSource = readFileSync(new URL("../../components/ui/AlertDialog.tsx", import.meta.url), "utf8");
 const alertDialogCss = readFileSync(new URL("../../components/ui/AlertDialog.module.css", import.meta.url), "utf8");
 const checkboxSource = readFileSync(new URL("../../components/ui/Checkbox.tsx", import.meta.url), "utf8");
@@ -23,7 +22,6 @@ const iconButtonSource = readFileSync(new URL("../../components/ui/IconButton.ts
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const headerPreferencesSource = readFileSync(new URL("../../components/layout/HeaderPreferences.tsx", import.meta.url), "utf8");
 const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.url), "utf8");
-const themeStyle = getLocularyThemeStyle();
 const typographyComponentStyles = {
   buttonGroup: readFileSync(new URL("../../components/ui/ButtonGroup.module.css", import.meta.url), "utf8"),
   datePicker: readFileSync(new URL("../../components/ui/DatePicker.module.css", import.meta.url), "utf8"),
@@ -52,11 +50,8 @@ function contrastRatio(first, second) {
   const values = [luminance(first), luminance(second)].sort((a, b) => b - a);
   return (values[0] + 0.05) / (values[1] + 0.05);
 }
-function themeColor(name) {
-  return themeStyle[`--m3-light-${name}`] || themeStyle[`--m3-dark-${name}`];
-}
-function themeColors(name) {
-  return [themeStyle[`--m3-light-${name}`], themeStyle[`--m3-dark-${name}`]].filter(Boolean);
+function literalColors(name) {
+  return [...globalCss.matchAll(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6});`, "g"))].map((match) => match[1]);
 }
 test("shared typography roles drive component CSS instead of duplicated font metrics", () => {
   const expectations = [
@@ -116,8 +111,8 @@ test("shared production compositions consume named typography and shape roles", 
 
 test("custom status foregrounds meet WCAG AA contrast on their light and dark containers", () => {
   for (const status of ["info", "success", "warning"]) {
-    const foregrounds = themeColors(status);
-    const backgrounds = themeColors(`${status}-container`);
+    const foregrounds = literalColors(status);
+    const backgrounds = literalColors(`${status}-soft`);
     assert.equal(foregrounds.length, 2, `${status} should define light and dark foregrounds`);
     assert.equal(backgrounds.length, 2, `${status} should define light and dark containers`);
     for (let themeIndex = 0; themeIndex < 2; themeIndex += 1) {
@@ -564,7 +559,7 @@ test("tool compositions use shared shape roles instead of migrated legacy aliase
     "../../components/tools/url-encoder/UrlEncoder.tsx",
     "../../components/tools/regex-tester/RegexTester.tsx",
     "../../components/favorites/FavoritesView.tsx",
-    "../../components/tools/ToolPage/ToolPage.tsx",
+    "../../components/tools/ToolPage/ToolPageHeader.tsx",
   ];
   const extraLargeConsumers = [
     "../../components/tools/uuid/UuidGenerator.tsx",
