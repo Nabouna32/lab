@@ -2,12 +2,12 @@ import type { Locale } from "./config";
 
 export const localeNoticeMessages: Record<Locale, { message: string; action: string; dismiss: string }> = {
   fr: {
-    message: "Cette page est disponible en anglais.",
+    message: "La langue de votre compte est l’anglais.",
     action: "Passer en anglais",
     dismiss: "Fermer",
   },
   en: {
-    message: "This page is available in French.",
+    message: "Your account language is French.",
     action: "Switch to French",
     dismiss: "Dismiss",
   },
