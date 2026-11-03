@@ -8,9 +8,10 @@ const css = readFileSync(new URL("../../components/ui/NavigationBar.module.css",
 test("NavigationBar exposes named navigation, selectable destinations and Material icon labels", () => {
   assert.match(source, /<nav[^>]+aria-label=\{label\}/);
   assert.match(source, /aria-pressed=\{selected\}/);
-  assert.match(source, /data-selected=\{selected \? "true" : "false"\}/);
-  assert.match(source, /<MaterialIcon name=\{item\.icon\} size=\{24\}/);
-  assert.match(source, /onClick=\{\(\) => onSelect\(item\.key\)\}/);
+  assert.match(source, /"data-selected": selected \? "true" : "false"/);
+  assert.match(source, /item\.iconNode \?\? <MaterialIcon name=\{item\.icon\} size=\{24\} \/>/);
+  assert.match(source, /onClick=\{\(\) => onSelect\?\.\(item\.key\)\}/);
+  assert.match(source, /<Link[^>]+href=\{item\.href\}/);
 });
 
 test("NavigationBar uses shared semantic roles and preserves Web accessibility adaptations", () => {

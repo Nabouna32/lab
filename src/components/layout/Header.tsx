@@ -19,7 +19,6 @@ export default function Header({ locale }: { locale: Locale }) {
         >
           <LocularyLogo
             className="gap-2 sm:gap-2.5 transition-transform duration-200 group-hover:scale-[1.01]"
-            wordmarkClassName="text-base font-bold tracking-[-0.03em] sm:text-lg"
           />
         </Link>
       }
@@ -29,7 +28,7 @@ export default function Header({ locale }: { locale: Locale }) {
           <HeaderPreferences locale={locale} />
         </>
       }
-      className="sticky top-0 z-50 border-b border-[var(--border)]/80"
+      className="sticky top-0 z-50"
       style={{ viewTransitionName: "loculary-header" }}
       contentStyle={{
         maxWidth: "var(--layout-content-wide)",

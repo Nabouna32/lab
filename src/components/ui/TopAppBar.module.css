@@ -3,7 +3,7 @@
   width: 100%;
   box-sizing: border-box;
   color: var(--foreground, var(--on-surface, currentColor));
-  background: var(--background, var(--surface, transparent));
+  background: var(--surface, var(--background, transparent));
 }
 .row {
   display: flex;

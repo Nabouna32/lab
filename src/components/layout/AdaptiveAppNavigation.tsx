@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
-import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import LocularyLogo from "@/components/brand/LocularyLogo";
 import { CollectionIcon } from "@/components/ui/CollectionIcon";
 import { StarIcon } from "@/components/ui/StarIcon";
+import { NavigationBar } from "@/components/ui/NavigationBar";
+import { NavigationRail } from "@/components/ui/NavigationRail";
+import { NavigationDrawer } from "@/components/ui/NavigationDrawer";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getToolsPath, getGuidedWorkflowsPath } from "@/lib/tools/routes";
@@ -21,6 +23,9 @@ type Destination = {
   match: (pathname: string) => boolean;
   customIcon?: "star" | "collections";
 };
+
+/** Destinations shown in the compact bottom bar; the rail and drawer expose all of them. */
+const compactKeys = ["home", "tools", "favorites", "collections", "account"];
 
 export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
   const pathname = usePathname();
@@ -43,28 +48,28 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
   }, [locale, t]);
 
   const active = destinations.find((item) => item.match(pathname))?.key ?? "home";
-  const compact = destinations.filter((item) => ["home", "tools", "favorites", "collections", "account"].includes(item.key));
 
-  function iconFor(item: Destination) {
-    if (item.customIcon === "star") return <StarIcon filled className={styles.customIcon} />;
-    if (item.customIcon === "collections") return <CollectionIcon className={styles.customIcon} />;
-    return <MaterialIcon name={item.icon} size={24} />;
+  function iconNodeFor(item: Destination) {
+    if (item.customIcon === "star") return <StarIcon filled size={24} />;
+    if (item.customIcon === "collections") return <CollectionIcon className="h-6 w-6" />;
+    return undefined;
   }
 
-  function link(item: Destination, compact = false) {
-    const selected = active === item.key;
+  const items = destinations.map((item) => ({
+    key: item.key,
+    label: item.label,
+    icon: item.icon,
+    iconNode: iconNodeFor(item),
+    href: item.href,
+    navKey: item.key,
+    section: item.group === "personal" ? t.nav.space : undefined,
+  }));
+  const compactItems = items.filter((item) => compactKeys.includes(item.key));
+
+  function brand(wordmarkClassName?: string) {
     return (
-      <Link
-        key={item.key}
-        href={item.href}
-        prefetch={item.key === "account" ? false : undefined}
-        aria-current={selected ? "page" : undefined}
-        data-nav-key={item.key}
-        data-selected={selected ? "true" : "false"}
-        className={compact ? styles.mobileItem : styles.desktopItem}
-      >
-        <span className={compact ? styles.mobileIcon : styles.desktopIcon} aria-hidden="true">{iconFor(item)}</span>
-        <span className={compact ? styles.mobileLabel : styles.desktopLabel}>{item.label}</span>
+      <Link href={`/${locale}`} className={styles.brand} aria-label={`Loculary - ${t.nav.home}`}>
+        <LocularyLogo wordmarkClassName={wordmarkClassName} />
       </Link>
     );
   }
@@ -72,22 +77,30 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
   return (
     <>
       <aside className={styles.sidebar}>
-        <Link href={`/${locale}`} className={styles.brand} aria-label={`Loculary — ${t.nav.home}`}>
-          <LocularyLogo wordmarkClassName="hidden text-base font-bold tracking-[-0.03em] min-[1200px]:inline" />
-        </Link>
-        <nav className={styles.desktopNav} aria-label={t.nav.primaryNavigation}>
-          <div className={styles.group}>{destinations.filter((item) => item.group === "main").map((item) => link(item))}</div>
-          <div className={styles.separator} />
-          <p className={styles.groupLabel}>{t.nav.space}</p>
-          <div className={styles.group}>{destinations.filter((item) => item.group === "personal").map((item) => link(item))}</div>
-        </nav>
-        <div className={styles.sidebarFooter}>
-          <span className={styles.footerHint}>{t.nav.account}</span>
+        <div className={styles.railSlot}>
+          <NavigationRail
+            items={items}
+            selectedKey={active}
+            label={t.nav.primaryNavigation}
+            className={styles.railScroll}
+            header={brand("hidden")}
+          />
+        </div>
+        <div className={styles.drawerSlot}>
+          <NavigationDrawer
+            open
+            onOpenChange={() => {}}
+            mode="permanent"
+            items={items}
+            selectedKey={active}
+            label={t.nav.primaryNavigation}
+            title={brand()}
+          />
         </div>
       </aside>
-      <nav className={styles.mobileNav} aria-label={t.nav.primaryNavigation}>
-        {compact.map((item) => link(item, true))}
-      </nav>
+      <div className={styles.mobileSlot}>
+        <NavigationBar items={compactItems} selectedKey={active} label={t.nav.primaryNavigation} className={styles.mobileBar} />
+      </div>
     </>
   );
 }

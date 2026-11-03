@@ -137,7 +137,7 @@ test("global header uses the shared Material 3 small TopAppBar with content gutt
 
 test("primary and secondary navigation landmarks are localized and the secondary disclosure is accessible", () => {
   const adaptiveNavigationSource = readSource("../../components/layout/AdaptiveAppNavigation.tsx");
-  assert.ok(adaptiveNavigationSource.includes("aria-label={t.nav.primaryNavigation}"));
+  assert.ok(adaptiveNavigationSource.includes("label={t.nav.primaryNavigation}"));
   assert.ok(headerPreferencesSource.includes('<nav aria-label={t.nav.more}>'));
   assert.ok(headerPreferencesSource.includes("aria-expanded={open}"));
   assert.ok(headerPreferencesSource.includes('aria-controls={open ? "mobile-secondary-navigation" : undefined}'));
