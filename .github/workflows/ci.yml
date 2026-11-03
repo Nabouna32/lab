@@ -9,11 +9,6 @@ on:
       - edited
       - synchronize
       - reopened
-  pull_request_target:
-    branches:
-      - main
-    types:
-      - closed
   workflow_dispatch:
     inputs:
       scope:
@@ -208,8 +203,7 @@ jobs:
     name: Lint, vérification TypeScript et tests unitaires
     needs: prepare
     if: >-
-      ${{ github.event.action != 'closed' &&
-          always() &&
+      ${{ always() &&
           (needs.prepare.result == 'success' || github.event_name == 'pull_request') &&
           (github.event_name != 'pull_request' || needs.prepare.outputs.lightweight_only != 'true') &&
           (github.event_name != 'workflow_dispatch' || inputs.scope == 'full') }}
@@ -248,8 +242,7 @@ jobs:
     name: Construction de l'application de production
     needs: prepare
     if: >-
-      ${{ github.event.action != 'closed' &&
-          always() &&
+      ${{ always() &&
           (needs.prepare.result == 'success' || github.event_name == 'pull_request') &&
           (github.event_name != 'pull_request' ||
             (needs.prepare.outputs.lightweight_only != 'true' &&
@@ -292,8 +285,7 @@ jobs:
     name: Vérification des fonctions Edge Supabase (Deno)
     needs: prepare
     if: >-
-      ${{ github.event.action != 'closed' &&
-          needs.prepare.result == 'success' &&
+      ${{ needs.prepare.result == 'success' &&
           ((github.event_name == 'workflow_dispatch' && inputs.scope == 'full') ||
            (github.event_name != 'workflow_dispatch' && needs.prepare.outputs.supabase_functions_changed == 'true')) }}
     runs-on: ubuntu-latest
@@ -329,8 +321,7 @@ jobs:
     name: Validation de la base Supabase — migrations, tests pgTAP et analyse SQL
     needs: prepare
     if: >-
-      ${{ github.event.action != 'closed' &&
-          needs.prepare.result == 'success' &&
+      ${{ needs.prepare.result == 'success' &&
           ((github.event_name == 'workflow_dispatch' && inputs.scope == 'full') ||
            (github.event_name != 'workflow_dispatch' && needs.prepare.outputs.supabase_database_changed == 'true')) }}
     runs-on: ubuntu-latest
@@ -367,7 +358,7 @@ jobs:
   ci:
     name: Vérification finale des contrôles applicables
     needs: [prepare, quality, build, supabase-functions, supabase-database]
-    if: always() && github.event.action != 'closed'
+    if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -405,31 +396,3 @@ jobs:
             esac
           done
           echo "All applicable CI checks passed."
-
-  recheck-blocked-prs:
-    name: Réévaluation de la PR prioritaire après fermeture
-    if: github.event_name == 'pull_request_target' && github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    permissions:
-      actions: write
-      contents: read
-      pull-requests: read
-    steps:
-      - name: Checkout trusted main workflow code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          ref: main
-          fetch-depth: 1
-          persist-credentials: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version-file: .nvmrc
-
-      - name: Réévaluer uniquement le contrôle de gouvernance échoué
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-        run: node .github/scripts/recheck-pr-governance.mjs
