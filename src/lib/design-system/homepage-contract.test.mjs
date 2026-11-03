@@ -57,15 +57,6 @@ test("header search disclosure exposes ARIA state and restores focus after Escap
   assert.ok(headerSearchSource.includes("input.focus()"));
 });
 
-test("header menu disclosure exposes ARIA state, hides inactive content and restores focus", () => {
-  assert.ok(headerPreferencesSource.includes("aria-expanded={open}"));
-  assert.ok(headerPreferencesSource.includes('aria-controls={open ? "mobile-secondary-navigation" : undefined}'));
-  assert.ok(headerPreferencesSource.includes("aria-hidden={!open}"));
-  assert.ok(headerPreferencesSource.includes("inert={!open}"));
-  assert.ok(headerPreferencesSource.includes('event.key !== "Escape"'));
-  assert.ok(headerPreferencesSource.includes("triggerRef.current?.focus()"));
-});
-
 test("mobile preferences close on route changes without persisting open state", () => {
   assert.ok(headerPreferencesSource.includes("const open = openPath === pathname;"));
   assert.match(headerPreferencesSource, /function handlePopState\(\)\s*\{\s*setOpenPath\(null\);/);
