@@ -190,7 +190,7 @@ export default function HeaderPreferences({ locale }: { locale: Locale }) {
           aria-controls={open ? "mobile-secondary-navigation" : undefined}
           onClick={() => setOpenPath(open ? null : pathname)}
         >
-          <MaterialIcon name="more_horiz" size={24} />
+          <MaterialIcon name="menu" size={24} />
         </button>
 
         <div
