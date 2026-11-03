@@ -1,24 +1,24 @@
+/**
+ * NavigationSuiteScaffold - Production wrapper.
+ * Layout only: no borders, fixed heights, or specimen styling.
+ * Dimensions and styling come from the composed NavigationBar/NavigationRail/NavigationDrawer ports.
+ */
+
 .root {
   display: flex;
-  position: relative;
+  flex-direction: column;
   width: 100%;
-  min-height: 360px;
-  overflow: hidden;
-  border: 1px solid var(--outline-variant);
-  border-radius: 16px;
-  background: var(--surface);
-  color: var(--on-surface);
+  min-height: 0;
 }
 
 .mobileNavigation {
-  display: block;
-  position: absolute;
-  z-index: 3;
-  inset-inline: 0;
-  bottom: 0;
+  display: none;
 }
 
-.mediumNavigation,
+.mediumNavigation {
+  display: none;
+}
+
 .expandedNavigation {
   display: none;
 }
@@ -26,41 +26,52 @@
 .content {
   flex: 1 1 auto;
   min-width: 0;
-  padding: 16px 16px 88px;
+  min-height: 0;
 }
 
-@media (min-width: 600px) {
-  .root {
-    min-height: 420px;
-  }
-
+/* Auto layout: viewport-based fallback when layoutType="auto" */
+@media (max-width: 599px) {
   .mobileNavigation {
-    display: none;
+    display: block;
   }
+}
 
+@media (min-width: 600px) and (max-width: 839px) {
   .mediumNavigation {
     display: block;
-    flex: 0 0 auto;
-    padding: 8px;
-  }
-
-  .content {
-    padding: 24px;
   }
 }
 
 @media (min-width: 840px) {
-  .mediumNavigation {
-    display: none;
-  }
-
   .expandedNavigation {
     display: block;
-    flex: 0 0 auto;
-    max-width: 280px;
   }
+}
 
-  .content {
-    padding: 32px;
-  }
+/* Explicit layout types override auto */
+.root[data-layout="bottom"] .mobileNavigation {
+  display: block;
+}
+
+.root[data-layout="bottom"] .mediumNavigation,
+.root[data-layout="bottom"] .expandedNavigation {
+  display: none;
+}
+
+.root[data-layout="rail"] .mediumNavigation {
+  display: block;
+}
+
+.root[data-layout="rail"] .mobileNavigation,
+.root[data-layout="rail"] .expandedNavigation {
+  display: none;
+}
+
+.root[data-layout="drawer"] .expandedNavigation {
+  display: block;
+}
+
+.root[data-layout="drawer"] .mobileNavigation,
+.root[data-layout="drawer"] .mediumNavigation {
+  display: none;
 }

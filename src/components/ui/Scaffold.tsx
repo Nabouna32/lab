@@ -102,7 +102,7 @@ export function Scaffold({
   snackbarHost,
   floatingActionButton,
   floatingActionButtonPosition = "end",
-  containerColor = "var(--bg, var(--surface))",
+  containerColor = "var(--surface)",
   contentColor = "var(--on-surface)",
   contentWindowInsets,
   className = "",

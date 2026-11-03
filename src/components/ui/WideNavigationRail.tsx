@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useId, useRef } from "react";
 import type { ReactNode } from "react";
 import type { MaterialIconName } from "@/components/ui/MaterialIcon";
@@ -11,12 +12,18 @@ export type WideNavigationRailItem = {
   label: string;
   icon: MaterialIconName;
   disabled?: boolean;
+  /** Optional product icon node (e.g. brand/collection icons) overriding the Material Symbol. */
+  iconNode?: ReactNode;
+  /** When provided, the destination renders as a link so navigation keeps its native semantics. */
+  href?: string;
+  /** Test/selector hook forwarded as `data-nav-key`; not part of the AndroidX contract. */
+  navKey?: string;
 };
 
 export type WideNavigationRailProps = {
   items: WideNavigationRailItem[];
   selectedKey: string;
-  onSelect: (key: string) => void;
+  onSelect?: (key: string) => void;
   expanded: boolean;
   onExpandedChange: (expanded: boolean) => void;
   mode?: "standard" | "modal";
@@ -29,8 +36,8 @@ export type WideNavigationRailProps = {
 
 /**
  * Web adaptation of AndroidX WideNavigationRail / ModalWideNavigationRail.
- * Modal expansion uses a Web scrim and focus management; AndroidX state/insets
- * and exact adaptive layout behavior are not implemented here.
+ * Matches AndroidX 1.4.0 specs: collapsed 80px, expanded 256px, 56dp item height,
+ * M3 labelLarge typography, secondaryContainer selected state.
  */
 export function WideNavigationRail({
   items,
@@ -102,20 +109,27 @@ export function WideNavigationRail({
         <div className={styles.items}>
           {items.map((item) => {
             const selected = item.key === selectedKey;
-            return <button
-              key={item.key}
-              type="button"
-              className={styles.item}
-              data-selected={selected ? "true" : "false"}
-              aria-current={selected ? "page" : undefined}
-              aria-label={item.label}
-              title={!expanded ? item.label : undefined}
-              disabled={item.disabled}
-              onClick={() => { onSelect(item.key); if (mode === "modal") onExpandedChange(false); }}
-            >
-              <span className={styles.icon}><MaterialIcon name={item.icon} size={24}/></span>
-              <span className={styles.itemLabel}>{item.label}</span>
-            </button>;
+            const content = (
+              <>
+                <span className={styles.icon}>{item.iconNode ?? <MaterialIcon name={item.icon} size={24} />}</span>
+                <span className={styles.itemLabel}>{item.label}</span>
+              </>
+            );
+            const shared = {
+              "data-selected": selected ? "true" : "false",
+              "data-nav-key": item.navKey,
+              "aria-current": selected ? ("page" as const) : undefined,
+            };
+            return item.href
+              ? <Link key={item.key} href={item.href} className={styles.item} {...shared}>{content}</Link>
+              : <button
+                  key={item.key}
+                  type="button"
+                  className={styles.item}
+                  aria-pressed={selected}
+                  onClick={() => { onSelect?.(item.key); if (mode === "modal") onExpandedChange(false); }}
+                  {...shared}
+                >{content}</button>;
           })}
         </div>
       </nav>

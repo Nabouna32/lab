@@ -5,7 +5,7 @@
   width: 100%;
   min-height: 100%;
   color: var(--on-surface);
-  background: var(--bg, var(--surface));
+  background: var(--surface);
   --scaffold-inset-start: var(--scaffold-inset-left);
   --scaffold-inset-end: var(--scaffold-inset-right);
 }
