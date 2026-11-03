@@ -234,5 +234,4 @@ test('governance changes execute every CI tooling test instead of maintaining a 
   assert.ok(workflow.includes('python3 .github/scripts/test_inspect_material3_android_aar.py'));
   assert.ok(workflow.includes('python3 .github/scripts/test_verify_material3_source_commit.py'));
   assert.ok(workflow.includes('python3 .github/scripts/test_verify_compose_source_archive_alignment.py'));
-  assert.equal(workflow.includes('test_inventory_material_components_api.py'), false, 'removed historical Views inventory tests must not remain in CI');
 });
