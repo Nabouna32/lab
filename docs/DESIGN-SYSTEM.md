@@ -78,6 +78,14 @@ Ne pas déduire un traitement visuel d'un simple libellé métier. En particulie
 
 Comparer le résultat réel dans le navigateur à la référence épinglée et consigner les thèmes, locales, viewports et états vérifiés. Les tests, assertions de tokens et succès de la CI ne prouvent pas la parité visuelle. Tout rendu navigateur qui n'a pas été inspecté reste `UNVERIFIED`.
 
+## Stratégie de tests et preuves
+
+Appliquer la politique commune [TESTING-STRATEGY.md](TESTING-STRATEGY.md). Pour le design system, distinguer au minimum les tests de contrat normatif AndroidX, les tests de comportement des ports React/Web, les contrôles de l'adaptation de plateforme et la comparaison visuelle du rendu navigateur.
+
+Un test de source, une assertion de token, une capture isolée ou une CI verte ne prouve pas à lui seul la fidélité du rendu complet. Inversement, une revue visuelle ne prouve pas l'exhaustivité d'une API AndroidX ni la provenance d'une baseline. Choisir les preuves en fonction du risque et déclarer séparément ce qui a été vérifié et ce qui reste non vérifié.
+
+Ne pas créer de test pour chaque composant ou classe CSS par principe. Protéger les contrats AndroidX exacts et les comportements ou frontières architecturales dont la régression aurait une conséquence réelle. Les assertions statiques sont appropriées lorsqu'elles constituent un signal robuste pour le contrat concerné ; éviter de figer des noms de classes, des structures internes ou des formulations sans valeur normative.
+
 ## Accessibilité et qualité
 
 - Préserver autant que possible les sémantiques HTML natives ; traduire les sémantiques Android vers les comportements HTML/ARIA appropriés plutôt que de copier aveuglément les API de la plateforme.
