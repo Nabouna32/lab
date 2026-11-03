@@ -82,7 +82,7 @@ test("standard, small and large FABs expose the AndroidX minimum dimensions and 
   assert.equal(large.getAttribute("data-variant"), "large");
   assert.equal(standard.style.minWidth, "");
   assert.equal(standard.style.getPropertyValue("--fab-container-color"), FloatingActionButtonDefaults.containerColor);
-  assert.equal(standard.style.getPropertyValue("--fab-content-color"), "var(--on-primary-container, #041e49)");
+  assert.equal(standard.style.getPropertyValue("--fab-content-color"), "var(--on-primary-container)");
   assert.equal(FloatingActionButtonDefaults.LargeIconSize, 36);
 });
 

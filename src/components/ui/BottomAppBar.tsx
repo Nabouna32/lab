@@ -39,9 +39,9 @@ export function BottomAppBar({
 }: BottomAppBarProps) {
   const resolvedContainerColor =
     containerColor ??
-    "var(--lab-surface-container, var(--surface-container, var(--lab-surface, transparent)))";
+    "var(--surface-container)";
   const resolvedContentColor =
-    contentColor ?? (containerColor ? "currentColor" : "var(--on-surface, currentColor)");
+    contentColor ?? (containerColor ? "currentColor" : "var(--on-surface)");
 
   const barStyle = {
     "--bottom-app-bar-container-color": resolvedContainerColor,

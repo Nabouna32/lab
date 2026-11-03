@@ -113,7 +113,7 @@ test("default color resolution follows SurfaceContainer and on-surface", async (
   const container = await render(createElement(BottomAppBar, null, "Actions"));
   const root = container.querySelector('[data-component="BottomAppBar"]');
   assert.match(root.style.getPropertyValue("--bottom-app-bar-container-color"), /surface-container/);
-  assert.equal(root.style.getPropertyValue("--bottom-app-bar-content-color"), "var(--on-surface, currentColor)");
+  assert.equal(root.style.getPropertyValue("--bottom-app-bar-content-color"), "var(--on-surface)");
 });
 
 test("CSS preserves the AndroidX 1.4.0 dimensions, padding, FAB slot and safe-area insets", () => {

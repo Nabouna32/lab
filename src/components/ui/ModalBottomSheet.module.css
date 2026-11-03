@@ -6,7 +6,7 @@
   align-items: flex-end;
   justify-content: center;
   padding-top: env(safe-area-inset-top, 0px);
-  background: color-mix(in srgb, var(--on-surface, var(--foreground)) 32%, transparent);
+  background: color-mix(in srgb, var(--on-surface) 32%, transparent);
   animation: scrim-enter 180ms ease-out both;
 }
 
@@ -16,16 +16,16 @@
   overflow: auto;
   overscroll-behavior: contain;
   padding: 0 1.5rem max(1.5rem, env(safe-area-inset-bottom, 0px));
-  border-radius: var(--shape-corner-extra-large, 28px) var(--shape-corner-extra-large, 28px) 0 0;
-  background: var(--surface-container-low, var(--surface, #fff));
-  color: var(--on-surface, var(--foreground, #171717));
-  box-shadow: 0 -8px 32px color-mix(in srgb, var(--on-surface, #000) 14%, transparent);
+  border-radius: var(--shape-corner-extra-large) var(--shape-corner-extra-large) 0 0;
+  background: var(--surface-container-low);
+  color: var(--on-surface);
+  box-shadow: 0 -8px 32px color-mix(in srgb, var(--on-surface) 14%, transparent);
   outline: none;
   animation: sheet-enter 220ms cubic-bezier(.2, 0, 0, 1) both;
 }
 
 .sheet:focus-visible {
-  outline: 2px solid var(--focus-ring, var(--primary));
+  outline: 2px solid var(--primary);
   outline-offset: -4px;
 }
 
@@ -33,8 +33,8 @@
   width: 2rem;
   height: .25rem;
   margin: 1rem auto 1.25rem;
-  border-radius: var(--shape-corner-full, 9999px);
-  background: var(--outline-variant, var(--outline, #777));
+  border-radius: var(--shape-corner-full);
+  background: var(--outline-variant);
 }
 
 .title {
@@ -47,7 +47,7 @@
 
 .description {
   margin: .5rem 0 0;
-  color: var(--on-surface-variant, var(--muted-foreground, #555));
+  color: var(--on-surface-variant);
   font-size: var(--m3-type-body-medium-size);
   font-weight: var(--m3-type-body-medium-weight);
   line-height: var(--m3-type-body-medium-line-height);

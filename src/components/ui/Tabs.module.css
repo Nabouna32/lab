@@ -1,6 +1,6 @@
 .root {
   min-width: 0;
-  color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
+  color: var(--on-surface);
 }
 
 .row {
@@ -29,7 +29,7 @@
   border: 0;
   border-radius: 0;
   background: transparent;
-  color: var(--lab-on-surface-variant, var(--md-sys-color-on-surface-variant, currentColor));
+  color: var(--on-surface-variant);
   font: inherit;
   font-size: var(--m3-type-label-large-size);
   font-weight: var(--m3-type-label-large-weight);
@@ -61,11 +61,11 @@
 }
 
 .tab[aria-selected="true"] {
-  color: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  color: var(--primary);
 }
 
 .tab[aria-selected="true"]::after {
-  background: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  background: var(--primary);
   transform: scaleX(1);
 }
 
@@ -87,7 +87,7 @@
 }
 
 .tab:focus-visible {
-  outline: 2px solid var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  outline: 2px solid var(--primary);
   outline-offset: -3px;
   z-index: 1;
 }
@@ -111,7 +111,7 @@
 
 .divider {
   height: 1px;
-  background: var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  background: var(--outline-variant);
   opacity: .7;
 }
 
