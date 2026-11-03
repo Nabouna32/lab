@@ -81,6 +81,7 @@ export function classifyCiChanges(paths, expectedCount) {
     dependencies_changed: dependenciesChanged,
     governance_changed: governanceChanged,
     androidx_provenance_changed: androidxProvenanceChanged,
+    windows_line_endings_full_suite: paths.includes('.gitattributes'),
     supabase_functions_changed: supabaseFunctionsChanged || supabaseUnclassifiedChanged,
     supabase_database_changed: supabaseDatabaseChanged || supabaseUnclassifiedChanged,
   };

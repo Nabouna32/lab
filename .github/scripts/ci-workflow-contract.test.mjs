@@ -34,7 +34,7 @@ test("the PR workflow keeps the fast validation path separate from surveillance"
   assert.doesNotMatch(triggers, /^  schedule:/m);
   assert.doesNotMatch(workflow, /^  npm-audit:$/m);
   assert.doesNotMatch(workflow, /material3-browser-smoke|playwright test|axe-core regression/);
-  assert.match(workflow, /needs: \[prepare, quality, build, supabase-functions, supabase-database\]/);
+  assert.match(workflow, /needs: \[prepare, quality, windows-line-endings, build, supabase-functions, supabase-database\]/);
   assert.doesNotMatch(workflow, /NPM_AUDIT_RESULT|needs\.npm-audit/);
 });
 
@@ -71,7 +71,7 @@ test("Supabase Edge Functions and database inputs receive independent, targeted 
   assert.match(workflow, /supabase_database_changed/);
   assert.match(functions, /find supabase\/functions .* -name index\.ts/);
   assert.match(functions, /deno check --frozen index\.ts/);
-  assert.match(database, /supabase\/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359/);
+  assert.match(database, /supabase\/setup-cli@d239d1052f6f024a8d746d7e5aeddead63b9cb53/);
   assert.match(database, /version: 2\.122\.0/);
   assert.match(database, /supabase db start/);
   assert.match(database, /supabase test db --local/);
@@ -157,4 +157,18 @@ test("workflow and job display names explain the checks in French", () => {
   assert.ok(codeql.includes("display_language: GitHub Actions"));
   assert.ok(codeql.includes("display_language: JavaScript / TypeScript"));
   assert.ok(codeql.includes("display_language: Python"));
+});
+
+
+test("Windows line-ending validation simulates core.autocrlf and keeps the full suite exceptional", () => {
+  const windows = sectionFor(workflow, "windows-line-endings");
+  assert.match(windows, /runs-on: windows-latest/);
+  assert.match(windows, /git config --local core\.autocrlf true/);
+  assert.match(windows, /git checkout-index --force --all/);
+  assert.match(windows, /git ls-files --eol/);
+  assert.match(windows, /node --test src\/lib\/design-system\/androidx-baseline-provenance\.test\.mjs/);
+  assert.match(windows, /npm test/);
+  assert.match(windows, /windows_line_endings_full_suite == 'true'/);
+  assert.match(workflow, /windows_line_endings_full_suite: \$\{\{ steps\.changes\.outputs\.windows_line_endings_full_suite \}\}/);
+  assert.match(workflow, /WINDOWS_LINE_ENDINGS_RESULT: \$\{\{ needs\.windows-line-endings\.result \}\}/);
 });
