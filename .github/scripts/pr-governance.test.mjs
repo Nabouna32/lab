@@ -30,6 +30,10 @@ test("une référence d'issue doit être explicite dans la section dédiée", ()
     hasLinkedIssueReference("## Issues liées\nAucun lien\n\n## Vérifications\nRefs #12"),
     false,
   );
+  assert.equal(
+    hasLinkedIssueReference("## Issues liées\n\\x60\\x60\\x60md\nRefs #99\n\\x60\\x60\\x60"),
+    false,
+  );
 });
 
 test("la checklist de fusion exige cinq cases présentes et cochées", () => {
