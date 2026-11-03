@@ -99,7 +99,7 @@ export default function LocalePreferenceBanner({ locale }: { locale: Locale }) {
           onClick={() => setNoticeState({ pathname, preferredLocale, dismissed: true })}
           colors={{ contentColor: "var(--warning)" }}
         >
-          <MaterialIcon name="close" size={18} />
+          <MaterialIcon name="close" size={24} />
         </IconButton>
       </div>
     </div>
