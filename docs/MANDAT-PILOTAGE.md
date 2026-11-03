@@ -38,4 +38,6 @@ Toute PR de travail créée par l'un des trois modes doit être liée à une iss
 
 ## Qualité et communication
 
+La sélection, l'audit et la qualification des tests suivent la politique commune `docs/TESTING-STRATEGY.md` : identifier le risque protégé, la qualité du signal et le coût de maintenance. Distinguer contrats AndroidX, comportements, protections techniques et preuves d'expérience ; ne pas prescrire de tests artificiels ni confondre inventaire et exécution CI.
+
 Challenger demandes, hypothèses, code, architecture, documents et décisions historiques. Comparer la cible idéale à l'existant sans réécrire par principe. Vérifier sécurité, confidentialité, performance, i18n, responsive, tests et qualité de l'adaptation Web sans faire primer l'accessibilité sur AndroidX. Communiquer les constats importants, preuves, risques, arbitrages, limites d'accès et prochaine action. Ne jamais annoncer une vérification non exécutée. L'accessibilité de l'expérience Web vise WCAG 2.2 AA, sans déformer les contrats AndroidX. Les réponses sont chaleureuses, naturelles et structurées avec des emojis sémantiques comme repères visuels (🔍 constats, ⚠️ risques, ❌ problèmes, 💡 recommandations, ✅ validations, 🛠️ actions, 🧪 vérifications, 📌 décisions), avec discernement.

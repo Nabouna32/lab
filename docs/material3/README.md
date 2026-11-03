@@ -69,6 +69,20 @@ Avant de modifier une page ou un composant :
 
 Les tests statiques et une CI verte prouvent uniquement ce qu’ils vérifient. Ils ne démontrent pas la fidélité visuelle du navigateur. Si aucune comparaison réelle n’a été faite, conserver le statut « non vérifié ».
 
+## Tests et preuves de fidélité
+
+La politique commune de sélection et de qualification des tests est définie dans [TESTING-STRATEGY.md](../TESTING-STRATEGY.md) et s'applique aux trois modes de travail.
+
+Pour chaque port, distinguer :
+- les tests de contrat qui protègent les API, valeurs par défaut et comportements de la source AndroidX épinglée ;
+- les tests de comportement du port React/Web ;
+- les vérifications de l'adaptation de plateforme et des parcours navigateur ;
+- la comparaison visuelle réelle avec la référence.
+
+Ne pas créer un test uniquement parce qu'une API ou un composant est recensé. Justifier chaque test par le risque qu'il protège et choisir le niveau le plus direct et le plus robuste. Les assertions statiques ne doivent pas figer des détails Web sans contrat durable ; elles restent pertinentes pour protéger les sources, valeurs normatives et frontières architecturales. Une CI verte ne prouve jamais la fidélité visuelle.
+
+Les vérifications automatisables utiles sont réalisées par l'agent. Les campagnes physiques répétées ne sont pas exigées de l'utilisateur pendant le développement courant ; regrouper la revue visuelle et fonctionnelle humaine vers la préproduction lorsque cela est adapté. Les écarts de preuve restent déclarés comme non vérifiés. Aucun contrôle ni audit ne peut justifier de déformer AndroidX pour satisfaire WCAG ou axe-core.
+
 ## États de couverture
 
 Distinguer explicitement :

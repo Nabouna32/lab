@@ -221,6 +221,9 @@ Si la session risque de s'interrompre, enregistrer avant la fin un état concis 
 
 ### Stratégie de tests et évolution autonome de la CI
 
+La politique normative commune de sélection, de maintenance et de qualification des tests est `docs/TESTING-STRATEGY.md` ; elle s'applique également aux modes PILOTAGE et COLLABORATIF. Les règles ci-dessous précisent l'autonomie de l'agent sur la CI et ne créent pas une doctrine distincte.
+
+
 L’agent est autorisé à revoir entièrement la stratégie de tests et l’intégration continue (CI) de Loculary : ajouter, modifier, réorganiser, paralléliser, mettre en cache ou supprimer des étapes, jobs, workflows et outils lorsque cela améliore la fiabilité, la détection des régressions, la sécurité, la maintenabilité ou le temps de retour du système. Il peut également ajouter les contrôles et outils nécessaires lorsque leur bénéfice concret justifie leur coût.
 
 Optimiser la CI pour donner rapidement un signal fiable à l’agent et aux contributeurs. La durée totale compte : chaque attente répétée ralentit les cycles de diagnostic et de correction. Chercher à fournir tôt un retour utile avec des contrôles rapides et déterministes, puis exécuter les contrôles plus longs en parallèle ou de manière ciblée lorsque c’est compatible avec les exigences de sécurité et de livraison. Utiliser le cache, la déduplication, la sélection pertinente des tests et les chemins d’exécution conditionnels lorsque leur exactitude peut être démontrée.
