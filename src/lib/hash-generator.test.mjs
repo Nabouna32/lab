@@ -35,3 +35,11 @@ test("enforces the file-size limit without reading oversized files", () => {
   assert.throws(() => assertHashFileSize(MAX_HASH_FILE_BYTES + 1), /100 MiB limit/);
   assert.throws(() => assertHashFileSize(-1), /size is invalid/);
 });
+
+test("hashes text with SHA-1", async () => {
+  assert.equal(await hashText("hello", "SHA-1"), "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d");
+});
+
+test("hashes Unicode text as UTF-8", async () => {
+  assert.equal(await hashText("é", "SHA-256"), "4a99557e4033c3539de2eb65472017cad5f9557f7a0625a09f1c3f6e2ba69c4c");
+});
