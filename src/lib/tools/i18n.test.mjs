@@ -222,11 +222,13 @@ test("public route metadata and category copy use localized message keys", async
 
 test("fallback messaging is wired into the tool page and processing status", () => {
   const page = readFileSync(fileURLToPath(new URL("../../components/tools/ToolPage/ToolPage.tsx", import.meta.url)), "utf8");
+  const header = readFileSync(fileURLToPath(new URL("../../components/tools/ToolPage/ToolPageHeader.tsx", import.meta.url)), "utf8");
   const processing = readFileSync(fileURLToPath(new URL("../../components/tools/ToolPage/ToolProcessingStatus.tsx", import.meta.url)), "utf8");
 
   assert.match(page, /isToolContentFallback\(tool, locale\)/);
-  assert.match(page, /isContentFallback &&/);
-  assert.match(page, /fallbackNotice/);
+  assert.match(page, /contentFallback=\{isContentFallback\}/);
+  assert.match(header, /contentFallback &&/);
+  assert.match(header, /fallbackNotice/);
   assert.match(processing, /isToolProcessingDescriptionFallback\(processing, locale\)/);
   assert.match(processing, /fallbackNotice/);
 });
