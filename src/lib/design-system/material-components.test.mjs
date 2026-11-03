@@ -526,7 +526,7 @@ test("AlertDialog actions use shared Material 3 buttons instead of a parallel bu
 test("tool processing details delegate their surface shape to the shared RichTooltip", () => {
   const source = readFileSync(new URL("../../components/tools/ToolPage/ToolProcessingStatus.tsx", import.meta.url), "utf8");
   assert.match(source, /variant="rich"/);
-  assert.match(tooltip, /\.rich \{[\s\S]*border-radius: var\(--shape-corner-medium/);
+  assert.match(typographyComponentStyles.tooltip, /\.rich \{[\s\S]*border-radius: var\(--shape-corner-medium/);
 });
 
 test("tool compositions use shared shape roles instead of migrated legacy aliases", () => {
