@@ -72,8 +72,8 @@
 }
 
 .small {
-  min-width: 48px;
-  min-height: 48px;
+  min-width: 40px;
+  min-height: 40px;
   padding: 4px;
   border-radius: var(--fab-shape);
 }
@@ -84,15 +84,15 @@
 }
 
 .large {
-  min-width: 96px;
-  min-height: 96px;
+  min-width: 72px;
+  min-height: 72px;
   border-radius: var(--fab-shape);
 }
 
 .extended,
 .extendedContent {
   min-width: 80px;
-  min-height: 56px;
+  min-height: 48px;
   border-radius: var(--fab-shape);
   padding-inline: 20px;
 }
