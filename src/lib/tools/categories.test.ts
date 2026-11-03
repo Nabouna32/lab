@@ -6,9 +6,11 @@ import { AbsoluteAlignment, Alignment } from "../../components/layout/compose/Al
 import { Arrangement } from "../../components/layout/compose/Arrangement.ts";
 import { BoxScope, ColumnScope, Modifier, RowScope } from "../../components/layout/compose/Modifier.ts";
 import { categoryColorIds, getCategoryColor, getCategoryContainerColor, getCategoryOnContainerColor } from "./category-colors.ts";
+import { getLocularyThemeStyle } from "../design-system/rainbow-tones.ts";
 const categoriesSource = readFileSync(new URL("./categories.ts", import.meta.url), "utf8");
 
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
+const themeStyle = getLocularyThemeStyle() as Record<string, string>;
 const columnSource = readFileSync(new URL("../../components/layout/compose/Column.tsx", import.meta.url), "utf8");
 const arrangementSource = readFileSync(new URL("../../components/layout/compose/Arrangement.ts", import.meta.url), "utf8");
 const informationPageSource = readFileSync(new URL("../../components/information/InformationPage.tsx", import.meta.url), "utf8");
@@ -76,15 +78,22 @@ test("every category is wired to generated official MCU Rainbow colors for both 
 });
 
 test("semantic status colors stay independent from generated category colors", () => {
-  for (const statusToken of ["--success", "--warning", "--info"]) {
-    assert.match(globalCss, new RegExp(`^\\s*${statusToken}:\\s*#[0-9a-f]{6};`, "m"));
+  for (const statusToken of ["success", "warning", "info"]) {
+    const lightColor = themeStyle[`--m3-light-${statusToken}`];
+    const darkColor = themeStyle[`--m3-dark-${statusToken}`];
+    assert.ok(lightColor && /^#[0-9a-f]{6}$/i.test(lightColor), `--m3-light-${statusToken} must be a literal hex color`);
+    assert.ok(darkColor && /^#[0-9a-f]{6}$/i.test(darkColor), `--m3-dark-${statusToken} must be a literal hex color`);
   }
-  assert.match(globalCss, new RegExp("^\\s*--error:\\s*var\\(--m3-light-error\\);", "m"));
-  assert.match(globalCss, new RegExp("^\\s*--error:\\s*var\\(--m3-dark-error\\);", "m"));
+  assert.ok(themeStyle["--m3-light-error"] && /^#[0-9a-f]{6}$/i.test(themeStyle["--m3-light-error"]));
+  assert.ok(themeStyle["--m3-dark-error"] && /^#[0-9a-f]{6}$/i.test(themeStyle["--m3-dark-error"]));
 
-  for (const statusToken of ["--success", "--warning", "--error", "--info"]) {
-    assert.ok(!globalCss.includes(`${statusToken}: var(--m3-light-category-`));
-    assert.ok(!globalCss.includes(`${statusToken}: var(--m3-dark-category-`));
+  for (const statusToken of ["success", "warning", "error", "info"]) {
+    const lightColor = themeStyle[`--m3-light-${statusToken}`];
+    const darkColor = themeStyle[`--m3-dark-${statusToken}`];
+    for (const categoryId of categoryColorIds) {
+      assert.notEqual(lightColor, themeStyle[`--m3-light-category-${categoryId}`], `--m3-light-${statusToken} must not equal category ${categoryId}`);
+      assert.notEqual(darkColor, themeStyle[`--m3-dark-category-${categoryId}`], `--m3-dark-${statusToken} must not equal category ${categoryId}`);
+    }
   }
 });
 
