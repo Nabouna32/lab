@@ -557,6 +557,7 @@ test("recherche mobile : navigation clavier des suggestions", async ({ page }) =
   await expect(listbox).toHaveAttribute("aria-busy", "true");
   await expect(listbox.getByRole("option").first()).toBeVisible();
   await expect(listbox).toHaveAttribute("aria-busy", "false");
+  await expect(page.locator('[role="status"][aria-live="polite"][aria-atomic="true"]')).toHaveText(/\S/);
   await page.keyboard.press("ArrowDown");
   await expect(input).toHaveAttribute("aria-activedescendant", "header-tool-search-result-0");
   await expect(page.locator("#header-tool-search-result-0")).toHaveAttribute("role", "option");

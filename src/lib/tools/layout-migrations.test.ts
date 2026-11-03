@@ -135,7 +135,7 @@ test("global header uses the shared Material 3 small TopAppBar with content gutt
   assert.ok(!headerSource.includes('import { Modifier, RowScope } from "@/components/layout/compose/Modifier"'));
 });
 
-test("primary and secondary navigation landmarks are localized and the secondary disclosure is accessible", () => {
+test("primary and secondary navigation landmarks are localized and the secondary disclosure restores keyboard focus", () => {
   const adaptiveNavigationSource = readSource("../../components/layout/AdaptiveAppNavigation.tsx");
   assert.ok(adaptiveNavigationSource.includes("label={t.nav.primaryNavigation}"));
   assert.ok(headerPreferencesSource.includes('<nav aria-label={t.nav.more}>'));
@@ -144,6 +144,8 @@ test("primary and secondary navigation landmarks are localized and the secondary
   assert.ok(headerPreferencesSource.includes("aria-hidden={!open}"));
   assert.ok(headerPreferencesSource.includes("inert={!open}"));
   assert.ok(headerPreferencesSource.includes("triggerRef.current?.focus()"));
+  assert.ok(headerPreferencesSource.includes('event.key !== "Escape"'));
+  assert.ok(headerPreferencesSource.includes("setOpenPath(null);"));
   assert.ok(messagesSource.includes('primaryNavigation: "Navigation principale"'));
   assert.ok(messagesSource.includes('primaryNavigation: "Primary navigation"'));
 });
