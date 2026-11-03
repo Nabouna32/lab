@@ -466,7 +466,7 @@ test("M3 web reference tokens document Android dp/sp magnitude without claiming 
 
 test("header preferences use restrained Material 3 semantic colors", () => {
   assert.match(headerPreferencesSource, /bg-\[var\(--surface-container-high\)\]/);
-  assert.match(headerPreferencesSource, /bg-\[var\(--primary-container\)\] text-\[var\(--on-primary-container\)\]/);
+  assert.match(headerPreferencesSource, /peer-checked:bg-\[var\(--primary-container\)\] peer-checked:text-\[var\(--on-primary-container\)\]/);
   assert.match(headerPreferencesSource, /bg-\[var\(--secondary-container\)\] text-\[var\(--on-secondary-container\)\]/);
   assert.match(headerPreferencesSource, /grid grid-cols-3 gap-1/);
   assert.match(headerPreferencesSource, /const selected = themeReady && theme === option\.value/);
