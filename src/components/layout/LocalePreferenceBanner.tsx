@@ -43,11 +43,9 @@ export default function LocalePreferenceBanner({ locale }: { locale: Locale }) {
       .then(async (response) => {
         if (!response.ok) throw new Error("Could not load the account language.");
         const data = await response.json() as { locale?: string | null };
-        setNoticeState({
-          pathname,
-          preferredLocale: isLocale(data.locale ?? undefined) ? data.locale : null,
-          dismissed: false,
-        });
+        const responseLocale = data.locale;
+        const preferredLocale = responseLocale && isLocale(responseLocale) ? responseLocale : null;
+        setNoticeState({ pathname, preferredLocale, dismissed: false });
       })
       .catch(() => {
         if (!controller.signal.aborted) {
