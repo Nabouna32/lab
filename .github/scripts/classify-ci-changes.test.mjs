@@ -231,7 +231,7 @@ test('production build runs independently and the aggregate job reports applicab
   const gateJob = workflow.slice(workflow.indexOf('  ci:'));
   assert.ok(buildJob.includes('run: npm run build'));
   assert.ok(gateJob.includes('name: Vérification finale des contrôles applicables'));
-  assert.ok(gateJob.includes('needs: [prepare, quality, build, supabase-functions, supabase-database]'));
+  assert.ok(gateJob.includes('needs: [prepare, quality, windows-line-endings, build, supabase-functions, supabase-database]'));
   assert.ok(gateJob.includes('PREPARE_RESULT'));
   assert.ok(gateJob.includes('BUILD_RESULT'));
   assert.ok(gateJob.includes('SUPABASE_FUNCTIONS_RESULT'));
