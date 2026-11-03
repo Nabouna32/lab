@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { NextResponse, type NextRequest } from "next/server";
 
-export async function updateSession(request: NextRequest, options: { readProfileLocale?: boolean } = {}): Promise<{ response: NextResponse; userId: string | null; preferredLocale: Locale | null }> {
+export async function updateSession(request: NextRequest, options: { readProfileLocale?: boolean } = {}): Promise<{ response: NextResponse; preferredLocale: Locale | null }> {
   let supabaseResponse = NextResponse.next({
     request,
   });
@@ -50,7 +50,7 @@ export async function updateSession(request: NextRequest, options: { readProfile
     if (isLocale(profile?.locale)) preferredLocale = profile.locale;
   }
 
-  return { response: supabaseResponse, userId, preferredLocale };
+  return { response: supabaseResponse, preferredLocale };
 }
 
 export function copySessionResponse(

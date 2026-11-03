@@ -16,16 +16,13 @@ export async function proxy(request: NextRequest) {
   );
   const needsSupabaseSession = /(^|\/)(compte|auth|admin)(\/|$)/.test(pathname);
   const hasSupabaseAuthCookie = request.cookies.getAll().some(({ name }) => /^sb-.+-auth-token(?:\.\d+)?$/.test(name));
-  const session = needsSupabaseSession || hasSupabaseAuthCookie
-    ? await updateSession(request, { readProfileLocale: !pathnameHasLocale })
+  const readProfileLocale = !pathnameHasLocale && hasSupabaseAuthCookie;
+  const session = needsSupabaseSession || readProfileLocale
+    ? await updateSession(request, { readProfileLocale })
     : null;
 
   if (pathnameHasLocale) {
-    const requestHeaders = new Headers(request.headers);
-    requestHeaders.delete("x-loculary-user-id");
-    if (session?.userId) requestHeaders.set("x-loculary-user-id", session.userId);
-    const response = NextResponse.next({ request: { headers: requestHeaders } });
-    return withDeploymentCommit(session ? copySessionResponse(session.response, response) : response);
+    return withDeploymentCommit(session?.response ?? NextResponse.next());
   }
 
   const url = request.nextUrl.clone();

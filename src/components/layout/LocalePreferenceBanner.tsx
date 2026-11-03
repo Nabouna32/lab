@@ -6,23 +6,56 @@ import AppLink from "@/components/ui/AppLink";
 import { IconButton } from "@/components/ui/IconButton";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { localeNoticeMessages } from "@/lib/i18n/locale-notice";
-import type { Locale } from "@/lib/i18n/config";
+import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getLocalizedPath } from "@/lib/tools/routes";
 
-export default function LocalePreferenceBanner({
-  locale,
-  preferredLocale,
-}: {
-  locale: Locale;
+type NoticeState = {
+  pathname: string;
   preferredLocale: Locale | null;
-}) {
+  dismissed: boolean;
+};
+
+export default function LocalePreferenceBanner({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const router = useRouter();
-  const [dismissed, setDismissed] = useState(false);
+  const [noticeState, setNoticeState] = useState<NoticeState>({
+    pathname: "",
+    preferredLocale: null,
+    dismissed: false,
+  });
   const t = localeNoticeMessages[locale];
+  const isCurrentPath = noticeState.pathname === pathname;
+  const preferredLocale = isCurrentPath ? noticeState.preferredLocale : null;
+  const dismissed = isCurrentPath && noticeState.dismissed;
 
   useEffect(() => {
-    setDismissed(false);
+    const hasSupabaseSessionCookie = document.cookie.split(";").some((cookie) => {
+      const name = cookie.trim().split("=")[0];
+      return /^sb-.+-auth-token(?:\.\d+)?$/.test(name);
+    });
+    if (!hasSupabaseSessionCookie) return;
+
+    const controller = new AbortController();
+    void fetch("/api/account/locale-preference", {
+      cache: "no-store",
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Could not load the account language.");
+        const data = await response.json() as { locale?: string | null };
+        setNoticeState({
+          pathname,
+          preferredLocale: isLocale(data.locale) ? data.locale : null,
+          dismissed: false,
+        });
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) {
+          setNoticeState({ pathname, preferredLocale: null, dismissed: false });
+        }
+      });
+
+    return () => controller.abort();
   }, [pathname]);
 
   if (!preferredLocale || preferredLocale === locale || dismissed) return null;
@@ -65,7 +98,7 @@ export default function LocalePreferenceBanner({
         </AppLink>
         <IconButton
           label={t.dismiss}
-          onClick={() => setDismissed(true)}
+          onClick={() => setNoticeState({ pathname, preferredLocale, dismissed: true })}
           colors={{ contentColor: "var(--warning)" }}
         >
           <MaterialIcon name="close" size={18} />
