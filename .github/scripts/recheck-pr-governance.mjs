@@ -26,18 +26,13 @@ async function main() {
     token,
     priorityPullRequest.number,
   );
-  const latestFailedRun = runs
-    .filter(
-      (run) =>
-        run.path === ".github/workflows/ci.yml" &&
-        run.status === "completed" &&
-        run.conclusion === "failure",
-    )
+  const latestRun = runs
+    .filter((run) => run.path === ".github/workflows/ci.yml")
     .sort((left, right) => Date.parse(right.created_at) - Date.parse(left.created_at))[0];
 
-  if (!latestFailedRun) {
+  if (!latestRun || latestRun.status !== "completed" || latestRun.conclusion !== "failure") {
     console.log(
-      `Aucune exécution CI échouée à réévaluer pour la PR prioritaire #${priorityPullRequest.number}.`,
+      "La dernière CI de la PR prioritaire #" + priorityPullRequest.number + " n'est pas un échec terminé ; aucune relance.",
     );
     return;
   }
@@ -45,9 +40,8 @@ async function main() {
   const jobsResponse = await githubApi(
     repository,
     token,
-    `/actions/runs/${latestFailedRun.id}/jobs?per_page=100`,
-  );
-  const governanceJob = (jobsResponse.jobs ?? []).find(
+    "/actions/runs/" + latestRun.id + "/jobs?per_page=100",
+  );  const governanceJob = (jobsResponse.jobs ?? []).find(
     (job) => job.name === "Vérification finale des contrôles applicables",
   );
   const governanceStepFailed = governanceJob?.steps?.some(
@@ -64,7 +58,7 @@ async function main() {
   await githubApi(
     repository,
     token,
-    `/actions/runs/${latestFailedRun.id}/rerun-failed-jobs`,
+    `/actions/runs/${latestRun.id}/rerun-failed-jobs`,
     { method: "POST" },
   );
 
