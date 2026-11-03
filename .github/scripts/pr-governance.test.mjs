@@ -31,7 +31,7 @@ test("une référence d'issue doit être explicite dans la section dédiée", ()
     false,
   );
   assert.equal(
-    hasLinkedIssueReference("## Issues liées\n\\x60\\x60\\x60md\nRefs #99\n\\x60\\x60\\x60"),
+    hasLinkedIssueReference("## Issues liées\n\x60\x60\x60md\nRefs #99\n\x60\x60\x60"),
     false,
   );
 });
