@@ -36,6 +36,18 @@ test('all canonical mode and issue governance documents trigger governance check
   }
 });
 
+
+test('PR template changes trigger governance tooling tests while remaining lightweight', () => {
+  assert.deepEqual(classifyCiChanges(['.github/pull_request_template.md'], 1), {
+    lightweight_only: true,
+    dependencies_changed: false,
+    governance_changed: true,
+    androidx_provenance_changed: false,
+    supabase_functions_changed: false,
+    supabase_database_changed: false,
+  });
+});
+
 test('workflow changes require full CI while still exercising classifier tests', () => {
   assert.deepEqual(classifyCiChanges(['.github/workflows/ci.yml'], 1), {
     lightweight_only: false,

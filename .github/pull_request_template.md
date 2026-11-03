@@ -6,6 +6,14 @@
 
 <!-- Lister les contrôles exécutés et signaler ceux qui ne l'ont pas été. -->
 
+## Checklist avant fusion
+
+- [ ] Issue liée mise à jour (état et prochaine action).
+- [ ] Référence `Refs` ou `Closes` adaptée aux critères de l'issue.
+- [ ] Documentation canonique à jour ou sans objet.
+- [ ] Vérifications non exécutées signalées.
+- [ ] CI du dernier commit terminée et lue avant fusion.
+
 ## Issues liées
 
 <!-- Ajouter une ligne par issue concernée dans le corps :

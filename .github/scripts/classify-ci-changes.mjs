@@ -17,6 +17,7 @@ const GOVERNANCE_PATHS = [
   /^docs\/material3\/README\.md$/,
   /^docs\/chatgpt-instructions\/[\s\S]*$/,
   /^\.github\/workflows\/[\s\S]*$/,
+  /^\.github\/pull_request_template\.md$/,
   /^\.github\/scripts\/[\s\S]*$/,
 ];
 
