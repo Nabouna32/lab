@@ -17,7 +17,7 @@ export async function proxy(request: NextRequest) {
   const needsSupabaseSession = /(^|\/)(compte|auth|admin)(\/|$)/.test(pathname);
   const hasSupabaseAuthCookie = request.cookies.getAll().some(({ name }) => /^sb-.+-auth-token(?:\.\d+)?$/.test(name));
   const readProfileLocale = !pathnameHasLocale && hasSupabaseAuthCookie;
-  const session = needsSupabaseSession || readProfileLocale
+  const session = needsSupabaseSession || hasSupabaseAuthCookie
     ? await updateSession(request, { readProfileLocale })
     : null;
 
