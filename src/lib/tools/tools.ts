@@ -971,7 +971,7 @@ export const tools: Tool[] = toolDefinitions.map((tool): Tool => ({
   offline: true,
   sharing: { supported: false, mode: "none" },
   nextActionToolIds: nextActionToolIds[tool.id] ?? [],
-  quality: { accessibility: "required", performance: "standard", tests: tool.lifecycle === "published" ? "required" : "not-yet" },
+  quality: { accessibility: "required", performance: "standard" },
   access: "anonymous",
 }));
 
