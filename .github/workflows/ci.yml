@@ -262,7 +262,7 @@ jobs:
           if ($config -ne "true") { throw "core.autocrlf is not enabled: $config" }
           $eol = git ls-files --eol -- docs/material3/catalog/baselines/material3-1.4.0-api.txt src/lib/design-system/androidx-baseline-provenance.test.mjs
           Write-Output $eol
-          if (($eol | Select-String -NotMatch "i/lf w/lf").Count -gt 0 -or ($eol | Measure-Object -Line).Lines -lt 2) {
+          if ($eol.Count -ne 2 -or @($eol | Where-Object { $_ -notmatch "^i/lf\s+w/lf\s+" }).Count -gt 0) {
             throw "Tracked text files were not checked out with LF line endings."
           }
 
