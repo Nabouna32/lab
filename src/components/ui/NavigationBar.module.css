@@ -1,6 +1,6 @@
 .navigationBar{display:grid;grid-template-columns:repeat(var(--navigation-item-count,4),minmax(0,1fr));align-items:stretch;min-height:80px;padding:4px 8px max(4px,env(safe-area-inset-bottom));border-top:1px solid var(--outline);background:var(--surface-container);color:var(--on-surface)}
 .navigationBar .item{display:grid;grid-template-rows:32px auto;justify-items:center;align-content:center;align-items:center;gap:4px;min-width:0;min-height:64px;padding:4px 2px;border:0;border-radius:var(--shape-corner-medium);background:transparent;color:var(--on-surface-variant);font:inherit;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.navigationBar .iconContainer{display:grid;place-items:center;width:56px;height:32px;border-radius:var(--shape-corner-full);color:inherit;transition:background-color 160ms ease,color 160ms ease}
+.navigationBar .iconContainer{display:grid;place-items:center;width:40px;height:40px;border-radius:var(--shape-corner-full);color:inherit;transition:background-color 160ms ease,color 160ms ease}
 .navigationBar .iconContainer svg{display:block}
 .navigationBar .item[data-selected=true]{color:var(--on-surface)}
 .navigationBar .item[data-selected=true] .iconContainer{background:var(--secondary-container);color:var(--on-secondary-container)}

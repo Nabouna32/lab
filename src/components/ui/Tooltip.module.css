@@ -2,15 +2,15 @@
 .anchor { display: inline-flex; max-width: 100%; }
 .tooltip {
   position: absolute; z-index: 1200; display: grid; gap: 6px; box-sizing: border-box;
-  width: max-content; max-width: min(320px, calc(100vw - 32px)); padding: 8px 12px;
-  border-radius: var(--shape-corner-small);
+  width: max-content; max-width: min(320px, calc(100vw - 32px)); padding: 4px 8px;
+  border-radius: var(--shape-corner-extra-small);
   color: var(--inverse-on-surface);
   background: var(--inverse-surface);
   box-shadow: var(--shadow-sm);
   font-size: var(--m3-type-body-small-size); line-height: var(--m3-type-body-small-line-height); font-weight: var(--m3-type-body-small-weight); letter-spacing: var(--m3-type-body-small-tracking);
   pointer-events: none; animation: m3-tooltip-in 120ms cubic-bezier(.2, 0, 0, 1) both;
 }
-.plain { padding: 8px 12px; }
+.plain { padding: 4px 8px; }
 .rich {
   gap: 8px; padding: 16px; border-radius: var(--shape-corner-medium);
   width: max-content; min-width: min(40px, calc(100vw - 32px));

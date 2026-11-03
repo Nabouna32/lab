@@ -11,7 +11,7 @@
 }
 
 .sheet {
-  width: min(100%, 40rem);
+  width: min(100%, 35rem);
   max-height: min(90dvh, 48rem);
   overflow: auto;
   overscroll-behavior: contain;

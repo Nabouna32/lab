@@ -195,10 +195,10 @@ test("FAB elevation presets match the pinned Material 3 1.4.0 tokens", () => {
 
 test("FAB CSS uses AndroidX minimum geometry and shared LabelLarge typography", () => {
   assert.match(componentCss, /\.fab\s*\{[^}]*min-width:\s*56px;[^}]*min-height:\s*56px;/s);
-  assert.match(componentCss, /\.small\s*\{[^}]*min-width:\s*48px;[^}]*min-height:\s*48px;[^}]*padding:\s*4px;/s);
+  assert.match(componentCss, /\.small\s*\{[^}]*min-width:\s*40px;[^}]*min-height:\s*40px;[^}]*padding:\s*4px;/s);
   assert.match(componentCss, /\.small::before\s*\{[^}]*inset:\s*4px;/s);
-  assert.match(componentCss, /\.large\s*\{[^}]*min-width:\s*96px;[^}]*min-height:\s*96px;/s);
-  assert.match(componentCss, /\.extended,\s*\.extendedContent\s*\{[^}]*min-width:\s*80px;[^}]*min-height:\s*56px;/s);
+  assert.match(componentCss, /\.large\s*\{[^}]*min-width:\s*72px;[^}]*min-height:\s*72px;/s);
+  assert.match(componentCss, /\.extended,\s*\.extendedContent\s*\{[^}]*min-width:\s*80px;[^}]*min-height:\s*48px;/s);
   assert.match(componentCss, /font-size:\s*var\(--m3-type-label-large-size/);
   assert.match(componentCss, /\.fab:disabled::before\s*\{[^}]*box-shadow:\s*none;[^}]*background:/s);
 });

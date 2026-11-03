@@ -15,7 +15,7 @@
   background: transparent; font: inherit; text-decoration: none; cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
 .iconContainer {
-  position: relative; display: grid; place-items: center; width: 56px; height: 32px;
+  position: relative; display: grid; place-items: center; width: 40px; height: 40px;
   border-radius: var(--shape-corner-full);
   transition: background-color 180ms cubic-bezier(.2, 0, 0, 1), color 180ms cubic-bezier(.2, 0, 0, 1);
 }
