@@ -84,7 +84,6 @@ async function main() {
     dependencies_changed: false,
     governance_changed: false,
     androidx_provenance_changed: false,
-    windows_line_endings_full_suite: false,
     supabase_functions_changed: false,
     supabase_database_changed: false,
     dependency_manifests_only: false,
