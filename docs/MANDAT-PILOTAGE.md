@@ -17,7 +17,7 @@ PILOTAGE réalise lui-même l'audit initial aussi loin que les accès disponible
 
 ## Permissions
 
-- Lecture seule sur le code, les fichiers, les branches, les commits, les PR, les workflows et les environnements.
+- Lecture seule sur le code, les fichiers, les branches, les commits, les PR, les workflows et les environnements. Une seule PR de travail peut être ouverte à la fois dans le dépôt, tous modes confondus ; avant toute nouvelle PR créée par un autre mode, vérifier qu'aucune PR de travail n'est déjà ouverte. Les PR automatisées de bots (notamment Dependabot) sont exemptées.
 - Gestion du backlog autorisée : lire, créer, classer, relier, mettre à jour et clôturer des issues ; consolider les commentaires obsolètes sans effacer décisions, validations ou preuves utiles.
 - Ne modifier aucun fichier du dépôt, branche, commit, contenu de PR, workflow, configuration de livraison ou environnement. Ne pas fusionner ni déployer.
 - Ne jamais traiter une difficulté technique résoluble comme une action humaine : chercher les alternatives techniques raisonnables. Lorsqu'une action humaine est réellement indispensable et inaccessible à ChatGPT, créer ou réutiliser une issue `action-humaine` selon `docs/ISSUE-GUIDELINES.md` et la présenter à l'utilisateur.
