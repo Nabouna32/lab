@@ -8,7 +8,6 @@ test('classifies documentation-only changes as lightweight', () => {
     dependencies_changed: false,
     governance_changed: false,
     androidx_provenance_changed: false,
-    windows_line_endings_full_suite: false,
     supabase_functions_changed: false,
     supabase_database_changed: false,
   });
@@ -20,7 +19,6 @@ test('classifies governance documentation as lightweight and governance-touched'
     dependencies_changed: false,
     governance_changed: true,
     androidx_provenance_changed: false,
-    windows_line_endings_full_suite: false,
     supabase_functions_changed: false,
     supabase_database_changed: false,
   });
@@ -44,7 +42,6 @@ test('workflow changes require full CI while still exercising classifier tests',
     dependencies_changed: false,
     governance_changed: true,
     androidx_provenance_changed: false,
-    windows_line_endings_full_suite: false,
     supabase_functions_changed: false,
     supabase_database_changed: false,
   });
@@ -56,7 +53,6 @@ test('CI tooling changes require full CI and exercise classifier tests', () => {
     dependencies_changed: false,
     governance_changed: true,
     androidx_provenance_changed: false,
-    windows_line_endings_full_suite: false,
     supabase_functions_changed: false,
     supabase_database_changed: false,
   });
@@ -68,7 +64,6 @@ test('runtime changes force the full suite even when mixed with documentation', 
     dependencies_changed: false,
     governance_changed: false,
     androidx_provenance_changed: false,
-    windows_line_endings_full_suite: false,
     supabase_functions_changed: false,
     supabase_database_changed: false,
   });
@@ -80,7 +75,6 @@ test('governance mixed with runtime still marks governance but disables lightwei
     dependencies_changed: false,
     governance_changed: true,
     androidx_provenance_changed: false,
-    windows_line_endings_full_suite: false,
     supabase_functions_changed: false,
     supabase_database_changed: false,
   });
@@ -92,7 +86,6 @@ test('dependency manifests disable lightweight mode and trigger dependency revie
     dependencies_changed: true,
     governance_changed: false,
     androidx_provenance_changed: false,
-    windows_line_endings_full_suite: false,
     supabase_functions_changed: false,
     supabase_database_changed: false,
   });
@@ -104,7 +97,6 @@ test('dependency changes mixed with governance preserve both flags', () => {
     dependencies_changed: true,
     governance_changed: true,
     androidx_provenance_changed: false,
-    windows_line_endings_full_suite: false,
     supabase_functions_changed: false,
     supabase_database_changed: false,
   });
@@ -139,7 +131,6 @@ test('accepts exactly 3,000 valid changed paths', () => {
     dependencies_changed: false,
     governance_changed: false,
     androidx_provenance_changed: false,
-    windows_line_endings_full_suite: false,
     supabase_functions_changed: false,
     supabase_database_changed: false,
   });
@@ -172,7 +163,6 @@ test('marks Supabase Edge Function changes for targeted Deno validation', () => 
     dependencies_changed: false,
     governance_changed: false,
     androidx_provenance_changed: false,
-    windows_line_endings_full_suite: false,
     supabase_functions_changed: true,
     supabase_database_changed: false,
   });
@@ -184,7 +174,6 @@ test('classifies Supabase documentation as lightweight without running service c
     dependencies_changed: false,
     governance_changed: false,
     androidx_provenance_changed: false,
-    windows_line_endings_full_suite: false,
     supabase_functions_changed: false,
     supabase_database_changed: false,
   });
@@ -231,7 +220,8 @@ test('production build runs independently and the aggregate job reports applicab
   const gateJob = workflow.slice(workflow.indexOf('  ci:'));
   assert.ok(buildJob.includes('run: npm run build'));
   assert.ok(gateJob.includes('name: Vérification finale des contrôles applicables'));
-  assert.ok(gateJob.includes('needs: [prepare, quality, windows-line-endings, build, supabase-functions, supabase-database]'));
+  assert.ok(gateJob.includes('needs: [prepare, quality, build, supabase-functions, supabase-database]'));
+  assert.equal(workflow.includes('  windows-line-endings:'), false, 'Windows validation must not remain a recurring CI job');
   assert.ok(gateJob.includes('PREPARE_RESULT'));
   assert.ok(gateJob.includes('BUILD_RESULT'));
   assert.ok(gateJob.includes('SUPABASE_FUNCTIONS_RESULT'));
@@ -245,17 +235,4 @@ test('governance changes execute every CI tooling test instead of maintaining a 
   assert.ok(workflow.includes('python3 .github/scripts/test_verify_material3_source_commit.py'));
   assert.ok(workflow.includes('python3 .github/scripts/test_verify_compose_source_archive_alignment.py'));
   assert.equal(workflow.includes('test_inventory_material_components_api.py'), false, 'removed historical Views inventory tests must not remain in CI');
-});
-
-
-test('a .gitattributes change enables the one-time full Windows unit suite', () => {
-  assert.deepEqual(classifyCiChanges(['.gitattributes'], 1), {
-    lightweight_only: false,
-    dependencies_changed: false,
-    governance_changed: false,
-    androidx_provenance_changed: false,
-    windows_line_endings_full_suite: true,
-    supabase_functions_changed: false,
-    supabase_database_changed: false,
-  });
 });
