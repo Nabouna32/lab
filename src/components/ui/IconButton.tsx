@@ -124,7 +124,7 @@ function IconButtonBase({
         if (isToggle && !event.defaultPrevented) onCheckedChange(!checked);
       }}
       className={[
-        "group relative isolate inline-flex shrink-0 items-center justify-center rounded-full bg-transparent p-0",
+        "group relative isolate inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full bg-transparent p-0",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]",
         "focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
         "disabled:pointer-events-none disabled:cursor-not-allowed",
