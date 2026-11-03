@@ -31,11 +31,13 @@ export function generateStaticParams() {
         section: getCategoriesPath(locale).split("/")[2],
         slug: getCategorySlug(locale, category.id),
       })),
-    ...toolRegistry.map(({ tool }) => ({
-      locale,
-      section: getToolsPath(locale).split("/")[2],
-      slug: getToolSlug(locale, tool.id),
-    })),
+    ...toolRegistry
+      .filter(({ tool }) => tool.id !== "json-formatter")
+      .map(({ tool }) => ({
+        locale,
+        section: getToolsPath(locale).split("/")[2],
+        slug: getToolSlug(locale, tool.id),
+      })),
   ]);
 }
 
