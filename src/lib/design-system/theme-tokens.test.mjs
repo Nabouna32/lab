@@ -50,3 +50,13 @@ test("Material 3 palette generation accepts a configurable seed and validates it
   }
   assert.throws(() => getLocularyThemeStyle("#fff"), TypeError);
 });
+
+
+test("components do not hide missing Material 3 roles behind CSS fallbacks", () => {
+  const files = sourceFiles(join(sourceRoot, "components"));
+  const themeFallback = /var\(--(?:m3-[a-z0-9-]+|shape-corner-[a-z-]+|primary|on-primary|primary-container|on-primary-container|secondary|on-secondary|secondary-container|on-secondary-container|tertiary|on-tertiary|tertiary-container|on-tertiary-container|error|on-error|error-container|on-error-container|background|on-background|surface|on-surface|surface-dim|surface-bright|surface-container(?:-lowest|-low|-high|-highest)?|surface-tint|surface-variant|on-surface-variant|outline|outline-variant|inverse-surface|inverse-on-surface|inverse-primary|shadow|scrim|category-[a-z-]+)\s*,/;
+  const violations = files
+    .filter((path) => themeFallback.test(readFileSync(path, "utf8")))
+    .map((path) => path.replace(repositoryRoot + "/", ""));
+  assert.deepEqual(violations, [], "Material 3 token fallbacks remain in components");
+});
