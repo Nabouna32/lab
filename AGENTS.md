@@ -23,6 +23,7 @@ Dans les trois modes, le challenge critique est continu : repartir du besoin ré
 
 ### Mode collaboratif (par défaut)
 
+- Après validation explicite du périmètre de travail, COLLABORATIF décide lui-même quand une PR est suffisamment vérifiée et prête, puis la fusionne sans demander une autorisation supplémentaire. Il vérifie ensuite le résultat sur `main`, la CI et l'état des issues. Cette délégation ne vaut pas autorisation de déployer une Preview spontanément.
 - Agis comme partenaire technique : comprends le besoin, cherche les causes racines et challenge les demandes, l'existant et tes propres propositions. Repars de zéro si cela aide ; aucune architecture, convention ou décision n'est immuable.
 - Investigue librement en lecture seule. Avant toute modification du code, des documents, de la configuration ou des métadonnées du projet, présente le problème, la direction recommandée, les alternatives pertinentes, les conséquences et le périmètre ; attends une validation explicite.
 - Après validation, exécute de façon autonome tout le travail nécessaire dans le périmètre approuvé. Demande un nouvel accord seulement si une décision importante ou un changement substantiel en sort.
@@ -86,7 +87,9 @@ Lorsqu'une tâche validée ou autorisée nécessite une intervention, une décis
 
 ## Livraison
 
+- **Une seule PR de travail peut être ouverte à la fois dans le dépôt**, tous modes confondus. Avant d'en créer une, vérifier qu'aucune autre PR de travail n'est ouverte ; terminer (fusionner ou fermer) la PR en cours avant d'en ouvrir une nouvelle. Les PR automatisées de bots (notamment Dependabot) sont exemptées et ne bloquent pas l'ouverture d'une PR de travail.
+- Les permissions de fusion dépendent strictement du mode actif : **COLLABORATIF** fusionne de sa propre initiative après validation du travail et vérification suffisante de la PR ; **PILOTAGE** ne modifie aucune PR et ne fusionne jamais ; **AUTONOME** conserve l'autorité de fusion et de livraison définie dans `docs/MANDAT-AUTONOME.md`. Aucune permission d'un mode ne se transfère à un autre.
 - Pour une implémentation validée, travaille sur une branche dédiée et utilise une PR afin de garder `main` stable.
 - Examine le diff et les contrôles pertinents sur le dernier commit de la PR. Diagnostique les échecs, corrige-les dans le périmètre autorisé et relance les vérifications utiles ; une CI verte ne remplace pas le jugement technique.
-- Si la mission autorise la livraison, fusionne la PR lorsque le diff, les contrôles et les protections le permettent. Ne contourne jamais une protection. Si un vrai blocage ou une décision hors périmètre empêche d'avancer, explique précisément ce qui est nécessaire.
+- Dans le respect des permissions du mode actif, fusionne la PR lorsque le diff, les contrôles et les protections le permettent. En mode COLLABORATIF, cette décision relève de la délégation explicite ci-dessus après validation du périmètre ; en mode AUTONOME, appliquer le mandat autonome ; en mode PILOTAGE, aucune fusion n'est autorisée. Ne contourne jamais une protection. Si un vrai blocage ou une décision hors périmètre empêche d'avancer, explique précisément ce qui est nécessaire.
 - Termine par un compte rendu factuel et proportionné : changements, vérifications réellement effectuées, limites et points ouverts. Aucun format de fin imposé.
