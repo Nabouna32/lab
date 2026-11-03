@@ -70,7 +70,7 @@ export default function ToolPage({
 
           {content && (
             <div className="-mx-5 mt-6 border-t border-[var(--border)] bg-[var(--surface-soft)]/35 px-5 py-5 sm:-mx-8 sm:px-8 sm:py-8 lg:-mx-10 lg:px-10">
-              <Column className="tool-page-editorial-stack" verticalArrangement={Arrangement.spacedBy("var(--tool-page-content-gap)")}>{content}</Column>
+              <Column className="tool-page-editorial-stack" verticalArrangement={Arrangement.spacedBy("var(--tool-page-content-gap)")} style={{ width: "100%", alignItems: "stretch" }}>{content}</Column>
             </div>
           )}
         </div>
