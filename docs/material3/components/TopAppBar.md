@@ -1,6 +1,6 @@
 # TopAppBar — contrat AndroidX Material 3 vers React/Web
 
-**État au 31 octobre 2026 :** la petite variante est intégrée au header global de Loculary. Le titre et les actions sont des slots React ; le bouton de navigation est facultatif et son libellé doit être fourni par le consommateur. Les variantes centrée, moyenne et grande restent recensées dans l'inventaire AndroidX, mais ne sont pas portées faute de parcours produit qui les consomme.
+**État au 3 novembre 2026 :** la petite variante est intégrée au header global de Loculary. Le titre et les actions sont des slots React ; le bouton de navigation est facultatif et son libellé doit être fourni par le consommateur. Les variantes centrée, moyenne et grande restent recensées dans l'inventaire AndroidX, mais ne sont pas portées faute de parcours produit qui les consomme.
 
 ## Sources épinglées
 
@@ -40,8 +40,10 @@ Les valeurs dp sont des références Android, pas une équivalence physique CSS.
 - Le slot titre contient le lien de marque Loculary, affiché sur mobile.
 - Les actions contiennent la recherche et le menu de navigation.
 - Le contenu reste contraint par `--layout-content-wide` et `--layout-page-gutter`.
-- La barre conserve son positionnement sticky et son nom de transition.
-- La hauteur passe de 56 à 64 CSS px sur mobile : alignement volontaire sur la référence 64 dp de la petite TopAppBar.
+- La composition extérieure conserve le positionnement sticky et place son séparateur inférieur dans `Header.module.css`, au niveau du shell applicatif.
+- Ce séparateur utilise le rôle sémantique `--outline-variant` ; il ne modifie ni la surface, ni la géométrie, ni le contrat interne du port AndroidX `TopAppBar`.
+- La racine `header` conserve son nom de transition.
+- La hauteur reste au minimum 64 CSS px, alignée sur la référence 64 dp de la petite TopAppBar.
 - Le menu expose ses liens dans un landmark `nav` avec le libellé localisé « Navigation principale » / « Primary navigation ».
 
 Les variantes moyenne, grande et centrée ne sont pas conservées dans le code tant qu'aucun parcours produit ne les consomme. Leurs contrats AndroidX restent dans l'inventaire officiel.
@@ -51,7 +53,7 @@ Les variantes moyenne, grande et centrée ne sont pas conservées dans le code t
 ### Vérifications statiques et Production
 
 - [x] Tests de contrat : slots composables, absence de sémantique heading inventée, action de navigation facultative et libellé obligatoire.
-- [x] Tests de migration : le header utilise TopAppBar, les gutters restent centralisés et le landmark de navigation est localisé.
+- [x] Test de contrat : séparateur inférieur porté par le shell applicatif, hors CSS du port TopAppBar.
 - [x] CI sur le commit de fusion : lint, typecheck, tests, audit npm, build et gate Node.js 24.21.0.
 - [x] Production `loculary.vercel.app` sur le commit `9725e09662005118a14c3b6d04992a04fb59f8fa` : chargement FR/EN, marque visible, recherche et menu ouvrables, fermeture Escape, focus automatique dans le champ de recherche, landmark `nav` nommé « Navigation principale » en FR et absence de débordement horizontal sur les viewports observés.
 - [x] Source CSS : la ligne de la petite TopAppBar applique `min-height: 64px`. Cette valeur est vérifiée dans le code livré, pas mesurée comme hauteur calculée du navigateur.
@@ -63,5 +65,6 @@ Les variantes moyenne, grande et centrée ne sont pas conservées dans le code t
 - [ ] Tab, ordre complet de focus, restitution du focus après Escape et validation par lecteur d'écran.
 - [ ] Comparaison des couleurs, insets, espacements et états avec AndroidX en thèmes clair/sombre.
 - [ ] Comportement du panneau de recherche aux largeurs mobiles/tablettes et validation des breakpoints.
+- [ ] Inspection visuelle du séparateur dans les thèmes clair/sombre et aux largeurs desktop.
 
 La petite variante est intégrée et utilisée en Production. Les observations navigateur couvrent des interactions réelles mais ne prouvent pas la parité visuelle complète ni l'accessibilité exhaustive. Aucun comportement de défilement/collapse des variantes moyenne/grande n'est revendiqué, car ces variantes ne sont pas portées.
