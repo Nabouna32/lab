@@ -1,10 +1,10 @@
 .root {
   width: min(100%, 340px);
   padding: 16px;
-  border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  border: 1px solid var(--outline-variant);
   border-radius: var(--shape-corner-extra-large);
-  background: var(--lab-surface-container, var(--md-sys-color-surface-container, transparent));
-  color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
+  background: var(--surface-container);
+  color: var(--on-surface);
 }
 
 .header {
@@ -44,7 +44,7 @@
 .monthActions button:focus-visible,
 .day:focus-visible,
 .inputLabel input:focus-visible {
-  outline: 2px solid var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
@@ -58,7 +58,7 @@
   display: grid;
   place-items: center;
   min-height: 32px;
-  color: var(--lab-on-surface-variant, var(--md-sys-color-on-surface-variant, currentColor));
+  color: var(--on-surface-variant);
   font-size: var(--m3-type-label-medium-size);
   line-height: var(--m3-type-label-medium-line-height);
   font-weight: var(--m3-type-label-medium-weight);
@@ -86,23 +86,23 @@
 }
 
 .day:hover:not(:disabled):not(.selected) {
-  background: color-mix(in srgb, var(--lab-primary, currentColor) 10%, transparent);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
 }
 
 .day.outsideMonth {
-  color: var(--lab-on-surface-variant, currentColor);
+  color: var(--on-surface-variant);
   opacity: .55;
 }
 
 .day.selected {
-  background: var(--lab-primary, var(--md-sys-color-primary, currentColor));
-  color: var(--lab-on-primary, var(--md-sys-color-on-primary, white));
+  background: var(--primary);
+  color: var(--on-primary);
 }
 
 .day.inRange:not(.selected) {
   border-radius: var(--shape-corner-small);
-  background: var(--lab-primary-soft, var(--md-sys-color-primary-container, transparent));
-  color: var(--lab-on-surface, currentColor);
+  background: var(--primary-soft, var(--primary-container));
+  color: var(--on-surface);
 }
 
 .day:disabled {
@@ -112,7 +112,7 @@
 
 .helper {
   margin: 12px 0 0;
-  color: var(--lab-on-surface-variant, currentColor);
+  color: var(--on-surface-variant);
   font-size: var(--m3-type-body-small-size);
   line-height: var(--m3-type-body-small-line-height);
   font-weight: var(--m3-type-body-small-weight);
@@ -125,7 +125,7 @@
   min-width: 0;
   margin: 0;
   padding: 12px;
-  border: 1px solid var(--lab-outline-variant, currentColor);
+  border: 1px solid var(--outline-variant);
   border-radius: var(--shape-corner-large);
 }
 
@@ -140,7 +140,7 @@
 .inputLabel {
   display: grid;
   gap: 6px;
-  color: var(--lab-on-surface-variant, currentColor);
+  color: var(--on-surface-variant);
   font-size: var(--m3-type-body-medium-size);
   line-height: var(--m3-type-body-medium-line-height);
   font-weight: var(--m3-type-body-medium-weight);
@@ -151,10 +151,10 @@
   min-height: 48px;
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid var(--lab-outline, currentColor);
+  border: 1px solid var(--outline);
   border-radius: 8px;
-  background: var(--lab-surface, transparent);
-  color: var(--lab-on-surface, currentColor);
+  background: var(--surface);
+  color: var(--on-surface);
   font: inherit;
 }
 

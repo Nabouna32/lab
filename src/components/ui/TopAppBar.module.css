@@ -2,8 +2,8 @@
   display: block;
   width: 100%;
   box-sizing: border-box;
-  color: var(--foreground, var(--on-surface, currentColor));
-  background: var(--background, var(--surface, transparent));
+  color: var(--on-surface);
+  background: var(--surface);
 }
 .row {
   display: flex;
@@ -29,7 +29,7 @@
 .navigation:hover { background: color-mix(in srgb, currentColor 8%, transparent); }
 .navigation:active { background: color-mix(in srgb, currentColor 12%, transparent); }
 .navigation:focus-visible {
-  outline: 2px solid var(--lab-primary, var(--focus-ring, currentColor));
+  outline: 2px solid var(--primary);
   outline-offset: -2px;
 }
 .title {

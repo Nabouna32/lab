@@ -2,10 +2,10 @@
   position: relative;
   min-height: 320px;
   overflow: hidden;
-  border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  border: 1px solid var(--outline-variant);
   border-radius: 20px;
-  background: var(--lab-surface, var(--md-sys-color-surface, Canvas));
-  color: var(--lab-on-surface, var(--md-sys-color-on-surface, CanvasText));
+  background: var(--surface);
+  color: var(--on-surface);
 }
 
 .content {
@@ -20,8 +20,8 @@
   bottom: 0;
   overflow: hidden;
   border-radius: 24px 24px 0 0;
-  background: var(--lab-surface-container-high, var(--md-sys-color-surface-container-high, Canvas));
-  box-shadow: 0 -2px 8px color-mix(in srgb, var(--lab-shadow, #000) 12%, transparent);
+  background: var(--surface-container-high);
+  box-shadow: 0 -2px 8px color-mix(in srgb, var(--shadow) 12%, transparent);
   transition: height 240ms cubic-bezier(.2, 0, 0, 1), transform 180ms ease;
 }
 
@@ -61,11 +61,11 @@
   width: 32px;
   height: 4px;
   border-radius: 4px;
-  background: var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  background: var(--outline-variant);
 }
 
 .handle:focus-visible {
-  outline: 2px solid var(--lab-primary, currentColor);
+  outline: 2px solid var(--primary);
   outline-offset: -3px;
 }
 

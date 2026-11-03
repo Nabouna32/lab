@@ -15,9 +15,9 @@
   height: 56px;
   border: 0;
   border-radius: 16px;
-  background: var(--lab-primary-container, var(--md-sys-color-primary-container, currentColor));
-  color: var(--lab-on-primary-container, var(--md-sys-color-on-primary-container, Canvas));
-  box-shadow: 0 3px 6px color-mix(in srgb, var(--lab-shadow, #000) 20%, transparent);
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  box-shadow: 0 3px 6px color-mix(in srgb, var(--shadow) 20%, transparent);
   cursor: pointer;
   transition: border-radius 220ms cubic-bezier(.2, 0, 0, 1), transform 220ms cubic-bezier(.2, 0, 0, 1);
 }
@@ -51,10 +51,10 @@
   gap: 12px;
   min-height: 48px;
   padding: 0 8px 0 16px;
-  border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  border: 1px solid var(--outline-variant);
   border-radius: 16px;
-  background: var(--lab-surface-container-high, var(--md-sys-color-surface-container-high, Canvas));
-  color: var(--lab-on-surface, var(--md-sys-color-on-surface, CanvasText));
+  background: var(--surface-container-high);
+  color: var(--on-surface);
   font: inherit;
   font-size: var(--m3-type-label-large-size);
   line-height: var(--m3-type-label-large-line-height);
@@ -71,17 +71,17 @@
   width: 36px;
   height: 36px;
   border-radius: 12px;
-  background: var(--lab-secondary-container, var(--md-sys-color-secondary-container, transparent));
-  color: var(--lab-on-secondary-container, var(--md-sys-color-on-secondary-container, currentColor));
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
 }
 
 .menuItem:hover:not(:disabled) {
-  background: var(--lab-surface-container-highest, var(--md-sys-color-surface-container-highest, transparent));
+  background: var(--surface-container-highest);
 }
 
 .menuItem:focus-visible,
 .toggle:focus-visible {
-  outline: 2px solid var(--lab-primary, currentColor);
+  outline: 2px solid var(--primary);
   outline-offset: 3px;
 }
 
