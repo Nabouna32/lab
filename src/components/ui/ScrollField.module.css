@@ -5,10 +5,10 @@
   gap: 4px;
   width: 104px;
   padding: 8px;
-  border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  border: 1px solid var(--outline-variant);
   border-radius: 16px;
-  background: var(--lab-surface-container-high, var(--md-sys-color-surface-container-high, transparent));
-  color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
+  background: var(--surface-container-high);
+  color: var(--on-surface);
 }
 
 .step {
@@ -55,7 +55,7 @@
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: var(--lab-on-surface-variant, currentColor);
+  color: var(--on-surface-variant);
   font: inherit;
   font-size: 14px;
   font-variant-numeric: tabular-nums;
@@ -63,8 +63,8 @@
 }
 
 .option[aria-selected="true"] {
-  background: var(--lab-primary-container, var(--md-sys-color-primary-container, transparent));
-  color: var(--lab-on-primary-container, var(--md-sys-color-on-primary-container, currentColor));
+  background: var(--primary-container);
+  color: var(--on-primary-container);
   font-size: 18px;
   font-weight: 600;
 }
@@ -72,7 +72,7 @@
 .option:focus-visible,
 .step:focus-visible,
 .wheel:focus-visible {
-  outline: 2px solid var(--lab-primary, currentColor);
+  outline: 2px solid var(--primary);
   outline-offset: -2px;
 }
 

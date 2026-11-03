@@ -4,8 +4,8 @@
   box-sizing: border-box;
   width: 100%;
   min-height: 100%;
-  color: var(--lab-text, var(--on-surface, currentColor));
-  background: var(--lab-bg, var(--background, transparent));
+  color: var(--on-surface);
+  background: var(--bg, var(--surface));
   --scaffold-inset-start: var(--scaffold-inset-left);
   --scaffold-inset-end: var(--scaffold-inset-right);
 }

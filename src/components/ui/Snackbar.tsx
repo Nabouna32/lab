@@ -44,11 +44,11 @@ export function Snackbar({
 }: SnackbarProps) {
   const hasAction = Boolean(actionLabel && onAction);
   const visualStyle = {
-    "--snackbar-container-color": containerColor ?? "var(--inverse-surface, #313033)",
-    "--snackbar-content-color": contentColor ?? "var(--inverse-on-surface, #f4eff4)",
-    "--snackbar-action-color": actionContentColor ?? "var(--inverse-primary, #d0bcff)",
-    "--snackbar-dismiss-color": dismissActionContentColor ?? "var(--inverse-on-surface, #f4eff4)",
-    "--snackbar-shape": shape ?? "var(--shape-corner-extra-small, 4px)",
+    "--snackbar-container-color": containerColor ?? "var(--inverse-surface)",
+    "--snackbar-content-color": contentColor ?? "var(--inverse-on-surface)",
+    "--snackbar-action-color": actionContentColor ?? "var(--inverse-primary)",
+    "--snackbar-dismiss-color": dismissActionContentColor ?? "var(--inverse-on-surface)",
+    "--snackbar-shape": shape ?? "var(--shape-corner-extra-small)",
   } as CSSProperties;
 
   useEffect(() => {

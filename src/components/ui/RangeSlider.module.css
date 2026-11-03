@@ -2,7 +2,7 @@
   display: grid;
   gap: 12px;
   width: 100%;
-  color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
+  color: var(--on-surface);
 }
 
 .header {
@@ -20,7 +20,7 @@
 }
 
 .value {
-  color: var(--range-label, var(--lab-primary, currentColor));
+  color: var(--range-label, var(--primary));
   font-size: var(--m3-type-body-medium-size);
   line-height: var(--m3-type-body-medium-line-height);
   font-weight: var(--m3-type-body-medium-weight);
@@ -34,12 +34,12 @@
   display: flex;
   align-items: center;
   background: linear-gradient(to right,
-    var(--range-inactive, var(--lab-surface-2, #ddd)) 0,
-    var(--range-inactive, var(--lab-surface-2, #ddd)) var(--range-start),
-    var(--range-active, var(--lab-primary, currentColor)) var(--range-start),
-    var(--range-active, var(--lab-primary, currentColor)) var(--range-end),
-    var(--range-inactive, var(--lab-surface-2, #ddd)) var(--range-end),
-    var(--range-inactive, var(--lab-surface-2, #ddd)) 100%);
+    var(--range-inactive, var(--surface-2, #ddd)) 0,
+    var(--range-inactive, var(--surface-2, #ddd)) var(--range-start),
+    var(--range-active, var(--primary)) var(--range-start),
+    var(--range-active, var(--primary)) var(--range-end),
+    var(--range-inactive, var(--surface-2, #ddd)) var(--range-end),
+    var(--range-inactive, var(--surface-2, #ddd)) 100%);
   background-size: 100% 4px;
   background-repeat: no-repeat;
   background-position: center;
@@ -72,18 +72,18 @@
   height: 20px;
   margin-top: -8px;
   appearance: none;
-  border: 2px solid var(--range-active, var(--lab-primary, currentColor));
+  border: 2px solid var(--range-active, var(--primary));
   border-radius: 50%;
-  background: var(--lab-surface, white);
+  background: var(--surface);
   pointer-events: auto;
 }
 
 .input::-moz-range-thumb {
   width: 16px;
   height: 16px;
-  border: 2px solid var(--range-active, var(--lab-primary, currentColor));
+  border: 2px solid var(--range-active, var(--primary));
   border-radius: 50%;
-  background: var(--lab-surface, white);
+  background: var(--surface);
   pointer-events: auto;
 }
 
@@ -92,12 +92,12 @@
 }
 
 .input:focus-visible::-webkit-slider-thumb {
-  outline: 2px solid var(--range-focus, var(--lab-primary, currentColor));
+  outline: 2px solid var(--range-focus, var(--primary));
   outline-offset: 3px;
 }
 
 .input:focus-visible::-moz-range-thumb {
-  outline: 2px solid var(--range-focus, var(--lab-primary, currentColor));
+  outline: 2px solid var(--range-focus, var(--primary));
   outline-offset: 3px;
 }
 

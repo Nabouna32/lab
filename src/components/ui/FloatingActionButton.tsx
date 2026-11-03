@@ -18,11 +18,11 @@ function createElevation(defaults: FloatingActionButtonElevation, overrides: Ele
 
 export const FloatingActionButtonDefaults = {
   LargeIconSize: 36,
-  shape: "var(--shape-corner-large, 16px)",
-  smallShape: "var(--shape-corner-medium, 12px)",
-  largeShape: "var(--shape-corner-extra-large, 28px)",
-  extendedFabShape: "var(--shape-corner-large, 16px)",
-  containerColor: "var(--primary-container, #d3e3fd)",
+  shape: "var(--shape-corner-large)",
+  smallShape: "var(--shape-corner-medium)",
+  largeShape: "var(--shape-corner-extra-large)",
+  extendedFabShape: "var(--shape-corner-large)",
+  containerColor: "var(--primary-container)",
   elevation: (overrides: ElevationOverrides = {}) =>
     createElevation(
       { defaultElevation: 6, pressedElevation: 6, focusedElevation: 6, hoveredElevation: 8 },
@@ -101,7 +101,7 @@ function FabButton({
   const resolvedContentColor =
     contentColor ??
     (containerColor === FloatingActionButtonDefaults.containerColor
-      ? "var(--on-primary-container, #041e49)"
+      ? "var(--on-primary-container)"
       : "currentColor");
 
   const resolvedShape =

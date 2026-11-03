@@ -1,10 +1,10 @@
 .root {
   width: min(100%, 320px);
   padding: 20px;
-  border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  border: 1px solid var(--outline-variant);
   border-radius: 28px;
-  background: var(--lab-surface-container, var(--md-sys-color-surface-container, transparent));
-  color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
+  background: var(--surface-container);
+  color: var(--on-surface);
 }
 
 .timeHeader {
@@ -30,7 +30,7 @@
   padding: 8px 10px;
   border: 0;
   border-radius: 8px;
-  background: var(--lab-surface-container-high, var(--md-sys-color-surface-container-high, transparent));
+  background: var(--surface-container-high);
   color: inherit;
   font: inherit;
   cursor: pointer;
@@ -38,8 +38,8 @@
 
 .digitalTime button[aria-pressed="true"],
 .digitalTime .digitalSelected {
-  background: var(--lab-primary-container, var(--md-sys-color-primary-container, transparent));
-  color: var(--lab-on-primary-container, var(--md-sys-color-on-primary-container, currentColor));
+  background: var(--primary-container);
+  color: var(--on-primary-container);
 }
 
 .ampm {
@@ -49,7 +49,7 @@
 
 .ampm button {
   padding: 5px 8px;
-  border: 1px solid var(--lab-outline-variant, currentColor);
+  border: 1px solid var(--outline-variant);
   border-radius: 6px;
   background: transparent;
   color: inherit;
@@ -62,9 +62,9 @@
 }
 
 .ampm button[aria-pressed="true"] {
-  border-color: var(--lab-primary, currentColor);
-  background: var(--lab-primary-container, transparent);
-  color: var(--lab-on-primary-container, currentColor);
+  border-color: var(--primary);
+  background: var(--primary-container);
+  color: var(--on-primary-container);
 }
 
 .clock {
@@ -72,7 +72,7 @@
   width: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: var(--lab-surface-container-high, var(--md-sys-color-surface-container-high, transparent));
+  background: var(--surface-container-high);
 }
 
 .hand {
@@ -83,7 +83,7 @@
   width: 2px;
   height: 41%;
   border-radius: 2px;
-  background: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  background: var(--primary);
   transform-origin: center bottom;
   pointer-events: none;
 }
@@ -121,12 +121,12 @@
 }
 
 .dialValue:hover:not(.dialSelected) {
-  background: color-mix(in srgb, var(--lab-primary, currentColor) 12%, transparent);
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
 }
 
 .dialValue.dialSelected {
-  background: var(--lab-primary, var(--md-sys-color-primary, currentColor));
-  color: var(--lab-on-primary, white);
+  background: var(--primary);
+  color: var(--on-primary);
 }
 
 .dialValue.innerHour {
@@ -142,13 +142,13 @@
 .digitalTime button:focus-visible,
 .ampm button:focus-visible,
 .inputMode input:focus-visible {
-  outline: 2px solid var(--lab-primary, currentColor);
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
 .helper {
   margin: 16px 0 0;
-  color: var(--lab-on-surface-variant, currentColor);
+  color: var(--on-surface-variant);
   font-size: 12px;
 }
 
@@ -156,7 +156,7 @@
   display: grid;
   gap: 8px;
   min-width: 0;
-  color: var(--lab-on-surface, currentColor);
+  color: var(--on-surface);
   font-size: var(--m3-type-body-medium-size);
   line-height: var(--m3-type-body-medium-line-height);
   font-weight: var(--m3-type-body-medium-weight);
@@ -166,9 +166,9 @@
 .inputMode input {
   min-height: 48px;
   padding: 10px 12px;
-  border: 1px solid var(--lab-outline, currentColor);
+  border: 1px solid var(--outline);
   border-radius: 8px;
-  background: var(--lab-surface, transparent);
+  background: var(--surface);
   color: inherit;
   font: inherit;
 }
