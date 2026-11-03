@@ -1,5 +1,6 @@
 import {
   getOpenWorkPullRequests,
+  isBotPullRequest,
   selectPriorityPullRequest,
   validatePullRequestBody,
 } from "./pr-governance.mjs";
@@ -9,9 +10,20 @@ async function main() {
   const token = process.env.GITHUB_TOKEN;
   const pullRequestNumber = Number(process.env.PR_NUMBER);
   const body = process.env.PR_BODY ?? "";
+  const currentPullRequest = {
+    user: {
+      login: process.env.PR_AUTHOR_LOGIN ?? "",
+      type: process.env.PR_AUTHOR_TYPE ?? "",
+    },
+  };
 
   if (!repository || !token || !Number.isInteger(pullRequestNumber) || pullRequestNumber < 1) {
     throw new Error("GITHUB_REPOSITORY, GITHUB_TOKEN et PR_NUMBER sont requis.");
+  }
+
+  if (isBotPullRequest(currentPullRequest)) {
+    console.log("PR de bot : les contrôles de gouvernance sont exemptés.");
+    return;
   }
 
   const pullRequests = await getOpenWorkPullRequests(repository, token);
