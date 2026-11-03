@@ -9,6 +9,8 @@ on:
       - edited
       - synchronize
       - reopened
+  pull_request_target:
+    types:
       - closed
   workflow_dispatch:
     inputs:
@@ -244,7 +246,8 @@ jobs:
     name: Construction de l'application de production
     needs: prepare
     if: >-
-      ${{ always() &&
+      ${{ github.event.action != 'closed' &&
+          always() &&
           (needs.prepare.result == 'success' || github.event_name == 'pull_request') &&
           (github.event_name != 'pull_request' ||
             (needs.prepare.outputs.lightweight_only != 'true' &&
@@ -403,7 +406,7 @@ jobs:
 
   recheck-blocked-prs:
     name: Réévaluation de la PR prioritaire après fermeture
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    if: github.event_name == 'pull_request_target' && github.event.action == 'closed'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
