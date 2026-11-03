@@ -33,7 +33,7 @@ const tool = {
   offline: true,
   sharing: { supported: false, mode: "none" },
   nextActionToolIds: [],
-  quality: { accessibility: "required", performance: "standard", tests: "required" },
+  quality: { accessibility: "required", performance: "standard" },
   lifecycle: "published",
   access: "anonymous",
 };
@@ -48,7 +48,7 @@ test("the canonical tool contract derives publication and primary category from 
   assert.equal("categoryId" in tool, false);
 });
 
-test("the metadata validator accepts a valid local published tool", () => {
+test("the metadata validator accepts a published tool without a per-tool test requirement", () => {
   assert.doesNotThrow(() => validateToolCatalog([tool]));
 });
 
