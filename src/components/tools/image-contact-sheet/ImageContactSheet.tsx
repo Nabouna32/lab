@@ -99,7 +99,7 @@ export default function ImageContactSheet() {
     const anchor = document.createElement("a"); anchor.href = previewUrl; anchor.download = "loculary-planche-contact.png"; anchor.click();
   }
 
-  return <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]"><div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:p-8">
+  return <section className="overflow-hidden rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface)]"><div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:p-8">
     <div className="space-y-5">
       <label htmlFor="contact-sheet-files" className="block cursor-pointer rounded-[var(--shape-corner-medium)] border-2 border-dashed border-[var(--border)] bg-[var(--background)] p-6 text-center transition hover:border-[var(--accent)] focus-within:ring-2 focus-within:ring-[var(--focus-ring)]">
         <span className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-[var(--shape-corner-large)] bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true"><MaterialIcon name="image" size={24} /></span>
