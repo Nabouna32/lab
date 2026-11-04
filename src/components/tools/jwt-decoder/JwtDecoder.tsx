@@ -40,7 +40,7 @@ export default function JwtDecoder() {
     : [];
 
   return (
-    <section className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-6">
+    <section className="rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-6">
       <TextArea
         label={t.input}
         inputId="jwt-input"
