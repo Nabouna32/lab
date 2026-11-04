@@ -125,7 +125,7 @@ export default function ImageCompressor() {
   const compressedBytes = successful.reduce((sum, item) => sum + (item.result?.blob.size ?? 0), 0);
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
+    <section className="overflow-hidden rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.85fr)] lg:p-8">
         <div className="space-y-5">
           <label htmlFor="image-compressor-file" className="block cursor-pointer rounded-[var(--shape-corner-medium)] border-2 border-dashed border-[var(--border)] bg-[var(--background)] p-6 text-center transition hover:border-[var(--accent)] focus-within:border-[var(--accent)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus-ring)] focus-within:ring-offset-2 focus-within:ring-offset-[var(--surface)]">
