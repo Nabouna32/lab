@@ -514,14 +514,14 @@ html.dark .theme-icon-system-dark { display: inline; }
   animation: none;
 }
 
-::view-transition-group(.loculary-page) {
+::view-transition-group(loculary-page) {
   animation-duration: 420ms;
   animation-timing-function: cubic-bezier(.22,1,.36,1);
 }
-::view-transition-old(.loculary-page) {
+::view-transition-old(loculary-page) {
   animation: loculary-page-exit 420ms cubic-bezier(.22,1,.36,1) both;
 }
-::view-transition-new(.loculary-page) {
+::view-transition-new(loculary-page) {
   animation: loculary-page-enter 420ms cubic-bezier(.22,1,.36,1) both;
 }
 @keyframes loculary-page-exit {
