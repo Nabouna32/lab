@@ -39,7 +39,7 @@ export default function CronExpression() {
   const reset = () => setExpression(DEFAULT_EXPRESSION);
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
+    <section className="overflow-hidden rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="p-4 sm:p-6 lg:p-7">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
           <div className="min-w-0 flex-1">
@@ -93,7 +93,7 @@ export default function CronExpression() {
               )}
             </div>
 
-            <div className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-4 sm:p-5">
+            <div className="rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-4 sm:p-5">
               <h2 className="text-sm font-semibold text-[var(--foreground)]">{t.nextRuns}</h2>
               {result.schedule ? (
                 <ol className="mt-3 space-y-2">
@@ -109,7 +109,7 @@ export default function CronExpression() {
             </div>
           </div>
         ) : (
-          <p className="mt-6 rounded-[var(--radius-md)] bg-[var(--background)] p-4 text-sm text-[var(--muted)]">{t.emptyResult}</p>
+          <p className="mt-6 rounded-[var(--shape-corner-medium)] bg-[var(--background)] p-4 text-sm text-[var(--muted)]">{t.emptyResult}</p>
         )}
 
         <div className="mt-5 flex flex-wrap gap-2">

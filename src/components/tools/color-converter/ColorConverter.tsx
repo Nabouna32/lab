@@ -18,7 +18,7 @@ export default function ColorConverter() {
   const canReset = value !== DEFAULT_COLOR;
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
+    <section className="overflow-hidden rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-5 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.85fr)] lg:p-8">
         <div className="space-y-5">
           <div>
@@ -56,7 +56,7 @@ export default function ColorConverter() {
           </div>
 
           {result ? (
-            <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--border)]" style={{ backgroundColor: result.hex }}>
+            <div className="overflow-hidden rounded-[var(--shape-corner-medium)] border border-[var(--border)]" style={{ backgroundColor: result.hex }}>
               <div className="min-h-40 p-6" style={{ color: getContrastingTextColor(result.rgb) }}>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] opacity-75">{t.preview}</p>
                 <p className="mt-3 text-3xl font-black tracking-tight">{result.hex}</p>

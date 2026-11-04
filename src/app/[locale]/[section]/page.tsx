@@ -77,7 +77,7 @@ export default async function ToolsPage({
   return (
     <main className="min-h-full">
       <div className="mx-auto w-full max-w-[var(--layout-content-wide)] px-[var(--layout-page-gutter)] py-[var(--space-6)] sm:py-[var(--space-8)] lg:py-[var(--space-10)]">
-        <section className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-lg)] sm:p-7 lg:p-9" aria-labelledby="tools-page-title">
+        <section className="relative overflow-hidden rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-lg)] sm:p-7 lg:p-9" aria-labelledby="tools-page-title">
           <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
           <div className="relative grid gap-7 lg:grid-cols-[.8fr_1.2fr] lg:items-end lg:gap-12">
             <div className="motion-reveal">
@@ -99,7 +99,7 @@ export default async function ToolsPage({
         </section>
 
         <div className="mt-5 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[15rem_minmax(0,1fr)]">
-          <aside className="h-fit rounded-[1.5rem] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-md)] lg:sticky lg:top-24" aria-labelledby="tools-intents-heading">
+          <aside className="h-fit rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-md)] lg:sticky lg:top-24" aria-labelledby="tools-intents-heading">
             <div className="border-b border-[var(--border)] pb-4">
               <h2 id="tools-intents-heading" className="m3-type-label-medium uppercase text-[var(--muted)]">{t.tools.intentsTitle}</h2>
               <p className="m3-type-body-small mt-2 text-[var(--muted)]">{t.tools.intentsDescription}</p>
@@ -120,7 +120,7 @@ export default async function ToolsPage({
             </div>
           </aside>
 
-          <div className="min-w-0 rounded-[1.5rem] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-md)]">
+          <div className="min-w-0 rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-md)]">
             {selectedIntent ? (
               <section className="border-b border-[var(--border)] p-5 sm:p-7" aria-labelledby="tools-intent-results-heading" data-testid="intent-results" data-intent-id={selectedIntent.id}>
                 <div className="flex flex-col gap-3 border-b border-[var(--border)] pb-5 sm:flex-row sm:items-end sm:justify-between">
@@ -150,7 +150,7 @@ export default async function ToolsPage({
                     href={getCategoryPath(locale, category.id)}
                     className="group flex min-w-0 min-h-20 items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)]/45 p-3.5 outline-none transition-[transform,border-color,background-color,box-shadow] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--accent)]/35 hover:bg-[var(--surface-soft)] hover:shadow-[var(--shadow-sm)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                   >
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-transparent text-xl shadow-[var(--shadow-sm)] transition-transform duration-[var(--motion-standard)] group-hover:scale-105" style={{ color: getCategoryOnContainerColor(category.id), backgroundColor: getCategoryContainerColor(category.id) }} aria-hidden="true"><MaterialIcon name={category.icon} size={24} /></span>
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-large)] border border-transparent text-xl shadow-[var(--shadow-sm)] transition-transform duration-[var(--motion-standard)] group-hover:scale-105" style={{ color: getCategoryOnContainerColor(category.id), backgroundColor: getCategoryContainerColor(category.id) }} aria-hidden="true"><MaterialIcon name={category.icon} size={24} /></span>
                     <span className="min-w-0 flex-1">
                       <span className="m3-type-title-medium block truncate">{getCategoryName(locale, category.id)}</span>
                       <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{formatPlural(locale, getToolCount(category.id), { one: t.tools.one, other: t.tools.many })}</span>
