@@ -59,7 +59,7 @@ export default async function LocaleLayout({
                     <div className="flex min-w-0 flex-1 flex-col pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">
                       <Header locale={locale} />
                       <main className="min-h-0 flex-1">
-                        <div className="min-h-0 h-full" style={{ viewTransitionName: "loculary-workspace" }}>
+                        <div className="min-h-0 h-full">
                           {children}
                         </div>
                       </main>
