@@ -11,7 +11,7 @@ const drawerStyles = readFileSync(new URL("../../components/ui/NavigationDrawer.
 
 test("the header separator belongs to the application shell, not the TopAppBar port", () => {
   assert.match(headerSource, /<div className=\{styles\.shell\} style=\{\{ viewTransitionName: "loculary-header" \}\}>\s*<TopAppBar/);
-  assert.doesNotMatch(headerSource, /<TopAppBar[\\s\\S]*?style=\\{\\{ viewTransitionName:/);
+  assert.doesNotMatch(headerSource, /<TopAppBar[\s\S]*?style=\{\{ viewTransitionName:/);
   assert.match(headerStyles, /\.shell::after[\s\S]*?inset-inline:\s*0[\s\S]*?inset-block-end:\s*0[\s\S]*?block-size:\s*1px[\s\S]*?background:\s*var\(--outline-variant\)/);
   assert.doesNotMatch(headerSource, /className="sticky top-0 z-50"/);
   assert.doesNotMatch(topAppBarStyles, /border-(?:bottom|block-end)|::after/);
