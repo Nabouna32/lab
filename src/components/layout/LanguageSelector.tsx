@@ -36,8 +36,8 @@ export default function LanguageSelector({ locale }: { locale: Locale }) {
               hrefLang={item}
               aria-current={item === currentLocale ? "page" : undefined}
               className={item === currentLocale
-                ? "flex items-center gap-3 rounded-xl bg-[var(--accent-soft)] px-3 py-2.5 text-sm text-[var(--on-primary-container)]"
-                : "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-[var(--muted)] transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]"}
+                ? "m3-type-label-large flex items-center gap-3 rounded-xl bg-[var(--accent-soft)] px-3 py-2.5 text-[var(--on-primary-container)]"
+                : "m3-type-label-large flex items-center gap-3 rounded-xl px-3 py-2.5 text-[var(--muted)] transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]"}
             >
               <LanguageFlag code={language.flagCode} />
               <span>{language.nativeLabel}</span>

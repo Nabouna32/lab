@@ -22,7 +22,7 @@ export default function ToolProcessingStatus({
     <div className="grid gap-2">
       <p>{processing.description[locale] ?? processing.description.en}</p>
       {isDescriptionFallback && (
-        <p className="text-xs font-medium" role="status">{t.fallbackNotice}</p>
+        <p className="m3-type-label-small" role="status">{t.fallbackNotice}</p>
       )}
       {processing.mode === "local" ? (
         <p className="border-t border-[var(--outline-variant)] pt-2">{t.localDetail}</p>
@@ -39,7 +39,7 @@ export default function ToolProcessingStatus({
 
   return (
     <div className="flex min-w-0 flex-wrap items-center gap-2">
-      <span className="inline-flex min-h-9 min-w-0 max-w-full items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-1.5 text-xs font-semibold text-[var(--foreground)] sm:text-sm">
+      <span className="m3-type-label-medium inline-flex min-h-9 min-w-0 max-w-full items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-1.5 text-[var(--foreground)]">
         <MaterialIcon name={presentation.icon} size={18} className="shrink-0 text-[var(--success)] drop-shadow-[0_0_3px_var(--success)]" />
         <span>{presentation.label}</span>
         <Tooltip content={details} title={t.more} variant="rich" placement="bottom" openOnClick>
