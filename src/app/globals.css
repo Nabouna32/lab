@@ -504,6 +504,16 @@ html.dark .theme-icon-system-dark { display: inline; }
   animation: none;
 }
 
+/* Keep the persistent mobile navigation above page snapshots during route changes. */
+::view-transition-group(loculary-mobile-navigation) {
+  z-index: 2;
+  animation: none;
+}
+::view-transition-old(loculary-mobile-navigation),
+::view-transition-new(loculary-mobile-navigation) {
+  animation: none;
+}
+
 ::view-transition-group(.loculary-page) {
   animation-duration: 420ms;
   animation-timing-function: cubic-bezier(.22,1,.36,1);
