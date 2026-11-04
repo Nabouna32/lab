@@ -56,7 +56,7 @@ export default function CsvDiffChecker() {
   }).join("\n\n") ?? "";
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
+    <section className="overflow-hidden rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-0 lg:grid-cols-2">
         <div className="p-4 sm:p-6 lg:border-r lg:border-[var(--border)] lg:p-7">
           <TextArea label={t.before} inputId="csv-diff-before" value={beforeText} onChange={(event) => { setBeforeText(event.target.value); setResult(null); setError(null); }} placeholder={t.beforePlaceholder} spellCheck={false} className="min-h-[15rem] resize-y font-mono text-sm" />
