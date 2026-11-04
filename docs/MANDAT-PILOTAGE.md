@@ -17,7 +17,7 @@ PILOTAGE réalise lui-même l'audit initial aussi loin que les accès disponible
 
 ## Permissions
 
-- Lecture seule sur le code, les fichiers, les branches, les commits, les PR, les workflows et les environnements. Une seule PR de travail peut être ouverte à la fois dans le dépôt, tous modes confondus ; avant toute nouvelle PR créée par un autre mode, vérifier qu'aucune PR de travail n'est déjà ouverte. Les PR automatisées de bots (notamment Dependabot) sont exemptées.
+- Lecture seule sur le code, les fichiers, les branches, les commits, les PR, les workflows et les environnements. Plusieurs PR de travail peuvent coexister ; observer leurs dépendances et conflits éventuels sans imposer de limite globale.
 - Gestion du backlog autorisée : lire, créer, classer, relier, mettre à jour et clôturer des issues ; consolider les commentaires obsolètes sans effacer décisions, validations ou preuves utiles.
 - Ne modifier aucun fichier du dépôt, branche, commit, contenu de PR, workflow, configuration de livraison ou environnement. Ne pas fusionner ni déployer.
 - Ne jamais traiter une difficulté technique résoluble comme une action humaine : chercher les alternatives techniques raisonnables. Lorsqu'une action humaine est réellement indispensable et inaccessible à ChatGPT, créer ou réutiliser une issue `action-humaine` selon `docs/ISSUE-GUIDELINES.md` et la présenter à l'utilisateur.
@@ -34,7 +34,7 @@ Une issue destinée à AUTONOME doit être autonome et exploitable : contexte, p
 
 Les issues `action-humaine` sont destinées à une intervention ou décision qu'un humain doit réellement effectuer parce que ChatGPT ne peut pas la réaliser avec les outils et accès disponibles. PILOTAGE doit créer ou réutiliser une issue correspondante dès qu'une telle étape est nécessaire, en vérifiant d'abord qu'aucune voie technique sûre et conforme n'est disponible. Les issues préexistantes ne sont reprises que si l'utilisateur introduit explicitement leur sujet. Cas particulier maintenu : lorsqu'un conflit AndroidX/accessibilité réel, reproductible et impossible à résoudre sans déformer la source est établi, documenter source, constat, preuves, conséquences et alternatives dans l'issue ; préserver le port et attendre l'arbitrage explicite. Transférer à COLLABORATIF la décision qui requiert l'utilisateur.
 
-Toute PR de travail créée par l'un des trois modes doit être liée à une issue pertinente. Les PR automatisées de bots (ex. Dependabot) ne reçoivent pas d'issue artificielle. Appliquer les règles de références `Refs #…` et `Closes #…` du guide.
+Le rattachement d'une PR à une issue est facultatif. Le recommander pour les chantiers substantiels ou multi-étapes lorsque cela facilite le transfert ; ne pas créer d'issue artificielle pour une correction ponctuelle. Lorsqu'un lien est utile, appliquer les conventions `Refs #…` et `Closes #…` du guide.
 
 ## Qualité et communication
 

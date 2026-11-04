@@ -210,9 +210,9 @@ Si la session risque de s'interrompre, enregistrer avant la fin un état concis 
 ## 8. GitHub, branches et livraison
 
 - Respecter `AGENTS.md`, les protections de branches, les contrôles obligatoires et le processus réel du dépôt.
-- Une seule PR de travail peut être ouverte à la fois dans le dépôt, tous modes confondus. Avant d'en ouvrir une, vérifier qu'aucune autre PR de travail n'est ouverte ; terminer (fusionner ou fermer) la PR en cours avant d'en créer une nouvelle. Les PR automatisées de bots (notamment Dependabot) sont exemptées et ne bloquent pas l'ouverture d'une PR de travail.
+- Plusieurs PR de travail peuvent être ouvertes en parallèle. Aucune limite globale n'est imposée ; coordonner les dépendances et conflits uniquement lorsqu'ils existent réellement.
 - Utiliser une branche dédiée et une PR pour les changements qui doivent être intégrés à `main`.
-- Toute PR de travail doit référencer au moins une issue pertinente dans son corps : `Refs #…` pour une contribution partielle, `Closes #…` uniquement si tous les critères sont satisfaits. Créer l'issue nécessaire dans le même travail si aucune n'existe. Les PR automatisées de bots (ex. Dependabot) ne reçoivent pas d'issue artificielle ; appliquer `docs/ISSUE-GUIDELINES.md`.
+- Le lien d'une PR vers une issue est facultatif. Le recommander pour les chantiers substantiels ou multi-étapes ; ne pas créer d'issue artificielle pour une correction ponctuelle ou une PR indépendante. Lorsqu'un lien est utile, appliquer les conventions `Refs #…` et `Closes #…` de `docs/ISSUE-GUIDELINES.md`.
 - Examiner le diff et les résultats des contrôles sur le dernier commit. Diagnostiquer les échecs, corriger dans le périmètre autorisé et relancer les vérifications utiles.
 - Lorsque le changement est prêt et que les contrôles et protections le permettent, conduire la livraison jusqu'à la fusion et, si approprié, jusqu'à la mise en production.
 - Vérifier l'état après fusion et le résultat en production lorsque cela est techniquement possible. Distinguer les vérifications réalisées de celles qui restent impossibles.
