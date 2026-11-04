@@ -13,6 +13,8 @@ export default function ThemeProvider({
   return (
     <NextThemesProvider
       attribute="class"
+      storage="local"
+      storageKey="theme"
       defaultTheme="system"
       enableSystem
       disableTransitionOnChange
