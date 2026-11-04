@@ -45,7 +45,7 @@ function ChangeCard({ change, t }: { change: JsonDiffChange; t: DiffMessages }) 
       : "border-l-[var(--primary)]";
 
   return (
-    <article className={"rounded-[var(--radius-md)] border border-[var(--border)] border-l-4 " + tone + " bg-[var(--surface-container-low)] p-4"}>
+    <article className={"rounded-[var(--shape-corner-medium)] border border-[var(--border)] border-l-4 " + tone + " bg-[var(--surface-container-low)] p-4"}>
       <div className="flex flex-wrap items-start justify-between gap-2">
         <p className="break-all font-mono text-xs text-[var(--muted)]">{change.path}</p>
         <span className="rounded-full bg-[var(--surface-container)] px-2 py-1 text-xs font-semibold text-[var(--foreground)]">{label}</span>
@@ -163,7 +163,7 @@ export default function JsonDiffChecker() {
   const report = filteredResult ? createReport(filteredResult, t) : "";
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
+    <section className="overflow-hidden rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-0 lg:grid-cols-2">
         <div className="p-5 sm:p-7 lg:border-r lg:border-[var(--border)] lg:p-8">
           <div className="grid gap-5">
@@ -216,22 +216,22 @@ export default function JsonDiffChecker() {
             {result && !result.identical && <CopyButton value={report} label={t.copyReport} />}
           </div>
           {result?.identical && (
-            <p className="mt-5 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-4 text-sm text-[var(--foreground)]" role="status">
+            <p className="mt-5 rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] p-4 text-sm text-[var(--foreground)]" role="status">
               {t.identical}
             </p>
           )}
           {result && !result.identical && (
             <div className="mt-5">
               <div className="grid grid-cols-3 gap-2" aria-label={t.summary}>
-                <div className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-3">
+                <div className="rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] p-3">
                   <p className="text-xs text-[var(--muted)]">{t.added}</p>
                   <p className="mt-1 text-xl font-semibold text-[var(--success)]" data-testid="json-diff-added-count">{changeCounts.added}</p>
                 </div>
-                <div className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-3">
+                <div className="rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] p-3">
                   <p className="text-xs text-[var(--muted)]">{t.removed}</p>
                   <p className="mt-1 text-xl font-semibold text-[var(--danger)]" data-testid="json-diff-removed-count">{changeCounts.removed}</p>
                 </div>
-                <div className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-3">
+                <div className="rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] p-3">
                   <p className="text-xs text-[var(--muted)]">{t.changed}</p>
                   <p className="mt-1 text-xl font-semibold text-[var(--foreground)]" data-testid="json-diff-changed-count">{changeCounts.changed}</p>
                 </div>
@@ -244,7 +244,7 @@ export default function JsonDiffChecker() {
                     value={pathQuery}
                     onChange={(event) => setPathQuery(event.target.value)}
                     placeholder={t.searchPathPlaceholder}
-                    className="min-h-11 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 text-sm text-[var(--foreground)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                    className="min-h-11 w-full rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] px-3 text-sm text-[var(--foreground)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                   />
                 </label>
                 <div className="flex flex-wrap gap-2" role="group" aria-label={t.filterChanges}>
@@ -267,7 +267,7 @@ export default function JsonDiffChecker() {
                   {filteredChanges.map((change) => <ChangeCard key={change.path + ":" + change.kind} change={change} t={t} />)}
                 </div>
               ) : (
-                <p className="mt-3 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-4 text-sm text-[var(--muted)]" role="status">{t.noMatchingChanges}</p>
+                <p className="mt-3 rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] p-4 text-sm text-[var(--muted)]" role="status">{t.noMatchingChanges}</p>
               )}
               {result.truncated && <p className="mt-3 text-sm text-[var(--muted)]" role="status">{t.truncated}</p>}
             </div>
