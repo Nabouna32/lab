@@ -236,16 +236,16 @@ export default function ToolSearch({
       <div className={
         "flex items-center border bg-[var(--surface)] transition-[border-color,box-shadow] duration-200 " +
         (compact
-          ? "rounded-xl p-1 shadow-[var(--shadow-sm)] "
-          : "min-h-12 rounded-full p-1 shadow-[var(--shadow-sm)] sm:min-h-14 sm:p-1.5 ") +
+          ? "rounded-[var(--shape-corner-medium)] p-1 shadow-[var(--shadow-sm)] "
+          : "min-h-12 rounded-[var(--shape-corner-full)] p-1 shadow-[var(--shadow-sm)] sm:min-h-14 sm:p-1.5 ") +
         (isFocused
           ? "border-[var(--primary)] ring-2 ring-[var(--primary)]/12"
           : "border-[var(--outline-variant)]")
       }>
         <span
           className={
-            "flex shrink-0 items-center justify-center rounded-lg text-[var(--muted)] " +
-            (compact ? "h-8 w-8" : "h-10 w-10 rounded-full")
+            "flex shrink-0 items-center justify-center rounded-[var(--shape-corner-small)] text-[var(--muted)] " +
+            (compact ? "h-8 w-8" : "h-10 w-10 rounded-[var(--shape-corner-full)]")
           }
           aria-hidden="true"
         >
@@ -325,11 +325,11 @@ export default function ToolSearch({
             transform: overlayPosition.placement === "above" ? "translateY(-100%)" : undefined,
             zIndex: 1000,
           }}
-          className="overflow-y-auto overscroll-contain rounded-[var(--radius-xl)] border border-[var(--outline-variant)] bg-[var(--surface-elevated)] p-2 text-[var(--foreground)] shadow-[var(--shadow-lg)]"
+          className="overflow-y-auto overscroll-contain rounded-[var(--shape-corner-extra-large)] border border-[var(--outline-variant)] bg-[var(--surface-elevated)] p-2 text-[var(--foreground)] shadow-[var(--shadow-lg)]"
         >
           {isSearching && (
             <div className="flex items-center gap-3 px-4 py-5" role="status" aria-live="polite">
-              <span className="h-4 w-4 shrink-0 animate-pulse rounded-full bg-[var(--primary)]" aria-hidden="true" />
+              <span className="h-4 w-4 shrink-0 animate-pulse rounded-[var(--shape-corner-full)] bg-[var(--primary)]" aria-hidden="true" />
               <p className="m3-type-body-medium text-[var(--foreground)]">{t.tools.searching}</p>
             </div>
           )}
@@ -349,7 +349,7 @@ export default function ToolSearch({
           {!isSearching && !searchError && visibleResults.length > 0 && (
             <div className="flex items-center justify-between gap-3 px-3 pb-2 pt-1">
               <p className="m3-type-label-medium text-[var(--muted)]">{t.tools.suggestions}</p>
-              <p role="status" aria-live="polite" aria-atomic="true" className="m3-type-label-small rounded-full bg-[var(--surface-soft)] px-2.5 py-1 text-[var(--muted)]">
+              <p role="status" aria-live="polite" aria-atomic="true" className="m3-type-label-small rounded-[var(--shape-corner-full)] bg-[var(--surface-soft)] px-2.5 py-1 text-[var(--muted)]">
                 {formatPlural(locale, visibleResults.length, { one: t.tools.resultCountOne, other: t.tools.resultCountMany })}
               </p>
             </div>
@@ -369,7 +369,7 @@ export default function ToolSearch({
                   onMouseEnter={() => setActiveIndex(index)}
                   onMouseDown={(event) => event.preventDefault()}
                   className={
-                    "group flex min-h-[4.25rem] items-center gap-3 rounded-[var(--radius-lg)] px-3 py-2.5 text-left outline-none transition-colors " +
+                    "group flex min-h-[4.25rem] items-center gap-3 rounded-[var(--shape-corner-large)] px-3 py-2.5 text-left outline-none transition-colors " +
                     (selected
                       ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
                       : "text-[var(--foreground)] hover:bg-[var(--surface-soft)]")

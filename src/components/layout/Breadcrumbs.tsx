@@ -14,7 +14,7 @@ export default function Breadcrumbs({ locale, items }: { locale: Locale; items: 
         <li className="hidden shrink-0 items-center sm:flex">
           <Link
             href={"/" + locale}
-            className="rounded-md px-1 py-0.5 outline-none transition-colors hover:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+            className="rounded-[var(--shape-corner-extra-small)] px-1 py-0.5 outline-none transition-colors hover:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
           >
             {t.nav.home}
           </Link>
@@ -31,14 +31,14 @@ export default function Breadcrumbs({ locale, items }: { locale: Locale; items: 
               {item.href ? (
                 <Link
                   href={item.href}
-                  className="min-w-0 max-w-[42vw] truncate rounded-md px-1 py-0.5 outline-none transition-colors hover:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:max-w-none"
+                  className="min-w-0 max-w-[42vw] truncate rounded-[var(--shape-corner-extra-small)] px-1 py-0.5 outline-none transition-colors hover:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:max-w-none"
                 >
                   {item.label}
                 </Link>
               ) : (
                 <span
                   aria-current={isCurrent ? "page" : undefined}
-                  className="m3-type-label-medium min-w-0 max-w-[52vw] truncate rounded-md px-1 py-0.5 text-[var(--foreground)] sm:max-w-none"
+                  className="m3-type-label-medium min-w-0 max-w-[52vw] truncate rounded-[var(--shape-corner-extra-small)] px-1 py-0.5 text-[var(--foreground)] sm:max-w-none"
                 >
                   {item.label}
                 </span>

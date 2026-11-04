@@ -18,14 +18,14 @@ export default function LanguageSelector({ locale }: { locale: Locale }) {
   return (
     <details className="language-selector relative">
       <summary
-        className="flex h-12 w-12 shrink-0 cursor-pointer list-none items-center justify-center rounded-full border border-transparent text-[var(--muted)] outline-none transition-[border-color,background-color,color] hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+        className="flex h-12 w-12 shrink-0 cursor-pointer list-none items-center justify-center rounded-[var(--shape-corner-full)] border border-transparent text-[var(--muted)] outline-none transition-[border-color,background-color,color] hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
         aria-label={t.nav.language + ": " + currentLanguage.nativeLabel}
         title={t.nav.language + ": " + currentLanguage.nativeLabel}
       >
         <LanguageFlag code={currentLanguage.flagCode} />
         <span className="sr-only">{currentLanguage.nativeLabel}</span>
       </summary>
-      <div className="absolute right-0 top-full z-50 mt-2 min-w-44 rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-1.5 shadow-[var(--shadow-md)]">
+      <div className="absolute right-0 top-full z-50 mt-2 min-w-44 rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface-elevated)] p-1.5 shadow-[var(--shadow-md)]">
         {locales.map((item) => {
           const language = getLanguage(item);
           const href = getLocalizedPath(pathname, item);
@@ -36,8 +36,8 @@ export default function LanguageSelector({ locale }: { locale: Locale }) {
               hrefLang={item}
               aria-current={item === currentLocale ? "page" : undefined}
               className={item === currentLocale
-                ? "m3-type-label-large flex items-center gap-3 rounded-xl bg-[var(--accent-soft)] px-3 py-2.5 text-[var(--on-primary-container)]"
-                : "m3-type-label-large flex items-center gap-3 rounded-xl px-3 py-2.5 text-[var(--muted)] transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]"}
+                ? "m3-type-label-large flex items-center gap-3 rounded-[var(--shape-corner-medium)] bg-[var(--accent-soft)] px-3 py-2.5 text-[var(--on-primary-container)]"
+                : "m3-type-label-large flex items-center gap-3 rounded-[var(--shape-corner-medium)] px-3 py-2.5 text-[var(--muted)] transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]"}
             >
               <LanguageFlag code={language.flagCode} />
               <span>{language.nativeLabel}</span>

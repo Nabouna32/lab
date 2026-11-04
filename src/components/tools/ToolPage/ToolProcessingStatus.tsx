@@ -39,7 +39,7 @@ export default function ToolProcessingStatus({
 
   return (
     <div className="flex min-w-0 flex-wrap items-center gap-2">
-      <span className="m3-type-label-medium inline-flex min-h-9 min-w-0 max-w-full items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-1.5 text-[var(--foreground)]">
+      <span className="m3-type-label-medium inline-flex min-h-9 min-w-0 max-w-full items-center gap-2 rounded-[var(--shape-corner-full)] border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-1.5 text-[var(--foreground)]">
         <MaterialIcon name={presentation.icon} size={18} className="shrink-0 text-[var(--success)] drop-shadow-[0_0_3px_var(--success)]" />
         <span>{presentation.label}</span>
         <Tooltip content={details} title={t.more} variant="rich" placement="bottom" openOnClick>
