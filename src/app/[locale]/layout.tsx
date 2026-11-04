@@ -49,7 +49,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} dir={direction} data-scroll-behavior="smooth" suppressHydrationWarning style={getLocularyThemeStyle()}>
       <head>
-        <script {...getThemeScriptProps({ attribute: "class", storage: "local", storageKey: "theme" })} />
+        <script {...getThemeScriptProps({ attribute: "class" })} />
       </head>
       <body className={roboto.variable}>
         <ThemeProvider>
