@@ -30,11 +30,11 @@ export function TextField({
     className,
   ].join(" ");
   return (
-    <div>
+    <div className="w-full min-w-0">
       <label htmlFor={inputId} className={"m3-type-body-medium mb-2 block " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : isInvalid ? "text-[var(--danger)]" : "text-[var(--foreground)]")}>
         {label}
       </label>
-      <div className="relative">
+      <div className="relative w-full min-w-0">
         <input
           type={type}
           inputMode={resolvedInputMode}
