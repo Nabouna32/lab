@@ -92,7 +92,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
   return (
     <main className="min-h-full">
       <div className="mx-auto w-full max-w-[var(--layout-content-wide)] px-[var(--layout-page-gutter)] py-[var(--space-6)] sm:py-[var(--space-8)] lg:py-[var(--space-10)]">
-        <section className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-lg)] sm:p-7 lg:p-9" aria-labelledby="search-results-title">
+        <section className="relative overflow-hidden rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-lg)] sm:p-7 lg:p-9" aria-labelledby="search-results-title">
           <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
           <div className="relative grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,.9fr)] lg:items-end lg:gap-12">
             <div className="motion-reveal min-w-0">
@@ -122,7 +122,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
         </section>
 
         {!query ? (
-          <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7" aria-labelledby="search-results-start-title">
+          <section className="mt-5 rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7" aria-labelledby="search-results-start-title">
             <div className="border-b border-[var(--border)] pb-5">
               <h2 id="search-results-start-title" className="m3-type-headline-small">
                 {t.tools.searchLandingTitle}
@@ -145,11 +145,11 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
             </div>
           </section>
         ) : isSearching ? (
-          <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
+          <section className="mt-5 rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
             <p className="m3-type-body-medium text-[var(--foreground)]">{t.tools.searching}</p>
           </section>
         ) : searchError ? (
-          <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8" aria-labelledby="search-results-error-title">
+          <section className="mt-5 rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8" aria-labelledby="search-results-error-title">
             <h2 id="search-results-error-title" className="m3-type-headline-small">{t.tools.searchError}</h2>
             <OutlinedButton type="button" className="mt-4" onClick={() => setSearchRetryCount((count) => count + 1)}>
               {t.tools.retrySearch}
@@ -182,7 +182,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
             </section>
           </>
         ) : (
-          <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8" aria-labelledby="search-results-empty-title">
+          <section className="mt-5 rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8" aria-labelledby="search-results-empty-title">
             <h2 id="search-results-empty-title" className="m3-type-headline-small">
               {t.tools.noResults} « {query} »
             </h2>
