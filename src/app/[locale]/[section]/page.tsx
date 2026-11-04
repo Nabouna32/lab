@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import ToolSearch from "@/components/tools/ToolSearch";
 import ToolCard from "@/components/tools/ToolCard";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
@@ -144,7 +145,7 @@ export default async function ToolsPage({
 
               <div className="mt-5 grid min-w-0 gap-2 sm:grid-cols-2">
                 {visibleCategories.map((category) => (
-                  <a
+                  <Link
                     key={category.id}
                     href={getCategoryPath(locale, category.id)}
                     className="group flex min-w-0 min-h-20 items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)]/45 p-3.5 outline-none transition-[transform,border-color,background-color,box-shadow] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--accent)]/35 hover:bg-[var(--surface-soft)] hover:shadow-[var(--shadow-sm)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
@@ -155,7 +156,7 @@ export default async function ToolsPage({
                       <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{formatPlural(locale, getToolCount(category.id), { one: t.tools.one, other: t.tools.many })}</span>
                     </span>
                     <span className="text-[var(--muted)] transition-transform duration-[var(--motion-fast)] group-hover:translate-x-1" aria-hidden="true"><MaterialIcon name="chevron_right" size={20} /></span>
-                  </a>
+                  </Link>
                 ))}
               </div>
             </section>
