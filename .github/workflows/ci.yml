@@ -1,4 +1,4 @@
-name: Validation des contributions
+name: CI
 
 on:
   pull_request:
