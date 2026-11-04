@@ -31,7 +31,13 @@ concurrency:
 jobs:
   prepare:
     name: Détection des changements et contrôles préalables
-    if: github.event.action != 'closed'
+    # Une édition du titre ou du corps ne modifie pas le code : aucun runner ne doit être lancé.
+    # Un changement de branche cible (changes.base.ref) conserve la CI complète.
+    if: >-
+      ${{ github.event.action != 'closed' &&
+          (github.event_name != 'pull_request' ||
+           github.event.action != 'edited' ||
+           github.event.changes.base.ref != null) }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
@@ -204,6 +210,9 @@ jobs:
     needs: prepare
     if: >-
       ${{ always() &&
+          (github.event_name != 'pull_request' ||
+           github.event.action != 'edited' ||
+           github.event.changes.base.ref != null) &&
           (needs.prepare.result == 'success' || github.event_name == 'pull_request') &&
           (github.event_name != 'pull_request' || needs.prepare.outputs.lightweight_only != 'true') &&
           (github.event_name != 'workflow_dispatch' || inputs.scope == 'full') }}
@@ -243,6 +252,9 @@ jobs:
     needs: prepare
     if: >-
       ${{ always() &&
+          (github.event_name != 'pull_request' ||
+           github.event.action != 'edited' ||
+           github.event.changes.base.ref != null) &&
           (needs.prepare.result == 'success' || github.event_name == 'pull_request') &&
           (github.event_name != 'pull_request' ||
             (needs.prepare.outputs.lightweight_only != 'true' &&
@@ -286,6 +298,9 @@ jobs:
     needs: prepare
     if: >-
       ${{ needs.prepare.result == 'success' &&
+          (github.event_name != 'pull_request' ||
+           github.event.action != 'edited' ||
+           github.event.changes.base.ref != null) &&
           ((github.event_name == 'workflow_dispatch' && inputs.scope == 'full') ||
            (github.event_name != 'workflow_dispatch' && needs.prepare.outputs.supabase_functions_changed == 'true')) }}
     runs-on: ubuntu-latest
@@ -322,6 +337,9 @@ jobs:
     needs: prepare
     if: >-
       ${{ needs.prepare.result == 'success' &&
+          (github.event_name != 'pull_request' ||
+           github.event.action != 'edited' ||
+           github.event.changes.base.ref != null) &&
           ((github.event_name == 'workflow_dispatch' && inputs.scope == 'full') ||
            (github.event_name != 'workflow_dispatch' && needs.prepare.outputs.supabase_database_changed == 'true')) }}
     runs-on: ubuntu-latest
@@ -358,28 +376,14 @@ jobs:
   ci:
     name: Vérification finale des contrôles applicables
     needs: [prepare, quality, build, supabase-functions, supabase-database]
-    if: always()
+    if: >-
+      ${{ always() &&
+          (github.event_name != 'pull_request' ||
+           github.event.action != 'edited' ||
+           github.event.changes.base.ref != null) }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Checkout
-        if: github.event_name == 'pull_request'
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 1
-          persist-credentials: false
-
-      - name: Contrôle de gouvernance des PR
-        if: github.event_name == 'pull_request'
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          PR_BODY: ${{ github.event.pull_request.body }}
-          PR_AUTHOR_LOGIN: ${{ github.event.pull_request.user.login }}
-          PR_AUTHOR_TYPE: ${{ github.event.pull_request.user.type }}
-        run: node .github/scripts/check-pr-governance.mjs
-
       - name: Confirm all applicable checks passed
         env:
           PREPARE_RESULT: ${{ needs.prepare.result }}

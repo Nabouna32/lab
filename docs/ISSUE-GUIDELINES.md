@@ -139,14 +139,14 @@ Lorsqu'un chantier est réparti sur plusieurs issues qui doivent être exécuté
 
 ### Références et relations entre issues et pull requests
 
-Toute PR qui contribue à une issue doit référencer explicitement cette issue dans son corps, dans la section « Issues liées » :
+Lorsqu'une PR contribue à un travail suivi par une issue, elle peut référencer cette issue dans son corps. Ce lien est **facultatif** : il sert à faciliter la navigation et la continuité du suivi, mais ne conditionne ni la création, ni l'exécution, ni la fusion de la PR.
 
-- **`Refs #123`** pour une contribution partielle, une étape intermédiaire ou une PR qui ne termine pas l'issue. C'est la convention de suivi Loculary et elle n'entraîne pas la fermeture de l'issue.
+- **`Refs #123`** pour une contribution partielle, une étape intermédiaire ou une PR qui ne termine pas l'issue. Cette référence n'entraîne pas sa fermeture.
 - **`Closes #123`** uniquement lorsque la PR satisfait tous les critères d'acceptation et termine l'issue. `Fixes` et `Resolves` ont également un effet de fermeture et ne doivent pas être employés pour un simple suivi.
 - Pour plusieurs issues, ajouter une référence distincte par issue et choisir individuellement le mot-clé adapté. Ne pas rattacher une issue simplement parce qu'elle est proche du sujet.
-- Toute PR créée par l'un des trois modes pour livrer un changement du projet doit être reliée à au moins une issue de travail pertinente, même si l'idée initiale était indépendante. Rechercher une issue existante ou créer l'issue adaptée dans le cadre du même travail, sans validation séparée lorsque le travail a déjà été autorisé. Les PR automatisées de bots (notamment Dependabot) font exception : ne pas leur créer d'issue artificielle ; ouvrir une issue de suivi uniquement si un besoin réel le justifie.
+- Pour un chantier substantiel, durable ou multi-étapes, créer ou réutiliser une issue si elle apporte une vraie valeur de mémoire et de coordination. Ne pas créer d'issue artificielle pour une correction ponctuelle ou une PR indépendante.
 
-**La référence dans le corps de la PR est le mécanisme de suivi attendu par Loculary. Aucune liaison supplémentaire via la section GitHub Development ni aucune manipulation manuelle dans l'interface n'est requise.** Ne pas chercher à obtenir une pastille visuelle au moyen d'un mot-clé de fermeture.
+Lorsqu'une PR référence une issue, le corps de la PR est le mécanisme de suivi le plus simple ; aucune liaison supplémentaire via la section GitHub Development n'est nécessaire. Ne pas chercher à obtenir une pastille visuelle au moyen d'un mot-clé de fermeture.
 
 Avant d'utiliser un mot-clé de fermeture, vérifier le corps actuel de l'issue, tous ses critères, les validations obligatoires et les éventuelles étapes restantes. Une PR ouverte, fusionnée ou techniquement réussie ne suffit pas si l'issue demande encore une preuve complémentaire. En cas de doute, utiliser `Refs` et conserver l'issue ouverte.
 
@@ -244,22 +244,17 @@ Le commentaire final apporte une synthèse datée et des preuves d'audit que le 
 
 ## 8. Références et cohérence
 
-### Référencement explicite des PR liées aux issues
+### Référencement facultatif des PR vers les issues
 
-Toute PR qui met en œuvre un travail suivi par une issue doit référencer explicitement chaque issue concernée dans le corps de la PR, dans une section « Issues liées ». Le titre, la branche, les commits ou la proximité thématique ne remplacent pas cette relation.
+Une PR peut référencer une issue lorsqu'un suivi explicite apporte une valeur réelle. **Aucune PR n'est obligée d'être liée à une issue** : l'absence de référence n'est ni une erreur de gouvernance, ni un motif de blocage ou de refus de fusion.
 
-Choisir le mot-clé selon le résultat réellement livré :
-- **`Closes #123`**, ou `Fixes #123` / `Resolves #123`, uniquement lorsque la PR satisfait tous les critères d'acceptation et termine l'issue. GitHub associe la PR à l'issue et peut la fermer à la fusion dans la branche par défaut si le paramètre du dépôt « Auto-close issues with merged linked pull requests » est activé.
-- **`Refs #123`** pour une contribution partielle, une étape intermédiaire ou une PR qui ne termine pas l'issue. Cette référence crée le lien sans demander sa clôture.
-- Pour plusieurs issues, ajouter une référence distincte par issue et choisir individuellement le mot-clé adapté. Ne pas rattacher une issue simplement parce qu'elle est proche du sujet.
-- Toute PR créée par l'un des trois modes pour livrer un changement du projet doit être reliée à au moins une issue pertinente, même si le travail était initialement indépendant. Rechercher une issue existante ou créer l'issue nécessaire dans le même travail. Les PR de bots font exception : aucune issue artificielle.
+Lorsqu'un lien est utile :
+- utiliser `Refs #123` pour une contribution partielle ou une étape intermédiaire ;
+- utiliser `Closes #123`, `Fixes #123` ou `Resolves #123` uniquement lorsque tous les critères de l'issue sont satisfaits et que sa clôture est réellement souhaitée ;
+- ne pas lier une issue simplement parce qu'elle est proche du sujet ;
+- vérifier après fusion l'état réel d'une issue dont la PR demandait la clôture.
 
-Avant d'utiliser un mot-clé de fermeture, vérifier le corps actuel de l'issue, tous ses critères, les validations obligatoires et les éventuelles étapes restantes. Une PR ouverte, fusionnée ou techniquement réussie ne suffit pas si l'issue demande encore une preuve complémentaire. En cas de doute, utiliser `Refs` et conserver l'issue ouverte.
-
-Après la fusion, vérifier l'état réel de l'issue : ne jamais présumer que GitHub l'a clôturée. Le paramètre d'auto-clôture peut être désactivé dans les réglages du dépôt ; voir la [documentation GitHub sur l'auto-clôture](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/managing-auto-closing-issues). Si l'issue reste ouverte alors que tous ses critères sont satisfaits, la clôturer manuellement avec la raison appropriée. Si une preuve ou une étape manque, la laisser ouverte. Ne jamais annoncer une clôture automatique sans l'avoir observée.
-
-Placer les références dans le corps descriptif de la PR, dans la section « Issues liées », afin que GitHub établisse la relation et applique la clôture automatique seulement lorsque le mot-clé et l'état de fusion le permettent. Le modèle de PR de .github/pull_request_template.md rappelle cette convention sans imposer la création d'une issue. Voir aussi la [documentation officielle GitHub sur la liaison des PR aux issues](https://docs.github.com/fr/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue).
-
+Le template de PR n'impose aucune section « Issues liées ». Ajouter une référence librement dans le corps lorsque cela aide les personnes qui suivent le travail. Les issues restent une mémoire partagée utile, pas un prérequis administratif à chaque changement.
 
 - [AGENTS.md](../AGENTS.md) : sélection du mode et permissions.
 - [Mandat collaboratif](MANDAT-COLLABORATIF.md) : partenariat technique, validation préalable et exécution dans le périmètre approuvé.
