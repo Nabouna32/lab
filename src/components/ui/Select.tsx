@@ -8,7 +8,7 @@ export function Select({ label, id, className = "", disabled = false, ...props }
   const isInvalid = Boolean(props["aria-invalid"]);
 
   return (
-    <div>
+    <div className="w-full min-w-0">
       {label && (
         <label htmlFor={id} className={"m3-type-body-medium mb-2 block " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : isInvalid ? "text-[var(--danger)]" : "text-[var(--foreground)]")}>
           {label}
