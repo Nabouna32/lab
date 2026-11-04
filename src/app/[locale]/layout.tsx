@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Roboto } from "next/font/google";
-import { getThemeScriptProps } from "@teispace/next-themes/server";
 import ThemeProvider from "@/components/theme/ThemeProvider";
 import { RecentToolsProvider } from "@/components/home/RecentToolsProvider";
 import Header from "@/components/layout/Header";
@@ -48,9 +47,6 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={direction} data-scroll-behavior="smooth" suppressHydrationWarning style={getLocularyThemeStyle()}>
-      <head>
-        <script {...getThemeScriptProps({ attribute: "class" })} />
-      </head>
       <body className={roboto.variable}>
         <ThemeProvider>
           <RecentToolsProvider toolIds={toolIds}>
