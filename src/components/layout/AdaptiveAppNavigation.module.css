@@ -60,6 +60,8 @@
   z-index: 60;
   inset-inline: 0;
   inset-block-end: 0;
+  /* Give the persistent mobile bar its own View Transition layer. */
+  view-transition-name: loculary-mobile-navigation;
 }
 
 /* Five compact destinations share the bottom bar equally. */
