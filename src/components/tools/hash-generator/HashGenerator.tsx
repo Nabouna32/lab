@@ -111,7 +111,7 @@ export default function HashGenerator() {
   const canGenerate = mode === "text" || Boolean(file);
 
   return (
-    <section className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-6">
+    <section className="rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-6">
       <div className="mb-5 flex flex-wrap gap-2" role="group" aria-label={t.inputMode}>
         <button type="button" aria-pressed={mode === "text"} onClick={() => changeMode("text")} className={`min-h-11 rounded-full border px-4 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] ${mode === "text" ? "border-[var(--primary)] bg-[var(--primary)] text-[var(--on-primary)]" : "border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[var(--surface-soft)]"}`}>{t.textMode}</button>
         <button type="button" aria-pressed={mode === "file"} onClick={() => changeMode("file")} className={`min-h-11 rounded-full border px-4 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] ${mode === "file" ? "border-[var(--primary)] bg-[var(--primary)] text-[var(--on-primary)]" : "border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[var(--surface-soft)]"}`}>{t.fileMode}</button>
@@ -141,10 +141,10 @@ export default function HashGenerator() {
                 type="file"
                 onChange={(event) => chooseFile(event.target.files?.[0] ?? null)}
                 aria-describedby="hash-file-hint"
-                className="mt-2 block min-h-12 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-2 text-sm text-[var(--foreground)] file:mr-3 file:min-h-8 file:rounded-full file:border-0 file:bg-[var(--surface-soft)] file:px-3 file:font-semibold file:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                className="mt-2 block min-h-12 w-full rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] p-2 text-sm text-[var(--foreground)] file:mr-3 file:min-h-8 file:rounded-full file:border-0 file:bg-[var(--surface-soft)] file:px-3 file:font-semibold file:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
               />
               <p id="hash-file-hint" className="mt-2 text-xs leading-5 text-[var(--muted)]">{t.fileHint}</p>
-              {file && <p className="mt-3 break-words rounded-[var(--radius-md)] bg-[var(--surface-soft)] p-3 text-sm text-[var(--foreground)]">{file.name} · {(file.size / (1024 * 1024)).toLocaleString(locale, { maximumFractionDigits: 2 })} MiB</p>}
+              {file && <p className="mt-3 break-words rounded-[var(--shape-corner-medium)] bg-[var(--surface-soft)] p-3 text-sm text-[var(--foreground)]">{file.name} · {(file.size / (1024 * 1024)).toLocaleString(locale, { maximumFractionDigits: 2 })} MiB</p>}
               <label htmlFor="hash-expected" className="mt-5 block text-sm font-medium text-[var(--foreground)]">{t.expectedDigest}</label>
               <input
                 id="hash-expected"
@@ -154,7 +154,7 @@ export default function HashGenerator() {
                 value={expectedDigest}
                 onChange={(event) => updateExpectedDigest(event.target.value)}
                 placeholder={t.expectedPlaceholder}
-                className="mt-2 min-h-11 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 font-mono text-sm text-[var(--foreground)] outline-none placeholder:text-[var(--muted)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                className="mt-2 min-h-11 w-full rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 font-mono text-sm text-[var(--foreground)] outline-none placeholder:text-[var(--muted)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
               />
               <p className="mt-2 text-xs leading-5 text-[var(--muted)]">{t.expectedHint}</p>
             </div>
@@ -184,11 +184,11 @@ export default function HashGenerator() {
           </div>
           {result && <CopyButton value={result} label={t.copy} />}
         </div>
-        <output aria-live="polite" className="mt-4 block min-h-24 break-all rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface-soft)] p-4 font-mono text-sm leading-7 text-[var(--foreground)]">
+        <output aria-live="polite" className="mt-4 block min-h-24 break-all rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface-soft)] p-4 font-mono text-sm leading-7 text-[var(--foreground)]">
           {result || " "}
         </output>
         {verification && (
-          <p role="status" className={`mt-3 rounded-[var(--radius-md)] border p-3 text-sm font-semibold ${verification === "match" ? "border-[var(--success)]/40 bg-[var(--success-soft)] text-[var(--success)]" : verification === "mismatch" ? "border-[var(--danger)]/40 bg-[var(--danger-soft)] text-[var(--danger)]" : "border-[var(--border)] bg-[var(--surface-soft)] text-[var(--muted)]"}`}>
+          <p role="status" className={`mt-3 rounded-[var(--shape-corner-medium)] border p-3 text-sm font-semibold ${verification === "match" ? "border-[var(--success)]/40 bg-[var(--success-soft)] text-[var(--success)]" : verification === "mismatch" ? "border-[var(--danger)]/40 bg-[var(--danger-soft)] text-[var(--danger)]" : "border-[var(--border)] bg-[var(--surface-soft)] text-[var(--muted)]"}`}>
             {verification === "match" ? t.digestMatch : verification === "mismatch" ? t.digestMismatch : t.digestInvalid}
           </p>
         )}
