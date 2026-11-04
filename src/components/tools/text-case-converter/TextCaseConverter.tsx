@@ -22,7 +22,7 @@ export default function TextCaseConverter() {
   }
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
+    <section className="overflow-hidden rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="p-4 sm:p-6 lg:p-7">
         <TextArea
           label={t.input}
