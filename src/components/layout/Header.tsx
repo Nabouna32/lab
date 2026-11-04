@@ -11,7 +11,7 @@ export default function Header({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
 
   return (
-    <div className={styles.shell}>
+    <div className={styles.shell} style={{ viewTransitionName: "loculary-header" }}>
       <TopAppBar
         title={
           <Link
@@ -30,7 +30,6 @@ export default function Header({ locale }: { locale: Locale }) {
             <HeaderPreferences locale={locale} />
           </>
         }
-        style={{ viewTransitionName: "loculary-header" }}
         contentStyle={{
           maxWidth: "var(--layout-content-wide)",
           marginInline: "auto",
