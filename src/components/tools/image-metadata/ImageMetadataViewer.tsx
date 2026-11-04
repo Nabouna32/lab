@@ -194,7 +194,7 @@ export default function ImageMetadataViewer() {
   };
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
+    <section className="overflow-hidden rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface)]">
       <Column verticalArrangement={Arrangement.spacedBy("var(--space-6)")} className="w-full p-5 sm:p-7 lg:p-8">
         <div className="grid w-full gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.85fr)]">
           <Column verticalArrangement={Arrangement.spacedBy("var(--space-4)")} className="w-full">
