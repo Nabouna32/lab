@@ -53,7 +53,7 @@ export default function MarkdownTableGenerator() {
   const columnCount = rows[0]?.length ?? 0;
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
+    <section className="overflow-hidden rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="p-4 sm:p-6 lg:p-7">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
@@ -105,7 +105,7 @@ export default function MarkdownTableGenerator() {
                         id={"markdown-table-" + rowIndex + "-" + columnIndex}
                         value={cell}
                         onChange={(event) => updateCell(rowIndex, columnIndex, event.target.value)}
-                        className="min-h-12 w-full rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] px-3.5 py-2.5 text-sm text-[var(--foreground)] outline-none transition-[border-color,box-shadow,background-color] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
+                        className="min-h-12 w-full rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface)] px-3.5 py-2.5 text-sm text-[var(--foreground)] outline-none transition-[border-color,box-shadow,background-color] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
                       />
                     </td>
                   ))}

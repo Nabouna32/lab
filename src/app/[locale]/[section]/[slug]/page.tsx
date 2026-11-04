@@ -99,7 +99,7 @@ export default async function LocalizedToolOrCategoryPage({
         <Breadcrumbs locale={locale} items={[{ label: t.nav.tools, href: getToolsPath(locale) }, { label: categoryName }]} />
         <header className="border-b border-[var(--border)] pb-[var(--space-7)] pt-[var(--space-7)] sm:pb-[var(--space-9)]">
           <div className="flex items-start gap-4">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-lg)]" style={{ backgroundColor: getCategoryContainerColor(category.id), color: getCategoryOnContainerColor(category.id) }} aria-hidden="true"><MaterialIcon name={category.icon} size={24} /></span>
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--shape-corner-large)]" style={{ backgroundColor: getCategoryContainerColor(category.id), color: getCategoryOnContainerColor(category.id) }} aria-hidden="true"><MaterialIcon name={category.icon} size={24} /></span>
             <div className="min-w-0 max-w-3xl">
               <h1 className="m3-type-headline-large">{categoryName}</h1>
               <p className="m3-type-body-large mt-[var(--space-2)] text-[var(--muted)]">{getCategorySeoDescription(locale, category.id)}</p>
