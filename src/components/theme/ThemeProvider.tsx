@@ -5,12 +5,10 @@ import type { ReactNode } from "react";
 
 type ThemeProviderProps = {
   children: ReactNode;
-  initialTheme?: string;
 };
 
 export default function ThemeProvider({
   children,
-  initialTheme,
 }: ThemeProviderProps) {
   return (
     <NextThemesProvider
@@ -18,7 +16,7 @@ export default function ThemeProvider({
       defaultTheme="system"
       enableSystem
       disableTransitionOnChange
-      initialTheme={initialTheme}
+      noScript
     >
       {children}
     </NextThemesProvider>
